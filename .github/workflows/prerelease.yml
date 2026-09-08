@@ -138,8 +138,9 @@ jobs:
           set -euo pipefail
           archive="$(find artifact -type f -name '*.zip' -print -quit)"
           test -n "$archive"
-          if ! gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+          if ! gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release create "$RELEASE_TAG" "$archive" \
+              --repo "$GITHUB_REPOSITORY" \
               --target "$RELEASE_COMMIT" \
               --prerelease \
               --generate-notes \
@@ -155,5 +156,5 @@ jobs:
               echo "Existing pre-release tag targets a different commit." >&2
               exit 1
             fi
-            gh release upload "$RELEASE_TAG" "$archive" --clobber
+            gh release upload "$RELEASE_TAG" "$archive" --repo "$GITHUB_REPOSITORY" --clobber
           fi
