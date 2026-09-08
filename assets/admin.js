@@ -152,6 +152,7 @@
 	}
 
 	apiFetch.use( apiFetch.createNonceMiddleware( config.nonce ) );
+	ensureCustomDataViews();
 
 	document.addEventListener( 'submit', function ( event ) {
 		var form = event.target.closest( '.icon-library-toggle' );
@@ -193,49 +194,6 @@
 		} );
 	} );
 
-	document.addEventListener( 'click', function ( event ) {
-		var saveButton = event.target.closest( '.icon-library-custom-save' );
-		var deleteButton = event.target.closest( '.icon-library-custom-delete' );
-		var restoreButton = event.target.closest( '.icon-library-custom-restore' );
-		var purgeButton = event.target.closest( '.icon-library-custom-purge' );
-		var card = event.target.closest( '.icon-library-custom-icon' );
-
-		if ( ! card || card.getAttribute( 'aria-busy' ) === 'true' || ( ! saveButton && ! deleteButton && ! restoreButton && ! purgeButton ) ) {
-			return;
-		}
-
-		if ( deleteButton && ! window.confirm( config.i18n.deleteConfirm ) ) {
-			return;
-		}
-		if ( purgeButton && ! window.confirm( config.i18n.purgeConfirm ) ) {
-			return;
-		}
-
-		var status = document.querySelector( '.icon-library-status' );
-		var name = card.dataset.name;
-		var operation = restoreButton ? '/restore' : ( purgeButton ? '/purge' : '' );
-		var request = {
-			path: config.customPath + '/' + encodeURIComponent( name ),
-			method: operation ? 'POST' : ( deleteButton ? 'DELETE' : 'PATCH' ),
-		};
-		if ( operation ) {
-			request.path += operation;
-		}
-
-		if ( saveButton ) {
-			request.data = { label: card.querySelector( '.icon-library-custom-label' ).value };
-		}
-
-		card.setAttribute( 'aria-busy', 'true' );
-		status.textContent = config.i18n.updating;
-		apiFetch( request ).then( function () {
-			reloadWithSuccess( ( deleteButton || restoreButton || purgeButton ) ? '.icon-library-custom-heading' : customIconSelector( name ) + ' .icon-library-custom-save' );
-		} ).catch( function ( error ) {
-			card.removeAttribute( 'aria-busy' );
-			status.textContent = error && error.message ? error.message : config.i18n.error;
-		} );
-	} );
-
 	document.addEventListener( 'change', function ( event ) {
 		var input = event.target.closest( '.icon-library-upload-area input[type="file"]' );
 
@@ -252,7 +210,43 @@
 
 		form.querySelector( 'input[name="name"]' ).value = slug;
 		form.querySelector( 'input[name="label"]' ).value = label;
-		form.querySelector( '.icon-library-upload-area span' ).textContent = input.files[ 0 ].name;
+		form.querySelector( '.icon-library-upload-file-name' ).textContent = input.files[ 0 ].name;
+	} );
+
+	document.addEventListener( 'dragover', function ( event ) {
+		var area = event.target.closest( '.icon-library-upload-area' );
+		if ( ! area ) {
+			return;
+		}
+		event.preventDefault();
+		area.classList.add( 'is-dragging' );
+	} );
+
+	document.addEventListener( 'dragleave', function ( event ) {
+		var area = event.target.closest( '.icon-library-upload-area' );
+		if ( area && ! area.contains( event.relatedTarget ) ) {
+			area.classList.remove( 'is-dragging' );
+		}
+	} );
+
+	document.addEventListener( 'drop', function ( event ) {
+		var area = event.target.closest( '.icon-library-upload-area' );
+		var input;
+		if ( ! area ) {
+			return;
+		}
+		event.preventDefault();
+		area.classList.remove( 'is-dragging' );
+		input = area.querySelector( 'input[type="file"]' );
+		if ( ! input || ! event.dataTransfer || ! event.dataTransfer.files.length ) {
+			return;
+		}
+		try {
+			input.files = event.dataTransfer.files;
+			input.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+		} catch ( error ) {
+			document.querySelector( '.icon-library-status' ).textContent = config.i18n.error;
+		}
 	} );
 
 	function uploadCustomIcon( form ) {
@@ -312,11 +306,6 @@
 		navigateTo( url.toString(), true, focusSelector || '.icon-library-panel h2' );
 	}
 
-	function customIconSelector( name ) {
-		var escaped = window.CSS && window.CSS.escape ? window.CSS.escape( name ) : name.replace( /[^a-z0-9-]/g, '' );
-		return '.icon-library-custom-icon[data-name="' + escaped + '"]';
-	}
-
 		function navigateTo( url, addToHistory, moveFocus ) {
 		var admin = document.querySelector( '.icon-library-admin' );
 			var focusSelector = moveFocus ? ( 'string' === typeof moveFocus ? moveFocus : '.icon-library-panel h2, .icon-library-empty-state p' ) : '';
@@ -371,6 +360,7 @@
 					}
 				admin.classList.remove( 'is-navigating' );
 				admin.removeAttribute( 'aria-busy' );
+				ensureCustomDataViews();
 
 				focusPendingTarget( admin );
 			} );
@@ -387,6 +377,26 @@
 		} catch ( error ) {
 			// Focus restoration remains best-effort when storage is unavailable.
 		}
+	}
+
+	function ensureCustomDataViews() {
+		if ( ! config || ! config.dataViewsUrl || 'function' !== typeof document.getElementById || ! document.getElementById( 'icon-library-custom-dataviews' ) ) {
+			return;
+		}
+		if ( 'function' === typeof window.iconLibraryMountCustomDataViews ) {
+			window.iconLibraryMountCustomDataViews();
+			return;
+		}
+		if ( config.dataViewsEnqueued ) {
+			return;
+		}
+		if ( document.querySelector( 'script[data-icon-library-dataviews]' ) ) {
+			return;
+		}
+		var script = document.createElement( 'script' );
+		script.src = config.dataViewsUrl;
+		script.dataset.iconLibraryDataviews = 'true';
+		document.body.appendChild( script );
 	}
 
 	function focusPendingTarget( admin ) {

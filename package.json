@@ -1,0 +1,17 @@
+{
+  "name": "icon-library",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "wp-scripts build assets/src/custom-icons-dataviews.js --output-path=assets/build",
+    "start": "wp-scripts start assets/src/custom-icons-dataviews.js --output-path=assets/build",
+    "test:js": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "@wordpress/dataviews": "18.1.0",
+    "use-memo-one": "1.1.3"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "34.2.0"
+  }
+}

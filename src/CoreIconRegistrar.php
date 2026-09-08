@@ -506,6 +506,10 @@ class CoreIconRegistrar {
 		if ( ! is_string( $library ) || '' === $library || ! is_array( $manifest ) || ! isset( $manifest['name'] ) || ! is_string( $manifest['name'] ) || '' === trim( $manifest['name'] ) || ! is_array( $enabled_variants ) || empty( $manifest['variants'] ) || ! is_array( $manifest['variants'] ) || empty( $manifest['icons'] ) || ! is_array( $manifest['icons'] ) ) {
 			return $styles;
 		}
+		if ( CustomIconRepository::COLLECTION_SLUG === $library ) {
+			// Custom icons are one user-managed set, not a visual style family.
+			return $styles;
+		}
 
 		$used = array();
 		foreach ( $manifest['icons'] as $icon ) {

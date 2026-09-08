@@ -133,6 +133,9 @@ class CustomIconRepository {
 		}
 
 		$icons = $this->get_icons();
+		if ( ! empty( $icons[ $name ]['archived'] ) ) {
+			unset( $icons[ $name ] );
+		}
 		if ( self::MAX_ICONS <= count( $icons ) ) {
 			return new WP_Error( 'icon_library_custom_limit', __( 'The custom icon limit has been reached.', 'icon-library' ), array( 'status' => 409 ) );
 		}
@@ -154,6 +157,9 @@ class CustomIconRepository {
 
 		try {
 			$icons = $this->get_icons();
+			if ( ! empty( $icons[ $name ]['archived'] ) ) {
+				unset( $icons[ $name ] );
+			}
 			if ( self::MAX_ICONS <= count( $icons ) || self::MAX_BYTES < $this->get_retained_bytes( $icons ) + strlen( $sanitized ) ) {
 				return new WP_Error( 'icon_library_custom_limit', __( 'The custom icon limit has been reached.', 'icon-library' ), array( 'status' => 409 ) );
 			}
@@ -166,8 +172,9 @@ class CustomIconRepository {
 				return $directory;
 			}
 
-			$path = $directory . '/' . $name . '.svg';
-			$temp = tempnam( $directory, '.icon-library-' );
+			$path             = $directory . '/' . $name . '.svg';
+			$previous_content = is_readable( $path ) ? file_get_contents( $path ) : false;
+			$temp             = tempnam( $directory, '.icon-library-' );
 			// Atomic same-directory replacement in the plugin-owned uploads directory.
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename
 			if ( ! $temp || false === file_put_contents( $temp, $sanitized, LOCK_EX ) || ! rename( $temp, $path ) ) {
@@ -190,7 +197,11 @@ class CustomIconRepository {
 			);
 
 			if ( ! update_option( self::OPTION_ICONS, $icons, false ) ) {
-				wp_delete_file( $path );
+				if ( is_string( $previous_content ) ) {
+					file_put_contents( $path, $previous_content, LOCK_EX );
+				} else {
+					wp_delete_file( $path );
+				}
 				return new WP_Error( 'icon_library_custom_metadata_failed', __( 'The icon metadata could not be stored.', 'icon-library' ) );
 			}
 
@@ -269,7 +280,7 @@ class CustomIconRepository {
 	}
 
 	/**
-	 * Archives an icon so existing blocks continue to render.
+	 * Permanently deletes an icon and its stored SVG.
 	 *
 	 * @param string $name Stable name.
 	 * @return true|WP_Error
@@ -280,18 +291,21 @@ class CustomIconRepository {
 			return new WP_Error( 'icon_library_custom_busy', __( 'Another custom icon change is in progress. Try again.', 'icon-library' ), array( 'status' => 409 ) );
 		}
 		try {
-			$icons = $this->get_icons();
+			$icons    = $this->get_icons();
+			$original = $icons;
 			if ( ! isset( $icons[ $name ] ) ) {
 				return new WP_Error( 'icon_library_custom_not_found', __( 'Custom icon not found.', 'icon-library' ), array( 'status' => 404 ) );
 			}
-			if ( ! empty( $icons[ $name ]['archived'] ) ) {
-				return true;
-			}
-			$icons[ $name ]['archived'] = true;
+			$path = $this->get_file_path( $name . '.svg' );
+			unset( $icons[ $name ] );
 			if ( ! update_option( self::OPTION_ICONS, $icons, false ) ) {
-				$current = $this->get_icons();
-				if ( empty( $current[ $name ]['archived'] ) ) {
-					return new WP_Error( 'icon_library_custom_metadata_failed', __( 'The icon metadata could not be updated.', 'icon-library' ), array( 'status' => 500 ) );
+				return new WP_Error( 'icon_library_custom_metadata_failed', __( 'The icon metadata could not be updated.', 'icon-library' ), array( 'status' => 500 ) );
+			}
+			if ( $path ) {
+				wp_delete_file( $path );
+				if ( file_exists( $path ) ) {
+					update_option( self::OPTION_ICONS, $original, false );
+					return new WP_Error( 'icon_library_custom_delete_failed', __( 'The stored icon could not be removed.', 'icon-library' ), array( 'status' => 500 ) );
 				}
 			}
 			return true;

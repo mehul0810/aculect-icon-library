@@ -142,6 +142,14 @@ The plugin validates the file against the WordPress 7.1 icon geometry contract
 before storing the sanitized SVG locally under the uploads directory. This does
 not enable SVG uploads in the Media Library and makes no remote requests.
 
+Imports normalize unused `id` attributes, root export metadata, empty titles,
+comments, and plain groups. Simple single-class CSS rules for hexadecimal fills,
+`none`, `currentColor`, and fill rules are converted into path/polygon attributes
+before validation. Colors and geometry are preserved; stylesheets and geometry
+classes are not stored. Transformed or styled groups, complex CSS, inline styles,
+references, scripts, and unsupported geometry are rejected, not silently removed.
+Export these features as flattened paths with explicit fills before uploading.
+
 Custom icon names are stable after creation so existing blocks keep their
 registered name; their display labels can be changed. Removing a custom icon
 hides it from new selections while preserving existing blocks. Plugin uninstall
@@ -187,7 +195,7 @@ remaining concurrency and browser-proof work.
 
 `composer package` creates `build/icon-library.1.0.0.zip` from an explicit
 production allowlist. SVG files referenced by validated library manifests
-enter the archive, along with the documented Heroicons legacy size aliases.
+remain available through the documented Heroicons legacy size aliases.
 The root `.distignore` mirrors the development paths excluded by compatible
 WordPress distribution tooling; the built-in packager keeps its stricter
 allowlist so an unexpected repository file cannot enter a release.

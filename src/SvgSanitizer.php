@@ -70,6 +70,10 @@ class SvgSanitizer {
 		if ( $namespace && 'http://www.w3.org/2000/svg' !== $namespace ) {
 			return new WP_Error( 'icon_library_svg_namespace', __( 'The SVG namespace is not supported.', 'icon-library' ) );
 		}
+		$document = ( new CustomSvgNormalizer() )->normalize( $document );
+		if ( is_wp_error( $document ) ) {
+			return $document;
+		}
 
 		$geometry_count = 0;
 		foreach ( $document->getElementsByTagName( '*' ) as $element ) {
@@ -106,6 +110,9 @@ class SvgSanitizer {
 		$normalized = $document->saveXML( $document->documentElement );
 		if ( ! is_string( $normalized ) || '' === trim( $normalized ) ) {
 			return new WP_Error( 'icon_library_svg_invalid', __( 'The SVG could not be normalized.', 'icon-library' ) );
+		}
+		if ( self::MAX_FILE_SIZE < strlen( $normalized ) ) {
+			return new WP_Error( 'icon_library_svg_too_large', __( 'The normalized SVG must be 64 KB or smaller.', 'icon-library' ) );
 		}
 
 		return trim( $normalized );

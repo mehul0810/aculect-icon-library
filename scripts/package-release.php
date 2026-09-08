@@ -42,6 +42,8 @@ $files            = array(
 		'LICENSE.md',
 		'assets/admin.css',
 		'assets/admin.js',
+		'assets/build/custom-icons-dataviews.asset.php',
+		'assets/build/custom-icons-dataviews.js',
 		'assets/icons.css',
 	),
 );

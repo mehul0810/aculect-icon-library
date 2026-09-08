@@ -165,6 +165,42 @@ class CoreIconRegistrarTest extends TestCase {
 		$this->assertArrayHasKey( 'test/one', $GLOBALS['icon_library_test_registered']['icons'] );
 	}
 
+	public function test_custom_icons_use_their_collection_label_without_a_variant_suffix() {
+		$GLOBALS['icon_library_test_registered'] = array(
+			'collections' => array(),
+			'icons'       => array(),
+		);
+		$registry                                = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_enabled_collection_slugs', 'get_enabled_variants', 'get_manifest', 'get_svg_path' ) )->getMock();
+		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array( 'custom-icons' ) );
+		$registry->method( 'get_enabled_variants' )->willReturn( array( 'custom' ) );
+		$registry->method( 'get_manifest' )->willReturn(
+			array(
+				'name'     => 'Custom Icons',
+				'variants' => array(
+					array(
+						'slug'  => 'custom',
+						'label' => 'Custom',
+					),
+				),
+				'icons'    => array(
+					array(
+						'coreIconName' => 'custom-icons/example',
+						'label'        => 'Example',
+						'variant'      => 'custom',
+						'path'         => 'example.svg',
+					),
+				),
+			)
+		);
+		$registry->method( 'get_svg_path' )->willReturn( __FILE__ );
+
+		( new CoreIconRegistrar( $registry ) )->register_icons();
+
+		$this->assertSame( 'Custom Icons', $GLOBALS['icon_library_test_registered']['collections']['custom-icons']['label'] );
+		$this->assertArrayNotHasKey( 'custom-icons-custom', $GLOBALS['icon_library_test_registered']['collections'] );
+		$this->assertArrayHasKey( 'custom-icons/example', $GLOBALS['icon_library_test_registered']['icons'] );
+	}
+
 	public function test_marks_core_incompatible_icons_before_core_sanitizes_them() {
 		$GLOBALS['icon_library_test_registered'] = array(
 			'collections' => array(),

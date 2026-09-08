@@ -113,24 +113,58 @@ class RestController {
 			Plugin::REST_NAMESPACE,
 			'/custom-icons',
 			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'create_custom_icon' ),
-				'permission_callback' => array( $this, 'can_manage_collections' ),
-				'args'                => array(
-					'name'  => array(
-						'type'      => 'string',
-						'required'  => true,
-						'maxLength' => 100,
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_custom_icons' ),
+					'permission_callback' => array( $this, 'can_manage_collections' ),
+					'args'                => array(
+						'page'     => array(
+							'type'    => 'integer',
+							'minimum' => 1,
+							'default' => 1,
+						),
+						'per_page' => array(
+							'type'    => 'integer',
+							'minimum' => 1,
+							'maximum' => 100,
+							'default' => 20,
+						),
+						'search'   => array(
+							'type'    => 'string',
+							'default' => '',
+						),
+						'order'    => array(
+							'type'    => 'string',
+							'enum'    => array( 'asc', 'desc' ),
+							'default' => 'asc',
+						),
+						'orderby'  => array(
+							'type'    => 'string',
+							'enum'    => array( 'label', 'name' ),
+							'default' => 'label',
+						),
 					),
-					'label' => array(
-						'type'      => 'string',
-						'required'  => true,
-						'maxLength' => 200,
-					),
-					'svg'   => array(
-						'type'      => 'string',
-						'required'  => true,
-						'maxLength' => SvgSanitizer::MAX_FILE_SIZE,
+				),
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'create_custom_icon' ),
+					'permission_callback' => array( $this, 'can_manage_collections' ),
+					'args'                => array(
+						'name'  => array(
+							'type'      => 'string',
+							'required'  => true,
+							'maxLength' => 100,
+						),
+						'label' => array(
+							'type'      => 'string',
+							'required'  => true,
+							'maxLength' => 200,
+						),
+						'svg'   => array(
+							'type'      => 'string',
+							'required'  => true,
+							'maxLength' => SvgSanitizer::MAX_FILE_SIZE,
+						),
 					),
 				),
 			)
@@ -171,6 +205,56 @@ class RestController {
 				)
 			);
 		}
+	}
+
+	/**
+	 * Returns uploaded icons for the admin DataViews listing.
+	 *
+	 * @param WP_REST_Request $request REST request.
+	 * @return WP_REST_Response
+	 */
+	public function get_custom_icons( WP_REST_Request $request ) {
+		$search   = strtolower( (string) $request->get_param( 'search' ) );
+		$order    = 'desc' === $request->get_param( 'order' ) ? -1 : 1;
+		$orderby  = 'name' === $request->get_param( 'orderby' ) ? 'name' : 'label';
+		$page     = max( 1, absint( $request->get_param( 'page' ) ) );
+		$per_page = min( 100, max( 1, absint( $request->get_param( 'per_page' ) ) ) );
+		$items    = array();
+
+		foreach ( $this->custom_icons->get_icons() as $name => $icon ) {
+			if ( ! is_array( $icon ) || ! empty( $icon['archived'] ) ) {
+				continue;
+			}
+			$label     = (string) ( $icon['label'] ?? $name );
+			$icon_name = CustomIconRepository::COLLECTION_SLUG . '/' . $name;
+			if ( '' !== $search && false === strpos( strtolower( $label ), $search ) && false === strpos( strtolower( $icon_name ), $search ) ) {
+				continue;
+			}
+			$svg     = $this->custom_icons->get_svg_content( $name . '.svg' );
+			$items[] = array(
+				'id'       => $name,
+				'name'     => $name,
+				'label'    => $label,
+				'iconName' => $icon_name,
+				'svg'      => is_string( $svg ) ? $svg : '',
+			);
+		}
+
+		usort(
+			$items,
+			static function ( $left, $right ) use ( $orderby, $order ) {
+				return $order * strcasecmp( (string) $left[ $orderby ], (string) $right[ $orderby ] );
+			}
+		);
+		$total = count( $items );
+
+		return rest_ensure_response(
+			array(
+				'items'       => array_slice( $items, ( $page - 1 ) * $per_page, $per_page ),
+				'total'       => $total,
+				'total_pages' => (int) ceil( $total / $per_page ),
+			)
+		);
 	}
 
 	/**

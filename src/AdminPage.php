@@ -49,6 +49,17 @@ class AdminPage {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'wp_ajax_icon_library_preview_page', array( $this, 'preview_page' ) );
+		add_action( 'load-appearance_page_' . self::MENU_SLUG, array( $this, 'suppress_unrelated_notices' ) );
+	}
+
+	/**
+	 * Keeps notices from other plugins out of the application-style screen.
+	 */
+	public function suppress_unrelated_notices() {
+		remove_all_actions( 'admin_notices' );
+		remove_all_actions( 'all_admin_notices' );
+		remove_all_actions( 'user_admin_notices' );
+		remove_all_actions( 'network_admin_notices' );
 	}
 
 	/**
@@ -88,22 +99,29 @@ class AdminPage {
 			ICON_LIBRARY_VERSION,
 			true
 		);
+		$dataviews_asset = require ICON_LIBRARY_DIR . 'assets/build/custom-icons-dataviews.asset.php';
+		foreach ( $dataviews_asset['dependencies'] as $dependency ) {
+			wp_enqueue_script( $dependency );
+		}
+		wp_enqueue_style( 'wp-components' );
 
 		wp_localize_script(
 			'icon-library-admin',
 			'iconLibraryAdmin',
 			array(
-				'nonce'        => wp_create_nonce( 'wp_rest' ),
-				'previewUrl'   => admin_url( 'admin-ajax.php' ),
-				'previewNonce' => wp_create_nonce( 'icon_library_preview' ),
-				'restPath'     => '/' . Plugin::REST_NAMESPACE . '/collections/',
-				'customPath'   => '/' . Plugin::REST_NAMESPACE . '/custom-icons',
-				'i18n'         => array(
+				'nonce'             => wp_create_nonce( 'wp_rest' ),
+				'previewUrl'        => admin_url( 'admin-ajax.php' ),
+				'previewNonce'      => wp_create_nonce( 'icon_library_preview' ),
+				'restPath'          => '/' . Plugin::REST_NAMESPACE . '/collections/',
+				'customPath'        => '/' . Plugin::REST_NAMESPACE . '/custom-icons',
+				'dataViewsUrl'      => ICON_LIBRARY_URL . 'assets/build/custom-icons-dataviews.js?ver=' . rawurlencode( $dataviews_asset['version'] ),
+				'dataViewsEnqueued' => 'custom' === $this->get_active_tab(),
+				'i18n'              => array(
 					'updating'       => __( 'Updating library...', 'icon-library' ),
 					'error'          => __( 'The library could not be updated. Try again.', 'icon-library' ),
 					'uploading'      => __( 'Validating and storing icon...', 'icon-library' ),
 					'updated'        => __( 'Icon library updated.', 'icon-library' ),
-					'deleteConfirm'  => __( 'Remove this icon from new selections? Existing blocks will continue to render.', 'icon-library' ),
+					'deleteConfirm'  => __( 'Permanently delete this icon and its SVG file? Existing blocks using it will no longer render.', 'icon-library' ),
 					'purgeConfirm'   => __( 'Permanently delete this archived icon and its SVG file? Existing blocks will no longer render it.', 'icon-library' ),
 					'fileTooLarge'   => __( 'SVG files must be 64 KB or smaller.', 'icon-library' ),
 					'loadingMore'    => __( 'Loading more icons...', 'icon-library' ),
@@ -113,6 +131,16 @@ class AdminPage {
 				),
 			)
 		);
+
+		if ( 'custom' === $this->get_active_tab() ) {
+			wp_enqueue_script(
+				'icon-library-custom-dataviews',
+				ICON_LIBRARY_URL . 'assets/build/custom-icons-dataviews.js',
+				array_merge( array( 'icon-library-admin' ), $dataviews_asset['dependencies'] ),
+				$dataviews_asset['version'],
+				true
+			);
+		}
 	}
 
 	/**
@@ -129,9 +157,9 @@ class AdminPage {
 		?>
 		<div class="wrap icon-library-admin is-loading">
 			<h1><?php esc_html_e( 'Icons', 'icon-library' ); ?></h1>
+			<?php $this->render_tabs( $active_tab ); ?>
 			<div class="icon-library-status" role="status" aria-live="polite"></div>
 			<?php $this->render_notice(); ?>
-			<?php $this->render_tabs( $active_tab ); ?>
 
 			<?php if ( 'browse' === $active_tab ) : ?>
 				<?php $this->render_install_tab( $filters, $collections ); ?>
@@ -202,149 +230,34 @@ class AdminPage {
 	 * Renders local custom icon management.
 	 */
 	private function render_custom_tab() {
-		$manifest = $this->collection_registry->get_manifest( CustomIconRepository::COLLECTION_SLUG );
-		$icons    = array();
-		$archived = array();
-		foreach ( (array) ( $manifest['icons'] ?? array() ) as $icon ) {
-			if ( ! is_array( $icon ) ) {
-				continue;
-			}
-			if ( ! empty( $icon['archived'] ) ) {
-				$archived[] = $icon;
-			} else {
-				$icons[] = $icon;
-			}
-		}
-		$active_total   = count( $icons );
-		$archived_total = count( $archived );
-		$active_page    = $this->custom_page_number( 'custom-page', $active_total );
-		$archived_page  = $this->custom_page_number( 'archive-page', $archived_total );
-		$icons          = array_slice( $icons, ( $active_page - 1 ) * 48, 48 );
-		$archived       = array_slice( $archived, ( $archived_page - 1 ) * 48, 48 );
 		?>
 		<section class="icon-library-panel icon-library-custom">
 			<form class="icon-library-custom-upload" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
 				<?php wp_nonce_field( 'icon_library_upload_custom_icon' ); ?>
 				<input type="hidden" name="action" value="icon_library_upload_custom_icon" />
+				<h2 class="icon-library-custom-title"><?php esc_html_e( 'Upload custom icon', 'icon-library' ); ?></h2>
+				<p class="icon-library-custom-description"><?php esc_html_e( 'Upload an SVG icon from your computer. Give it a name and label so you can easily find and use it in the Icon block.', 'icon-library' ); ?></p>
 				<label class="icon-library-upload-area" for="icon-library-svg-upload">
-					<span><?php esc_html_e( 'Upload icon', 'icon-library' ); ?></span>
+					<span class="dashicons dashicons-upload" aria-hidden="true"></span>
+					<span class="icon-library-upload-prompt"><?php esc_html_e( 'Drop an SVG here or browse', 'icon-library' ); ?></span>
+					<span class="icon-library-upload-file-name" aria-live="polite"><?php esc_html_e( 'SVG files up to 64 KB', 'icon-library' ); ?></span>
 					<input id="icon-library-svg-upload" class="screen-reader-text" name="svg" type="file" accept=".svg,image/svg+xml" aria-describedby="icon-library-upload-help" required />
 				</label>
-				<p id="icon-library-upload-help" class="icon-library-upload-help"><?php esc_html_e( 'Uploaded icons appear in your library and can be used in the Icon block. Supported format: .svg, up to 64 KB.', 'icon-library' ); ?></p>
+				<p id="icon-library-upload-help" class="screen-reader-text"><?php esc_html_e( 'Select an SVG file up to 64 KB.', 'icon-library' ); ?></p>
 				<div class="icon-library-upload-details">
 					<label><span><?php esc_html_e( 'Name', 'icon-library' ); ?></span><input name="name" type="text" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required placeholder="<?php esc_attr_e( 'my-icon', 'icon-library' ); ?>" /></label>
 					<label><span><?php esc_html_e( 'Label', 'icon-library' ); ?></span><input name="label" type="text" required /></label>
 				</div>
 				<div class="icon-library-footer">
-					<?php submit_button( __( 'Upload', 'icon-library' ), 'primary', 'submit', false ); ?>
+					<div class="icon-library-footer-actions">
+						<div class="icon-library-upload-submit"><?php submit_button( __( 'Upload icon', 'icon-library' ), 'primary', 'submit', false ); ?></div>
+					</div>
 				</div>
 			</form>
 
-			<h2 class="icon-library-custom-heading"><?php esc_html_e( 'Uploaded Icons', 'icon-library' ); ?></h2>
-		<?php if ( empty( $icons ) ) : ?>
-			<p><?php esc_html_e( 'No custom icons have been added.', 'icon-library' ); ?></p>
-			<?php else : ?>
-				<div class="icon-library-grid">
-					<?php foreach ( $icons as $icon ) : ?>
-						<?php $this->render_custom_icon( $icon ); ?>
-					<?php endforeach; ?>
-			</div>
-				<?php $this->render_custom_pagination( 'custom-page', $active_page, $active_total ); ?>
-		<?php endif; ?>
-		<?php if ( ! empty( $archived ) ) : ?>
-			<h2 class="icon-library-custom-heading"><?php esc_html_e( 'Archived Icons', 'icon-library' ); ?></h2>
-			<div class="icon-library-grid icon-library-archived-grid">
-				<?php foreach ( $archived as $icon ) : ?>
-					<?php $this->render_archived_custom_icon( $icon ); ?>
-				<?php endforeach; ?>
-			</div>
-			<?php $this->render_custom_pagination( 'archive-page', $archived_page, $archived_total ); ?>
-		<?php endif; ?>
+			<h2 class="icon-library-custom-heading"><?php esc_html_e( 'Uploaded icons', 'icon-library' ); ?></h2>
+			<div id="icon-library-custom-dataviews"><p><?php esc_html_e( 'Loading uploaded icons...', 'icon-library' ); ?></p></div>
 		</section>
-		<?php
-	}
-
-	/**
-	 * Bounds custom icon pagination to existing pages.
-	 *
-	 * @param string $key Query argument.
-	 * @param int    $total Matching icons.
-	 * @return int
-	 */
-	private function custom_page_number( $key, $total ) {
-		// Read-only navigation; this does not modify icon data.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$page = isset( $_GET[ $key ] ) && is_scalar( $_GET[ $key ] ) ? absint( $_GET[ $key ] ) : 1;
-		return max( 1, min( $page, (int) ceil( $total / 48 ) ) );
-	}
-
-	/**
-	 * Renders independent active/archive pagination with a no-JavaScript fallback.
-	 *
-	 * @param string $key Query argument.
-	 * @param int    $page Current page.
-	 * @param int    $total Matching icons.
-	 */
-	private function render_custom_pagination( $key, $page, $total ) {
-		if ( $total <= 48 ) {
-			return;
-		}
-		$links = paginate_links(
-			array(
-				'base'    => add_query_arg( $key, '%#%' ),
-				'current' => $page,
-				'total'   => (int) ceil( $total / 48 ),
-				'type'    => 'list',
-			)
-		);
-		echo '<nav class="icon-library-custom-pagination" aria-label="' . esc_attr__( 'Custom icon pages', 'icon-library' ) . '">' . wp_kses_post( $links ) . '</nav>';
-	}
-
-	/**
-	 * Renders one custom icon.
-	 *
-	 * @param array $icon Custom icon row.
-	 */
-	private function render_custom_icon( $icon ) {
-		$name     = basename( $icon['path'], '.svg' );
-		$svg      = $this->collection_registry->get_svg_content( CustomIconRepository::COLLECTION_SLUG, $icon['path'] );
-		$svg      = false === $svg ? '' : $svg;
-		$title_id = 'icon-library-custom-' . sanitize_html_class( $name );
-		?>
-		<div class="icon-library-icon icon-library-custom-icon" data-name="<?php echo esc_attr( $name ); ?>" role="group" aria-labelledby="<?php echo esc_attr( $title_id ); ?>">
-			<div class="icon-library-icon-preview" aria-hidden="true"><?php echo wp_kses( $svg, SvgSanitizer::get_allowed_svg_tags() ); ?></div>
-			<span id="<?php echo esc_attr( $title_id ); ?>" class="screen-reader-text"><?php echo esc_html( $icon['label'] ); ?></span>
-			<label><span class="screen-reader-text"><?php /* translators: %s: icon label. */ printf( esc_html__( 'Icon label for %s', 'icon-library' ), esc_html( $icon['label'] ) ); ?></span><input class="icon-library-custom-label" value="<?php echo esc_attr( $icon['label'] ); ?>" /></label>
-			<code><?php echo esc_html( $icon['coreIconName'] ); ?></code>
-			<div class="icon-library-custom-actions">
-				<button type="button" class="button icon-library-custom-save" aria-label="<?php /* translators: %s: icon label. */ echo esc_attr( sprintf( __( 'Save label for %s', 'icon-library' ), $icon['label'] ) ); ?>"><?php esc_html_e( 'Save label', 'icon-library' ); ?></button>
-				<button type="button" class="button button-link-delete icon-library-custom-delete" aria-label="<?php /* translators: %s: icon label. */ echo esc_attr( sprintf( __( 'Remove %s', 'icon-library' ), $icon['label'] ) ); ?>"><?php esc_html_e( 'Remove', 'icon-library' ); ?></button>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Renders one archived custom icon with restore and purge actions.
-	 *
-	 * @param array $icon Custom icon row.
-	 */
-	private function render_archived_custom_icon( $icon ) {
-		$name     = basename( $icon['path'], '.svg' );
-		$svg      = $this->collection_registry->get_svg_content( CustomIconRepository::COLLECTION_SLUG, $icon['path'] );
-		$svg      = false === $svg ? '' : $svg;
-		$title_id = 'icon-library-archived-' . sanitize_html_class( $name );
-		?>
-		<div class="icon-library-icon icon-library-custom-icon is-archived" data-name="<?php echo esc_attr( $name ); ?>" role="group" aria-labelledby="<?php echo esc_attr( $title_id ); ?>">
-			<div class="icon-library-icon-preview" aria-hidden="true"><?php echo wp_kses( $svg, SvgSanitizer::get_allowed_svg_tags() ); ?></div>
-			<span id="<?php echo esc_attr( $title_id ); ?>" class="screen-reader-text"><?php echo esc_html( $icon['label'] ); ?></span>
-			<div class="icon-library-icon-label"><?php echo esc_html( $icon['label'] ); ?></div>
-			<code><?php echo esc_html( $icon['coreIconName'] ); ?></code>
-			<div class="icon-library-custom-actions">
-				<button type="button" class="button icon-library-custom-restore" aria-label="<?php /* translators: %s: icon label. */ echo esc_attr( sprintf( __( 'Restore %s', 'icon-library' ), $icon['label'] ) ); ?>"><?php esc_html_e( 'Restore', 'icon-library' ); ?></button>
-				<button type="button" class="button button-link-delete icon-library-custom-purge" aria-label="<?php /* translators: %s: icon label. */ echo esc_attr( sprintf( __( 'Permanently delete %s', 'icon-library' ), $icon['label'] ) ); ?>"><?php esc_html_e( 'Delete permanently', 'icon-library' ); ?></button>
-			</div>
-		</div>
 		<?php
 	}
 
@@ -392,9 +305,6 @@ class AdminPage {
 					<?php endforeach; ?>
 				</div>
 			<?php endif; ?>
-			<div class="icon-library-footer">
-				<button type="button" class="button button-primary" disabled><?php esc_html_e( 'Update', 'icon-library' ); ?></button>
-			</div>
 		</section>
 		<?php
 	}
@@ -492,13 +402,17 @@ class AdminPage {
 			<?php $this->render_filters( $filters, array( $collection['slug'] => $collection ), $query['variant_counts'] ); ?>
 			<?php $this->render_icon_grid( $icons ); ?>
 			<?php $this->render_icon_pagination( $page, $total, 72, count( $icons ) ); ?>
-			<form class="icon-library-toggle icon-library-footer" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-collection="<?php echo esc_attr( $collection['slug'] ); ?>" data-state="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>">
-				<?php wp_nonce_field( 'icon_library_toggle_collection' ); ?>
-				<input type="hidden" name="action" value="icon_library_toggle_collection" />
-				<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
-				<input type="hidden" name="state" value="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>" />
-				<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Uninstall', 'icon-library' ) : __( 'Install', 'icon-library' ) ); ?></button>
-			</form>
+			<div class="icon-library-footer">
+				<div class="icon-library-footer-actions">
+					<form class="icon-library-toggle" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-collection="<?php echo esc_attr( $collection['slug'] ); ?>" data-state="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>">
+						<?php wp_nonce_field( 'icon_library_toggle_collection' ); ?>
+						<input type="hidden" name="action" value="icon_library_toggle_collection" />
+						<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
+						<input type="hidden" name="state" value="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>" />
+						<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Uninstall', 'icon-library' ) : __( 'Install', 'icon-library' ) ); ?></button>
+					</form>
+				</div>
+			</div>
 		</section>
 		<?php
 	}
@@ -678,9 +592,6 @@ class AdminPage {
 						</span>
 						<span class="icon-library-variant-state">
 							<?php echo esc_html( $enabled && ! empty( $variant['enabled'] ) ? __( 'Active', 'icon-library' ) : __( 'Inactive', 'icon-library' ) ); ?>
-							<?php if ( isset( $variant['coreCompatible'] ) && false === $variant['coreCompatible'] ) : ?>
-								<span class="icon-library-variant-warning"><?php esc_html_e( 'Experimental', 'icon-library' ); ?></span>
-							<?php endif; ?>
 						</span>
 						<?php if ( $enabled ) : ?>
 							<form class="icon-library-toggle icon-library-variant-toggle" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-collection="<?php echo esc_attr( $collection['slug'] ); ?>" data-variant="<?php echo esc_attr( $variant['slug'] ); ?>" data-state="<?php echo esc_attr( ! empty( $variant['enabled'] ) ? 'deactivate' : 'activate' ); ?>">
@@ -695,13 +606,17 @@ class AdminPage {
 					</div>
 				<?php endforeach; ?>
 			</div>
-			<form class="icon-library-toggle icon-library-footer" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-collection="<?php echo esc_attr( $collection['slug'] ); ?>" data-state="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>">
-				<?php wp_nonce_field( 'icon_library_toggle_collection' ); ?>
-				<input type="hidden" name="action" value="icon_library_toggle_collection" />
-				<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
-				<input type="hidden" name="state" value="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>" />
-				<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Uninstall', 'icon-library' ) : __( 'Install', 'icon-library' ) ); ?></button>
-			</form>
+			<div class="icon-library-footer icon-library-collection-footer">
+				<div class="icon-library-footer-actions">
+					<form class="icon-library-toggle" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-collection="<?php echo esc_attr( $collection['slug'] ); ?>" data-state="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>">
+						<?php wp_nonce_field( 'icon_library_toggle_collection' ); ?>
+						<input type="hidden" name="action" value="icon_library_toggle_collection" />
+						<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
+						<input type="hidden" name="state" value="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>" />
+						<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Uninstall', 'icon-library' ) : __( 'Install', 'icon-library' ) ); ?></button>
+					</form>
+				</div>
+			</div>
 		</section>
 		<?php
 	}
