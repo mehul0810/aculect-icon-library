@@ -352,6 +352,9 @@ class IconBlockService {
 		if ( is_wp_error( $post_id ) ) {
 			return $post_id;
 		}
+		// Must be the post-specific capability (not a blanket 'edit_posts'): these
+		// abilities are reachable by automation/AI-agent callers via the Abilities API,
+		// so a contributor-level caller must not be able to edit posts they don't own.
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return $this->error( 'icon_library_ability_cannot_edit_post', __( 'Sorry, you are not allowed to edit this post.', 'icon-library' ), 403 );
 		}

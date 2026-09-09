@@ -47,6 +47,9 @@ class SvgSanitizer {
 			return new WP_Error( 'icon_library_svg_too_large', __( 'SVG files must be 64 KB or smaller.', 'icon-library' ) );
 		}
 
+		// Reject any DOCTYPE/ENTITY declaration outright rather than relying solely on
+		// libxml's default (since PHP 5.4/8+) refusal to expand external entities; a
+		// future PHP or libxml version change should not silently reopen an XXE path here.
 		if ( false !== stripos( $svg, '<!doctype' ) || false !== stripos( $svg, '<!entity' ) ) {
 			return new WP_Error( 'icon_library_svg_declaration', __( 'SVG document declarations are not allowed.', 'icon-library' ) );
 		}
@@ -60,6 +63,9 @@ class SvgSanitizer {
 		if ( ! $loaded || ! $document->documentElement instanceof DOMElement || 'svg' !== strtolower( $document->documentElement->tagName ) ) {
 			return new WP_Error( 'icon_library_svg_invalid', __( 'The file is not a valid SVG document.', 'icon-library' ) );
 		}
+		// Processing instructions (e.g. an xml-stylesheet declaration) can reference
+		// external resources outside the tag/attribute allow-list below, so they are
+		// blocked here rather than left to be caught by that allow-list.
 		$xpath                   = new \DOMXPath( $document );
 		$processing_instructions = $xpath->query( '//processing-instruction()' );
 		if ( $processing_instructions && $processing_instructions->length > 0 ) {
