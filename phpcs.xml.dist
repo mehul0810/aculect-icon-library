@@ -20,6 +20,10 @@
 		<exclude-pattern>scripts/lint.php</exclude-pattern>
 		<exclude-pattern>scripts/import-heroicons.php</exclude-pattern>
 	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.system_calls_shell_exec">
+		<exclude-pattern>scripts/import-path-library.php</exclude-pattern>
+		<exclude-pattern>scripts/lib/CollectionBuild.php</exclude-pattern>
+	</rule>
 	<rule ref="WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase">
 		<exclude-pattern>src/SvgSanitizer.php</exclude-pattern>
 		<exclude-pattern>src/CustomSvgNormalizer.php</exclude-pattern>
