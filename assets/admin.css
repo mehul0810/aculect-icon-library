@@ -38,6 +38,7 @@ body.js .icon-library-admin.is-loading > * {
 
 .icon-library-admin h1 {
 	align-items: center;
+	gap: 8px;
 	border-bottom: 1px solid #e0e0e0;
 	display: flex;
 	font-size: 15px;
@@ -46,6 +47,13 @@ body.js .icon-library-admin.is-loading > * {
 	margin: 0;
 	min-height: 65px;
 	padding: 16px 24px;
+}
+
+.icon-library-brand-icon {
+	display: block;
+	flex: 0 0 28px;
+	height: 28px;
+	width: 28px;
 }
 
 .icon-library-admin .notice {

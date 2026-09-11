@@ -46,10 +46,32 @@ class AdminPage {
 	 * Registers admin hooks.
 	 */
 	public function register() {
+		add_filter( 'plugin_action_links_' . plugin_basename( ICON_LIBRARY_FILE ), array( $this, 'plugin_action_links' ) );
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'wp_ajax_icon_library_preview_page', array( $this, 'preview_page' ) );
 		add_action( 'load-appearance_page_' . self::MENU_SLUG, array( $this, 'suppress_unrelated_notices' ) );
+	}
+
+	/**
+	 * Adds a shortcut to icon management on the Plugins screen.
+	 *
+	 * @param array $links Existing plugin action links.
+	 * @return array
+	 */
+	public function plugin_action_links( $links ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return $links;
+		}
+
+		$settings_link = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( admin_url( 'themes.php?page=' . self::MENU_SLUG ) ),
+			esc_html__( 'Settings', 'aculect-icon-library' )
+		);
+		array_unshift( $links, $settings_link );
+
+		return $links;
 	}
 
 	/**
@@ -67,7 +89,7 @@ class AdminPage {
 	 */
 	public function register_menu() {
 		add_theme_page(
-			__( 'Icons', 'aculect-icon-library' ),
+			__( 'Icon Library', 'aculect-icon-library' ),
 			__( 'Icons', 'aculect-icon-library' ),
 			'manage_options',
 			self::MENU_SLUG,
@@ -156,7 +178,10 @@ class AdminPage {
 		$filters     = $this->get_filters( $collections );
 		?>
 		<div class="wrap icon-library-admin is-loading">
-			<h1><?php esc_html_e( 'Icons', 'aculect-icon-library' ); ?></h1>
+			<h1>
+				<img class="icon-library-brand-icon" src="<?php echo esc_url( ICON_LIBRARY_URL . 'assets/aculect-icon.svg' ); ?>" width="28" height="28" alt="" />
+				<?php esc_html_e( 'Icon Library', 'aculect-icon-library' ); ?>
+			</h1>
 			<?php $this->render_tabs( $active_tab ); ?>
 			<div class="icon-library-status" role="status" aria-live="polite"></div>
 			<?php $this->render_notice(); ?>

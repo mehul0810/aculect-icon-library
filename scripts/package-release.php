@@ -41,9 +41,11 @@ $files            = array(
 		'readme.txt',
 		'LICENSE.md',
 		'assets/admin.css',
+		'assets/aculect-icon.svg',
 		'assets/admin.js',
 		'assets/build/custom-icons-dataviews.asset.php',
 		'assets/build/custom-icons-dataviews.js',
+		'assets/src/custom-icons-dataviews.js',
 		'assets/icons.css',
 	),
 );
