@@ -59,7 +59,7 @@ class IconBlockService {
 		);
 
 		if ( ! is_array( $query ) ) {
-			return $this->error( 'icon_library_ability_catalog_failed', __( 'The icon catalog could not be read.', 'icon-library' ), 500 );
+			return $this->error( 'icon_library_ability_catalog_failed', __( 'The icon catalog could not be read.', 'aculect-icon-library' ), 500 );
 		}
 
 		$page     = isset( $input['page'] ) && is_int( $input['page'] ) ? max( 1, $input['page'] ) : 1;
@@ -162,7 +162,7 @@ class IconBlockService {
 			return $blocks;
 		}
 		if ( $this->count_block_nodes( $blocks ) >= self::MAX_BLOCK_NODES ) {
-			return $this->error( 'icon_library_ability_block_limit', __( 'The post contains too many blocks for an automated edit.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_block_limit', __( 'The post contains too many blocks for an automated edit.', 'aculect-icon-library' ), 400 );
 		}
 
 		$parent_path = $this->normalize_path( is_array( $input ) && array_key_exists( 'parent_path', $input ) ? $input['parent_path'] : array(), true );
@@ -170,7 +170,7 @@ class IconBlockService {
 			return $parent_path;
 		}
 		if ( count( $parent_path ) >= self::MAX_PATH_LENGTH ) {
-			return $this->error( 'icon_library_ability_invalid_path', __( 'The resulting block path would be too deep.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_invalid_path', __( 'The resulting block path would be too deep.', 'aculect-icon-library' ), 400 );
 		}
 		$position = $this->get_insert_position( $blocks, $parent_path, $input );
 		if ( is_wp_error( $position ) ) {
@@ -190,7 +190,7 @@ class IconBlockService {
 		);
 
 		if ( ! ( new BlockTreeEditor() )->insert( $blocks, $parent_path, $position, $new_block ) ) {
-			return $this->error( 'icon_library_ability_parent_not_allowed', __( 'The requested block container has no safe insertion point.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_parent_not_allowed', __( 'The requested block container has no safe insertion point.', 'aculect-icon-library' ), 400 );
 		}
 
 		$path    = array_values( $parent_path );
@@ -237,10 +237,10 @@ class IconBlockService {
 		}
 		$block = $this->get_block_at_path( $blocks, $path );
 		if ( ! is_array( $block ) ) {
-			return $this->error( 'icon_library_ability_block_not_found', __( 'The requested icon block could not be found.', 'icon-library' ), 404 );
+			return $this->error( 'icon_library_ability_block_not_found', __( 'The requested icon block could not be found.', 'aculect-icon-library' ), 404 );
 		}
 		if ( 'core/icon' !== ( $block['blockName'] ?? '' ) ) {
-			return $this->error( 'icon_library_ability_not_icon_block', __( 'The requested block is not a core/icon block.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_not_icon_block', __( 'The requested block is not a core/icon block.', 'aculect-icon-library' ), 400 );
 		}
 
 		$attributes = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
@@ -261,7 +261,7 @@ class IconBlockService {
 
 		$block['attrs'] = $normalized;
 		if ( ! $this->replace_at_path( $blocks, $path, $block ) ) {
-			return $this->error( 'icon_library_ability_block_not_found', __( 'The requested icon block could not be found.', 'icon-library' ), 404 );
+			return $this->error( 'icon_library_ability_block_not_found', __( 'The requested icon block could not be found.', 'aculect-icon-library' ), 404 );
 		}
 		$updated = $this->save_post_blocks( $post, $blocks );
 		if ( is_wp_error( $updated ) ) {
@@ -301,13 +301,13 @@ class IconBlockService {
 		}
 		$block = $this->get_block_at_path( $blocks, $path );
 		if ( ! is_array( $block ) ) {
-			return $this->error( 'icon_library_ability_block_not_found', __( 'The requested icon block could not be found.', 'icon-library' ), 404 );
+			return $this->error( 'icon_library_ability_block_not_found', __( 'The requested icon block could not be found.', 'aculect-icon-library' ), 404 );
 		}
 		if ( 'core/icon' !== ( $block['blockName'] ?? '' ) ) {
-			return $this->error( 'icon_library_ability_not_icon_block', __( 'The requested block is not a core/icon block.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_not_icon_block', __( 'The requested block is not a core/icon block.', 'aculect-icon-library' ), 400 );
 		}
 		if ( ! ( new BlockTreeEditor() )->remove( $blocks, $path ) ) {
-			return $this->error( 'icon_library_ability_block_not_found', __( 'The requested icon block could not be found.', 'icon-library' ), 404 );
+			return $this->error( 'icon_library_ability_block_not_found', __( 'The requested icon block could not be found.', 'aculect-icon-library' ), 404 );
 		}
 		$updated = $this->save_post_blocks( $post, $blocks );
 		if ( is_wp_error( $updated ) ) {
@@ -338,7 +338,7 @@ class IconBlockService {
 				return true;
 			}
 		}
-		return $this->error( 'icon_library_ability_cannot_read', __( 'Sorry, you are not allowed to read icon library resources.', 'icon-library' ), 403 );
+		return $this->error( 'icon_library_ability_cannot_read', __( 'Sorry, you are not allowed to read icon library resources.', 'aculect-icon-library' ), 403 );
 	}
 
 	/**
@@ -353,7 +353,7 @@ class IconBlockService {
 			return $post_id;
 		}
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return $this->error( 'icon_library_ability_cannot_edit_post', __( 'Sorry, you are not allowed to edit this post.', 'icon-library' ), 403 );
+			return $this->error( 'icon_library_ability_cannot_edit_post', __( 'Sorry, you are not allowed to edit this post.', 'aculect-icon-library' ), 403 );
 		}
 		return true;
 	}
@@ -370,11 +370,11 @@ class IconBlockService {
 			return $post_id;
 		}
 		if ( ! function_exists( 'get_post' ) ) {
-			return $this->error( 'icon_library_ability_unavailable', __( 'Post editing is unavailable in this WordPress context.', 'icon-library' ), 500 );
+			return $this->error( 'icon_library_ability_unavailable', __( 'Post editing is unavailable in this WordPress context.', 'aculect-icon-library' ), 500 );
 		}
 		$post = get_post( $post_id );
 		if ( ! is_object( $post ) || ! isset( $post->ID, $post->post_content ) || ! is_string( $post->post_content ) ) {
-			return $this->error( 'icon_library_ability_post_not_found', __( 'The requested post could not be found.', 'icon-library' ), 404 );
+			return $this->error( 'icon_library_ability_post_not_found', __( 'The requested post could not be found.', 'aculect-icon-library' ), 404 );
 		}
 		return $post;
 	}
@@ -387,11 +387,11 @@ class IconBlockService {
 	 */
 	private function parse_post_blocks( $post ) {
 		if ( ! function_exists( 'parse_blocks' ) ) {
-			return $this->error( 'icon_library_ability_unavailable', __( 'Block parsing is unavailable in this WordPress context.', 'icon-library' ), 500 );
+			return $this->error( 'icon_library_ability_unavailable', __( 'Block parsing is unavailable in this WordPress context.', 'aculect-icon-library' ), 500 );
 		}
 		$blocks = parse_blocks( $post->post_content );
 		if ( ! is_array( $blocks ) || $this->count_block_nodes( $blocks ) > self::MAX_BLOCK_NODES ) {
-			return $this->error( 'icon_library_ability_block_limit', __( 'The post contains too many blocks for an automated edit.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_block_limit', __( 'The post contains too many blocks for an automated edit.', 'aculect-icon-library' ), 400 );
 		}
 		return $blocks;
 	}
@@ -405,11 +405,11 @@ class IconBlockService {
 	 */
 	private function save_post_blocks( $post, $blocks ) {
 		if ( ! function_exists( 'serialize_blocks' ) || ! function_exists( 'wp_update_post' ) ) {
-			return $this->error( 'icon_library_ability_unavailable', __( 'Post editing is unavailable in this WordPress context.', 'icon-library' ), 500 );
+			return $this->error( 'icon_library_ability_unavailable', __( 'Post editing is unavailable in this WordPress context.', 'aculect-icon-library' ), 500 );
 		}
 		$content = serialize_blocks( $blocks );
 		if ( ! is_string( $content ) ) {
-			return $this->error( 'icon_library_ability_serialize_failed', __( 'The edited blocks could not be serialized.', 'icon-library' ), 500 );
+			return $this->error( 'icon_library_ability_serialize_failed', __( 'The edited blocks could not be serialized.', 'aculect-icon-library' ), 500 );
 		}
 		$updated = wp_update_post(
 			array(
@@ -419,7 +419,7 @@ class IconBlockService {
 			true
 		);
 		if ( is_wp_error( $updated ) || ! $updated ) {
-			return is_wp_error( $updated ) ? $updated : $this->error( 'icon_library_ability_update_failed', __( 'The post could not be updated.', 'icon-library' ), 500 );
+			return is_wp_error( $updated ) ? $updated : $this->error( 'icon_library_ability_update_failed', __( 'The post could not be updated.', 'aculect-icon-library' ), 500 );
 		}
 		return true;
 	}
@@ -457,7 +457,7 @@ class IconBlockService {
 			}
 		}
 
-		return $this->error( 'icon_library_ability_icon_not_available', __( 'The requested icon is not available in an enabled collection.', 'icon-library' ), 404 );
+		return $this->error( 'icon_library_ability_icon_not_available', __( 'The requested icon is not available in an enabled collection.', 'aculect-icon-library' ), 404 );
 	}
 
 	/**
@@ -602,17 +602,17 @@ class IconBlockService {
 	private function get_insert_position( $blocks, $path, $input ) {
 		$container = empty( $path ) ? array( 'innerBlocks' => $blocks ) : $this->get_block_at_path( $blocks, $path );
 		if ( ! is_array( $container ) || ! isset( $container['innerBlocks'] ) || ! is_array( $container['innerBlocks'] ) ) {
-			return $this->error( 'icon_library_ability_parent_not_found', __( 'The requested block container could not be found.', 'icon-library' ), 404 );
+			return $this->error( 'icon_library_ability_parent_not_found', __( 'The requested block container could not be found.', 'aculect-icon-library' ), 404 );
 		}
 		if ( ! empty( $path ) && ! $this->can_contain_icon( $container ) ) {
-			return $this->error( 'icon_library_ability_parent_not_allowed', __( 'The requested block does not allow an icon child.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_parent_not_allowed', __( 'The requested block does not allow an icon child.', 'aculect-icon-library' ), 400 );
 		}
 		$count = count( $container['innerBlocks'] );
 		if ( ! is_array( $input ) || ! array_key_exists( 'position', $input ) ) {
 			return $count;
 		}
 		if ( ! is_int( $input['position'] ) || $input['position'] < 0 || $input['position'] > $count ) {
-			return $this->error( 'icon_library_ability_invalid_position', __( 'The insertion position is outside the container.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_invalid_position', __( 'The insertion position is outside the container.', 'aculect-icon-library' ), 400 );
 		}
 		return $input['position'];
 	}
@@ -651,29 +651,29 @@ class IconBlockService {
 	 */
 	private function normalize_icon_attributes( $attributes, $icon, $existing = array() ) {
 		if ( ! is_array( $attributes ) ) {
-			return $this->error( 'icon_library_ability_invalid_attributes', __( 'Icon attributes must be an object.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_invalid_attributes', __( 'Icon attributes must be an object.', 'aculect-icon-library' ), 400 );
 		}
 		$normalized         = is_array( $existing ) ? $existing : array();
 		$normalized['icon'] = $icon;
 		$allowed            = array( 'ariaLabel', 'rotation', 'flipHorizontal', 'flipVertical' );
 		foreach ( $attributes as $key => $value ) {
 			if ( ! in_array( $key, $allowed, true ) ) {
-				return $this->error( 'icon_library_ability_invalid_attributes', __( 'Only accessible label, rotation, and flip attributes may be changed.', 'icon-library' ), 400 );
+				return $this->error( 'icon_library_ability_invalid_attributes', __( 'Only accessible label, rotation, and flip attributes may be changed.', 'aculect-icon-library' ), 400 );
 			}
 			if ( 'ariaLabel' === $key ) {
 				if ( ! is_string( $value ) || 200 < strlen( $value ) ) {
-					return $this->error( 'icon_library_ability_invalid_attributes', __( 'The accessible label must be a short string.', 'icon-library' ), 400 );
+					return $this->error( 'icon_library_ability_invalid_attributes', __( 'The accessible label must be a short string.', 'aculect-icon-library' ), 400 );
 				}
 				$normalized[ $key ] = sanitize_text_field( $value );
 			} elseif ( 'rotation' === $key ) {
 				if ( ! is_int( $value ) || -360 > $value || 360 < $value ) {
-					return $this->error( 'icon_library_ability_invalid_attributes', __( 'Rotation must be an integer between -360 and 360.', 'icon-library' ), 400 );
+					return $this->error( 'icon_library_ability_invalid_attributes', __( 'Rotation must be an integer between -360 and 360.', 'aculect-icon-library' ), 400 );
 				}
 				$normalized[ $key ] = $value;
 			} elseif ( is_bool( $value ) ) {
 				$normalized[ $key ] = $value;
 			} else {
-				return $this->error( 'icon_library_ability_invalid_attributes', __( 'Flip attributes must be boolean values.', 'icon-library' ), 400 );
+				return $this->error( 'icon_library_ability_invalid_attributes', __( 'Flip attributes must be boolean values.', 'aculect-icon-library' ), 400 );
 			}
 		}
 		return $normalized;
@@ -736,7 +736,7 @@ class IconBlockService {
 	 */
 	private function normalize_icon_name( $name ) {
 		if ( ! is_string( $name ) || '' === $name || self::MAX_ICON_LENGTH < strlen( $name ) || 1 !== preg_match( '/^[a-z0-9-]+\/[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?$/', $name ) ) {
-			return $this->error( 'icon_library_ability_invalid_icon', __( 'Icon names must use the collection/icon-name format.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_invalid_icon', __( 'Icon names must use the collection/icon-name format.', 'aculect-icon-library' ), 400 );
 		}
 		return $name;
 	}
@@ -749,7 +749,7 @@ class IconBlockService {
 	 */
 	private function normalize_post_id( $post_id ) {
 		if ( ! is_int( $post_id ) || 0 >= $post_id ) {
-			return $this->error( 'icon_library_ability_invalid_post', __( 'A valid post ID is required.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_invalid_post', __( 'A valid post ID is required.', 'aculect-icon-library' ), 400 );
 		}
 		return $post_id;
 	}
@@ -763,12 +763,12 @@ class IconBlockService {
 	 */
 	private function normalize_path( $path, $allow_empty ) {
 		if ( ! is_array( $path ) || self::MAX_PATH_LENGTH < count( $path ) || ( ! $allow_empty && empty( $path ) ) ) {
-			return $this->error( 'icon_library_ability_invalid_path', __( 'A valid non-empty block path is required.', 'icon-library' ), 400 );
+			return $this->error( 'icon_library_ability_invalid_path', __( 'A valid non-empty block path is required.', 'aculect-icon-library' ), 400 );
 		}
 		$normalized = array();
 		foreach ( $path as $index ) {
 			if ( ! is_int( $index ) || 0 > $index ) {
-				return $this->error( 'icon_library_ability_invalid_path', __( 'Block paths must contain non-negative integer indexes.', 'icon-library' ), 400 );
+				return $this->error( 'icon_library_ability_invalid_path', __( 'Block paths must contain non-negative integer indexes.', 'aculect-icon-library' ), 400 );
 			}
 			$normalized[] = $index;
 		}
@@ -788,7 +788,7 @@ class IconBlockService {
 		}
 		$expected = $input['expected_modified_gmt'];
 		if ( ! is_string( $expected ) || 32 < strlen( $expected ) || (string) ( $post->post_modified_gmt ?? '' ) !== $expected ) {
-			return $this->error( 'icon_library_ability_stale_post', __( 'The post changed after it was read. Refresh the block list and try again.', 'icon-library' ), 409 );
+			return $this->error( 'icon_library_ability_stale_post', __( 'The post changed after it was read. Refresh the block list and try again.', 'aculect-icon-library' ), 409 );
 		}
 		return true;
 	}

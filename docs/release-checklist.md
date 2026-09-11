@@ -1,4 +1,4 @@
-# Icon Library 1.0.0 Release Checklist
+# Aculect Icon Library 1.0.0 Release Checklist
 
 ## Automated Gate
 

@@ -11,7 +11,7 @@ if ( PHP_SAPI !== 'cli' ) {
 }
 
 $root  = dirname( __DIR__ );
-$paths = array( 'icon-library.php', 'uninstall.php', 'src', 'scripts', 'tests' );
+$paths = array( 'aculect-icon-library.php', 'uninstall.php', 'src', 'scripts', 'tests' );
 $files = array();
 
 foreach ( $paths as $relative_path ) {

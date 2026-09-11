@@ -14,7 +14,7 @@ function RenameModal( { items, closeModal, onDone } ) {
 
 	const save = async () => {
 		if ( ! label.trim() ) {
-			setError( __( 'An icon label is required.', 'icon-library' ) );
+			setError( __( 'An icon label is required.', 'aculect-icon-library' ) );
 			return;
 		}
 		setIsSaving( true );
@@ -28,18 +28,18 @@ function RenameModal( { items, closeModal, onDone } ) {
 			onDone();
 			closeModal();
 		} catch ( requestError ) {
-			setError( requestError?.message || __( 'The icon could not be renamed.', 'icon-library' ) );
+			setError( requestError?.message || __( 'The icon could not be renamed.', 'aculect-icon-library' ) );
 			setIsSaving( false );
 		}
 	};
 
 	return (
 		<>
-			<TextControl label={ __( 'Label', 'icon-library' ) } value={ label } onChange={ setLabel } autoFocus __nextHasNoMarginBottom />
+			<TextControl label={ __( 'Label', 'aculect-icon-library' ) } value={ label } onChange={ setLabel } autoFocus __nextHasNoMarginBottom />
 			{ error && <p className="icon-library-dataviews-error" role="alert">{ error }</p> }
 			<div className="icon-library-dataviews-modal-actions">
-				<Button variant="tertiary" onClick={ closeModal } disabled={ isSaving }>{ __( 'Cancel', 'icon-library' ) }</Button>
-				<Button variant="primary" onClick={ save } isBusy={ isSaving } disabled={ isSaving }>{ __( 'Save', 'icon-library' ) }</Button>
+				<Button variant="tertiary" onClick={ closeModal } disabled={ isSaving }>{ __( 'Cancel', 'aculect-icon-library' ) }</Button>
+				<Button variant="primary" onClick={ save } isBusy={ isSaving } disabled={ isSaving }>{ __( 'Save', 'aculect-icon-library' ) }</Button>
 			</div>
 		</>
 	);
@@ -58,18 +58,18 @@ function DeleteModal( { items, closeModal, onDone } ) {
 			onDone();
 			closeModal();
 		} catch ( requestError ) {
-			setError( requestError?.message || __( 'The icon could not be deleted.', 'icon-library' ) );
+			setError( requestError?.message || __( 'The icon could not be deleted.', 'aculect-icon-library' ) );
 			setIsDeleting( false );
 		}
 	};
 
 	return (
 		<>
-			<p>{ __( 'This permanently deletes the icon and its SVG file. Existing blocks using it will no longer render.', 'icon-library' ) }</p>
+			<p>{ __( 'This permanently deletes the icon and its SVG file. Existing blocks using it will no longer render.', 'aculect-icon-library' ) }</p>
 			{ error && <p className="icon-library-dataviews-error" role="alert">{ error }</p> }
 			<div className="icon-library-dataviews-modal-actions">
-				<Button variant="tertiary" onClick={ closeModal } disabled={ isDeleting }>{ __( 'Cancel', 'icon-library' ) }</Button>
-				<Button variant="primary" isDestructive onClick={ remove } isBusy={ isDeleting } disabled={ isDeleting }>{ __( 'Delete', 'icon-library' ) }</Button>
+				<Button variant="tertiary" onClick={ closeModal } disabled={ isDeleting }>{ __( 'Cancel', 'aculect-icon-library' ) }</Button>
+				<Button variant="primary" isDestructive onClick={ remove } isBusy={ isDeleting } disabled={ isDeleting }>{ __( 'Delete', 'aculect-icon-library' ) }</Button>
 			</div>
 		</>
 	);
@@ -127,13 +127,13 @@ function CustomIconsDataView() {
 	const fields = useMemo( () => [
 		{
 			id: 'preview',
-			label: __( 'Preview', 'icon-library' ),
+			label: __( 'Preview', 'aculect-icon-library' ),
 			render: ( { item } ) => <span className="icon-library-dataviews-preview" aria-hidden="true" dangerouslySetInnerHTML={ { __html: item.svg } } />,
 		},
-		{ id: 'label', label: __( 'Label', 'icon-library' ), enableGlobalSearch: true, enableSorting: true },
+		{ id: 'label', label: __( 'Label', 'aculect-icon-library' ), enableGlobalSearch: true, enableSorting: true },
 		{
 			id: 'iconName',
-			label: __( 'Icon name', 'icon-library' ),
+			label: __( 'Icon name', 'aculect-icon-library' ),
 			enableGlobalSearch: true,
 			render: ( { item } ) => <code className="icon-library-dataviews-name" title={ item.iconName }>{ item.iconName }</code>,
 		},
@@ -143,16 +143,16 @@ function CustomIconsDataView() {
 	const actions = useMemo( () => [
 		{
 			id: 'rename',
-			label: __( 'Rename', 'icon-library' ),
-			modalHeader: __( 'Rename icon', 'icon-library' ),
+			label: __( 'Rename', 'aculect-icon-library' ),
+			modalHeader: __( 'Rename icon', 'aculect-icon-library' ),
 			isPrimary: true,
 			supportsBulk: false,
 			RenderModal: ( props ) => <RenameModal { ...props } onDone={ changed } />,
 		},
 		{
 			id: 'delete',
-			label: __( 'Delete', 'icon-library' ),
-			modalHeader: __( 'Delete icon', 'icon-library' ),
+			label: __( 'Delete', 'aculect-icon-library' ),
+			modalHeader: __( 'Delete icon', 'aculect-icon-library' ),
 			isPrimary: true,
 			isDestructive: true,
 			supportsBulk: false,
@@ -170,7 +170,7 @@ function CustomIconsDataView() {
 			isLoading={ isLoading }
 			paginationInfo={ { totalItems: total, totalPages: Math.max( 1, Math.ceil( total / ( view.perPage || 20 ) ) ) } }
 			search
-			searchLabel={ __( 'Search icons', 'icon-library' ) }
+			searchLabel={ __( 'Search icons', 'aculect-icon-library' ) }
 			defaultLayouts={ { table: {} } }
 		/>
 	);

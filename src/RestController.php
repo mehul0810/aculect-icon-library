@@ -333,7 +333,7 @@ class RestController {
 
 		return new WP_Error(
 			'icon_library_rest_cannot_view',
-			__( 'Sorry, you are not allowed to view icon library resources.', 'icon-library' ),
+			__( 'Sorry, you are not allowed to view icon library resources.', 'aculect-icon-library' ),
 			array( 'status' => rest_authorization_required_code() )
 		);
 	}
@@ -350,7 +350,7 @@ class RestController {
 
 		return new WP_Error(
 			'icon_library_rest_cannot_manage',
-			__( 'Sorry, you are not allowed to manage icon libraries.', 'icon-library' ),
+			__( 'Sorry, you are not allowed to manage icon libraries.', 'aculect-icon-library' ),
 			array( 'status' => rest_authorization_required_code() )
 		);
 	}
@@ -503,13 +503,13 @@ class RestController {
 			)
 		);
 		if ( null === $collection || ! in_array( $variant, $variants, true ) ) {
-			return new WP_Error( 'icon_library_variant_not_found', __( 'Icon library variant not found.', 'icon-library' ), array( 'status' => 404 ) );
+			return new WP_Error( 'icon_library_variant_not_found', __( 'Icon library variant not found.', 'aculect-icon-library' ), array( 'status' => 404 ) );
 		}
 		if ( empty( $collection['enabled'] ) ) {
-			return new WP_Error( 'icon_library_collection_not_installed', __( 'Install the icon library before changing its variants.', 'icon-library' ), array( 'status' => 409 ) );
+			return new WP_Error( 'icon_library_collection_not_installed', __( 'Install the icon library before changing its variants.', 'aculect-icon-library' ), array( 'status' => 409 ) );
 		}
 		if ( ! $this->collection_registry->set_variant_enabled( $slug, $variant, $enabled ) ) {
-			return new WP_Error( 'icon_library_variant_update_failed', __( 'The icon library variant could not be updated.', 'icon-library' ), array( 'status' => 500 ) );
+			return new WP_Error( 'icon_library_variant_update_failed', __( 'The icon library variant could not be updated.', 'aculect-icon-library' ), array( 'status' => 500 ) );
 		}
 		return rest_ensure_response( $this->collection_registry->get_collection( $slug ) );
 	}
@@ -528,13 +528,13 @@ class RestController {
 		if ( null === $collection ) {
 			return new WP_Error(
 				'icon_library_collection_not_found',
-				__( 'Icon library not found.', 'icon-library' ),
+				__( 'Icon library not found.', 'aculect-icon-library' ),
 				array( 'status' => 404 )
 			);
 		}
 
 		if ( ! $this->collection_registry->set_collection_enabled( $slug, $enabled ) ) {
-			return new WP_Error( 'icon_library_collection_update_failed', __( 'The icon library could not be updated.', 'icon-library' ), array( 'status' => 500 ) );
+			return new WP_Error( 'icon_library_collection_update_failed', __( 'The icon library could not be updated.', 'aculect-icon-library' ), array( 'status' => 500 ) );
 		}
 
 		return rest_ensure_response( $this->collection_registry->get_collection( $slug ) );
@@ -548,7 +548,7 @@ class RestController {
 	private function get_collection_mutation_args() {
 		return array(
 			'slug' => array(
-				'description'       => __( 'Library slug.', 'icon-library' ),
+				'description'       => __( 'Library slug.', 'aculect-icon-library' ),
 				'type'              => 'string',
 				'required'          => true,
 				'validate_callback' => static function ( $value ) {

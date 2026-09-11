@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/mehul0810/icon-library/blob/main/schemas/collection-manifest.schema.json",
-  "title": "Icon Library collection manifest",
+  "$id": "https://github.com/mehul0810/aculect-icon-library/blob/main/schemas/collection-manifest.schema.json",
+  "title": "Aculect Icon Library collection manifest",
   "type": "object",
   "additionalProperties": false,
   "required": ["schemaVersion", "slug", "name", "description", "version", "license", "source", "variants", "icons"],

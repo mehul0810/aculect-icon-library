@@ -21,7 +21,7 @@ if ( ! class_exists( 'ZipArchive' ) ) {
 	exit( 1 );
 }
 
-$plugin_source = file_get_contents( $root . '/icon-library.php' );
+$plugin_source = file_get_contents( $root . '/aculect-icon-library.php' );
 if ( ! preg_match( '/^[ \t*#@]*Version:\s*(\d+\.\d+\.\d+)/mi', $plugin_source, $version_match ) ) {
 	fwrite( STDERR, "Plugin version could not be read.\n" );
 	exit( 1 );
@@ -36,7 +36,7 @@ if ( ! preg_match( '/^Stable tag:\s*(\S+)/mi', $readme, $stable_match ) || $vers
 
 $files            = array(
 	'.' => array(
-		'icon-library.php',
+		'aculect-icon-library.php',
 		'uninstall.php',
 		'readme.txt',
 		'LICENSE.md',
@@ -113,7 +113,7 @@ if ( ! is_dir( $build_dir ) && ! mkdir( $build_dir, 0775, true ) ) {
 	exit( 1 );
 }
 
-$destination = $build_dir . '/icon-library.' . $version . '.zip';
+$destination = $build_dir . '/aculect-icon-library.' . $version . '.zip';
 $temporary   = $destination . '.tmp';
 if ( file_exists( $temporary ) ) {
 	unlink( $temporary );
@@ -127,7 +127,7 @@ if ( true !== $zip->open( $temporary, ZipArchive::CREATE | ZipArchive::OVERWRITE
 
 $timestamp = 946684800;
 foreach ( $files as $relative_path ) {
-	$archive_path = 'icon-library/' . $relative_path;
+	$archive_path = 'aculect-icon-library/' . $relative_path;
 	if ( isset( $legacy_svg_paths[ $relative_path ] ) ) {
 		try {
 			$content = CollectionBuild::normalize_svg( file_get_contents( $root . '/' . $relative_path ), true );

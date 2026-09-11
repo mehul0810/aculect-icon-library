@@ -37,7 +37,7 @@ $post_id          = wp_insert_post(
 	array(
 		'post_type'    => 'post',
 		'post_status'  => 'draft',
-		'post_title'   => 'Icon Library automated smoke',
+		'post_title'   => 'Aculect Icon Library automated smoke',
 		'post_content' => $content,
 	),
 	true

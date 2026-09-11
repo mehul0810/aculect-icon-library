@@ -53,8 +53,8 @@ class AbilityRegistrar {
 		wp_register_ability_category(
 			self::CATEGORY,
 			array(
-				'label'       => __( 'Icon Library', 'icon-library' ),
-				'description' => __( 'Discover and safely manage icons in WordPress content.', 'icon-library' ),
+				'label'       => __( 'Aculect Icon Library', 'aculect-icon-library' ),
+				'description' => __( 'Discover and safely manage icons in WordPress content.', 'aculect-icon-library' ),
 			)
 		);
 	}
@@ -96,8 +96,8 @@ class AbilityRegistrar {
 		);
 		return array(
 			'icon-library/search-icons'       => array(
-				'label'               => __( 'Search Icons', 'icon-library' ),
-				'description'         => __( 'Search enabled icon libraries and return safe icon names, labels, variants, categories, and keywords. Use the returned name when assigning an icon to a core/icon block.', 'icon-library' ),
+				'label'               => __( 'Search Icons', 'aculect-icon-library' ),
+				'description'         => __( 'Search enabled icon libraries and return safe icon names, labels, variants, categories, and keywords. Use the returned name when assigning an icon to a core/icon block.', 'aculect-icon-library' ),
 				'category'            => self::CATEGORY,
 				'input_schema'        => $this->get_search_input_schema(),
 				'output_schema'       => $this->get_search_output_schema(),
@@ -106,8 +106,8 @@ class AbilityRegistrar {
 				'meta'                => $read_meta,
 			),
 			'icon-library/get-icon'           => array(
-				'label'               => __( 'Get Icon', 'icon-library' ),
-				'description'         => __( 'Validate and retrieve metadata for one enabled icon by its collection/icon-name registry name. SVG markup and filesystem paths are never returned.', 'icon-library' ),
+				'label'               => __( 'Get Icon', 'aculect-icon-library' ),
+				'description'         => __( 'Validate and retrieve metadata for one enabled icon by its collection/icon-name registry name. SVG markup and filesystem paths are never returned.', 'aculect-icon-library' ),
 				'category'            => self::CATEGORY,
 				'input_schema'        => array(
 					'type'                 => 'object',
@@ -123,8 +123,8 @@ class AbilityRegistrar {
 				'meta'                => $read_meta,
 			),
 			'icon-library/list-icon-blocks'   => array(
-				'label'               => __( 'List Icon Blocks', 'icon-library' ),
-				'description'         => __( 'List core/icon blocks in an editable post. Each result includes a stable block-tree path, and the response includes a modified_gmt token for stale-write protection before a replace or remove operation.', 'icon-library' ),
+				'label'               => __( 'List Icon Blocks', 'aculect-icon-library' ),
+				'description'         => __( 'List core/icon blocks in an editable post. Each result includes a stable block-tree path, and the response includes a modified_gmt token for stale-write protection before a replace or remove operation.', 'aculect-icon-library' ),
 				'category'            => self::CATEGORY,
 				'input_schema'        => $this->get_post_input_schema(),
 				'output_schema'       => $this->get_block_list_output_schema(),
@@ -133,8 +133,8 @@ class AbilityRegistrar {
 				'meta'                => $read_meta,
 			),
 			'icon-library/insert-icon-block'  => array(
-				'label'               => __( 'Insert Icon Block', 'icon-library' ),
-				'description'         => __( 'Insert a core/icon block into an editable post at the root or inside a container block. Only enabled, registered icons and a small safe presentation attribute allowlist are accepted.', 'icon-library' ),
+				'label'               => __( 'Insert Icon Block', 'aculect-icon-library' ),
+				'description'         => __( 'Insert a core/icon block into an editable post at the root or inside a container block. Only enabled, registered icons and a small safe presentation attribute allowlist are accepted.', 'aculect-icon-library' ),
 				'category'            => self::CATEGORY,
 				'input_schema'        => $this->get_insert_input_schema(),
 				'output_schema'       => $this->get_mutation_output_schema(),
@@ -150,8 +150,8 @@ class AbilityRegistrar {
 				),
 			),
 			'icon-library/replace-icon-block' => array(
-				'label'               => __( 'Replace Icon Block', 'icon-library' ),
-				'description'         => __( 'Assign a different icon to the selected core/icon block and optionally update its accessible label, rotation, or flip presentation attributes without accepting arbitrary block markup.', 'icon-library' ),
+				'label'               => __( 'Replace Icon Block', 'aculect-icon-library' ),
+				'description'         => __( 'Assign a different icon to the selected core/icon block and optionally update its accessible label, rotation, or flip presentation attributes without accepting arbitrary block markup.', 'aculect-icon-library' ),
 				'category'            => self::CATEGORY,
 				'input_schema'        => $this->get_replace_input_schema(),
 				'output_schema'       => $this->get_mutation_output_schema(),
@@ -167,8 +167,8 @@ class AbilityRegistrar {
 				),
 			),
 			'icon-library/remove-icon-block'  => array(
-				'label'               => __( 'Remove Icon Block', 'icon-library' ),
-				'description'         => __( 'Remove one core/icon block from an editable post by the stable path returned by list-icon-blocks. This is a destructive operation and never accepts raw content.', 'icon-library' ),
+				'label'               => __( 'Remove Icon Block', 'aculect-icon-library' ),
+				'description'         => __( 'Remove one core/icon block from an editable post by the stable path returned by list-icon-blocks. This is a destructive operation and never accepts raw content.', 'aculect-icon-library' ),
 				'category'            => self::CATEGORY,
 				'input_schema'        => $this->get_path_input_schema(),
 				'output_schema'       => $this->get_mutation_output_schema(),

@@ -67,8 +67,8 @@ class AdminPage {
 	 */
 	public function register_menu() {
 		add_theme_page(
-			__( 'Icons', 'icon-library' ),
-			__( 'Icons', 'icon-library' ),
+			__( 'Icons', 'aculect-icon-library' ),
+			__( 'Icons', 'aculect-icon-library' ),
 			'manage_options',
 			self::MENU_SLUG,
 			array( $this, 'render' )
@@ -117,17 +117,17 @@ class AdminPage {
 				'dataViewsUrl'      => ICON_LIBRARY_URL . 'assets/build/custom-icons-dataviews.js?ver=' . rawurlencode( $dataviews_asset['version'] ),
 				'dataViewsEnqueued' => 'custom' === $this->get_active_tab(),
 				'i18n'              => array(
-					'updating'       => __( 'Updating library...', 'icon-library' ),
-					'error'          => __( 'The library could not be updated. Try again.', 'icon-library' ),
-					'uploading'      => __( 'Validating and storing icon...', 'icon-library' ),
-					'updated'        => __( 'Icon library updated.', 'icon-library' ),
-					'deleteConfirm'  => __( 'Permanently delete this icon and its SVG file? Existing blocks using it will no longer render.', 'icon-library' ),
-					'purgeConfirm'   => __( 'Permanently delete this archived icon and its SVG file? Existing blocks will no longer render it.', 'icon-library' ),
-					'fileTooLarge'   => __( 'SVG files must be 64 KB or smaller.', 'icon-library' ),
-					'loadingMore'    => __( 'Loading more icons...', 'icon-library' ),
-					'loadMoreError'  => __( 'More icons could not be loaded. Try again.', 'icon-library' ),
+					'updating'       => __( 'Updating library...', 'aculect-icon-library' ),
+					'error'          => __( 'The library could not be updated. Try again.', 'aculect-icon-library' ),
+					'uploading'      => __( 'Validating and storing icon...', 'aculect-icon-library' ),
+					'updated'        => __( 'Icon library updated.', 'aculect-icon-library' ),
+					'deleteConfirm'  => __( 'Permanently delete this icon and its SVG file? Existing blocks using it will no longer render.', 'aculect-icon-library' ),
+					'purgeConfirm'   => __( 'Permanently delete this archived icon and its SVG file? Existing blocks will no longer render it.', 'aculect-icon-library' ),
+					'fileTooLarge'   => __( 'SVG files must be 64 KB or smaller.', 'aculect-icon-library' ),
+					'loadingMore'    => __( 'Loading more icons...', 'aculect-icon-library' ),
+					'loadMoreError'  => __( 'More icons could not be loaded. Try again.', 'aculect-icon-library' ),
 					/* translators: 1: number of icons loaded, 2: total matching icons. */
-					'loadMoreStatus' => __( 'Loaded %1$s of %2$s icons.', 'icon-library' ),
+					'loadMoreStatus' => __( 'Loaded %1$s of %2$s icons.', 'aculect-icon-library' ),
 				),
 			)
 		);
@@ -156,7 +156,7 @@ class AdminPage {
 		$filters     = $this->get_filters( $collections );
 		?>
 		<div class="wrap icon-library-admin is-loading">
-			<h1><?php esc_html_e( 'Icons', 'icon-library' ); ?></h1>
+			<h1><?php esc_html_e( 'Icons', 'aculect-icon-library' ); ?></h1>
 			<?php $this->render_tabs( $active_tab ); ?>
 			<div class="icon-library-status" role="status" aria-live="polite"></div>
 			<?php $this->render_notice(); ?>
@@ -186,8 +186,8 @@ class AdminPage {
 		$updated = absint( $_GET['icon-library-updated'] );
 		$class   = $updated ? 'notice-success' : 'notice-error';
 		$message = $updated
-			? __( 'Library settings updated.', 'icon-library' )
-			: __( 'Library settings could not be updated.', 'icon-library' );
+			? __( 'Library settings updated.', 'aculect-icon-library' )
+			: __( 'Library settings could not be updated.', 'aculect-icon-library' );
 		?>
 		<div class="notice icon-library-notice <?php echo esc_attr( $class ); ?> is-dismissible" role="<?php echo $updated ? 'status' : 'alert'; ?>">
 			<p><?php echo esc_html( $message ); ?></p>
@@ -202,12 +202,12 @@ class AdminPage {
 	 */
 	private function render_tabs( $active_tab ) {
 		$tabs = array(
-			'library' => __( 'Library', 'icon-library' ),
-			'custom'  => _x( 'Upload', 'noun', 'icon-library' ),
-			'browse'  => __( 'Install Library', 'icon-library' ),
+			'library' => __( 'Library', 'aculect-icon-library' ),
+			'custom'  => _x( 'Upload', 'noun', 'aculect-icon-library' ),
+			'browse'  => __( 'Install Library', 'aculect-icon-library' ),
 		);
 		?>
-		<nav class="icon-library-tabs" aria-label="<?php esc_attr_e( 'Icon management', 'icon-library' ); ?>">
+		<nav class="icon-library-tabs" aria-label="<?php esc_attr_e( 'Icon management', 'aculect-icon-library' ); ?>">
 			<?php foreach ( $tabs as $tab => $label ) : ?>
 				<?php
 				$url = add_query_arg(
@@ -235,28 +235,28 @@ class AdminPage {
 			<form class="icon-library-custom-upload" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
 				<?php wp_nonce_field( 'icon_library_upload_custom_icon' ); ?>
 				<input type="hidden" name="action" value="icon_library_upload_custom_icon" />
-				<h2 class="icon-library-custom-title"><?php esc_html_e( 'Upload custom icon', 'icon-library' ); ?></h2>
-				<p class="icon-library-custom-description"><?php esc_html_e( 'Upload an SVG icon from your computer. Give it a name and label so you can easily find and use it in the Icon block.', 'icon-library' ); ?></p>
+				<h2 class="icon-library-custom-title"><?php esc_html_e( 'Upload custom icon', 'aculect-icon-library' ); ?></h2>
+				<p class="icon-library-custom-description"><?php esc_html_e( 'Upload an SVG icon from your computer. Give it a name and label so you can easily find and use it in the Icon block.', 'aculect-icon-library' ); ?></p>
 				<label class="icon-library-upload-area" for="icon-library-svg-upload">
 					<span class="dashicons dashicons-upload" aria-hidden="true"></span>
-					<span class="icon-library-upload-prompt"><?php esc_html_e( 'Drop an SVG here or browse', 'icon-library' ); ?></span>
-					<span class="icon-library-upload-file-name" aria-live="polite"><?php esc_html_e( 'SVG files up to 64 KB', 'icon-library' ); ?></span>
+					<span class="icon-library-upload-prompt"><?php esc_html_e( 'Drop an SVG here or browse', 'aculect-icon-library' ); ?></span>
+					<span class="icon-library-upload-file-name" aria-live="polite"><?php esc_html_e( 'SVG files up to 64 KB', 'aculect-icon-library' ); ?></span>
 					<input id="icon-library-svg-upload" class="screen-reader-text" name="svg" type="file" accept=".svg,image/svg+xml" aria-describedby="icon-library-upload-help" required />
 				</label>
-				<p id="icon-library-upload-help" class="screen-reader-text"><?php esc_html_e( 'Select an SVG file up to 64 KB.', 'icon-library' ); ?></p>
+				<p id="icon-library-upload-help" class="screen-reader-text"><?php esc_html_e( 'Select an SVG file up to 64 KB.', 'aculect-icon-library' ); ?></p>
 				<div class="icon-library-upload-details">
-					<label><span><?php esc_html_e( 'Name', 'icon-library' ); ?></span><input name="name" type="text" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required placeholder="<?php esc_attr_e( 'my-icon', 'icon-library' ); ?>" /></label>
-					<label><span><?php esc_html_e( 'Label', 'icon-library' ); ?></span><input name="label" type="text" required /></label>
+					<label><span><?php esc_html_e( 'Name', 'aculect-icon-library' ); ?></span><input name="name" type="text" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required placeholder="<?php esc_attr_e( 'my-icon', 'aculect-icon-library' ); ?>" /></label>
+					<label><span><?php esc_html_e( 'Label', 'aculect-icon-library' ); ?></span><input name="label" type="text" required /></label>
 				</div>
 				<div class="icon-library-footer">
 					<div class="icon-library-footer-actions">
-						<div class="icon-library-upload-submit"><?php submit_button( __( 'Upload icon', 'icon-library' ), 'primary', 'submit', false ); ?></div>
+						<div class="icon-library-upload-submit"><?php submit_button( __( 'Upload icon', 'aculect-icon-library' ), 'primary', 'submit', false ); ?></div>
 					</div>
 				</div>
 			</form>
 
-			<h2 class="icon-library-custom-heading"><?php esc_html_e( 'Uploaded icons', 'icon-library' ); ?></h2>
-			<div id="icon-library-custom-dataviews"><p><?php esc_html_e( 'Loading uploaded icons...', 'icon-library' ); ?></p></div>
+			<h2 class="icon-library-custom-heading"><?php esc_html_e( 'Uploaded icons', 'aculect-icon-library' ); ?></h2>
+			<div id="icon-library-custom-dataviews"><p><?php esc_html_e( 'Loading uploaded icons...', 'aculect-icon-library' ); ?></p></div>
 		</section>
 		<?php
 	}
@@ -292,11 +292,11 @@ class AdminPage {
 
 		?>
 		<section class="icon-library-panel">
-			<h2><?php esc_html_e( 'Installed Libraries', 'icon-library' ); ?></h2>
+			<h2><?php esc_html_e( 'Installed Libraries', 'aculect-icon-library' ); ?></h2>
 			<?php if ( empty( $installed_collections ) ) : ?>
 				<div class="icon-library-empty-state">
-					<p><?php esc_html_e( 'No icon libraries are installed.', 'icon-library' ); ?></p>
-					<a class="button button-primary" href="<?php echo esc_url( $install_url ); ?>"><?php esc_html_e( 'Install Library', 'icon-library' ); ?></a>
+					<p><?php esc_html_e( 'No icon libraries are installed.', 'aculect-icon-library' ); ?></p>
+					<a class="button button-primary" href="<?php echo esc_url( $install_url ); ?>"><?php esc_html_e( 'Install Library', 'aculect-icon-library' ); ?></a>
 				</div>
 			<?php else : ?>
 				<div class="icon-library-collection-list">
@@ -324,7 +324,7 @@ class AdminPage {
 		}
 		?>
 		<section class="icon-library-panel">
-			<h2><?php esc_html_e( 'Available Libraries', 'icon-library' ); ?></h2>
+			<h2><?php esc_html_e( 'Available Libraries', 'aculect-icon-library' ); ?></h2>
 			<div class="icon-library-collection-list">
 				<?php foreach ( $collections as $collection ) : ?>
 					<?php if ( CustomIconRepository::COLLECTION_SLUG !== $collection['slug'] ) : ?>
@@ -356,7 +356,7 @@ class AdminPage {
 				<h3><?php echo esc_html( $collection['name'] ); ?></h3>
 			</div>
 			<div class="icon-library-collection-actions">
-				<span class="icon-library-variant-summary"><?php echo esc_html( ! empty( $collection['enabled'] ) ? __( 'Installed', 'icon-library' ) : __( 'Available', 'icon-library' ) ); ?></span>
+				<span class="icon-library-variant-summary"><?php echo esc_html( ! empty( $collection['enabled'] ) ? __( 'Installed', 'aculect-icon-library' ) : __( 'Available', 'aculect-icon-library' ) ); ?></span>
 				<span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span>
 			</div>
 		</a>
@@ -396,7 +396,7 @@ class AdminPage {
 		<section class="icon-library-panel icon-library-install-detail">
 			<a class="icon-library-back" href="<?php echo esc_url( $back_url ); ?>">
 				<span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span>
-				<?php esc_html_e( 'Install Library', 'icon-library' ); ?>
+				<?php esc_html_e( 'Install Library', 'aculect-icon-library' ); ?>
 			</a>
 			<h2><?php echo esc_html( $collection['name'] ); ?></h2>
 			<?php $this->render_filters( $filters, array( $collection['slug'] => $collection ), $query['variant_counts'] ); ?>
@@ -409,7 +409,7 @@ class AdminPage {
 						<input type="hidden" name="action" value="icon_library_toggle_collection" />
 						<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
 						<input type="hidden" name="state" value="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>" />
-						<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Uninstall', 'icon-library' ) : __( 'Install', 'icon-library' ) ); ?></button>
+						<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Uninstall', 'aculect-icon-library' ) : __( 'Install', 'aculect-icon-library' ) ); ?></button>
 					</form>
 				</div>
 			</div>
@@ -440,13 +440,13 @@ class AdminPage {
 				'current'   => min( $current_page, $total_pages ),
 				'total'     => $total_pages,
 				'type'      => 'list',
-				'prev_text' => __( 'Previous', 'icon-library' ),
-				'next_text' => __( 'Next', 'icon-library' ),
+				'prev_text' => __( 'Previous', 'aculect-icon-library' ),
+				'next_text' => __( 'Next', 'aculect-icon-library' ),
 			)
 		);
 
 		if ( $links ) {
-			echo '<nav class="icon-library-pagination" aria-label="' . esc_attr__( 'Icon pages', 'icon-library' ) . '">' . wp_kses_post( $links ) . '</nav>';
+			echo '<nav class="icon-library-pagination" aria-label="' . esc_attr__( 'Icon pages', 'aculect-icon-library' ) . '">' . wp_kses_post( $links ) . '</nav>';
 		}
 
 		if ( $current_page >= $total_pages ) {
@@ -464,13 +464,13 @@ class AdminPage {
 				data-total-pages="<?php echo esc_attr( $total_pages ); ?>"
 				data-url="<?php echo esc_url( $next_url ); ?>"
 			>
-				<?php esc_html_e( 'Load more icons', 'icon-library' ); ?>
+				<?php esc_html_e( 'Load more icons', 'aculect-icon-library' ); ?>
 			</button>
 				<span class="icon-library-load-more-status" role="status" aria-live="polite">
 				<?php
 				printf(
 					/* translators: 1: number of icons loaded, 2: total matching icons. */
-					esc_html__( 'Loaded %1$s of %2$s icons.', 'icon-library' ),
+					esc_html__( 'Loaded %1$s of %2$s icons.', 'aculect-icon-library' ),
 					esc_html( number_format_i18n( $loaded ) ),
 					esc_html( number_format_i18n( $total ) )
 				);
@@ -535,11 +535,11 @@ class AdminPage {
 						$enabled
 							? sprintf(
 								/* translators: 1: active variant count, 2: total variant count. */
-								__( '%1$d/%2$d variants active', 'icon-library' ),
+								__( '%1$d/%2$d variants active', 'aculect-icon-library' ),
 								$active_count,
 								$variant_count
 							)
-							: __( 'Inactive', 'icon-library' )
+							: __( 'Inactive', 'aculect-icon-library' )
 					);
 					?>
 				</span>
@@ -567,7 +567,7 @@ class AdminPage {
 		<section class="icon-library-panel icon-library-collection-detail">
 			<a class="icon-library-back" href="<?php echo esc_url( $back_url ); ?>">
 				<span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span>
-				<?php esc_html_e( 'Library', 'icon-library' ); ?>
+				<?php esc_html_e( 'Library', 'aculect-icon-library' ); ?>
 			</a>
 			<h2><?php echo esc_html( $collection['name'] ); ?></h2>
 			<div class="icon-library-variant-list">
@@ -582,7 +582,7 @@ class AdminPage {
 									echo esc_html(
 										sprintf(
 										/* translators: %s: number of icons in this variant. */
-											_n( '%s icon', '%s icons', $count, 'icon-library' ),
+											_n( '%s icon', '%s icons', $count, 'aculect-icon-library' ),
 											number_format_i18n( $count )
 										)
 									);
@@ -591,7 +591,7 @@ class AdminPage {
 							<?php endif; ?>
 						</span>
 						<span class="icon-library-variant-state">
-							<?php echo esc_html( $enabled && ! empty( $variant['enabled'] ) ? __( 'Active', 'icon-library' ) : __( 'Inactive', 'icon-library' ) ); ?>
+							<?php echo esc_html( $enabled && ! empty( $variant['enabled'] ) ? __( 'Active', 'aculect-icon-library' ) : __( 'Inactive', 'aculect-icon-library' ) ); ?>
 						</span>
 						<?php if ( $enabled ) : ?>
 							<form class="icon-library-toggle icon-library-variant-toggle" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-collection="<?php echo esc_attr( $collection['slug'] ); ?>" data-variant="<?php echo esc_attr( $variant['slug'] ); ?>" data-state="<?php echo esc_attr( ! empty( $variant['enabled'] ) ? 'deactivate' : 'activate' ); ?>">
@@ -600,7 +600,7 @@ class AdminPage {
 								<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
 								<input type="hidden" name="variant" value="<?php echo esc_attr( $variant['slug'] ); ?>" />
 								<input type="hidden" name="state" value="<?php echo esc_attr( ! empty( $variant['enabled'] ) ? 'deactivate' : 'activate' ); ?>" />
-								<button type="submit" class="button button-secondary"><?php echo esc_html( ! empty( $variant['enabled'] ) ? __( 'Disable', 'icon-library' ) : __( 'Enable', 'icon-library' ) ); ?></button>
+								<button type="submit" class="button button-secondary"><?php echo esc_html( ! empty( $variant['enabled'] ) ? __( 'Disable', 'aculect-icon-library' ) : __( 'Enable', 'aculect-icon-library' ) ); ?></button>
 							</form>
 						<?php endif; ?>
 					</div>
@@ -613,7 +613,7 @@ class AdminPage {
 						<input type="hidden" name="action" value="icon_library_toggle_collection" />
 						<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
 						<input type="hidden" name="state" value="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>" />
-						<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Uninstall', 'icon-library' ) : __( 'Install', 'icon-library' ) ); ?></button>
+						<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Uninstall', 'aculect-icon-library' ) : __( 'Install', 'aculect-icon-library' ) ); ?></button>
 					</form>
 				</div>
 			</div>
@@ -647,9 +647,9 @@ class AdminPage {
 			<input type="hidden" name="tab" value="browse" />
 			<input type="hidden" name="collection" value="<?php echo esc_attr( $selected_collection['slug'] ); ?>" />
 			<label>
-				<span><?php esc_html_e( 'Category', 'icon-library' ); ?></span>
+				<span><?php esc_html_e( 'Category', 'aculect-icon-library' ); ?></span>
 				<select name="category">
-					<option value=""><?php esc_html_e( 'All categories', 'icon-library' ); ?></option>
+					<option value=""><?php esc_html_e( 'All categories', 'aculect-icon-library' ); ?></option>
 					<?php foreach ( $categories as $category ) : ?>
 						<?php
 						$category_slug  = sanitize_key( $category['slug'] ?? '' );
@@ -666,9 +666,9 @@ class AdminPage {
 				</select>
 			</label>
 			<label>
-				<span><?php esc_html_e( 'Variant', 'icon-library' ); ?></span>
+				<span><?php esc_html_e( 'Variant', 'aculect-icon-library' ); ?></span>
 				<select name="variant">
-					<option value=""><?php esc_html_e( 'All variants', 'icon-library' ); ?></option>
+					<option value=""><?php esc_html_e( 'All variants', 'aculect-icon-library' ); ?></option>
 					<?php foreach ( $variants as $variant ) : ?>
 						<?php
 						$variant_slug  = sanitize_key( $variant['slug'] ?? '' );
@@ -685,10 +685,10 @@ class AdminPage {
 				</select>
 			</label>
 			<label>
-				<span><?php esc_html_e( 'Search', 'icon-library' ); ?></span>
+				<span><?php esc_html_e( 'Search', 'aculect-icon-library' ); ?></span>
 				<input type="search" name="search" value="<?php echo esc_attr( $filters['search'] ); ?>" />
 			</label>
-			<?php submit_button( __( 'Filter', 'icon-library' ), 'secondary', 'submit', false ); ?>
+			<?php submit_button( __( 'Filter', 'aculect-icon-library' ), 'secondary', 'submit', false ); ?>
 		</form>
 		<?php
 	}
@@ -817,7 +817,7 @@ class AdminPage {
 	 */
 	private function render_icon_grid( $icons ) {
 		if ( empty( $icons ) ) {
-			echo '<p>' . esc_html__( 'No icons match the current filters.', 'icon-library' ) . '</p>';
+			echo '<p>' . esc_html__( 'No icons match the current filters.', 'aculect-icon-library' ) . '</p>';
 			return;
 		}
 		?>

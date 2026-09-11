@@ -51,7 +51,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          plugin_version="$(awk -F': ' '/^[[:space:]]*\*[[:space:]]Version:/ { print $2; exit }' icon-library.php | tr -d '\r')"
+          plugin_version="$(awk -F': ' '/^[[:space:]]*\*[[:space:]]Version:/ { print $2; exit }' aculect-icon-library.php | tr -d '\r')"
           tag_version="${RELEASE_TAG#v}"
           base_version="${tag_version%%-*}"
           if [[ ! "$RELEASE_TAG" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+-[0-9A-Za-z.-]+$ || "$base_version" != "$plugin_version" ]]; then
@@ -88,7 +88,7 @@ jobs:
           set -euo pipefail
           tag_version="${RELEASE_TAG#v}"
           base_version="${tag_version%%-*}"
-          archive="build/icon-library.${base_version}.zip"
+          archive="build/aculect-icon-library.${base_version}.zip"
           test -s "$archive"
           size="$(stat -c '%s' "$archive")"
           if (( size >= 10485760 )); then
@@ -96,7 +96,7 @@ jobs:
             exit 1
           fi
           unzip -t "$archive" >/dev/null
-          if unzip -Z1 "$archive" | grep -Eq '^icon-library/(vendor|tests|build|\.git|\.github|scripts)(/|$)'; then
+          if unzip -Z1 "$archive" | grep -Eq '^aculect-icon-library/(vendor|tests|build|\.git|\.github|scripts)(/|$)'; then
             echo 'Development or repository files were found in the production ZIP.' >&2
             exit 1
           fi
@@ -106,13 +106,13 @@ jobs:
       - name: Run WordPress Plugin Check
         uses: wordpress/plugin-check-action@10857da14b6c2246d15402b3e69f777edcf8c12e # v1
         with:
-          build-dir: build/plugin-check/icon-library
+          build-dir: build/plugin-check/aculect-icon-library
 
       - name: Upload verified release artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: icon-library-prerelease
-          path: build/icon-library.*.zip
+          name: aculect-icon-library-prerelease
+          path: build/aculect-icon-library.*.zip
           if-no-files-found: error
 
   publish:
@@ -126,7 +126,7 @@ jobs:
       - name: Download verified release artifact
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          name: icon-library-prerelease
+          name: aculect-icon-library-prerelease
           path: artifact
 
       - name: Publish GitHub pre-release
@@ -144,7 +144,7 @@ jobs:
               --target "$RELEASE_COMMIT" \
               --prerelease \
               --generate-notes \
-              --title "Icon Library $RELEASE_TAG"
+              --title "Aculect Icon Library $RELEASE_TAG"
           else
             tag_object="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_TAG}" --jq '.object.type + " " + .object.sha' 2>/dev/null || true)"
             tag_type="${tag_object%% *}"

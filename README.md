@@ -1,6 +1,15 @@
-# Icon Library
+# Aculect Icon Library
 
-Icon Library enables curated SVG icon libraries for the native WordPress
+Previously named Icon Library. The plugin slug and translation domain are
+`aculect-icon-library`; the entry point is `aculect-icon-library.php`.
+Existing `IconLibrary` PHP classes, `ICON_LIBRARY_*` constants,
+`icon_library_*` settings and hooks, `icon-library` REST/Abilities identifiers,
+admin URLs, and custom-icon storage paths remain stable for compatibility.
+When replacing the earlier beta, deactivate it before installing the renamed
+plugin, then activate Aculect Icon Library. Do not uninstall the old beta:
+its uninstall routine removes shared custom-icon data.
+
+Aculect Icon Library enables curated SVG icon libraries for the native WordPress
 `core/icon` block.
 
 ## 1.0 Development Scope
@@ -96,7 +105,7 @@ the native WordPress `wp/v2/icons` endpoints.
 
 ## Abilities API
 
-On WordPress 7.1 and newer, Icon Library registers public WordPress Abilities
+On WordPress 7.1 and newer, Aculect Icon Library registers public WordPress Abilities
 for AI agents and other automation clients. The abilities are discoverable
 through the core Abilities API and can also be used with `wp ability list` and
 `wp ability run`:
@@ -193,7 +202,7 @@ library/variant/custom-icon option changes invalidate derived registry caches.
 See `docs/remediation-status.md` for the review fixes, measured scope, and
 remaining concurrency and browser-proof work.
 
-`composer package` creates `build/icon-library.1.0.0.zip` from an explicit
+`composer package` creates `build/aculect-icon-library.1.0.0.zip` from an explicit
 production allowlist. SVG files referenced by validated library manifests
 remain available through the documented Heroicons legacy size aliases.
 The root `.distignore` mirrors the development paths excluded by compatible
@@ -221,7 +230,7 @@ controls the rendered width, so the upstream 20px Mini and 16px Micro files are
 not exposed as selectable variants. Outline is bundled as an experimental
 variant and is disabled by default. WordPress 7.1 currently strips the stroke
 attributes required by Heroicons Outline. When an incompatible variant is
-rendered, Icon Library adds a fixed root marker before Core sanitizes the markup
+rendered, Aculect Icon Library adds a fixed root marker before Core sanitizes the markup
 and restores the known stroke presentation with a scoped stylesheet in the
 editor and on frontend requests containing the icon. This keeps Core's
 sanitizer intact while the workaround is validated.
@@ -236,6 +245,6 @@ They remain hidden from discovery to avoid duplicate results. Legacy Heroicons
 present. Installing or uninstalling a library controls discovery of all its
 styles; individual styles can also be enabled or disabled from the library
 detail screen. Core prepares its own REST responses, including fields added by
-other plugins. Icon Library only filters discovery results through
+other plugins. Aculect Icon Library only filters discovery results through
 `rest_request_after_callbacks`; it does not replace the picker UI or widen
 WordPress's global SVG sanitizer.

@@ -113,7 +113,7 @@ class AdminActions {
 	 */
 	private function authorize() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Sorry, you are not allowed to manage icon libraries.', 'icon-library' ) );
+			wp_die( esc_html__( 'Sorry, you are not allowed to manage icon libraries.', 'aculect-icon-library' ) );
 		}
 	}
 

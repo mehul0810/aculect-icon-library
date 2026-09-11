@@ -40,15 +40,15 @@ class SvgSanitizer {
 	 */
 	public function sanitize_custom( $svg ) {
 		if ( ! is_string( $svg ) || '' === trim( $svg ) ) {
-			return new WP_Error( 'icon_library_svg_empty', __( 'The SVG file is empty.', 'icon-library' ) );
+			return new WP_Error( 'icon_library_svg_empty', __( 'The SVG file is empty.', 'aculect-icon-library' ) );
 		}
 
 		if ( self::MAX_FILE_SIZE < strlen( $svg ) ) {
-			return new WP_Error( 'icon_library_svg_too_large', __( 'SVG files must be 64 KB or smaller.', 'icon-library' ) );
+			return new WP_Error( 'icon_library_svg_too_large', __( 'SVG files must be 64 KB or smaller.', 'aculect-icon-library' ) );
 		}
 
 		if ( false !== stripos( $svg, '<!doctype' ) || false !== stripos( $svg, '<!entity' ) ) {
-			return new WP_Error( 'icon_library_svg_declaration', __( 'SVG document declarations are not allowed.', 'icon-library' ) );
+			return new WP_Error( 'icon_library_svg_declaration', __( 'SVG document declarations are not allowed.', 'aculect-icon-library' ) );
 		}
 
 		$previous = libxml_use_internal_errors( true );
@@ -58,17 +58,17 @@ class SvgSanitizer {
 		libxml_use_internal_errors( $previous );
 
 		if ( ! $loaded || ! $document->documentElement instanceof DOMElement || 'svg' !== strtolower( $document->documentElement->tagName ) ) {
-			return new WP_Error( 'icon_library_svg_invalid', __( 'The file is not a valid SVG document.', 'icon-library' ) );
+			return new WP_Error( 'icon_library_svg_invalid', __( 'The file is not a valid SVG document.', 'aculect-icon-library' ) );
 		}
 		$xpath                   = new \DOMXPath( $document );
 		$processing_instructions = $xpath->query( '//processing-instruction()' );
 		if ( $processing_instructions && $processing_instructions->length > 0 ) {
-			return new WP_Error( 'icon_library_svg_declaration', __( 'SVG processing instructions are not allowed.', 'icon-library' ) );
+			return new WP_Error( 'icon_library_svg_declaration', __( 'SVG processing instructions are not allowed.', 'aculect-icon-library' ) );
 		}
 
 		$namespace = $document->documentElement->namespaceURI;
 		if ( $namespace && 'http://www.w3.org/2000/svg' !== $namespace ) {
-			return new WP_Error( 'icon_library_svg_namespace', __( 'The SVG namespace is not supported.', 'icon-library' ) );
+			return new WP_Error( 'icon_library_svg_namespace', __( 'The SVG namespace is not supported.', 'aculect-icon-library' ) );
 		}
 		$document = ( new CustomSvgNormalizer() )->normalize( $document );
 		if ( is_wp_error( $document ) ) {
@@ -81,7 +81,7 @@ class SvgSanitizer {
 
 			if ( ! isset( self::CUSTOM_ALLOWED[ $tag ] ) ) {
 				/* translators: %s: SVG element name. */
-				return new WP_Error( 'icon_library_svg_element', sprintf( __( 'Unsupported SVG element: %s.', 'icon-library' ), $tag ) );
+				return new WP_Error( 'icon_library_svg_element', sprintf( __( 'Unsupported SVG element: %s.', 'aculect-icon-library' ), $tag ) );
 			}
 
 			if ( 'path' === $tag || 'polygon' === $tag ) {
@@ -92,27 +92,27 @@ class SvgSanitizer {
 				$name = strtolower( $attribute->localName ? $attribute->localName : $attribute->name );
 				if ( ! in_array( $name, self::CUSTOM_ALLOWED[ $tag ], true ) ) {
 					/* translators: 1: SVG attribute name, 2: SVG element name. */
-					return new WP_Error( 'icon_library_svg_attribute', sprintf( __( 'Unsupported SVG attribute: %1$s on %2$s.', 'icon-library' ), $name, $tag ) );
+					return new WP_Error( 'icon_library_svg_attribute', sprintf( __( 'Unsupported SVG attribute: %1$s on %2$s.', 'aculect-icon-library' ), $name, $tag ) );
 				}
 				if ( $attribute->namespaceURI && 'http://www.w3.org/2000/xmlns/' !== $attribute->namespaceURI ) {
-					return new WP_Error( 'icon_library_svg_namespace', __( 'Namespaced SVG attributes are not supported.', 'icon-library' ) );
+					return new WP_Error( 'icon_library_svg_namespace', __( 'Namespaced SVG attributes are not supported.', 'aculect-icon-library' ) );
 				}
 				if ( false !== strpos( $attribute->value, '\\' ) || 1 === preg_match( '/(?:url\s*\(|javascript:|data:|https?:|\/\/)/i', $attribute->value ) ) {
-					return new WP_Error( 'icon_library_svg_reference', __( 'External or executable SVG references are not allowed.', 'icon-library' ) );
+					return new WP_Error( 'icon_library_svg_reference', __( 'External or executable SVG references are not allowed.', 'aculect-icon-library' ) );
 				}
 			}
 		}
 
 		if ( 0 === $geometry_count ) {
-			return new WP_Error( 'icon_library_svg_geometry', __( 'The SVG contains no supported visible geometry.', 'icon-library' ) );
+			return new WP_Error( 'icon_library_svg_geometry', __( 'The SVG contains no supported visible geometry.', 'aculect-icon-library' ) );
 		}
 
 		$normalized = $document->saveXML( $document->documentElement );
 		if ( ! is_string( $normalized ) || '' === trim( $normalized ) ) {
-			return new WP_Error( 'icon_library_svg_invalid', __( 'The SVG could not be normalized.', 'icon-library' ) );
+			return new WP_Error( 'icon_library_svg_invalid', __( 'The SVG could not be normalized.', 'aculect-icon-library' ) );
 		}
 		if ( self::MAX_FILE_SIZE < strlen( $normalized ) ) {
-			return new WP_Error( 'icon_library_svg_too_large', __( 'The normalized SVG must be 64 KB or smaller.', 'icon-library' ) );
+			return new WP_Error( 'icon_library_svg_too_large', __( 'The normalized SVG must be 64 KB or smaller.', 'aculect-icon-library' ) );
 		}
 
 		return trim( $normalized );
