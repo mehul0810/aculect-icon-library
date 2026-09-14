@@ -22,6 +22,15 @@ artwork. Earlier concepts are drafts and are never deployed.
 
 ## Release routing
 
+Directory screenshots are `screenshot-1.png` (installed libraries),
+`screenshot-2.png` (available libraries), and `screenshot-3.png` (custom uploads).
+Their numbered captions live in the `Screenshots` section of `readme.txt`.
+These are AI-assisted cleaned versions of owner-supplied screenshots, not raw
+browser captures. The unrelated admin chrome and blank space were removed.
+Review them against the live UI before publication; future captures should
+retain the same numbering. They are deployed with the other directory assets,
+not included in the plugin ZIP.
+
 - Prereleases build the plugin ZIP and upload directory images as a separate
   Actions preview artifact. They do not write to WordPress.org.
 - Stable releases publish the verified GitHub ZIP, then use the same ZIP as

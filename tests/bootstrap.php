@@ -255,6 +255,8 @@ $core_dir = getenv( 'WP_CORE_DIR' ) ?: dirname( __DIR__, 4 );
 if ( ! is_file( $core_dir . '/wp-includes/blocks.php' ) ) {
 	throw new RuntimeException( 'Set WP_CORE_DIR to a WordPress checkout to run real block serialization tests.' );
 }
+// Core's block helpers rely on its PHP compatibility functions on PHP 7.4.
+require_once $core_dir . '/wp-includes/compat.php';
 require_once $core_dir . '/wp-includes/class-wp-block-parser.php';
 require_once $core_dir . '/wp-includes/blocks.php';
 

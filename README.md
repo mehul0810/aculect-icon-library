@@ -1,5 +1,48 @@
 # Aculect Icon Library
 
+Easily add support for popular icon libraries and custom SVG icons to the native WordPress Icon block
+
+Aculect Icon Library adds Heroicons, Bootstrap Icons, Font Awesome Free, and
+custom SVG icons to WordPress's existing `core/icon` block. Manage libraries
+from **Appearance > Icons**, enable the styles you need, and choose icons in
+the block editor. It does not add a competing block or use icon fonts.
+
+## Supported Icon Libraries
+
+| Library | Variants |
+| --- | --- |
+| Heroicons | Outline, Solid |
+| Bootstrap Icons | Default, Filled |
+| Font Awesome Free | Solid, Regular, Brands |
+
+No libraries are installed by default. Preview and search the included libraries
+before installing them, filter by variant and category where available, and
+enable only the styles you need. Font Awesome Pro styles are not bundled.
+Included SVGs and custom uploads are stored locally; browsing and using them
+requires no external service connection.
+
+## Requirements And Quick Start
+
+Requires **WordPress 7.1+** and **PHP 7.4+**.
+
+1. Install the plugin ZIP through **Plugins > Add New Plugin > Upload Plugin**
+   and activate Aculect Icon Library.
+2. Open **Appearance > Icons > Install Library** and install a library.
+3. Open its detail screen and enable the variants you need.
+4. Edit a post or page, insert the native **Icon** block, and select an icon.
+5. Adjust the block's sizing and styling, then save your content.
+
+To use your own SVG, open **Appearance > Icons > Upload**. Upload a supported
+file up to 64 KB, give it a name and label, and select it in the Icon block.
+This does not enable SVG uploads in the Media Library. See [Custom Icons](#custom-icons)
+for supported exports and [Icon Lifecycle](#icon-lifecycle) before deleting icons.
+
+Use the installable ZIP attached to a [GitHub release](https://github.com/mehul0810/aculect-icon-library/releases),
+not GitHub's automatically generated source archive. For a source checkout,
+follow [Development](#development) to build a production package.
+
+## Upgrading From The Original Beta
+
 Previously named Icon Library. The plugin slug and translation domain are
 `aculect-icon-library`; the entry point is `aculect-icon-library.php`.
 Existing `IconLibrary` PHP classes, `ICON_LIBRARY_*` constants,
@@ -8,22 +51,6 @@ admin URLs, and custom-icon storage paths remain stable for compatibility.
 When replacing the earlier beta, deactivate it before installing the renamed
 plugin, then activate Aculect Icon Library. Do not uninstall the old beta:
 its uninstall routine removes shared custom-icon data.
-
-Aculect Icon Library enables curated SVG icon libraries for the native WordPress
-`core/icon` block.
-
-## 1.0 Development Scope
-
-- WordPress 7.1+ only.
-- Bundled Heroicons, Bootstrap Icons, and Font Awesome Free libraries with
-  upstream variants represented separately where Core-compatible.
-- No curated library is enabled until a site owner installs it.
-- Static manifests and optimized SVG files.
-- Appearance -> Icons activation screen.
-- Plugin REST endpoints for library state management.
-- Registration through the public WordPress SVG Icon API.
-- Strict local custom SVG management without Media Library SVG support.
-- No remote marketplace, icon fonts, or competing icon block.
 
 ## Core Icon API Integration
 
@@ -105,6 +132,10 @@ the native WordPress `wp/v2/icons` endpoints.
 
 ## Abilities API
 
+The plugin provides integration actions, not a standalone AI assistant.
+Compatible agents can discover enabled icons and edit native Icon blocks while
+respecting WordPress permissions.
+
 On WordPress 7.1 and newer, Aculect Icon Library registers public WordPress Abilities
 for AI agents and other automation clients. The abilities are discoverable
 through the core Abilities API and can also be used with `wp ability list` and
@@ -146,7 +177,7 @@ https://github.com/WordPress/gutenberg/issues/80668.
 
 ## Custom Icons
 
-Administrators can add SVG files through **Appearance > Icons > Custom Icons**.
+Administrators can add SVG files up to 64 KB through **Appearance > Icons > Upload**.
 The plugin validates the file against the WordPress 7.1 icon geometry contract
 before storing the sanitized SVG locally under the uploads directory. This does
 not enable SVG uploads in the Media Library and makes no remote requests.
@@ -160,14 +191,12 @@ references, scripts, and unsupported geometry are rejected, not silently removed
 Export these features as flattened paths with explicit fills before uploading.
 
 Custom icon names are stable after creation so existing blocks keep their
-registered name; their display labels can be changed. Removing a custom icon
-hides it from new selections while preserving existing blocks. Plugin uninstall
+registered name; their display labels can be changed. Deleting a custom icon
+permanently removes its metadata and SVG file, so existing blocks referencing
+it can no longer resolve the icon. Replace those icons in content before
+deleting them. There is no user-facing archive or restore workflow. Plugin uninstall
 removes custom icon metadata and the plugin-owned SVG files, which prevents
 retained post content from resolving those icons.
-
-Archived custom icons can be restored or permanently purged from the Custom
-Icons screen. Purging removes the stored SVG and intentionally stops existing
-blocks from resolving that icon.
 
 ## Importing bundled libraries
 
@@ -211,9 +240,14 @@ allowlist so an unexpected repository file cannot enter a release.
 
 GitHub Actions runs the same checks and production packaging for semver release
 and pre-release tags, then uploads the ZIP as a workflow artifact and GitHub
-release asset. The workflows do not upload to WordPress.org SVN; submit the
-reviewed production ZIP through the WordPress.org-assigned repository after the
-plugin has been approved.
+release asset. Prereleases also upload directory images as a separate preview
+artifact and do not write to WordPress.org. Stable releases are configured to
+deploy the verified ZIP through 10up's WordPress deploy action, with
+`.wordpress-org/` images sent to SVN `/assets`, separate from plugin files.
+Deployment requires the release environment's SVN credentials and repository
+access. See [WordPress.org branding](docs/branding/README.md) for asset sizes,
+validation, and release routing. Workflow configuration alone does not confirm
+a successful directory deployment.
 
 Library authors should follow `schemas/collection-manifest.schema.json`, use
 stable namespaced IDs, include source revision and license metadata, and run
@@ -227,8 +261,8 @@ canonical icon's category and search metadata. Pro-only styles are not bundled.
 
 Heroicons uses `Outline` and `Solid` as its style taxonomy. The Core Icon block
 controls the rendered width, so the upstream 20px Mini and 16px Micro files are
-not exposed as selectable variants. Outline is bundled as an experimental
-variant and is disabled by default. WordPress 7.1 currently strips the stroke
+not exposed as selectable variants. Outline is bundled and disabled by default.
+WordPress 7.1 currently strips the stroke
 attributes required by Heroicons Outline. When an incompatible variant is
 rendered, Aculect Icon Library adds a fixed root marker before Core sanitizes the markup
 and restores the known stroke presentation with a scoped stylesheet in the
@@ -248,3 +282,14 @@ detail screen. Core prepares its own REST responses, including fields added by
 other plugins. Aculect Icon Library only filters discovery results through
 `rest_request_after_callbacks`; it does not replace the picker UI or widen
 WordPress's global SVG sanitizer.
+
+## Documentation And Licenses
+
+- [WordPress.org readme and FAQ](readme.txt)
+- [Release downloads and notes](https://github.com/mehul0810/aculect-icon-library/releases)
+- [Bug reports](https://github.com/mehul0810/aculect-icon-library/issues)
+
+Aculect Icon Library is licensed under GPLv2 or later. Bundled icon libraries
+retain their upstream licenses: [Heroicons (MIT)](https://github.com/tailwindlabs/heroicons),
+[Bootstrap Icons (MIT)](https://github.com/twbs/icons), and
+[Font Awesome Free](https://fontawesome.com/license/free).
