@@ -81,6 +81,9 @@ jobs:
       - name: Build production ZIP
         run: composer package
 
+      - name: Validate directory assets
+        run: php scripts/validate-directory-assets.php
+
       - name: Validate production ZIP
         shell: bash
         run: |
@@ -93,7 +96,7 @@ jobs:
             exit 1
           fi
           unzip -t "$archive" >/dev/null
-          if unzip -Z1 "$archive" | grep -Eq '^aculect-icon-library/(vendor|tests|build|\.git|\.github|scripts)(/|$)'; then
+          if unzip -Z1 "$archive" | grep -Eq '^aculect-icon-library/(vendor|tests|build|\.git|\.github|\.wordpress-org|scripts)(/|$)'; then
             echo 'Development or repository files were found in the production ZIP.' >&2
             exit 1
           fi
@@ -129,6 +132,7 @@ jobs:
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
           RELEASE_TAG: ${{ needs.build.outputs.release_tag }}
           RELEASE_COMMIT: ${{ needs.build.outputs.commit }}
         run: |
@@ -144,3 +148,44 @@ jobs:
             --generate-notes \
             --latest \
             --title "Aculect Icon Library $RELEASE_TAG"
+
+  wordpress-org:
+    name: Deploy stable plugin and directory assets
+    needs: [build, publish]
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+    steps:
+      - name: Check out verified source and directory assets
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ needs.build.outputs.commit }}
+          persist-credentials: false
+
+      - name: Download verified plugin ZIP
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: aculect-icon-library-release
+          path: artifact
+
+      - name: Prepare SVN package and version
+        env:
+          RELEASE_TAG: ${{ needs.build.outputs.release_tag }}
+        run: |
+          set -euo pipefail
+          version="${RELEASE_TAG#v}"
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          unzip -q "artifact/aculect-icon-library.${version}.zip" -d svn-package
+          test -f svn-package/aculect-icon-library/aculect-icon-library.php
+          test ! -d svn-package/aculect-icon-library/.wordpress-org
+
+      - name: Deploy plugin and top-level SVN assets
+        uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2 # 2.3.0
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: aculect-icon-library
+          BUILD_DIR: svn-package/aculect-icon-library
+          ASSETS_DIR: .wordpress-org
