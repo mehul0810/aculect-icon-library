@@ -481,6 +481,10 @@ class CustomIconRepository {
 		if ( $create && ! wp_mkdir_p( $directory ) ) {
 			return new WP_Error( 'icon_library_upload_directory', __( 'The custom icon directory could not be created.', 'aculect-icon-library' ) );
 		}
+		// Resolve and re-check the real path rather than trusting the string built above:
+		// if the uploads base or the custom-icons directory were ever replaced with a
+		// symlink pointing outside uploads, later file writes/deletes keyed off $directory
+		// must not silently follow it there.
 		$resolved = realpath( $directory );
 		if ( false === $resolved || is_link( $directory ) || 0 !== strpos( $resolved, $base . DIRECTORY_SEPARATOR ) || ! is_dir( $resolved ) ) {
 			return new WP_Error( 'icon_library_upload_directory', __( 'The custom icon directory does not exist.', 'aculect-icon-library' ) );
