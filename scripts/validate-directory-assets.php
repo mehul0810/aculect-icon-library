@@ -47,12 +47,23 @@ if (
 	true !== ( $plugin_step['options']['activate'] ?? null ) ||
 	'url' !== ( $plugin_step['pluginData']['resource'] ?? '' ) ||
 	! is_string( $plugin_step['pluginData']['url'] ?? null ) ||
-	1 !== preg_match( '#^https://downloads\.wordpress\.org/plugin/aculect-icon-library\.\d+\.\d+\.\d+\.zip$#', $plugin_step['pluginData']['url'] ) ||
+	1 !== preg_match( '#^https://downloads\.wordpress\.org/plugin/aculect-icon-library\.(\d+\.\d+\.\d+)\.zip$#', $plugin_step['pluginData']['url'], $blueprint_version_match ) ||
 	'runPHP' !== ( $seed_step['step'] ?? '' ) ||
 	! is_string( $seed_step['code'] ?? null ) ||
 	false === strpos( $seed_step['code'], 'heroicons-solid/academic-cap-solid' )
 ) {
 	fwrite( STDERR, "Invalid WordPress.org preview Blueprint configuration.\n" );
+	exit( 1 );
+}
+
+$plugin_file     = $root . '/aculect-icon-library.php';
+$plugin_contents = is_file( $plugin_file ) ? file_get_contents( $plugin_file ) : false;
+if (
+	! is_string( $plugin_contents ) ||
+	1 !== preg_match( '/^[\t ]*\*?[\t ]*Version:[\t ]*([^\r\n]+?)[\t ]*$/mi', $plugin_contents, $plugin_version_match ) ||
+	$blueprint_version_match[1] !== $plugin_version_match[1]
+) {
+	fwrite( STDERR, "Preview Blueprint ZIP version must match the plugin header version.\n" );
 	exit( 1 );
 }
 
