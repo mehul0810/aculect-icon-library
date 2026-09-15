@@ -1,0 +1,28 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "preferredVersions": {
+    "php": "8.3",
+    "wp": "7.1"
+  },
+  "landingPage": "/wp-admin/themes.php?page=icon-library",
+  "steps": [
+    {
+      "step": "login",
+      "username": "admin"
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "url",
+        "url": "https://downloads.wordpress.org/plugin/aculect-icon-library.1.0.0.zip"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php require_once '/wordpress/wp-load.php'; update_option( 'icon_library_enabled_collections', array( 'heroicons' ), false ); update_option( 'icon_library_enabled_variants', array( 'heroicons' => array( 'solid' ) ), false ); $post_content = '<!-- wp:paragraph -->' . PHP_EOL . '<p>A native WordPress Icon block using an enabled Heroicons icon.</p>' . PHP_EOL . '<!-- /wp:paragraph -->' . PHP_EOL . PHP_EOL . '<!-- wp:icon {\\\"icon\\\":\\\"heroicons-solid/academic-cap-solid\\\"} /-->'; $post_id = wp_insert_post( array( 'post_title' => 'Aculect Icon Library demo', 'post_status' => 'publish', 'post_type' => 'page', 'post_content' => $post_content ) ); if ( is_wp_error( $post_id ) ) { throw new RuntimeException( $post_id->get_error_message() ); } ?>"
+    }
+  ]
+}
