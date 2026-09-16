@@ -4,7 +4,7 @@ Tags: icons, icon library, svg icons, icon block, custom icons
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,10 @@ Bundled libraries remain under their upstream terms:
 * Font Awesome Free: https://fontawesome.com/license/free (Font Awesome Free license).
 
 == Changelog ==
+
+= 1.0.1 =
+
+* Add the WordPress.org preview Blueprint for the matching stable package and Icon block demo.
 
 = 1.0.0 =
 

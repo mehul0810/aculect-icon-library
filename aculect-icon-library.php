@@ -3,7 +3,7 @@
  * Plugin Name: Aculect Icon Library
  * Plugin URI: https://github.com/mehul0810/aculect-icon-library
  * Description: Easily add support for popular icon libraries and custom SVG icons to the native WordPress Icon block
- * Version: 1.0.0
+ * Version: 1.0.1
  * Requires at least: 7.1
  * Requires PHP: 7.4
  * Author: Mehul Gohil
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ICON_LIBRARY_VERSION', '1.0.0' );
+define( 'ICON_LIBRARY_VERSION', '1.0.1' );
 define( 'ICON_LIBRARY_FILE', __FILE__ );
 define( 'ICON_LIBRARY_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ICON_LIBRARY_URL', plugin_dir_url( __FILE__ ) );

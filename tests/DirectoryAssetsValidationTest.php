@@ -58,7 +58,7 @@ class DirectoryAssetsValidationTest extends TestCase {
 	 * Rejects a stale Blueprint ZIP version.
 	 */
 	public function test_validator_rejects_a_stale_blueprint_zip_version() {
-		$this->replace_blueprint_version( '1.0.1' );
+		$this->replace_blueprint_version( '1.0.0' );
 
 		$result = $this->run_validator();
 
@@ -88,7 +88,7 @@ class DirectoryAssetsValidationTest extends TestCase {
 		$contents  = file_get_contents( $blueprint );
 
 		$this->assertIsString( $contents );
-		file_put_contents( $blueprint, str_replace( '.1.0.0.zip', '.' . $version . '.zip', $contents ) );
+		file_put_contents( $blueprint, preg_replace( '#\.\d+\.\d+\.\d+\.zip#', '.' . $version . '.zip', $contents, 1 ) );
 	}
 
 	/**

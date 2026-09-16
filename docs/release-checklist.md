@@ -1,4 +1,4 @@
-# Aculect Icon Library 1.0.0 Release Checklist
+# Aculect Icon Library Release Checklist
 
 ## Automated Gate
 
@@ -41,8 +41,8 @@
 - Disable Heroicons and verify existing content still renders while new discovery is hidden.
 - Delete a disposable custom icon only after confirming the dependency warning.
 
-## Owner-Gated Release
+## Release Execution
 
-- Review and approve the final ZIP hash and Plugin Check output.
-- Merge the release branch only after all required checks pass.
-- Create the `1.0.0` tag and GitHub/WordPress.org release only with explicit owner approval.
+- Complete independent exact-head engineering review and separate package and behavior proof.
+- Merge the release branch only after all required checks pass and the approved mainline-first path is satisfied.
+- Create the matching version tag and GitHub/WordPress.org release only after the release packet is complete.
