@@ -93,10 +93,10 @@ Complete the repository pull request template. A reviewable pull request must:
   justified; and
 - remain focused: unrelated cleanup belongs in another issue.
 
-External contributors and automation must not merge, tag, release, deploy to
-WordPress.org, or change repository settings. Owner-authorized maintainers may
-perform release integration after independent review and package/runtime
-validation.
+External contributors and unapproved or contributor-controlled automation must
+not merge, tag, release, deploy to WordPress.org, or change repository settings.
+Owner-authorized maintainers and protected release workflows may perform release
+integration after independent review and package/runtime validation.
 
 ## AI-Assisted Contributions
 
