@@ -9,16 +9,17 @@ safety requirements apply to every change.
 1. Search [open and closed issues](https://github.com/mehul0810/aculect-icon-library/issues)
    and pull requests for existing work.
 2. Open or join an issue describing the problem, expected outcome, and scope.
-   Do not post exploit details, credentials, private data, or unsafe SVG samples
-   in a public issue.
+   For coordinated security fixes, use the private advisory as the tracking
+   reference instead. Do not post exploit details, credentials, private data,
+   or unsafe SVG samples publicly.
 3. Wait for a maintainer to confirm the scope, milestone, and target branch
-   before implementation. An accepted issue is not permission to expand its
-   scope.
+   before implementation. An accepted issue or private advisory is not
+   permission to expand its scope.
 
 For a suspected vulnerability, use a private
 [GitHub Security Advisory](https://github.com/mehul0810/aculect-icon-library/security/advisories/new).
-If private reporting is unavailable, ask the maintainers privately how to
-proceed and do not publish exploit details.
+Do not open a public issue or include sensitive vulnerability details in a pull
+request.
 
 ## Branch Strategy
 
@@ -28,8 +29,8 @@ proceed and do not publish exploit details.
   milestone.
 - Use `develop` only when a maintainer explicitly directs unmilestoned work
   there. Do not assume that `develop` exists or is the correct base.
-- Use one issue, one focused branch, and one pull request. Name branches by
-  purpose, for example `fix/42-svg-validation` or
+- Use one issue or private security advisory, one focused branch, and one pull
+  request. Name branches by purpose, for example `fix/42-svg-validation` or
   `docs/33-contributor-guidance`.
 - Record the exact base branch and commit before editing. Rebase or merge an
   updated base only when needed, then rerun affected validation.
@@ -81,7 +82,8 @@ changes.
 
 Complete the repository pull request template. A reviewable pull request must:
 
-- link its issue and target the maintainer-assigned branch;
+- link its issue or identify the private security tracking reference without
+  exposing sensitive details, and target the maintainer-assigned branch;
 - state scope, non-goals, changed files, risks, and rollback approach;
 - list every validation command actually run and any proof gaps;
 - include before/after screenshots for UI changes at relevant desktop and mobile
@@ -91,17 +93,18 @@ Complete the repository pull request template. A reviewable pull request must:
   justified; and
 - remain focused: unrelated cleanup belongs in another issue.
 
-Pull request authors must not merge, tag, release, deploy to WordPress.org, or
-change repository settings. Maintainers perform release integration after
-independent review and package/runtime validation.
+External contributors and automation must not merge, tag, release, deploy to
+WordPress.org, or change repository settings. Owner-authorized maintainers may
+perform release integration after independent review and package/runtime
+validation.
 
 ## AI-Assisted Contributions
 
 Disclose material AI assistance in the pull request. The contributor remains
 responsible for every line and claim. Before submitting:
 
-- inspect the repository and current issue instead of relying on generated
-  assumptions;
+- inspect the repository and current issue or private tracking context instead
+  of relying on generated assumptions;
 - preserve pre-existing local changes and use an isolated branch or worktree;
 - verify commands, paths, API names, compatibility, and product claims against
   the repository;

@@ -1,6 +1,8 @@
-## Related issue
+## Related tracking
 
-Related to #
+Public issue (`Related to #...`) or private security advisory/tracking reference:
+
+Do not include sensitive vulnerability details in this pull request.
 
 ## Base and strategy
 
@@ -74,9 +76,12 @@ Describe material AI assistance, tools, and human review:
 
 ## Contributor checklist
 
-- [ ] I searched existing issues and pull requests before starting.
-- [ ] The issue scope, milestone, and target branch were confirmed by a maintainer.
-- [ ] This pull request contains one focused issue and no unrelated cleanup.
+- [ ] I searched existing issues and pull requests before starting, or this is
+      coordinated through a private security advisory.
+- [ ] The issue or private advisory scope, milestone, and target branch were
+      confirmed by a maintainer.
+- [ ] This pull request contains one focused issue or advisory and no unrelated
+      cleanup.
 - [ ] I did not include secrets, private data, generated packages, or dependencies.
 - [ ] I did not weaken SVG sanitization or omit required license/provenance evidence.
 - [ ] I documented all known limitations and proof gaps.

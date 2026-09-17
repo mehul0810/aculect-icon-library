@@ -6,12 +6,14 @@ These instructions apply to AI-assisted work in this repository. Read
 ## Intake And Scope
 
 - Search open and closed issues and pull requests before proposing work.
-- Require a linked issue and maintainer-confirmed scope, milestone, and base.
+- Require a linked issue, or a private advisory/tracking reference for
+  coordinated security work, plus maintainer-confirmed scope, milestone, and
+  base. Never expose sensitive advisory details in a pull request.
 - Never open a development pull request against `main` or `master`. Use the
   assigned `release/<version>` branch, or `develop` only when maintainers direct
   it. `main` receives reviewed release pull requests only.
-- Keep one issue, one branch, and one pull request. Do not bundle opportunistic
-  refactors.
+- Keep one issue or private advisory, one branch, and one pull request. Do not
+  bundle opportunistic refactors.
 - Capture the exact base ref and commit before editing. Changed bases or heads
   invalidate affected review and validation evidence.
 
@@ -66,9 +68,9 @@ command run, result, and proof gap; never claim an unrun check passed.
 
 ## Pull Request Handoff
 
-- Complete `.github/pull_request_template.md` with linked issue, exact base,
-  strategy, scope/non-goals, changed files, validation, screenshots or proof
-  gaps, risk/rollback, changelog, and release impact.
+- Complete `.github/pull_request_template.md` with an issue or private tracking
+  reference, exact base, strategy, scope/non-goals, changed files, validation,
+  screenshots or proof gaps, risk/rollback, changelog, and release impact.
 - Disclose material AI assistance and identify what the human contributor
   reviewed.
 - Use factual language. Do not invent shipped behavior, compatibility, release
