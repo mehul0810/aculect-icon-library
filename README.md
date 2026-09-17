@@ -286,6 +286,7 @@ WordPress's global SVG sanitizer.
 ## Documentation And Licenses
 
 - [WordPress.org readme and FAQ](readme.txt)
+- [Contributor and development workflow](CONTRIBUTING.md)
 - [Release downloads and notes](https://github.com/mehul0810/aculect-icon-library/releases)
 - [Bug reports](https://github.com/mehul0810/aculect-icon-library/issues)
 
