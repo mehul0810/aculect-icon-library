@@ -1,5 +1,5 @@
 === Aculect Icon Library ===
-Contributors: mehul0810
+Contributors: mehul0810, alkesh7
 Tags: icons, icon library, svg icons, icon block, custom icons
 Requires at least: 7.1
 Tested up to: 7.1
@@ -169,7 +169,11 @@ Bundled libraries remain under their upstream terms:
 
 = 1.0.1 =
 
-* Add the WordPress.org preview Blueprint for the matching stable package and Icon block demo.
+* Add a WordPress.org Playground preview Blueprint that installs the latest stable package and creates an Icon block demo.
+* Validate the preview package source and fail clearly when the demo page cannot be created.
+* Extend PHPCS coverage so `shell_exec()` usage must remain explicitly reviewed. Props Alkesh Miyani (`@alkesh7`).
+* Document the reasoning behind security, filesystem, permissions, and concurrency safeguards. Props Alkesh Miyani (`@alkesh7`).
+* Strengthen release-package validation and release documentation for the 1.0.1 candidate.
 
 = 1.0.0 =
 
