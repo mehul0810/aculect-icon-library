@@ -42,10 +42,12 @@ These instructions apply to AI-assisted work in this repository. Read
 
 ## Validation
 
-Use repository scripts rather than invented commands:
+Use repository scripts rather than invented commands. When the repository is
+outside a WordPress site's `wp-content/plugins` directory, set `WP_CORE_DIR` to
+a WordPress 7.1+ checkout whose root contains `wp-includes/blocks.php`:
 
 ```bash
-composer check
+WP_CORE_DIR=/path/to/wordpress composer check
 npm run test:js
 npm run build
 composer package

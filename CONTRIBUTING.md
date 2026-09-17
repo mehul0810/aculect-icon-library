@@ -37,11 +37,14 @@ proceed and do not publish exploit details.
 ## Development Setup
 
 Requirements are WordPress 7.1+, PHP 7.4+, Composer, and Node.js 20+.
+The PHPUnit bootstrap loads WordPress's real block parser. In a standalone
+clone outside `wp-content/plugins`, point `WP_CORE_DIR` to a WordPress 7.1+
+checkout whose root contains `wp-includes/blocks.php`.
 
 ```bash
 composer install
 npm ci
-composer check
+WP_CORE_DIR=/path/to/wordpress composer check
 npm run test:js
 npm run build
 composer package
