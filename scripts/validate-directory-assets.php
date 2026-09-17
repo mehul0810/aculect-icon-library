@@ -49,7 +49,9 @@ if (
 	'https://downloads.wordpress.org/plugin/aculect-icon-library.latest-stable.zip' !== ( $plugin_step['pluginData']['url'] ?? '' ) ||
 	'runPHP' !== ( $seed_step['step'] ?? '' ) ||
 	! is_string( $seed_step['code'] ?? null ) ||
-	false === strpos( $seed_step['code'], 'heroicons-solid/academic-cap-solid' )
+	false === strpos( $seed_step['code'], 'heroicons-solid/academic-cap-solid' ) ||
+	1 !== preg_match( '/wp_insert_post\s*\(.*?,\s*true\s*\)\s*;/s', $seed_step['code'] ) ||
+	false === strpos( $seed_step['code'], 'is_wp_error( $post_id ) || ! $post_id' )
 ) {
 	fwrite( STDERR, "Invalid WordPress.org preview Blueprint configuration.\n" );
 	exit( 1 );

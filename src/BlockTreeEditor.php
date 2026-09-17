@@ -11,7 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/** Keeps child arrays and their HTML insertion points in sync. */
+/**
+ * Keeps child arrays and their ordered null placeholders in innerContent in sync.
+ *
+ * Empty containers have no placeholder to target, so insertion is limited to the
+ * known single-wrapper core/group and core/column shapes that can be split safely.
+ */
 class BlockTreeEditor {
 	/**
 	 * Inserts into a root list or a nested container.

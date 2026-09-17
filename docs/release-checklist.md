@@ -13,13 +13,15 @@
 ## WordPress.org Submission
 
 - Run the official WordPress.org Readme Validator against `readme.txt`.
-- Confirm the ZIP is below 10 MB, extracts to a single `icon-library/` directory,
-  and contains no tests, development dependencies, build output, or repository
-  metadata.
+- Confirm the ZIP is below 10 MB, extracts to a single `aculect-icon-library/`
+  directory, and contains no tests, development dependencies, root-level build
+  artifacts, or repository metadata. The runtime assets under `assets/build/`
+  must remain included.
 - Confirm all bundled third-party license files and source links are present.
-- Submit the production ZIP for review; do not automate an SVN upload from this
-  repository. After approval, publish the matching code and readme through the
-  WordPress.org-assigned SVN repository.
+- Before the first directory release, submit the production ZIP for WordPress.org
+  review and configure the approved SVN credentials in the protected `release`
+  environment. Stable tag workflows publish the verified ZIP and top-level
+  `.wordpress-org/` assets to the assigned SVN repository.
 
 ## Editor and Frontend
 

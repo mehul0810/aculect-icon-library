@@ -79,6 +79,30 @@ class DirectoryAssetsValidationTest extends TestCase {
 	}
 
 	/**
+	 * Rejects a demo-page insert that does not request a WP_Error result.
+	 */
+	public function test_validator_rejects_insert_without_wp_error_result() {
+		$this->replace_blueprint_code( '), true ); if ( is_wp_error', ') ); if ( is_wp_error' );
+
+		$result = $this->run_validator();
+
+		$this->assertSame( 1, $result['status'] );
+		$this->assertStringContainsString( 'Invalid WordPress.org preview Blueprint configuration.', $result['output'] );
+	}
+
+	/**
+	 * Rejects a demo-page insert that can silently return zero.
+	 */
+	public function test_validator_rejects_insert_without_zero_result_guard() {
+		$this->replace_blueprint_code( 'is_wp_error( $post_id ) || ! $post_id', 'is_wp_error( $post_id )' );
+
+		$result = $this->run_validator();
+
+		$this->assertSame( 1, $result['status'] );
+		$this->assertStringContainsString( 'Invalid WordPress.org preview Blueprint configuration.', $result['output'] );
+	}
+
+	/**
 	 * Replaces the plugin ZIP URL in the fixture.
 	 *
 	 * @param string $url Plugin ZIP URL.
@@ -89,6 +113,23 @@ class DirectoryAssetsValidationTest extends TestCase {
 
 		$this->assertIsArray( $contents );
 		$contents['steps'][1]['pluginData']['url'] = $url;
+		file_put_contents( $blueprint, wp_json_encode( $contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . "\n" );
+	}
+
+	/**
+	 * Replaces a fragment in the Blueprint runPHP step.
+	 *
+	 * @param string $search  Existing code fragment.
+	 * @param string $replace Replacement code fragment.
+	 */
+	private function replace_blueprint_code( $search, $replace ) {
+		$blueprint = $this->root . '/.wordpress-org/blueprints/blueprint.json';
+		$contents  = json_decode( file_get_contents( $blueprint ), true );
+
+		$this->assertIsArray( $contents );
+		$code = $contents['steps'][2]['code'];
+		$this->assertStringContainsString( $search, $code );
+		$contents['steps'][2]['code'] = str_replace( $search, $replace, $code );
 		file_put_contents( $blueprint, wp_json_encode( $contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . "\n" );
 	}
 

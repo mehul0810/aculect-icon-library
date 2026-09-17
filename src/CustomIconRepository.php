@@ -317,6 +317,9 @@ class CustomIconRepository {
 	/**
 	 * Restores an archived icon for new selections.
 	 *
+	 * Kept for sites upgraded from versions that archived instead of deleting icons;
+	 * the current UI no longer creates archived rows.
+	 *
 	 * @param string $name Stable name.
 	 * @return true|WP_Error
 	 */
@@ -345,6 +348,8 @@ class CustomIconRepository {
 
 	/**
 	 * Permanently removes an archived icon and its stored SVG.
+	 *
+	 * This legacy cleanup path remains available for pre-existing archived metadata.
 	 *
 	 * @param string $name Stable name.
 	 * @return true|WP_Error

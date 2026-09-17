@@ -630,6 +630,8 @@ class IconBlockService {
 		if ( 'core/icon' === ( $block['blockName'] ?? '' ) ) {
 			return false;
 		}
+		// Fail open when registry metadata is unavailable: many dynamic and legacy
+		// containers accept children without declaring an allowed_blocks constraint.
 		if ( ! class_exists( 'WP_Block_Type_Registry' ) || ! method_exists( 'WP_Block_Type_Registry', 'get_instance' ) ) {
 			return true;
 		}
