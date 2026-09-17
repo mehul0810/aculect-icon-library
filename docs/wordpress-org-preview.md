@@ -7,24 +7,23 @@ directory expects the configuration at `assets/blueprints/blueprint.json`.
 
 The Blueprint uses the official [WordPress Playground Blueprint
 schema](https://playground.wordpress.net/blueprint-schema.json). It starts
-WordPress 7.1 with PHP 8.3, installs and activates the exact production ZIP
-referenced in `pluginData.url`, enables Heroicons with its solid variant, and
+WordPress 7.1 with PHP 8.3, installs and activates the latest stable production
+ZIP referenced in `pluginData.url`, enables Heroicons with its solid variant, and
 creates a published page with a native `core/icon` block. It opens Appearance
 > Icons after setup.
 
 ## Maintaining the preview
 
-Before each stable release, update the production ZIP URL to that release's
-exact version, for example:
+The Blueprint uses WordPress.org's stable-download alias:
 
 ```
-https://downloads.wordpress.org/plugin/aculect-icon-library.1.0.1.zip
+https://downloads.wordpress.org/plugin/aculect-icon-library.latest-stable.zip
 ```
 
-Keep the version in the URL aligned with the plugin header, release tag, and
-published WordPress.org package. Do not use a branch archive, a GitHub
-redirect, or an unversioned download URL: the preview must install a stable,
-reproducible plugin artifact.
+WordPress.org redirects this URL to the currently published stable package, so
+the preview follows the directory's Stable Tag without requiring a Blueprint
+edit for every release. Do not use a branch archive, a GitHub redirect, or a
+development build: the preview must install the public stable package.
 
 Validate the JSON locally before release:
 

@@ -55,40 +55,41 @@ class DirectoryAssetsValidationTest extends TestCase {
 	}
 
 	/**
-	 * Rejects a stale Blueprint ZIP version.
+	 * Rejects a version-pinned Blueprint ZIP URL.
 	 */
-	public function test_validator_rejects_a_stale_blueprint_zip_version() {
-		$this->replace_blueprint_version( '1.0.0' );
+	public function test_validator_rejects_a_version_pinned_blueprint_zip_url() {
+		$this->replace_blueprint_url( 'https://downloads.wordpress.org/plugin/aculect-icon-library.1.0.1.zip' );
 
 		$result = $this->run_validator();
 
 		$this->assertSame( 1, $result['status'] );
-		$this->assertStringContainsString( 'Preview Blueprint ZIP version must match the plugin header version.', $result['output'] );
+		$this->assertStringContainsString( 'Invalid WordPress.org preview Blueprint configuration.', $result['output'] );
 	}
 
 	/**
-	 * Rejects an unrelated Blueprint ZIP version.
+	 * Rejects an unrelated Blueprint ZIP URL.
 	 */
-	public function test_validator_rejects_an_unrelated_blueprint_zip_version() {
-		$this->replace_blueprint_version( '9.9.9' );
+	public function test_validator_rejects_an_unrelated_blueprint_zip_url() {
+		$this->replace_blueprint_url( 'https://example.com/aculect-icon-library.latest-stable.zip' );
 
 		$result = $this->run_validator();
 
 		$this->assertSame( 1, $result['status'] );
-		$this->assertStringContainsString( 'Preview Blueprint ZIP version must match the plugin header version.', $result['output'] );
+		$this->assertStringContainsString( 'Invalid WordPress.org preview Blueprint configuration.', $result['output'] );
 	}
 
 	/**
-	 * Replaces the ZIP version in the fixture.
+	 * Replaces the plugin ZIP URL in the fixture.
 	 *
-	 * @param string $version ZIP version.
+	 * @param string $url Plugin ZIP URL.
 	 */
-	private function replace_blueprint_version( $version ) {
+	private function replace_blueprint_url( $url ) {
 		$blueprint = $this->root . '/.wordpress-org/blueprints/blueprint.json';
-		$contents  = file_get_contents( $blueprint );
+		$contents  = json_decode( file_get_contents( $blueprint ), true );
 
-		$this->assertIsString( $contents );
-		file_put_contents( $blueprint, preg_replace( '#\.\d+\.\d+\.\d+\.zip#', '.' . $version . '.zip', $contents, 1 ) );
+		$this->assertIsArray( $contents );
+		$contents['steps'][1]['pluginData']['url'] = $url;
+		file_put_contents( $blueprint, wp_json_encode( $contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . "\n" );
 	}
 
 	/**

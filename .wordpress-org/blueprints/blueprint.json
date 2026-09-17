@@ -14,7 +14,7 @@
       "step": "installPlugin",
       "pluginData": {
         "resource": "url",
-        "url": "https://downloads.wordpress.org/plugin/aculect-icon-library.1.0.1.zip"
+        "url": "https://downloads.wordpress.org/plugin/aculect-icon-library.latest-stable.zip"
       },
       "options": {
         "activate": true
