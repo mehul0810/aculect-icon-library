@@ -306,6 +306,8 @@
 		navigateTo( url.toString(), true, focusSelector || '.icon-library-panel h2' );
 	}
 
+		// Treat navigation as a single-flight state machine: abort the previous request,
+		// ignore stale responses, replace only the plugin shell, and fall back to a full load.
 		function navigateTo( url, addToHistory, moveFocus ) {
 		var admin = document.querySelector( '.icon-library-admin' );
 			var focusSelector = moveFocus ? ( 'string' === typeof moveFocus ? moveFocus : '.icon-library-panel h2, .icon-library-empty-state p' ) : '';
@@ -373,6 +375,7 @@
 
 	function storePendingFocus( selector ) {
 		try {
+			// Persist across both partial navigation and the full-page fallback path.
 			window.sessionStorage.setItem( pendingFocusKey, selector );
 		} catch ( error ) {
 			// Focus restoration remains best-effort when storage is unavailable.

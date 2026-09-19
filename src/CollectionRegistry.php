@@ -881,7 +881,18 @@ class CollectionRegistry {
 		return is_string( $slug ) && 1 === preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug );
 	}
 
-	/** Acquires a short-lived lock for shared collection state updates. */
+	/**
+	 * Acquires a short-lived lock for shared collection state updates.
+	 *
+	 * Two overlapping admin/REST requests toggling collections or variants would
+	 * otherwise both read the same enabled-slugs list, mutate it independently, and
+	 * whichever update_option() call lands second would silently discard the other's
+	 * change. add_option() is used instead of get+update because it is the atomic
+	 * primitive available here: it fails if the lock option already exists, so two
+	 * concurrent callers cannot both believe they hold the lock. The TTL exists so a
+	 * lock from a request that crashed or timed out mid-update cannot block every
+	 * future toggle indefinitely.
+	 */
 	private function acquire_state_lock() {
 		$existing = get_option( self::OPTION_STATE_LOCK, false );
 		$started  = is_array( $existing ) && is_scalar( $existing['started'] ?? null ) ? absint( $existing['started'] ) : ( is_scalar( $existing ) ? absint( $existing ) : 0 );
@@ -904,7 +915,13 @@ class CollectionRegistry {
 		return true;
 	}
 
-	/** Releases the shared collection state lock. */
+	/**
+	 * Releases the shared collection state lock.
+	 *
+	 * Only deletes the lock if its token matches the one this instance acquired, so a
+	 * request cannot release a lock it doesn't hold (e.g. one a still-in-flight request
+	 * created after this instance's own lock already expired past the TTL above).
+	 */
 	private function release_state_lock() {
 		$lock = get_option( self::OPTION_STATE_LOCK, false );
 		if ( is_array( $lock ) && isset( $lock['token'] ) && is_string( $lock['token'] ) && '' !== $lock['token'] && '' !== $this->state_lock_token && hash_equals( $lock['token'], $this->state_lock_token ) ) {
