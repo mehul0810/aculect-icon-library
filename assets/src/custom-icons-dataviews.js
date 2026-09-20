@@ -128,6 +128,7 @@ function CustomIconsDataView() {
 		{
 			id: 'preview',
 			label: __( 'Preview', 'aculect-icon-library' ),
+			// The REST response contains only SVG markup accepted by the server-side SvgSanitizer.
 			render: ( { item } ) => <span className="icon-library-dataviews-preview" aria-hidden="true" dangerouslySetInnerHTML={ { __html: item.svg } } />,
 		},
 		{ id: 'label', label: __( 'Label', 'aculect-icon-library' ), enableGlobalSearch: true, enableSorting: true },

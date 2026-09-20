@@ -1,10 +1,10 @@
 === Aculect Icon Library ===
-Contributors: mehul0810
+Contributors: mehul0810, alkesh7
 Tags: icons, icon library, svg icons, icon block, custom icons
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,19 +13,21 @@ Easily add support for popular icon libraries and custom SVG icons to the native
 == Description ==
 
 Aculect Icon Library is a WordPress plugin that adds Heroicons, Bootstrap Icons,
-Font Awesome Free, and custom SVG icons to the native WordPress Icon block.
-Manage libraries from Appearance > Icons, enable the styles you need, and
-select icons in the WordPress block editor.
+Font Awesome Free, Tabler Icons, Radix Icons, and custom SVG icons to the native
+WordPress Icon block. Manage libraries from Appearance > Icons, enable the
+styles you need, and select icons in the WordPress block editor.
 
 Manage everything from Appearance > Icons. No icon libraries are installed by
 default: open Install Library to browse the included libraries and install
 the ones you want to use.
 
-= Heroicons, Bootstrap Icons, and Font Awesome Free =
+= Included icon libraries =
 
 * Heroicons: Outline and Solid.
 * Bootstrap Icons: Default and Filled.
 * Font Awesome Free: Solid, Regular, and Brands.
+* Tabler Icons: Filled.
+* Radix Icons: Default.
 
 Preview icons before installing a library. Search and filter by library,
 variant, and category where available, and load more results as you browse.
@@ -74,7 +76,10 @@ Requires WordPress 7.1 or later and PHP 7.4 or later.
 
 Heroicons includes Outline and Solid. Bootstrap Icons includes Default and
 Filled. Font Awesome Free includes Solid, Regular, and Brands; Pro-only styles
-are not included. No libraries are installed by default.
+are not included. Tabler Icons includes 1,012 Filled icons after excluding its
+Brand category and selected trademark or character references. Radix Icons
+includes its non-logo 15-pixel icon collection. No libraries are installed by
+default.
 
 = How do I add an icon to a WordPress post or page? =
 
@@ -145,7 +150,7 @@ icon widget.
 == Screenshots ==
 
 1. View installed icon libraries and their active variants from Appearance > Icons.
-2. Browse Heroicons, Bootstrap Icons, and Font Awesome Free in the Install Library tab.
+2. Browse available bundled libraries in the Install Library tab.
 3. Upload custom SVG icons, search uploaded icons, rename labels, and delete icons.
 
 == Source code ==
@@ -164,8 +169,25 @@ Bundled libraries remain under their upstream terms:
 * Heroicons: https://github.com/tailwindlabs/heroicons (MIT license).
 * Bootstrap Icons: https://github.com/twbs/icons (MIT license).
 * Font Awesome Free: https://fontawesome.com/license/free (Font Awesome Free license).
+* Tabler Icons: https://github.com/tabler/tabler-icons (MIT license).
+* Radix Icons: https://github.com/radix-ui/icons (MIT license).
 
 == Changelog ==
+
+= 1.1.0 =
+
+* Add 1,012 Tabler Filled icons from the pinned 3.47.0 release, excluding Brand-category and selected trademark or character assets.
+* Add 299 non-logo Radix Icons from the pinned 1.3.2 release with their native 15-pixel viewBox.
+* Preserve upstream categories, searchable metadata, licenses, and source revisions for both libraries.
+* Add deterministic importers and exclusion reports without weakening the WordPress Icon API SVG contract.
+
+= 1.0.1 =
+
+* Add a WordPress.org Playground preview Blueprint that installs the latest stable package and creates an Icon block demo.
+* Validate the preview package source and fail clearly when the demo page cannot be created.
+* Extend PHPCS coverage so `shell_exec()` usage must remain explicitly reviewed. Props Alkesh Miyani (`@alkesh7`).
+* Document the reasoning behind security, filesystem, permissions, and concurrency safeguards. Props Alkesh Miyani (`@alkesh7`).
+* Strengthen release-package validation and release documentation for the 1.0.1 candidate.
 
 = 1.0.0 =
 

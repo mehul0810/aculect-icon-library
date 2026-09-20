@@ -7,6 +7,23 @@ use PHPUnit\Framework\TestCase;
 require_once dirname( __DIR__ ) . '/scripts/lib/CollectionBuild.php';
 
 class CollectionBuildTest extends TestCase {
+	public function test_shutdown_cleanup_removes_an_unfinished_build_directory() {
+		$directory = sys_get_temp_dir() . '/icon-library-cleanup-' . getmypid();
+		$fixture   = sys_get_temp_dir() . '/icon-library-cleanup-fixture-' . getmypid() . '.php';
+		$library   = dirname( __DIR__ ) . '/scripts/lib/CollectionBuild.php';
+		$script    = '<?php require ' . var_export( $library, true ) . '; '
+			. '$directory = ' . var_export( $directory, true ) . '; mkdir( $directory ); file_put_contents( $directory . "/partial", "partial" ); '
+			. '$finalized = false; \\IconLibrary\\Build\\CollectionBuild::register_shutdown_cleanup( $finalized, $directory, static function ( $path ) { unlink( $path . "/partial" ); rmdir( $path ); } ); exit( 23 );';
+
+		file_put_contents( $fixture, $script );
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.system_calls_exec -- Runs an isolated CLI process to exercise shutdown cleanup.
+		exec( escapeshellarg( PHP_BINARY ) . ' ' . escapeshellarg( $fixture ), $output, $status );
+		unlink( $fixture );
+
+		$this->assertSame( 23, $status );
+		$this->assertDirectoryDoesNotExist( $directory );
+	}
+
 	public function test_normalizes_core_compatible_svg() {
 		$svg = '<svg viewBox="0 0 24 24"><path d="M0 0h24v24z"/></svg>';
 		$this->assertStringContainsString( '<path', CollectionBuild::normalize_svg( $svg ) );

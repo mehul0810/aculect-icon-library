@@ -1,4 +1,4 @@
-# Aculect Icon Library 1.0.0 Release Checklist
+# Aculect Icon Library Release Checklist
 
 ## Automated Gate
 
@@ -13,13 +13,19 @@
 ## WordPress.org Submission
 
 - Run the official WordPress.org Readme Validator against `readme.txt`.
-- Confirm the ZIP is below 10 MB, extracts to a single `icon-library/` directory,
-  and contains no tests, development dependencies, build output, or repository
-  metadata.
+- Confirm the ZIP is below 10 MB, extracts to a single `aculect-icon-library/`
+  directory, and contains no tests, development dependencies, root-level build
+  artifacts, or repository metadata. The runtime assets under `assets/build/`
+  must remain included.
 - Confirm all bundled third-party license files and source links are present.
-- Submit the production ZIP for review; do not automate an SVN upload from this
-  repository. After approval, publish the matching code and readme through the
-  WordPress.org-assigned SVN repository.
+- Confirm Tabler ships exactly 1,012 icons with 35 Brand-category and seven
+  selected trademark or character exclusions,
+  and Radix ships exactly 299 icons with 14 trademark and five compatibility
+  exclusions. Re-run both pinned importers and verify byte-identical output.
+- Before the first directory release, submit the production ZIP for WordPress.org
+  review and configure the approved SVN credentials in the protected `release`
+  environment. Stable tag workflows publish the verified ZIP and top-level
+  `.wordpress-org/` assets to the assigned SVN repository.
 
 ## Editor and Frontend
 
@@ -29,6 +35,11 @@
 - Search and filter the icon browser.
 - Open Font Awesome Free and verify the Solid, Regular, and Brands variants,
   the official category labels/counts, and category-plus-search filtering.
+- Install Tabler Icons and Radix Icons separately. Verify their categories,
+  search results, default-off state, disable/re-enable flow, and uninstall/reinstall
+  persistence before testing them together.
+- Select one unconverted and one converted-geometry Radix icon in the native
+  Icon block, then save, reload, and compare editor and frontend rendering.
 - Confirm collection-scoped Core icon requests remain responsive with all
   bundled libraries enabled; repeat a cold and warm request for a large style.
 - On WordPress 7.1+, list the registered `icon-library/*` Abilities and run the
@@ -41,8 +52,8 @@
 - Disable Heroicons and verify existing content still renders while new discovery is hidden.
 - Delete a disposable custom icon only after confirming the dependency warning.
 
-## Owner-Gated Release
+## Release Execution
 
-- Review and approve the final ZIP hash and Plugin Check output.
-- Merge the release branch only after all required checks pass.
-- Create the `1.0.0` tag and GitHub/WordPress.org release only with explicit owner approval.
+- Complete independent exact-head engineering review and separate package and behavior proof.
+- Merge the release branch only after all required checks pass and the approved mainline-first path is satisfied.
+- Create the matching version tag and GitHub/WordPress.org release only after the release packet is complete.
