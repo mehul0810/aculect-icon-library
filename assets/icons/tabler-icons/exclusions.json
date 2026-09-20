@@ -1,0 +1,222 @@
+{
+    "schemaVersion": 1,
+    "slug": "tabler-icons",
+    "version": "3.47.0",
+    "sourceRevision": "87e7c390fb4ec332ccad0bde25160b233241eb8f",
+    "sourceTagObject": "c940317930743839f3ba8dd02ebdbba930fb8be5",
+    "includedIconCount": 1019,
+    "excludedIconCount": 35,
+    "exclusionRule": "Exclude Filled icons whose slug starts with brand- and whose upstream category is Brand.",
+    "exclusions": [
+        {
+            "slug": "brand-angular",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-apple",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-bitbucket",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-discord",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-dribbble",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-facebook",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-github",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-google",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-instagram",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-kick",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-linkedin",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-messenger",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-open-source",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-opera",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-patreon",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-paypal",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-pinterest",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-signal",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-sketch",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-snapchat",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-spotify",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-steam",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-stripe",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-tabler",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-tiktok",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-tinder",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-tumblr",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-twitter",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-vercel",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-vimeo",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-weibo",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-whatsapp",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-windows",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-x",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "brand-youtube",
+            "variant": "filled",
+            "category": "Brand",
+            "reason": "Brand icon excluded from the non-brand 1.1.0 collection scope."
+        }
+    ]
+}

@@ -1,0 +1,188 @@
+{
+    "schemaVersion": 2,
+    "slug": "tabler-icons",
+    "name": "Tabler Icons",
+    "description": "The non-brand Filled icon collection from Tabler Icons.",
+    "version": "3.47.0",
+    "license": {
+        "name": "MIT",
+        "url": "https://github.com/tabler/tabler-icons/blob/main/LICENSE"
+    },
+    "source": {
+        "name": "tabler/tabler-icons",
+        "url": "https://github.com/tabler/tabler-icons",
+        "revision": "87e7c390fb4ec332ccad0bde25160b233241eb8f"
+    },
+    "variants": [
+        {
+            "slug": "filled",
+            "label": "Filled",
+            "coreCompatible": true,
+            "defaultEnabled": true,
+            "iconCount": 1019
+        }
+    ],
+    "categories": [
+        {
+            "slug": "animals",
+            "label": "Animals",
+            "iconCount": 4
+        },
+        {
+            "slug": "arrows",
+            "label": "Arrows",
+            "iconCount": 100
+        },
+        {
+            "slug": "badges",
+            "label": "Badges",
+            "iconCount": 15
+        },
+        {
+            "slug": "buildings",
+            "label": "Buildings",
+            "iconCount": 7
+        },
+        {
+            "slug": "charts",
+            "label": "Charts",
+            "iconCount": 14
+        },
+        {
+            "slug": "communication",
+            "label": "Communication",
+            "iconCount": 11
+        },
+        {
+            "slug": "computers",
+            "label": "Computers",
+            "iconCount": 4
+        },
+        {
+            "slug": "database",
+            "label": "Database",
+            "iconCount": 5
+        },
+        {
+            "slug": "design",
+            "label": "Design",
+            "iconCount": 102
+        },
+        {
+            "slug": "development",
+            "label": "Development",
+            "iconCount": 7
+        },
+        {
+            "slug": "devices",
+            "label": "Devices",
+            "iconCount": 45
+        },
+        {
+            "slug": "document",
+            "label": "Document",
+            "iconCount": 66
+        },
+        {
+            "slug": "e-commerce",
+            "label": "E-commerce",
+            "iconCount": 26
+        },
+        {
+            "slug": "food",
+            "label": "Food",
+            "iconCount": 28
+        },
+        {
+            "slug": "games",
+            "label": "Games",
+            "iconCount": 29
+        },
+        {
+            "slug": "health",
+            "label": "Health",
+            "iconCount": 16
+        },
+        {
+            "slug": "laundry",
+            "label": "Laundry",
+            "iconCount": 5
+        },
+        {
+            "slug": "letters",
+            "label": "Letters",
+            "iconCount": 104
+        },
+        {
+            "slug": "map",
+            "label": "Map",
+            "iconCount": 43
+        },
+        {
+            "slug": "math",
+            "label": "Math",
+            "iconCount": 2
+        },
+        {
+            "slug": "media",
+            "label": "Media",
+            "iconCount": 27
+        },
+        {
+            "slug": "mood",
+            "label": "Mood",
+            "iconCount": 10
+        },
+        {
+            "slug": "nature",
+            "label": "Nature",
+            "iconCount": 18
+        },
+        {
+            "slug": "numbers",
+            "label": "Numbers",
+            "iconCount": 40
+        },
+        {
+            "slug": "photography",
+            "label": "Photography",
+            "iconCount": 13
+        },
+        {
+            "slug": "shapes",
+            "label": "Shapes",
+            "iconCount": 49
+        },
+        {
+            "slug": "sport",
+            "label": "Sport",
+            "iconCount": 13
+        },
+        {
+            "slug": "symbols",
+            "label": "Symbols",
+            "iconCount": 8
+        },
+        {
+            "slug": "system",
+            "label": "System",
+            "iconCount": 132
+        },
+        {
+            "slug": "text",
+            "label": "Text",
+            "iconCount": 34
+        },
+        {
+            "slug": "vehicles",
+            "label": "Vehicles",
+            "iconCount": 31
+        },
+        {
+            "slug": "weather",
+            "label": "Weather",
+            "iconCount": 11
+        }
+    ],
+    "iconCount": 1019
+}
