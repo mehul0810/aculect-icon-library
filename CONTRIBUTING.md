@@ -37,7 +37,8 @@ request.
 
 ## Development Setup
 
-Requirements are WordPress 7.1+, PHP 7.4+, Composer, and Node.js 20+.
+Requirements are WordPress 7.1+, PHP 7.4+, Composer, Node.js 20.19+, and
+npm 10.2.3+.
 The PHPUnit bootstrap loads WordPress's real block parser. In a standalone
 clone outside `wp-content/plugins`, point `WP_CORE_DIR` to a WordPress 7.1+
 checkout whose root contains `wp-includes/blocks.php`.
