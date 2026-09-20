@@ -1,0 +1,78 @@
+{
+    "schemaVersion": 2,
+    "slug": "radix",
+    "name": "Radix Icons",
+    "description": "A non-logo collection of crisp 15-pixel icons from Radix Icons.",
+    "version": "1.3.2",
+    "license": {
+        "name": "MIT",
+        "url": "https://github.com/radix-ui/icons/blob/bde33b13aa5848555f5512ac12155930fb4beb7d/LICENSE"
+    },
+    "source": {
+        "name": "radix-ui/icons",
+        "url": "https://github.com/radix-ui/icons",
+        "revision": "bde33b13aa5848555f5512ac12155930fb4beb7d"
+    },
+    "variants": [
+        {
+            "slug": "default",
+            "label": "Default",
+            "coreCompatible": true,
+            "defaultEnabled": true,
+            "iconCount": 299
+        }
+    ],
+    "categories": [
+        {
+            "slug": "typography",
+            "label": "Typography",
+            "iconCount": 28
+        },
+        {
+            "slug": "music",
+            "label": "Music",
+            "iconCount": 12
+        },
+        {
+            "slug": "abstract",
+            "label": "Abstract",
+            "iconCount": 48
+        },
+        {
+            "slug": "arrows",
+            "label": "Arrows",
+            "iconCount": 34
+        },
+        {
+            "slug": "objects",
+            "label": "Objects",
+            "iconCount": 81
+        },
+        {
+            "slug": "design",
+            "label": "Design",
+            "iconCount": 35
+        },
+        {
+            "slug": "components",
+            "label": "Components",
+            "iconCount": 28
+        },
+        {
+            "slug": "borders-and-corners",
+            "label": "Borders and corners",
+            "iconCount": 16
+        },
+        {
+            "slug": "alignment",
+            "label": "Alignment",
+            "iconCount": 16
+        },
+        {
+            "slug": "general",
+            "label": "General",
+            "iconCount": 1
+        }
+    ],
+    "iconCount": 299
+}

@@ -1,0 +1,107 @@
+{
+    "schemaVersion": 1,
+    "slug": "radix",
+    "version": "1.3.2",
+    "sourceRevision": "bde33b13aa5848555f5512ac12155930fb4beb7d",
+    "sourceTagObject": "f3c1e3c9c219b0dad91cb3137f9bd1e68aafec03",
+    "includedIconCount": 299,
+    "excludedIconCount": 19,
+    "exclusionRule": "Exclude third-party logos and icons whose opacity semantics cannot be preserved by the WordPress 7.1 Icon API.",
+    "exclusions": [
+        {
+            "slug": "codesandbox-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "discord-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "figma-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "framer-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "github-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "iconjar-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "instagram-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "linkedin-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "modulz-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "notion-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "shadow-inner",
+            "type": "compatibility",
+            "reason": "Per-element opacity semantics are not preserved by the WordPress 7.1 Icon API."
+        },
+        {
+            "slug": "shadow-none",
+            "type": "compatibility",
+            "reason": "Per-element opacity semantics are not preserved by the WordPress 7.1 Icon API."
+        },
+        {
+            "slug": "shadow-outer",
+            "type": "compatibility",
+            "reason": "Per-element opacity semantics are not preserved by the WordPress 7.1 Icon API."
+        },
+        {
+            "slug": "shadow",
+            "type": "compatibility",
+            "reason": "Per-element opacity semantics are not preserved by the WordPress 7.1 Icon API."
+        },
+        {
+            "slug": "sketch-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "stitches-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "transparency-grid",
+            "type": "compatibility",
+            "reason": "Per-element opacity semantics are not preserved by the WordPress 7.1 Icon API."
+        },
+        {
+            "slug": "twitter-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        },
+        {
+            "slug": "vercel-logo",
+            "type": "trademark",
+            "reason": "Third-party logo excluded from the non-brand 1.1.0 collection scope."
+        }
+    ]
+}

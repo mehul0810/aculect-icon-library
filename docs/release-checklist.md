@@ -18,6 +18,9 @@
   artifacts, or repository metadata. The runtime assets under `assets/build/`
   must remain included.
 - Confirm all bundled third-party license files and source links are present.
+- Confirm Tabler ships exactly 1,019 icons with 35 recorded brand exclusions,
+  and Radix ships exactly 299 icons with 14 trademark and five compatibility
+  exclusions. Re-run both pinned importers and verify byte-identical output.
 - Before the first directory release, submit the production ZIP for WordPress.org
   review and configure the approved SVN credentials in the protected `release`
   environment. Stable tag workflows publish the verified ZIP and top-level
@@ -31,6 +34,11 @@
 - Search and filter the icon browser.
 - Open Font Awesome Free and verify the Solid, Regular, and Brands variants,
   the official category labels/counts, and category-plus-search filtering.
+- Install Tabler Icons and Radix Icons separately. Verify their categories,
+  search results, default-off state, disable/re-enable flow, and uninstall/reinstall
+  persistence before testing them together.
+- Select one unconverted and one converted-geometry Radix icon in the native
+  Icon block, then save, reload, and compare editor and frontend rendering.
 - Confirm collection-scoped Core icon requests remain responsive with all
   bundled libraries enabled; repeat a cold and warm request for a large style.
 - On WordPress 7.1+, list the registered `icon-library/*` Abilities and run the
