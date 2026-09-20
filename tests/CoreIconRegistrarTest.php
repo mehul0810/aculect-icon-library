@@ -27,6 +27,33 @@ class CoreIconRegistrarTest extends TestCase {
 		( new CoreIconRegistrar( $registry ) )->register_icons( 'test-solid' );
 	}
 
+	public function test_scoped_core_request_skips_unrelated_manifests() {
+		$GLOBALS['icon_library_test_registered'] = array( 'collections' => array(), 'icons' => array() );
+		$GLOBALS['icon_library_test_capabilities']['edit_posts'] = true;
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_enabled_collection_slugs', 'get_manifest', 'get_enabled_variants', 'get_svg_path' ) )->getMock();
+		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array( 'test', 'unrelated' ) );
+		$registry->expects( $this->once() )->method( 'get_manifest' )->with( 'test' )->willReturn(
+			array(
+				'name'  => 'Test',
+				'icons' => array(
+					array(
+						'coreIconName' => 'test/one',
+						'label'        => 'One',
+						'path'         => 'one.svg',
+					),
+				),
+			)
+		);
+		$registry->method( 'get_enabled_variants' )->with( 'test' )->willReturn( array() );
+		$registry->expects( $this->once() )->method( 'get_svg_path' )->with( 'test', 'one.svg' )->willReturn( __FILE__ );
+
+		$request = new WP_REST_Request( 'GET', '/wp/v2/icons', array( 'collection' => 'test' ) );
+		( new CoreIconRegistrar( $registry ) )->prepare_core_icon_request( null, null, $request );
+		unset( $GLOBALS['icon_library_test_capabilities']['edit_posts'] );
+
+		$this->assertArrayHasKey( 'test/one', $GLOBALS['icon_library_test_registered']['icons'] );
+	}
+
 	private function style_registrar( $enabled = true ) {
 		$GLOBALS['icon_library_test_registered'] = array(
 			'collections' => array(),
