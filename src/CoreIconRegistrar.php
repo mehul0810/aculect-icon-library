@@ -201,7 +201,8 @@ class CoreIconRegistrar {
 		if ( '/wp/v2/icon-collections' === $route ) {
 			$this->register_icons( '', true );
 		} elseif ( '/wp/v2/icons' === $route ) {
-			$this->register_icons();
+			$requested_collection = $request->get_param( 'collection' );
+			$this->register_icons( is_string( $requested_collection ) ? $requested_collection : '' );
 		} elseif ( 1 === preg_match( '#^/wp/v2/icons/([^/]+)$#', $route, $matches ) ) {
 			$this->register_icons( rawurldecode( $matches[1] ) );
 		} elseif ( 1 === preg_match( '#^/wp/v2/icons/([^/]+/[^/]+)$#', $route, $matches ) ) {
