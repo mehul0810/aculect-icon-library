@@ -231,8 +231,8 @@ library/variant/custom-icon option changes invalidate derived registry caches.
 See `docs/remediation-status.md` for the review fixes, measured scope, and
 remaining concurrency and browser-proof work.
 
-`composer package` creates `build/aculect-icon-library.1.0.0.zip` from an explicit
-production allowlist. SVG files referenced by validated library manifests
+`composer package` creates a versioned release ZIP in `build/`, using the plugin
+version in its filename, from an explicit production allowlist. SVG files referenced by validated library manifests
 remain available through the documented Heroicons legacy size aliases.
 The root `.distignore` mirrors the development paths excluded by compatible
 WordPress distribution tooling; the built-in packager keeps its stricter

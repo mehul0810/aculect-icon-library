@@ -25,4 +25,36 @@ if ( ! is_file( $icon ) || hash_file( 'sha256', $icon ) !== hash_file( 'sha256',
 	fwrite( STDERR, "Directory SVG must match the original Aculect mark.\n" );
 	exit( 1 );
 }
+
+$blueprint_file = $root . '/.wordpress-org/blueprints/blueprint.json';
+$blueprint_json = is_file( $blueprint_file ) ? file_get_contents( $blueprint_file ) : false;
+$blueprint      = is_string( $blueprint_json ) ? json_decode( $blueprint_json, true ) : null;
+if ( ! is_array( $blueprint ) || JSON_ERROR_NONE !== json_last_error() ) {
+	fwrite( STDERR, "Invalid WordPress.org preview Blueprint JSON.\n" );
+	exit( 1 );
+}
+
+$steps       = isset( $blueprint['steps'] ) && is_array( $blueprint['steps'] ) ? $blueprint['steps'] : array();
+$plugin_step = isset( $steps[1] ) && is_array( $steps[1] ) ? $steps[1] : array();
+$seed_step   = isset( $steps[2] ) && is_array( $steps[2] ) ? $steps[2] : array();
+if (
+	'https://playground.wordpress.net/blueprint-schema.json' !== ( $blueprint['$schema'] ?? '' ) ||
+	'8.3' !== ( $blueprint['preferredVersions']['php'] ?? '' ) ||
+	'7.1' !== ( $blueprint['preferredVersions']['wp'] ?? '' ) ||
+	'/wp-admin/themes.php?page=icon-library' !== ( $blueprint['landingPage'] ?? '' ) ||
+	'login' !== ( $steps[0]['step'] ?? '' ) ||
+	'installPlugin' !== ( $plugin_step['step'] ?? '' ) ||
+	true !== ( $plugin_step['options']['activate'] ?? null ) ||
+	'url' !== ( $plugin_step['pluginData']['resource'] ?? '' ) ||
+	'https://downloads.wordpress.org/plugin/aculect-icon-library.latest-stable.zip' !== ( $plugin_step['pluginData']['url'] ?? '' ) ||
+	'runPHP' !== ( $seed_step['step'] ?? '' ) ||
+	! is_string( $seed_step['code'] ?? null ) ||
+	false === strpos( $seed_step['code'], 'heroicons-solid/academic-cap-solid' ) ||
+	1 !== preg_match( '/wp_insert_post\s*\(.*?,\s*true\s*\)\s*;/s', $seed_step['code'] ) ||
+	false === strpos( $seed_step['code'], 'is_wp_error( $post_id ) || ! $post_id' )
+) {
+	fwrite( STDERR, "Invalid WordPress.org preview Blueprint configuration.\n" );
+	exit( 1 );
+}
+
 echo "WordPress.org directory assets valid.\n";
