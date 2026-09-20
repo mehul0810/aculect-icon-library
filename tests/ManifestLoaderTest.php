@@ -39,7 +39,7 @@ class ManifestLoaderTest extends TestCase {
 			$this->assertArrayHasKey( $slug, $collections );
 		}
 		$this->assertSame( 648, $registry->get_collection( 'heroicons' )['iconCount'] );
-		$this->assertSame( 1019, $registry->get_collection( 'tabler-icons' )['iconCount'] );
+		$this->assertSame( 1012, $registry->get_collection( 'tabler-icons' )['iconCount'] );
 	}
 
 	public function test_manifest_filter_bypasses_generated_metadata() {

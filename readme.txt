@@ -76,7 +76,8 @@ Requires WordPress 7.1 or later and PHP 7.4 or later.
 
 Heroicons includes Outline and Solid. Bootstrap Icons includes Default and
 Filled. Font Awesome Free includes Solid, Regular, and Brands; Pro-only styles
-are not included. Tabler Icons includes its non-brand Filled icons. Radix Icons
+are not included. Tabler Icons includes 1,012 Filled icons after excluding its
+Brand category and selected trademark or character references. Radix Icons
 includes its non-logo 15-pixel icon collection. No libraries are installed by
 default.
 
@@ -175,7 +176,7 @@ Bundled libraries remain under their upstream terms:
 
 = 1.1.0 =
 
-* Add 1,019 non-brand Tabler Filled icons from the pinned 3.47.0 release.
+* Add 1,012 Tabler Filled icons from the pinned 3.47.0 release, excluding Brand-category and selected trademark or character assets.
 * Add 299 non-logo Radix Icons from the pinned 1.3.2 release with their native 15-pixel viewBox.
 * Preserve upstream categories, searchable metadata, licenses, and source revisions for both libraries.
 * Add deterministic importers and exclusion reports without weakening the WordPress Icon API SVG contract.

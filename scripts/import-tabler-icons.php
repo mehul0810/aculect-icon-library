@@ -19,11 +19,22 @@ $source_dir = isset( $argv[1] ) ? rtrim( $argv[1], DIRECTORY_SEPARATOR ) : '';
 $plugin_dir = dirname( __DIR__ );
 $target_dir = $plugin_dir . '/assets/icons/tabler-icons';
 
-const TABLER_EXPECTED_SOURCE_COUNT = 1054;
-const TABLER_EXPECTED_BRAND_COUNT  = 35;
-const TABLER_EXPECTED_VERSION      = '3.47.0';
-const TABLER_EXPECTED_REVISION     = '87e7c390fb4ec332ccad0bde25160b233241eb8f';
-const TABLER_TAG_OBJECT            = 'c940317930743839f3ba8dd02ebdbba930fb8be5';
+const TABLER_EXPECTED_SOURCE_COUNT    = 1054;
+const TABLER_EXPECTED_BRAND_COUNT     = 35;
+const TABLER_EXPECTED_SENSITIVE_COUNT = 7;
+const TABLER_EXPECTED_VERSION         = '3.47.0';
+const TABLER_EXPECTED_REVISION        = '87e7c390fb4ec332ccad0bde25160b233241eb8f';
+const TABLER_TAG_OBJECT               = 'c940317930743839f3ba8dd02ebdbba930fb8be5';
+
+$sensitive_exclusions = array(
+	'michelin-star',
+	'mickey',
+	'pacman',
+	'xbox-a',
+	'xbox-b',
+	'xbox-x',
+	'xbox-y',
+);
 
 if ( ! is_dir( $source_dir ) ) {
 	fwrite( STDERR, "Provide the official Tabler Icons source checkout.\n" );
@@ -98,6 +109,9 @@ if ( ! mkdir( $build_dir . '/filled', 0755, true ) ) {
 	exit( 1 );
 }
 
+$build_finalized = false;
+CollectionBuild::register_shutdown_cleanup( $build_finalized, $build_dir, $reset_directory );
+
 if ( ! copy( $license_source, $build_dir . '/LICENSE' ) ) {
 	fwrite( STDERR, "Could not copy the Tabler Icons license.\n" );
 	exit( 1 );
@@ -168,7 +182,18 @@ foreach ( $source_files as $file ) {
 			'slug'     => $slug,
 			'variant'  => 'filled',
 			'category' => $metadata['category'],
-			'reason'   => 'Brand icon excluded from the non-brand 1.1.0 collection scope.',
+			'type'     => 'brand-category',
+			'reason'   => 'Icon in the upstream Brand category excluded from the 1.1.0 collection scope.',
+		);
+		continue;
+	}
+	if ( in_array( $slug, $sensitive_exclusions, true ) ) {
+		$exclusions[] = array(
+			'slug'     => $slug,
+			'variant'  => 'filled',
+			'category' => $metadata['category'],
+			'type'     => 'trademark-or-character',
+			'reason'   => 'Selected trademark or character reference excluded from the 1.1.0 collection scope.',
 		);
 		continue;
 	}
@@ -208,8 +233,10 @@ foreach ( $source_files as $file ) {
 	);
 }
 
-if ( TABLER_EXPECTED_BRAND_COUNT !== count( $exclusions ) ) {
-	fwrite( STDERR, sprintf( "Expected %d brand exclusions; found %d.\n", TABLER_EXPECTED_BRAND_COUNT, count( $exclusions ) ) );
+$brand_count     = count( array_filter( $exclusions, static fn( $item ) => 'brand-category' === $item['type'] ) );
+$sensitive_count = count( array_filter( $exclusions, static fn( $item ) => 'trademark-or-character' === $item['type'] ) );
+if ( TABLER_EXPECTED_BRAND_COUNT !== $brand_count || TABLER_EXPECTED_SENSITIVE_COUNT !== $sensitive_count ) {
+	fwrite( STDERR, "Tabler inclusion and exclusion counts do not match the approved scope.\n" );
 	exit( 1 );
 }
 
@@ -227,7 +254,7 @@ $manifest = array(
 	'schemaVersion' => CollectionBuild::SCHEMA_VERSION,
 	'slug'          => 'tabler-icons',
 	'name'          => 'Tabler Icons',
-	'description'   => 'The non-brand Filled icon collection from Tabler Icons.',
+	'description'   => 'The Filled collection from Tabler Icons, excluding Brand-category and selected trademark-sensitive assets.',
 	'version'       => $version,
 	'license'       => array(
 		'name' => 'MIT',
@@ -265,7 +292,7 @@ $exclusion_report = array(
 	'sourceTagObject'   => TABLER_TAG_OBJECT,
 	'includedIconCount' => count( $icons ),
 	'excludedIconCount' => count( $exclusions ),
-	'exclusionRule'     => 'Exclude Filled icons whose slug starts with brand- and whose upstream category is Brand.',
+	'exclusionRule'     => 'Exclude upstream Brand-category icons and a fixed list of selected trademark or character references.',
 	'exclusions'        => $exclusions,
 );
 
@@ -290,5 +317,6 @@ if ( ! rename( $build_dir, $target_dir ) ) {
 	fwrite( STDERR, "Could not finalize the generated Tabler Icons collection.\n" );
 	exit( 1 );
 }
+$build_finalized = true;
 
-printf( "Imported %d Tabler Filled icons and recorded %d brand exclusions.\n", count( $icons ), count( $exclusions ) );
+printf( "Imported %d Tabler Filled icons and recorded %d exclusions.\n", count( $icons ), count( $exclusions ) );

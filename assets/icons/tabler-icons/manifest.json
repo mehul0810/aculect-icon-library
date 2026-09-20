@@ -2,7 +2,7 @@
     "schemaVersion": 2,
     "slug": "tabler-icons",
     "name": "Tabler Icons",
-    "description": "The non-brand Filled icon collection from Tabler Icons.",
+    "description": "The Filled collection from Tabler Icons, excluding Brand-category and selected trademark-sensitive assets.",
     "version": "3.47.0",
     "license": {
         "name": "MIT",
@@ -19,7 +19,7 @@
             "label": "Filled",
             "coreCompatible": true,
             "defaultEnabled": true,
-            "iconCount": 1019
+            "iconCount": 1012
         }
     ],
     "categories": [
@@ -66,7 +66,7 @@
         {
             "slug": "design",
             "label": "Design",
-            "iconCount": 102
+            "iconCount": 101
         },
         {
             "slug": "development",
@@ -76,7 +76,7 @@
         {
             "slug": "devices",
             "label": "Devices",
-            "iconCount": 45
+            "iconCount": 41
         },
         {
             "slug": "document",
@@ -91,12 +91,12 @@
         {
             "slug": "food",
             "label": "Food",
-            "iconCount": 28
+            "iconCount": 27
         },
         {
             "slug": "games",
             "label": "Games",
-            "iconCount": 29
+            "iconCount": 28
         },
         {
             "slug": "health",
@@ -15830,49 +15830,6 @@
             "sha256": "73522fd96759830f1f45811426e3767426413b3433e5f2ba9dfc56f6c4028fab"
         },
         {
-            "id": "tabler-icons/filled/michelin-star",
-            "coreIconName": "tabler-icons/michelin-star-filled",
-            "label": "Michelin Star",
-            "variant": "filled",
-            "categories": [
-                "food"
-            ],
-            "keywords": [
-                "michelin",
-                "star",
-                "prestige",
-                "quality",
-                "excellence",
-                "dining",
-                "gourmet",
-                "restaurant",
-                "top",
-                "reputation",
-                "award",
-                "esteem"
-            ],
-            "path": "filled/michelin-star.svg",
-            "sha256": "3ee87d42d23cc4e71ac951c5ce0f77dd67ecb70b27cab309e303ca4ff5c25849"
-        },
-        {
-            "id": "tabler-icons/filled/mickey",
-            "coreIconName": "tabler-icons/mickey-filled",
-            "label": "Mickey",
-            "variant": "filled",
-            "categories": [
-                "design"
-            ],
-            "keywords": [
-                "mickey",
-                "fable",
-                "cartoon",
-                "mouse",
-                "kids"
-            ],
-            "path": "filled/mickey.svg",
-            "sha256": "f03c216c2c0a10dde4f56a5d12c1f5690340f21b3e01e1ad830d50a324f483e4"
-        },
-        {
             "id": "tabler-icons/filled/microphone",
             "coreIconName": "tabler-icons/microphone-filled",
             "label": "Microphone",
@@ -16479,29 +16436,6 @@
             ],
             "path": "filled/oval.svg",
             "sha256": "7439f20073ee370424cd5801a9c1667e2de1001ff211ecb73d4504608a67b74f"
-        },
-        {
-            "id": "tabler-icons/filled/pacman",
-            "coreIconName": "tabler-icons/pacman-filled",
-            "label": "Pacman",
-            "variant": "filled",
-            "categories": [
-                "games"
-            ],
-            "keywords": [
-                "pacman",
-                "game",
-                "play",
-                "online",
-                "maze",
-                "eat",
-                "dot",
-                "ghost",
-                "entertainment",
-                "playing"
-            ],
-            "path": "filled/pacman.svg",
-            "sha256": "423db57f88ec0f54db72bd629e25da760a894963db0c797f7da21f5c361eb7ce"
         },
         {
             "id": "tabler-icons/filled/paint",
@@ -23385,98 +23319,6 @@
             ],
             "path": "filled/x.svg",
             "sha256": "3116c32b55b9e71173d8ee3b150b7f18283788eb7ead3b85d994da94c82b358d"
-        },
-        {
-            "id": "tabler-icons/filled/xbox-a",
-            "coreIconName": "tabler-icons/xbox-a-filled",
-            "label": "Xbox A",
-            "variant": "filled",
-            "categories": [
-                "devices"
-            ],
-            "keywords": [
-                "xbox",
-                "a",
-                "controller",
-                "joystick",
-                "button",
-                "hardware",
-                "technology",
-                "electronic",
-                "gadget",
-                "equipment"
-            ],
-            "path": "filled/xbox-a.svg",
-            "sha256": "f442dcb1d0c8876fb89de2f1ba80f8287eb2cac6ae937db2cb3ac5da8629cc0a"
-        },
-        {
-            "id": "tabler-icons/filled/xbox-b",
-            "coreIconName": "tabler-icons/xbox-b-filled",
-            "label": "Xbox B",
-            "variant": "filled",
-            "categories": [
-                "devices"
-            ],
-            "keywords": [
-                "xbox",
-                "b",
-                "controller",
-                "joystick",
-                "button",
-                "hardware",
-                "technology",
-                "electronic",
-                "gadget",
-                "equipment"
-            ],
-            "path": "filled/xbox-b.svg",
-            "sha256": "5f4f49355c7bc65c420a27a8b3fa0389398f078dc2b35f43183bc137120b77d9"
-        },
-        {
-            "id": "tabler-icons/filled/xbox-x",
-            "coreIconName": "tabler-icons/xbox-x-filled",
-            "label": "Xbox X",
-            "variant": "filled",
-            "categories": [
-                "devices"
-            ],
-            "keywords": [
-                "xbox",
-                "x",
-                "controller",
-                "joystick",
-                "button",
-                "hardware",
-                "technology",
-                "electronic",
-                "gadget",
-                "equipment"
-            ],
-            "path": "filled/xbox-x.svg",
-            "sha256": "d3c96a098ea248d5ed9a7316429b7d156a8ad031b698a1e44fcd0a79f9b91f32"
-        },
-        {
-            "id": "tabler-icons/filled/xbox-y",
-            "coreIconName": "tabler-icons/xbox-y-filled",
-            "label": "Xbox Y",
-            "variant": "filled",
-            "categories": [
-                "devices"
-            ],
-            "keywords": [
-                "xbox",
-                "y",
-                "controller",
-                "joystick",
-                "button",
-                "hardware",
-                "technology",
-                "electronic",
-                "gadget",
-                "equipment"
-            ],
-            "path": "filled/xbox-y.svg",
-            "sha256": "6f202cda8fad8a1a3272c0ddf5eba9c4dcbc0bedfa953dbedffc58e0e931fa8e"
         },
         {
             "id": "tabler-icons/filled/yin-yang",

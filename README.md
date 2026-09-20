@@ -216,8 +216,9 @@ php scripts/build-catalog-metadata.php
 php scripts/validate-manifests.php
 ```
 
-The Tabler importer includes 1,019 non-brand Filled icons from version 3.47.0
-and records 35 brand exclusions. The Radix importer includes 299 non-logo icons
+The Tabler importer includes 1,012 Filled icons from version 3.47.0 and records
+35 upstream Brand-category exclusions plus seven selected trademark or character
+reference exclusions. The Radix importer includes 299 non-logo icons
 from version 1.3.2 and records 14 logo/trademark exclusions plus five icons whose
 opacity semantics are not preserved by the WordPress 7.1 Icon API. Both importers
 require a clean checkout at the pinned revision, preserve the upstream license,

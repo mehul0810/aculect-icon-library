@@ -18,7 +18,8 @@
   artifacts, or repository metadata. The runtime assets under `assets/build/`
   must remain included.
 - Confirm all bundled third-party license files and source links are present.
-- Confirm Tabler ships exactly 1,019 icons with 35 recorded brand exclusions,
+- Confirm Tabler ships exactly 1,012 icons with 35 Brand-category and seven
+  selected trademark or character exclusions,
   and Radix ships exactly 299 icons with 14 trademark and five compatibility
   exclusions. Re-run both pinned importers and verify byte-identical output.
 - Before the first directory release, submit the production ZIP for WordPress.org

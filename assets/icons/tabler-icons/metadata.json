@@ -2,7 +2,7 @@
     "schemaVersion": 2,
     "slug": "tabler-icons",
     "name": "Tabler Icons",
-    "description": "The non-brand Filled icon collection from Tabler Icons.",
+    "description": "The Filled collection from Tabler Icons, excluding Brand-category and selected trademark-sensitive assets.",
     "version": "3.47.0",
     "license": {
         "name": "MIT",
@@ -19,7 +19,7 @@
             "label": "Filled",
             "coreCompatible": true,
             "defaultEnabled": true,
-            "iconCount": 1019
+            "iconCount": 1012
         }
     ],
     "categories": [
@@ -66,7 +66,7 @@
         {
             "slug": "design",
             "label": "Design",
-            "iconCount": 102
+            "iconCount": 101
         },
         {
             "slug": "development",
@@ -76,7 +76,7 @@
         {
             "slug": "devices",
             "label": "Devices",
-            "iconCount": 45
+            "iconCount": 41
         },
         {
             "slug": "document",
@@ -91,12 +91,12 @@
         {
             "slug": "food",
             "label": "Food",
-            "iconCount": 28
+            "iconCount": 27
         },
         {
             "slug": "games",
             "label": "Games",
-            "iconCount": 29
+            "iconCount": 28
         },
         {
             "slug": "health",
@@ -184,5 +184,5 @@
             "iconCount": 11
         }
     ],
-    "iconCount": 1019
+    "iconCount": 1012
 }
