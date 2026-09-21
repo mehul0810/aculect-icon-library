@@ -3,6 +3,8 @@
 
 use IconLibrary\CollectionRegistry;
 use IconLibrary\CoreIconRegistrar;
+use IconLibrary\ManifestLoader;
+use IconLibrary\Plugin;
 use PHPUnit\Framework\TestCase;
 
 class CoreIconRegistrarTest extends TestCase {
@@ -190,6 +192,121 @@ class CoreIconRegistrarTest extends TestCase {
 
 		$this->assertArrayHasKey( 'test', $GLOBALS['icon_library_test_registered']['collections'] );
 		$this->assertArrayHasKey( 'test/one', $GLOBALS['icon_library_test_registered']['icons'] );
+	}
+
+	public function test_registers_default_only_collections_in_their_manifest_namespace() {
+		$GLOBALS['icon_library_test_registered'] = array(
+			'collections' => array(),
+			'icons'       => array(),
+		);
+		$registry                                = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_enabled_collection_slugs', 'get_enabled_variants', 'get_manifest', 'get_svg_path' ) )->getMock();
+		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array( 'radix' ) );
+		$registry->method( 'get_enabled_variants' )->with( 'radix' )->willReturn( array( 'default' ) );
+		$registry->method( 'get_manifest' )->with( 'radix' )->willReturn(
+			array(
+				'name'     => 'Radix Icons',
+				'variants' => array(
+					array(
+						'slug'  => 'default',
+						'label' => 'Default',
+					),
+				),
+				'icons'    => array(
+					array(
+						'coreIconName' => 'radix/accessibility-default',
+						'label'        => 'Accessibility',
+						'variant'      => 'default',
+						'path'         => 'default/accessibility.svg',
+					),
+				),
+			)
+		);
+		$registry->method( 'get_svg_path' )->willReturn( __FILE__ );
+
+		( new CoreIconRegistrar( $registry ) )->register_icons( 'radix' );
+
+		$this->assertSame( 'Radix Icons', $GLOBALS['icon_library_test_registered']['collections']['radix']['label'] );
+		$this->assertArrayNotHasKey( 'radix-default', $GLOBALS['icon_library_test_registered']['collections'] );
+		$this->assertArrayHasKey( 'radix/accessibility-default', $GLOBALS['icon_library_test_registered']['icons'] );
+	}
+
+	public function test_registers_all_enabled_radix_icons_in_the_manifest_collection() {
+		$GLOBALS['icon_library_test_registered'] = array(
+			'collections' => array(),
+			'icons'       => array(),
+		);
+		$GLOBALS['icon_library_test_options'][ Plugin::OPTION_ENABLED_COLLECTIONS ] = array( 'radix' );
+
+		$registry = new CollectionRegistry( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) );
+		( new CoreIconRegistrar( $registry ) )->register_icons( 'radix' );
+
+		$this->assertSame( 'Radix Icons', $GLOBALS['icon_library_test_registered']['collections']['radix']['label'] );
+		$this->assertArrayNotHasKey( 'radix-default', $GLOBALS['icon_library_test_registered']['collections'] );
+		$this->assertCount(
+			299,
+			array_filter(
+				array_keys( $GLOBALS['icon_library_test_registered']['icons'] ),
+				static function ( $name ) {
+					return 0 === strpos( $name, 'radix/' );
+				}
+			)
+		);
+
+		unset( $GLOBALS['icon_library_test_options'][ Plugin::OPTION_ENABLED_COLLECTIONS ] );
+	}
+
+	public function test_does_not_register_radix_until_the_collection_is_enabled() {
+		$GLOBALS['icon_library_test_registered'] = array(
+			'collections' => array(),
+			'icons'       => array(),
+		);
+		unset( $GLOBALS['icon_library_test_options'][ Plugin::OPTION_ENABLED_COLLECTIONS ] );
+
+		$registry = new CollectionRegistry( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) );
+		( new CoreIconRegistrar( $registry ) )->register_icons( 'radix' );
+
+		$this->assertArrayNotHasKey( 'radix', $GLOBALS['icon_library_test_registered']['collections'] );
+		$this->assertSame( array(), $GLOBALS['icon_library_test_registered']['icons'] );
+	}
+
+	public function test_preserves_the_former_default_style_namespace_for_saved_icons() {
+		$GLOBALS['icon_library_test_registered'] = array(
+			'collections' => array(),
+			'icons'       => array(),
+		);
+		$registry                                = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_manifest', 'get_svg_path' ) )->getMock();
+		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'radix' ) );
+		$registry->method( 'get_manifest' )->with( 'radix' )->willReturn(
+			array(
+				'name'     => 'Radix Icons',
+				'variants' => array(
+					array(
+						'slug'  => 'default',
+						'label' => 'Default',
+					),
+				),
+				'icons'    => array(
+					array(
+						'coreIconName' => 'radix/accessibility-default',
+						'label'        => 'Accessibility',
+						'variant'      => 'default',
+						'path'         => 'default/accessibility.svg',
+					),
+				),
+			)
+		);
+		$registry->method( 'get_svg_path' )->willReturn( __FILE__ );
+
+		$registrar = new CoreIconRegistrar( $registry );
+		$registrar->register_icon_block(
+			array(
+				'blockName' => 'core/icon',
+				'attrs'     => array( 'icon' => 'radix-default/accessibility-default' ),
+			)
+		);
+
+		$this->assertArrayHasKey( 'radix-default', $GLOBALS['icon_library_test_registered']['collections'] );
+		$this->assertArrayHasKey( 'radix-default/accessibility-default', $GLOBALS['icon_library_test_registered']['icons'] );
 	}
 
 	public function test_custom_icons_use_their_collection_label_without_a_variant_suffix() {
