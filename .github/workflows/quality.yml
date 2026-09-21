@@ -97,12 +97,14 @@ jobs:
           plugin_dir="$GITHUB_WORKSPACE/build/plugin-check/aculect-icon-library"
           plugin_slug="$(basename "$plugin_dir")"
           wp_env="$GITHUB_WORKSPACE/.github/plugin-check/node_modules/.bin/wp-env"
+          wp_version="7.1.1"
+          plugin_check_version="2.1.0"
 
           cat > .wp-env.json <<EOF
-          { "core": null, "port": 8880, "testsPort": 8881, "mappings": { "wp-content/plugins/$plugin_slug": "$plugin_dir" } }
+          { "core": "WordPress/WordPress#$wp_version", "port": 8880, "testsPort": 8881, "mappings": { "wp-content/plugins/$plugin_slug": "$plugin_dir" } }
           EOF
 
           "$wp_env" start --update
-          "$wp_env" run cli wp plugin install plugin-check --activate
+          "$wp_env" run cli wp plugin install plugin-check --version="$plugin_check_version" --activate
           "$wp_env" run cli wp plugin activate "$plugin_slug"
           "$wp_env" run cli wp plugin check "$plugin_slug" --format=json --exclude-files=.wp-env.json --require=./wp-content/plugins/plugin-check/cli.php
