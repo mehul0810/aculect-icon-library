@@ -16,6 +16,9 @@ test('stroke conversion preserves deterministic nonempty filled geometry', async
   }
   const filled = convert(open + '<circle cx="12" cy="12" r="2" fill="currentColor"/></svg>');
   assert.equal((filled.match(/<path /g) || []).length, 2);
+  assert.match(filled, /C/);
+  assert.doesNotMatch(filled, /Q/);
+  assert.match(filled, /M9 12C9 /);
 });
 
 test('unsupported presentation and hostile markup fail closed', async () => {

@@ -4,6 +4,15 @@ const fs = require('node:fs');
 const { DOMParser } = require('@xmldom/xmldom');
 const PathKitInit = require('pathkit-wasm');
 const svgpath = require('svgpath');
+const circleCubic = 0.5522847498307936;
+
+function circlePath(x, y, r, reverse = false) {
+  const k = r * circleCubic;
+  if (reverse) {
+    return `M${x-r} ${y}C${x-r} ${y+k} ${x-k} ${y+r} ${x} ${y+r}C${x+k} ${y+r} ${x+r} ${y+k} ${x+r} ${y}C${x+r} ${y-k} ${x+k} ${y-r} ${x} ${y-r}C${x-k} ${y-r} ${x-r} ${y-k} ${x-r} ${y}Z`;
+  }
+  return `M${x-r} ${y}C${x-r} ${y-k} ${x-k} ${y-r} ${x} ${y-r}C${x+k} ${y-r} ${x+r} ${y-k} ${x+r} ${y}C${x+r} ${y+k} ${x+k} ${y+r} ${x} ${y+r}C${x-k} ${y+r} ${x-r} ${y+k} ${x-r} ${y}Z`;
+}
 
 const attributes = {
   svg: ['xmlns', 'width', 'height', 'viewBox', 'fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin'],
@@ -38,6 +47,16 @@ async function createConverter() {
       if (el.nodeType === 3 && !el.textContent.trim()) continue;
       if (el.nodeType !== 1) throw new Error('Unsupported SVG child.');
       let d;
+      if (el.tagName === 'circle') {
+        const x = number(el, 'cx'), y = number(el, 'cy'), r = number(el, 'r');
+        if (r <= 0) throw new Error('Invalid circle radius.');
+        if (el.hasAttribute('fill')) {
+          if (el.getAttribute('fill') !== 'currentColor') throw new Error('Unsupported fill.');
+          paths.push(circlePath(x, y, r));
+        }
+        paths.push(circlePath(x, y, r + 1) + (r > 1 ? circlePath(x, y, r - 1, true) : ''));
+        continue;
+      }
       if (el.tagName === 'path') d = el.getAttribute('d');
       if (el.tagName === 'line') d = `M${number(el, 'x1')} ${number(el, 'y1')}L${number(el, 'x2')} ${number(el, 'y2')}`;
       if (el.tagName === 'polyline' || el.tagName === 'polygon') {
