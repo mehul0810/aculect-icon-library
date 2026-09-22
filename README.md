@@ -17,12 +17,18 @@ icon fonts.
 | Font Awesome Free | Solid, Regular, Brands |
 | Tabler Icons | Filled |
 | Radix Icons | Default |
+| Iconoir | Solid (210 compatible icons) |
 
 No libraries are installed by default. Preview and search the included libraries
 before installing them, filter by variant and category where available, and
 enable only the styles you need. Font Awesome Pro styles are not bundled.
 Included SVGs and custom uploads are stored locally; browsing and using them
 requires no external service connection.
+
+Iconoir includes a compatible filled-path Solid subset. Regular and mixed-stroke
+icons are explicitly deferred, not silently simplified. See
+[Iconoir compatibility scope](docs/iconoir-import.md) for source, license,
+reproduction and the complete exclusion report.
 
 ## Requirements And Quick Start
 
