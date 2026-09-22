@@ -1,0 +1,30 @@
+{
+    "schemaVersion": 1,
+    "slug": "hugeicons",
+    "version": "4.3.5",
+    "sourceRevision": "bf880d758a69ab69edb278f8b529579fac54e5df",
+    "sourcePackage": "@hugeicons/core-free-icons",
+    "sourceIntegrity": "sha512-Sv+NjHRPnQk+yZsGCMcGznCHdTfJR9PMMOEKcJYAQU4gy90dmlc9PwdtvYOImBZIjiheMsTLL5eMn2DmHxUiUg==",
+    "includedIconCount": 6064,
+    "excludedIconCount": 3,
+    "exclusions": [
+        {
+            "slug": "arrow-big-right-dash",
+            "variant": "stroke-rounded",
+            "sourceFile": "ArrowBigRightDashIcon.js",
+            "reason": "Per-element opacity is not preserved by Core."
+        },
+        {
+            "slug": "hamburger01",
+            "variant": "stroke-rounded",
+            "sourceFile": "Hamburger01Icon.js",
+            "reason": "Per-element opacity is not preserved by Core."
+        },
+        {
+            "slug": "right-to-left-list-bullet",
+            "variant": "stroke-rounded",
+            "sourceFile": "RightToLeftListBulletIcon.js",
+            "reason": "Per-element opacity is not preserved by Core."
+        }
+    ]
+}

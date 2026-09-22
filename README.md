@@ -17,12 +17,18 @@ icon fonts.
 | Font Awesome Free | Solid, Regular, Brands |
 | Tabler Icons | Filled |
 | Radix Icons | Default |
+| Hugeicons Free | Stroke Rounded |
 
 No libraries are installed by default. Preview and search the included libraries
 before installing them, filter by variant and category where available, and
 enable only the styles you need. Font Awesome Pro styles are not bundled.
 Included SVGs and custom uploads are stored locally; browsing and using them
 requires no external service connection.
+
+Hugeicons Free includes 6,064 Stroke Rounded icons from the MIT-licensed official
+free package. Three opacity-dependent icons are excluded. See
+[Hugeicons import](docs/hugeicons-import.md) for pinned provenance, conversion,
+license, reproduction and release-validation requirements.
 
 ## Requirements And Quick Start
 

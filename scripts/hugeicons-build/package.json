@@ -1,0 +1,10 @@
+{
+    "name": "aculect-hugeicons-build",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "acorn": "8.18.0",
+        "pathkit-wasm": "1.0.0",
+        "svgpath": "2.6.0"
+    }
+}
