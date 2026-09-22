@@ -44,7 +44,7 @@ comparison, real Core sanitization, picker save/reload, performance/payload
 measurements, and the combined ZIP size gate. Static checks alone do not prove
 rendering fidelity or release suitability.
 
-The current individual package build is 18,755,414 bytes (6,064 Hugeicons
+The current individual package build is 18,755,521 bytes (6,064 Hugeicons
 included), above the repository's 10 MiB WordPress.org submission gate. This
 integration is therefore not release-ready as packaged. Do not merge it into a
 release until the distribution-size strategy and the checks above are resolved.
