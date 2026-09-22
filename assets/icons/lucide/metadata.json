@@ -1,0 +1,238 @@
+{
+    "schemaVersion": 2,
+    "slug": "lucide",
+    "name": "Lucide",
+    "description": "Lucide outline icons converted to filled paths at build time.",
+    "version": "1.47.0",
+    "license": {
+        "name": "ISC AND MIT",
+        "url": "https://github.com/lucide-icons/lucide/blob/3b9ea6d08707edc439f25a4c354cb0d6b8bee973/LICENSE"
+    },
+    "source": {
+        "name": "lucide-icons/lucide",
+        "url": "https://github.com/lucide-icons/lucide",
+        "revision": "3b9ea6d08707edc439f25a4c354cb0d6b8bee973"
+    },
+    "variants": [
+        {
+            "slug": "outline",
+            "label": "Outline",
+            "coreCompatible": true,
+            "defaultEnabled": false,
+            "iconCount": 1848
+        }
+    ],
+    "categories": [
+        {
+            "slug": "accessibility",
+            "label": "Accessibility",
+            "iconCount": 34
+        },
+        {
+            "slug": "account",
+            "label": "Account",
+            "iconCount": 157
+        },
+        {
+            "slug": "animals",
+            "label": "Animals",
+            "iconCount": 26
+        },
+        {
+            "slug": "arrows",
+            "label": "Arrows",
+            "iconCount": 217
+        },
+        {
+            "slug": "buildings",
+            "label": "Buildings",
+            "iconCount": 30
+        },
+        {
+            "slug": "charts",
+            "label": "Charts",
+            "iconCount": 32
+        },
+        {
+            "slug": "communication",
+            "label": "Communication",
+            "iconCount": 66
+        },
+        {
+            "slug": "connectivity",
+            "label": "Connectivity",
+            "iconCount": 97
+        },
+        {
+            "slug": "cursors",
+            "label": "Cursors",
+            "iconCount": 34
+        },
+        {
+            "slug": "design",
+            "label": "Design",
+            "iconCount": 167
+        },
+        {
+            "slug": "development",
+            "label": "Development",
+            "iconCount": 266
+        },
+        {
+            "slug": "devices",
+            "label": "Devices",
+            "iconCount": 187
+        },
+        {
+            "slug": "emoji",
+            "label": "Emoji",
+            "iconCount": 45
+        },
+        {
+            "slug": "files",
+            "label": "Files",
+            "iconCount": 168
+        },
+        {
+            "slug": "finance",
+            "label": "Finance",
+            "iconCount": 64
+        },
+        {
+            "slug": "food-beverage",
+            "label": "Food Beverage",
+            "iconCount": 83
+        },
+        {
+            "slug": "gaming",
+            "label": "Gaming",
+            "iconCount": 163
+        },
+        {
+            "slug": "home",
+            "label": "Home",
+            "iconCount": 76
+        },
+        {
+            "slug": "layout",
+            "label": "Layout",
+            "iconCount": 157
+        },
+        {
+            "slug": "mail",
+            "label": "Mail",
+            "iconCount": 29
+        },
+        {
+            "slug": "math",
+            "label": "Math",
+            "iconCount": 81
+        },
+        {
+            "slug": "medical",
+            "label": "Medical",
+            "iconCount": 53
+        },
+        {
+            "slug": "multimedia",
+            "label": "Multimedia",
+            "iconCount": 158
+        },
+        {
+            "slug": "nature",
+            "label": "Nature",
+            "iconCount": 26
+        },
+        {
+            "slug": "navigation",
+            "label": "Navigation",
+            "iconCount": 97
+        },
+        {
+            "slug": "notifications",
+            "label": "Notifications",
+            "iconCount": 48
+        },
+        {
+            "slug": "people",
+            "label": "People",
+            "iconCount": 8
+        },
+        {
+            "slug": "photography",
+            "label": "Photography",
+            "iconCount": 78
+        },
+        {
+            "slug": "science",
+            "label": "Science",
+            "iconCount": 45
+        },
+        {
+            "slug": "seasons",
+            "label": "Seasons",
+            "iconCount": 6
+        },
+        {
+            "slug": "security",
+            "label": "Security",
+            "iconCount": 67
+        },
+        {
+            "slug": "shapes",
+            "label": "Shapes",
+            "iconCount": 67
+        },
+        {
+            "slug": "shopping",
+            "label": "Shopping",
+            "iconCount": 39
+        },
+        {
+            "slug": "social",
+            "label": "Social",
+            "iconCount": 142
+        },
+        {
+            "slug": "sports",
+            "label": "Sports",
+            "iconCount": 17
+        },
+        {
+            "slug": "sustainability",
+            "label": "Sustainability",
+            "iconCount": 25
+        },
+        {
+            "slug": "text",
+            "label": "Text",
+            "iconCount": 265
+        },
+        {
+            "slug": "time",
+            "label": "Time",
+            "iconCount": 68
+        },
+        {
+            "slug": "tools",
+            "label": "Tools",
+            "iconCount": 82
+        },
+        {
+            "slug": "transportation",
+            "label": "Transportation",
+            "iconCount": 70
+        },
+        {
+            "slug": "travel",
+            "label": "Travel",
+            "iconCount": 83
+        },
+        {
+            "slug": "weather",
+            "label": "Weather",
+            "iconCount": 51
+        }
+    ],
+    "iconCount": 1848
+}
