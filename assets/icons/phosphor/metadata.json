@@ -1,0 +1,29 @@
+{
+    "schemaVersion": 2,
+    "slug": "phosphor",
+    "name": "Phosphor Icons",
+    "description": "Phosphor Regular and Fill icons.",
+    "version": "2.0.7",
+    "license": {
+        "name": "MIT",
+        "url": "https://github.com/phosphor-icons/core/blob/d42782b2abe747d904b971ccab48b182a1455f86/LICENSE"
+    },
+    "source": {
+        "name": "phosphor-icons/core",
+        "url": "https://github.com/phosphor-icons/core",
+        "revision": "d42782b2abe747d904b971ccab48b182a1455f86"
+    },
+    "variants": [
+        {
+            "slug": "regular",
+            "label": "Regular",
+            "iconCount": 1248
+        },
+        {
+            "slug": "fill",
+            "label": "Fill",
+            "iconCount": 1239
+        }
+    ],
+    "iconCount": 2487
+}

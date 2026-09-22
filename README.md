@@ -1,5 +1,7 @@
 # Aculect Icon Library
 
+Upcoming 1.2.0: optional [Phosphor Regular and Fill](docs/phosphor.md), disabled by default.
+
 Easily add support for popular icon libraries and custom SVG icons to the native WordPress Icon block
 
 Aculect Icon Library adds Heroicons, Bootstrap Icons, Font Awesome Free, Tabler
