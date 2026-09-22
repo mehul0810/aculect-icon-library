@@ -20,6 +20,33 @@ $library    = isset( $argv[1] ) ? $argv[1] : '';
 $source_dir = isset( $argv[2] ) ? rtrim( $argv[2], DIRECTORY_SEPARATOR ) : '';
 $plugin_dir = dirname( __DIR__ );
 $configs    = array(
+	'ionicons'        => array(
+		'name'         => 'Ionicons',
+		'description'  => 'Ionicons filled, sharp, outline and brand SVG assets compatible with Core.',
+		'variants'     => array(
+			'filled'  => array(
+				'label'  => 'Filled',
+				'source' => 'src/svg',
+			),
+			'sharp'   => array(
+				'label'  => 'Sharp',
+				'source' => 'src/svg',
+			),
+			'outline' => array(
+				'label'  => 'Outline',
+				'source' => 'src/svg',
+			),
+			'brands'  => array(
+				'label'  => 'Brands',
+				'source' => 'src/svg',
+			),
+		),
+		'license'      => 'MIT',
+		'license_url'  => 'https://github.com/ionic-team/ionicons/blob/a9d1b7e23d7b9dec29f2041897ab14b2cef55064/LICENSE',
+		'license_file' => 'LICENSE',
+		'source_name'  => 'ionic-team/ionicons',
+		'source_url'   => 'https://github.com/ionic-team/ionicons',
+	),
 	'bootstrap-icons' => array(
 		'name'         => 'Bootstrap Icons',
 		'description'  => 'Official open source SVG icons for Bootstrap.',
@@ -218,6 +245,11 @@ $package  = json_decode( (string) @file_get_contents( $source_dir . '/package.js
 $version  = is_array( $package ) && isset( $package['version'] ) ? $package['version'] : ltrim( basename( trim( shell_exec( 'git -C ' . escapeshellarg( $source_dir ) . ' describe --tags --exact-match 2>/dev/null' ) ) ), 'v' );
 $revision = trim( (string) shell_exec( 'git -C ' . escapeshellarg( $source_dir ) . ' rev-parse HEAD 2>/dev/null' ) );
 
+if ( 'ionicons' === $library && 'a9d1b7e23d7b9dec29f2041897ab14b2cef55064' !== $revision ) {
+	fwrite( STDERR, "Source checkout does not match the pinned Ionicons revision.\n" );
+	exit( 1 );
+}
+
 if ( '' === $version || 1 !== preg_match( '/^[a-f0-9]{40}$/', $revision ) ) {
 	fwrite( STDERR, "Source checkout is missing icons, version, or Git revision.\n" );
 	exit( 1 );
@@ -245,6 +277,18 @@ $icons             = array();
 $skipped           = array();
 $manifest_variants = array();
 $category_members  = array();
+$ionicons_keywords = array();
+if ( 'ionicons' === $library ) {
+	$data_path = CollectionBuild::get_contained_source_file( $source_dir, 'src/data.json' );
+	$data      = json_decode( file_get_contents( $data_path ), true );
+	if ( ! is_array( $data['icons'] ?? null ) ) {
+		fwrite( STDERR, "Ionicons search metadata is invalid.\n" );
+		exit( 1 );
+	}
+	foreach ( $data['icons'] as $icon_data ) {
+		$ionicons_keywords[ $icon_data['name'] ] = $icon_data['tags'];
+	}
+}
 
 foreach ( $config['variants'] as $variant_slug => $variant ) {
 	$source_icons = $source_dir . '/' . $variant['source'];
@@ -268,7 +312,13 @@ foreach ( $config['variants'] as $variant_slug => $variant ) {
 			fwrite( STDERR, "Source collection contains an unreadable or symlinked SVG.\n" );
 			exit( 1 );
 		}
-		$slug      = basename( $file, '.svg' );
+		$slug = basename( $file, '.svg' );
+		if ( 'ionicons' === $library ) {
+			$style = 0 === strpos( $slug, 'logo-' ) ? 'brands' : ( '-outline' === substr( $slug, -8 ) ? 'outline' : ( '-sharp' === substr( $slug, -6 ) ? 'sharp' : 'filled' ) );
+			if ( $style !== $variant_slug ) {
+				continue;
+			}
+		}
 		$is_filled = '-fill' === substr( $slug, -5 );
 		if ( 'bootstrap-icons' === $library && ( ( 'filled' === $variant_slug ) !== $is_filled ) ) {
 			continue;
@@ -318,6 +368,7 @@ foreach ( $config['variants'] as $variant_slug => $variant ) {
 		}
 		$keywords = array_merge(
 			explode( '-', $slug ),
+			'ionicons' === $library ? ( $ionicons_keywords[ $slug ] ?? array() ) : array(),
 			$canonical_slug !== $slug ? explode( '-', $canonical_slug ) : array(),
 			'font-awesome' === $library ? (array) ( $metadata['search']['terms'] ?? array() ) : array()
 		);
@@ -403,6 +454,20 @@ if ( $errors ) {
 }
 
 $manifest_json = json_encode( $manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . "\n";
+if ( 'ionicons' === $library ) {
+	$report = array(
+		'trademarkNotice'   => 'All brand icons are trademarks of their respective owners. The use of these trademarks does not indicate endorsement of the trademark holder by Ionic, nor vice versa.',
+		'sourceRevision'    => $revision,
+		'sourceTag'         => 'v8.0.13',
+		'includedIconCount' => count( $icons ),
+		'excludedIconCount' => count( $skipped ),
+		'exclusions'        => $skipped,
+	);
+	if ( false === file_put_contents( $target_dir . '/exclusions.json', json_encode( $report, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . "\n" ) ) {
+		fwrite( STDERR, "Could not write collection exclusion report.\n" );
+		exit( 1 );
+	}
+}
 if ( false === file_put_contents( $target_dir . '/manifest.json', $manifest_json ) ) {
 	fwrite( STDERR, "Could not write collection manifest.\n" );
 	exit( 1 );
