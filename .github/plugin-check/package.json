@@ -1,0 +1,16 @@
+{
+  "name": "aculect-icon-library-plugin-check-runner",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Pinned runtime for the GitHub Actions Plugin Check job.",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "dependencies": {
+    "@wordpress/env": "11.15.0"
+  },
+  "overrides": {
+    "@wp-playground/cli": "3.1.54",
+    "qs": "6.16.0"
+  }
+}

@@ -33,9 +33,13 @@ class ManifestLoaderTest extends TestCase {
 	public function test_bundled_metadata_does_not_hydrate_icon_records() {
 		$loader = $this->getMockBuilder( ManifestLoader::class )->setConstructorArgs( array( ICON_LIBRARY_DIR . 'assets/icons' ) )->onlyMethods( array( 'get_manifest' ) )->getMock();
 		$loader->expects( $this->never() )->method( 'get_manifest' );
-		$registry = new IconLibrary\CollectionRegistry( $loader );
-		$this->assertCount( 3, $registry->get_collections() );
+		$registry    = new IconLibrary\CollectionRegistry( $loader );
+		$collections = $registry->get_collections();
+		foreach ( array( 'bootstrap-icons', 'font-awesome', 'heroicons', 'tabler-icons' ) as $slug ) {
+			$this->assertArrayHasKey( $slug, $collections );
+		}
 		$this->assertSame( 648, $registry->get_collection( 'heroicons' )['iconCount'] );
+		$this->assertSame( 1012, $registry->get_collection( 'tabler-icons' )['iconCount'] );
 	}
 
 	public function test_manifest_filter_bypasses_generated_metadata() {

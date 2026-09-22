@@ -11,6 +11,21 @@ permissions:
   contents: read
 
 jobs:
+  javascript:
+    name: JavaScript build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20.19.0'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run test:js
+      - run: npm run build
+      - name: Verify committed build assets
+        run: git diff --exit-code -- assets/build
+
   php:
     name: PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
@@ -39,7 +54,6 @@ jobs:
           tar -xzf /tmp/wordpress.tar.gz -C /tmp
           echo "WP_CORE_DIR=/tmp/wordpress" >> "$GITHUB_ENV"
       - run: composer check
-      - run: node --test tests/*.test.js
       - if: matrix.php == '8.4'
         run: composer package
       - if: matrix.php == '8.4'
@@ -68,6 +82,29 @@ jobs:
           echo "value=$version" >> "$GITHUB_OUTPUT"
       - run: composer package
       - run: mkdir -p build/plugin-check && unzip -q build/aculect-icon-library.${{ steps.version.outputs.value }}.zip -d build/plugin-check
-      - uses: wordpress/plugin-check-action@10857da14b6c2246d15402b3e69f777edcf8c12e # v1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          build-dir: build/plugin-check/aculect-icon-library
+          node-version: '20.19.0'
+          cache: npm
+          cache-dependency-path: .github/plugin-check/package-lock.json
+      # The official action installs an unpinned wp-env globally. Keep the same
+      # packaged-plugin scan, but use the committed runner to make CI reproducible.
+      - run: npm ci --prefix .github/plugin-check --ignore-scripts
+      - name: Run Plugin Check against the production ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          plugin_dir="$GITHUB_WORKSPACE/build/plugin-check/aculect-icon-library"
+          plugin_slug="$(basename "$plugin_dir")"
+          wp_env="$GITHUB_WORKSPACE/.github/plugin-check/node_modules/.bin/wp-env"
+          wp_version="7.1.1"
+          plugin_check_version="2.1.0"
+
+          cat > .wp-env.json <<EOF
+          { "core": "WordPress/WordPress#$wp_version", "port": 8880, "testsPort": 8881, "mappings": { "wp-content/plugins/$plugin_slug": "$plugin_dir" } }
+          EOF
+
+          "$wp_env" start --update
+          "$wp_env" run cli wp plugin install plugin-check --version="$plugin_check_version" --activate
+          "$wp_env" run cli wp plugin activate "$plugin_slug"
+          "$wp_env" run cli wp plugin check "$plugin_slug" --format=json --exclude-files=.wp-env.json --require=./wp-content/plugins/plugin-check/cli.php

@@ -2,10 +2,11 @@
 
 Easily add support for popular icon libraries and custom SVG icons to the native WordPress Icon block
 
-Aculect Icon Library adds Heroicons, Bootstrap Icons, Font Awesome Free, and
-custom SVG icons to WordPress's existing `core/icon` block. Manage libraries
-from **Appearance > Icons**, enable the styles you need, and choose icons in
-the block editor. It does not add a competing block or use icon fonts.
+Aculect Icon Library adds Heroicons, Bootstrap Icons, Font Awesome Free, Tabler
+Icons, Radix Icons, and custom SVG icons to WordPress's existing `core/icon`
+block. Manage libraries from **Appearance > Icons**, enable the styles you need,
+and choose icons in the block editor. It does not add a competing block or use
+icon fonts.
 
 ## Supported Icon Libraries
 
@@ -14,6 +15,8 @@ the block editor. It does not add a competing block or use icon fonts.
 | Heroicons | Outline, Solid |
 | Bootstrap Icons | Default, Filled |
 | Font Awesome Free | Solid, Regular, Brands |
+| Tabler Icons | Filled |
+| Radix Icons | Default |
 
 No libraries are installed by default. Preview and search the included libraries
 before installing them, filter by variant and category where available, and
@@ -205,8 +208,21 @@ git clone --depth=1 https://github.com/tailwindlabs/heroicons.git /tmp/heroicons
 php scripts/import-heroicons.php /tmp/heroicons
 php scripts/import-path-library.php bootstrap-icons /path/to/bootstrap-icons
 php scripts/import-path-library.php font-awesome /path/to/font-awesome
+git clone --depth=1 --branch v3.47.0 https://github.com/tabler/tabler-icons.git /tmp/tabler-icons
+php scripts/import-tabler-icons.php /tmp/tabler-icons
+git clone --depth=1 --branch '@radix-ui/react-icons@1.3.2' https://github.com/radix-ui/icons.git /tmp/radix-icons
+php scripts/import-radix-icons.php /tmp/radix-icons
+php scripts/build-catalog-metadata.php
 php scripts/validate-manifests.php
 ```
+
+The Tabler importer includes 1,012 Filled icons from version 3.47.0 and records
+35 upstream Brand-category exclusions plus seven selected trademark or character
+reference exclusions. The Radix importer includes 299 non-logo icons
+from version 1.3.2 and records 14 logo/trademark exclusions plus five icons whose
+opacity semantics are not preserved by the WordPress 7.1 Icon API. Both importers
+require a clean checkout at the pinned revision, preserve the upstream license,
+and fail if the approved source or exclusion counts change.
 
 ## Development
 
@@ -286,10 +302,13 @@ WordPress's global SVG sanitizer.
 ## Documentation And Licenses
 
 - [WordPress.org readme and FAQ](readme.txt)
+- [Contributor and development workflow](CONTRIBUTING.md)
 - [Release downloads and notes](https://github.com/mehul0810/aculect-icon-library/releases)
 - [Bug reports](https://github.com/mehul0810/aculect-icon-library/issues)
 
 Aculect Icon Library is licensed under GPLv2 or later. Bundled icon libraries
 retain their upstream licenses: [Heroicons (MIT)](https://github.com/tailwindlabs/heroicons),
-[Bootstrap Icons (MIT)](https://github.com/twbs/icons), and
-[Font Awesome Free](https://fontawesome.com/license/free).
+[Bootstrap Icons (MIT)](https://github.com/twbs/icons),
+[Font Awesome Free](https://fontawesome.com/license/free),
+[Tabler Icons (MIT)](https://github.com/tabler/tabler-icons), and
+[Radix Icons (MIT)](https://github.com/radix-ui/icons).

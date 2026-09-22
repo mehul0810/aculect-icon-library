@@ -1,0 +1,4515 @@
+{
+    "schemaVersion": 2,
+    "slug": "radix",
+    "name": "Radix Icons",
+    "description": "A non-logo collection of crisp 15-pixel icons from Radix Icons.",
+    "version": "1.3.2",
+    "license": {
+        "name": "MIT",
+        "url": "https://github.com/radix-ui/icons/blob/bde33b13aa5848555f5512ac12155930fb4beb7d/LICENSE"
+    },
+    "source": {
+        "name": "radix-ui/icons",
+        "url": "https://github.com/radix-ui/icons",
+        "revision": "bde33b13aa5848555f5512ac12155930fb4beb7d"
+    },
+    "variants": [
+        {
+            "slug": "default",
+            "label": "Default",
+            "coreCompatible": true,
+            "defaultEnabled": true,
+            "iconCount": 299
+        }
+    ],
+    "categories": [
+        {
+            "slug": "typography",
+            "label": "Typography",
+            "iconCount": 28
+        },
+        {
+            "slug": "music",
+            "label": "Music",
+            "iconCount": 12
+        },
+        {
+            "slug": "abstract",
+            "label": "Abstract",
+            "iconCount": 48
+        },
+        {
+            "slug": "arrows",
+            "label": "Arrows",
+            "iconCount": 34
+        },
+        {
+            "slug": "objects",
+            "label": "Objects",
+            "iconCount": 81
+        },
+        {
+            "slug": "design",
+            "label": "Design",
+            "iconCount": 35
+        },
+        {
+            "slug": "components",
+            "label": "Components",
+            "iconCount": 28
+        },
+        {
+            "slug": "borders-and-corners",
+            "label": "Borders and corners",
+            "iconCount": 16
+        },
+        {
+            "slug": "alignment",
+            "label": "Alignment",
+            "iconCount": 16
+        },
+        {
+            "slug": "general",
+            "label": "General",
+            "iconCount": 1
+        }
+    ],
+    "icons": [
+        {
+            "id": "radix/default/accessibility",
+            "coreIconName": "radix/accessibility-default",
+            "label": "Accessibility",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "accessibility"
+            ],
+            "path": "default/accessibility.svg",
+            "sha256": "32004d01fd85b31036f70d86ac3b28b11f068496ed87715080c2d58f5b686960"
+        },
+        {
+            "id": "radix/default/activity-log",
+            "coreIconName": "radix/activity-log-default",
+            "label": "Activity Log",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "activity",
+                "log"
+            ],
+            "path": "default/activity-log.svg",
+            "sha256": "6bc1ea4c99121c1afc130a6bfa422eaf61f4f5fec3821eded6b0525af9e8399a"
+        },
+        {
+            "id": "radix/default/align-baseline",
+            "coreIconName": "radix/align-baseline-default",
+            "label": "Align Baseline",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "align",
+                "baseline"
+            ],
+            "path": "default/align-baseline.svg",
+            "sha256": "b57f14782209b632921a313cabf5189650f21405cc6ec17823f7507466c4d51e"
+        },
+        {
+            "id": "radix/default/align-bottom",
+            "coreIconName": "radix/align-bottom-default",
+            "label": "Align Bottom",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "align",
+                "bottom"
+            ],
+            "path": "default/align-bottom.svg",
+            "sha256": "6b17c3f6f66afc29a33c77e89f137112246941ec851fd430aa8206f5f34f5379"
+        },
+        {
+            "id": "radix/default/align-center-horizontally",
+            "coreIconName": "radix/align-center-horizontally-default",
+            "label": "Align Center Horizontally",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "align",
+                "center",
+                "horizontally"
+            ],
+            "path": "default/align-center-horizontally.svg",
+            "sha256": "7cc0e534606a20e9c18c150b7afc42c2f0dc57e2bd183cdebc1b54cc719cc1bb"
+        },
+        {
+            "id": "radix/default/align-center-vertically",
+            "coreIconName": "radix/align-center-vertically-default",
+            "label": "Align Center Vertically",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "align",
+                "center",
+                "vertically"
+            ],
+            "path": "default/align-center-vertically.svg",
+            "sha256": "3b4e30e6249eca2e43d3b86747f9cfc1e7d51a24e231669cfb85656f425b0ee3"
+        },
+        {
+            "id": "radix/default/align-left",
+            "coreIconName": "radix/align-left-default",
+            "label": "Align Left",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "align",
+                "left"
+            ],
+            "path": "default/align-left.svg",
+            "sha256": "f7fb59a85320be09400048af07703e6523d3e1baf7fff9a02bf742f98aca26c4"
+        },
+        {
+            "id": "radix/default/align-right",
+            "coreIconName": "radix/align-right-default",
+            "label": "Align Right",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "align",
+                "right"
+            ],
+            "path": "default/align-right.svg",
+            "sha256": "615ae81001c2308a9b2f3a0bad7c1d22817699a680de61c0bb7610783f2e49df"
+        },
+        {
+            "id": "radix/default/align-top",
+            "coreIconName": "radix/align-top-default",
+            "label": "Align Top",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "align",
+                "top"
+            ],
+            "path": "default/align-top.svg",
+            "sha256": "5c1baee52558ea07a225d500071f39ec099af413e9d5cc780ce4f60a5fb3e460"
+        },
+        {
+            "id": "radix/default/all-sides",
+            "coreIconName": "radix/all-sides-default",
+            "label": "All Sides",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "all",
+                "sides"
+            ],
+            "path": "default/all-sides.svg",
+            "sha256": "bcd8eca2c8b29c0b34c6ed65ab1248ec7e8663b3742c427ae4ec3d946b32c6d9"
+        },
+        {
+            "id": "radix/default/angle",
+            "coreIconName": "radix/angle-default",
+            "label": "Angle",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "angle"
+            ],
+            "path": "default/angle.svg",
+            "sha256": "bed9d46bee53beae2b9038d2c758361e8b9dec22075aa38c07b11090e085217c"
+        },
+        {
+            "id": "radix/default/archive",
+            "coreIconName": "radix/archive-default",
+            "label": "Archive",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "archive"
+            ],
+            "path": "default/archive.svg",
+            "sha256": "fcc7bfdebbb7e953dd4588d7728da66e037ef1c9c38bc29538ca0119df61fff1"
+        },
+        {
+            "id": "radix/default/arrow-bottom-left",
+            "coreIconName": "radix/arrow-bottom-left-default",
+            "label": "Arrow Bottom Left",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrow",
+                "bottom",
+                "left"
+            ],
+            "path": "default/arrow-bottom-left.svg",
+            "sha256": "4248688ee3ed7a10ffce99fe920da25f81f1de087404ab684994a39734248c0b"
+        },
+        {
+            "id": "radix/default/arrow-bottom-right",
+            "coreIconName": "radix/arrow-bottom-right-default",
+            "label": "Arrow Bottom Right",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrow",
+                "bottom",
+                "right"
+            ],
+            "path": "default/arrow-bottom-right.svg",
+            "sha256": "1ee7688f442326831fe19d85856d3eef51ba3ae22b2eea817d21ff3a401d60c2"
+        },
+        {
+            "id": "radix/default/arrow-down",
+            "coreIconName": "radix/arrow-down-default",
+            "label": "Arrow Down",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrow",
+                "down"
+            ],
+            "path": "default/arrow-down.svg",
+            "sha256": "1feb8aeacb43341c15aecfacf910685f2659f029925d147dfc867dc9f557c3c2"
+        },
+        {
+            "id": "radix/default/arrow-left",
+            "coreIconName": "radix/arrow-left-default",
+            "label": "Arrow Left",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrow",
+                "left"
+            ],
+            "path": "default/arrow-left.svg",
+            "sha256": "9a388134610ad74eed080fde8533b1f4ef5de917f5d0bf921db840a2a8c49dfb"
+        },
+        {
+            "id": "radix/default/arrow-right",
+            "coreIconName": "radix/arrow-right-default",
+            "label": "Arrow Right",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrow",
+                "right"
+            ],
+            "path": "default/arrow-right.svg",
+            "sha256": "21e6dea0c26815da12c28a34aec1262334a1e50ccc55d127071b7af23f1bbf73"
+        },
+        {
+            "id": "radix/default/arrow-top-left",
+            "coreIconName": "radix/arrow-top-left-default",
+            "label": "Arrow Top Left",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrow",
+                "top",
+                "left"
+            ],
+            "path": "default/arrow-top-left.svg",
+            "sha256": "3cb85c36abc5d3719d9a8a9aa2948f3234d1edbec9a4aeee88b46cf560597cca"
+        },
+        {
+            "id": "radix/default/arrow-top-right",
+            "coreIconName": "radix/arrow-top-right-default",
+            "label": "Arrow Top Right",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrow",
+                "top",
+                "right"
+            ],
+            "path": "default/arrow-top-right.svg",
+            "sha256": "e9f3ae3b797d1cf7d818dabe4b03141a3569c619ec0f3686de56b8abcd8a2b0b"
+        },
+        {
+            "id": "radix/default/arrow-up",
+            "coreIconName": "radix/arrow-up-default",
+            "label": "Arrow Up",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrow",
+                "up"
+            ],
+            "path": "default/arrow-up.svg",
+            "sha256": "46c6e47673e6066bf95e864f3b928596eaded5bfaaaf7ad8cd27034108f8a4ea"
+        },
+        {
+            "id": "radix/default/aspect-ratio",
+            "coreIconName": "radix/aspect-ratio-default",
+            "label": "Aspect Ratio",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "aspect",
+                "ratio"
+            ],
+            "path": "default/aspect-ratio.svg",
+            "sha256": "07a7075540eff89108f83a632d800e3a56fb7d0229f6ffcc6be06e3c492c43e8"
+        },
+        {
+            "id": "radix/default/avatar",
+            "coreIconName": "radix/avatar-default",
+            "label": "Avatar",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "avatar"
+            ],
+            "path": "default/avatar.svg",
+            "sha256": "21ea5a8c29a6e99230a95c48b9bce9782b719ee2afec1c6131371664a8301784"
+        },
+        {
+            "id": "radix/default/backpack",
+            "coreIconName": "radix/backpack-default",
+            "label": "Backpack",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "backpack"
+            ],
+            "path": "default/backpack.svg",
+            "sha256": "ed0d8ceb17d069ad6b707e8f6ab1834555672c1161f8de5287c0c9ac88742cff"
+        },
+        {
+            "id": "radix/default/badge",
+            "coreIconName": "radix/badge-default",
+            "label": "Badge",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "badge"
+            ],
+            "path": "default/badge.svg",
+            "sha256": "942491a37f59c520be9d47deba0b8dbc2d149d8f4f97c0b9ebd753cb29338f63"
+        },
+        {
+            "id": "radix/default/bar-chart",
+            "coreIconName": "radix/bar-chart-default",
+            "label": "Bar Chart",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "bar",
+                "chart"
+            ],
+            "path": "default/bar-chart.svg",
+            "sha256": "9914fe8d013225532e5a77c0fe061c09c4bec4bf52c127aead851ce91cd638f7"
+        },
+        {
+            "id": "radix/default/bell",
+            "coreIconName": "radix/bell-default",
+            "label": "Bell",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "bell"
+            ],
+            "path": "default/bell.svg",
+            "sha256": "d88915f7e1bf83944c1f315f04ba34dbbd53e285523ed6d4e3cebcc900e8ffdb"
+        },
+        {
+            "id": "radix/default/blending-mode",
+            "coreIconName": "radix/blending-mode-default",
+            "label": "Blending Mode",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "blending",
+                "mode"
+            ],
+            "path": "default/blending-mode.svg",
+            "sha256": "e7a0bad2b7608209ee56bb41d7360265ee9188d81d25a86a9da0066d675f9b67"
+        },
+        {
+            "id": "radix/default/bookmark-filled",
+            "coreIconName": "radix/bookmark-filled-default",
+            "label": "Bookmark Filled",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "bookmark",
+                "filled"
+            ],
+            "path": "default/bookmark-filled.svg",
+            "sha256": "69f09d113de08367be2f46f4f7c6c939a9fc6ecfcfe2632132d2f0934a7a07ad"
+        },
+        {
+            "id": "radix/default/bookmark",
+            "coreIconName": "radix/bookmark-default",
+            "label": "Bookmark",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "bookmark"
+            ],
+            "path": "default/bookmark.svg",
+            "sha256": "4301748d3d6d6a9d145208cf5e61e4e863e2b28ec439edd214f0003a005c3204"
+        },
+        {
+            "id": "radix/default/border-all",
+            "coreIconName": "radix/border-all-default",
+            "label": "Border All",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "border",
+                "all"
+            ],
+            "path": "default/border-all.svg",
+            "sha256": "b3593e8baff8fca041ab31c5c4a83e70482789dec82aaa2ede3fbac798103e88"
+        },
+        {
+            "id": "radix/default/border-bottom",
+            "coreIconName": "radix/border-bottom-default",
+            "label": "Border Bottom",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "border",
+                "bottom"
+            ],
+            "path": "default/border-bottom.svg",
+            "sha256": "3a08360ac7e7373f8a87f8c919d5eba201bfc24ab4af1cc4ffa40aa955839e27"
+        },
+        {
+            "id": "radix/default/border-dashed",
+            "coreIconName": "radix/border-dashed-default",
+            "label": "Border Dashed",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "border",
+                "dashed"
+            ],
+            "path": "default/border-dashed.svg",
+            "sha256": "7b1380ae8cc0d99b193caabce8bdea377030de2eb8a1e6ab41800f53dea9fc31"
+        },
+        {
+            "id": "radix/default/border-dotted",
+            "coreIconName": "radix/border-dotted-default",
+            "label": "Border Dotted",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "border",
+                "dotted"
+            ],
+            "path": "default/border-dotted.svg",
+            "sha256": "ea79b4dbf53806e779e9e9a2fcea61fd23734947c9fc33d6380257b34a5a7525"
+        },
+        {
+            "id": "radix/default/border-left",
+            "coreIconName": "radix/border-left-default",
+            "label": "Border Left",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "border",
+                "left"
+            ],
+            "path": "default/border-left.svg",
+            "sha256": "16d35ba1db8fee47e16cd9273845d7a00b1252f7af8912fb8ff2a4869215f428"
+        },
+        {
+            "id": "radix/default/border-none",
+            "coreIconName": "radix/border-none-default",
+            "label": "Border None",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "border",
+                "none"
+            ],
+            "path": "default/border-none.svg",
+            "sha256": "abb1bdee2ebf7d123c690063d014c07bcd295ebd3cee4708bc51b9e64236d183"
+        },
+        {
+            "id": "radix/default/border-right",
+            "coreIconName": "radix/border-right-default",
+            "label": "Border Right",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "border",
+                "right"
+            ],
+            "path": "default/border-right.svg",
+            "sha256": "228886cbf01ace88a9a8c25aee9a38c21b540fc3d22cc8e826ea5add98f95d5d"
+        },
+        {
+            "id": "radix/default/border-solid",
+            "coreIconName": "radix/border-solid-default",
+            "label": "Border Solid",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "border",
+                "solid"
+            ],
+            "path": "default/border-solid.svg",
+            "sha256": "a91d774f67809dd695e97aeecb32e81a3752ae9bec28b185d25e1c29ee53175e"
+        },
+        {
+            "id": "radix/default/border-split",
+            "coreIconName": "radix/border-split-default",
+            "label": "Border Split",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "border",
+                "split"
+            ],
+            "path": "default/border-split.svg",
+            "sha256": "efc26b1cb29df15aace566b866a3033ff10aa996734b85d764514367677b0e82"
+        },
+        {
+            "id": "radix/default/border-style",
+            "coreIconName": "radix/border-style-default",
+            "label": "Border Style",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "border",
+                "style"
+            ],
+            "path": "default/border-style.svg",
+            "sha256": "eec2c59b025db0999518760bbf8f14275fa0f1452f4aa1d8860db498a3350493"
+        },
+        {
+            "id": "radix/default/border-top",
+            "coreIconName": "radix/border-top-default",
+            "label": "Border Top",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "border",
+                "top"
+            ],
+            "path": "default/border-top.svg",
+            "sha256": "f278e1c3c1ff81cb4ad6aa650a29e2945920b6232787b88eabda8eb2aff9326a"
+        },
+        {
+            "id": "radix/default/border-width",
+            "coreIconName": "radix/border-width-default",
+            "label": "Border Width",
+            "variant": "default",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "border",
+                "width"
+            ],
+            "path": "default/border-width.svg",
+            "sha256": "18d63ea8da6f01c53e4fe73161c14feb5c067d71ebe05237d5a4981260e3810e"
+        },
+        {
+            "id": "radix/default/box-model",
+            "coreIconName": "radix/box-model-default",
+            "label": "Box Model",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "box",
+                "model"
+            ],
+            "path": "default/box-model.svg",
+            "sha256": "8683e37e906cb01664090fc5cdde82b5a43d23472b2da4d6042846b8a55f9d6e"
+        },
+        {
+            "id": "radix/default/box",
+            "coreIconName": "radix/box-default",
+            "label": "Box",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "box"
+            ],
+            "path": "default/box.svg",
+            "sha256": "1f92c2377932b052bd87c573fefbf3dc3b083064167ef5b8fbc23e41390798c1"
+        },
+        {
+            "id": "radix/default/button",
+            "coreIconName": "radix/button-default",
+            "label": "Button",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "button"
+            ],
+            "path": "default/button.svg",
+            "sha256": "d1de7e6ac66fb82a1e5d5a8e11ad3bd3f49b25c4f5dbedd76d2b66a4e98cc464"
+        },
+        {
+            "id": "radix/default/calendar",
+            "coreIconName": "radix/calendar-default",
+            "label": "Calendar",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "calendar"
+            ],
+            "path": "default/calendar.svg",
+            "sha256": "1d3ec64faae387c4a16f3dd481982d699dc58421345fdde4268fc22d685c3963"
+        },
+        {
+            "id": "radix/default/camera",
+            "coreIconName": "radix/camera-default",
+            "label": "Camera",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "camera"
+            ],
+            "path": "default/camera.svg",
+            "sha256": "e3a7181bc81e88eb3c36b9ec51d0e3422ecaa20a4c3e3bb31ef806da95e63506"
+        },
+        {
+            "id": "radix/default/card-stack-minus",
+            "coreIconName": "radix/card-stack-minus-default",
+            "label": "Card Stack Minus",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "card",
+                "stack",
+                "minus"
+            ],
+            "path": "default/card-stack-minus.svg",
+            "sha256": "b8d9e051ed8e11afda3973ae01663b7023bbdec3883143aba04a2f68a041e5e3"
+        },
+        {
+            "id": "radix/default/card-stack-plus",
+            "coreIconName": "radix/card-stack-plus-default",
+            "label": "Card Stack Plus",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "card",
+                "stack",
+                "plus"
+            ],
+            "path": "default/card-stack-plus.svg",
+            "sha256": "94fd8fcd4a978a3b7116afd8af37f909113501e533c96ad7ec41efd1fb5e2438"
+        },
+        {
+            "id": "radix/default/card-stack",
+            "coreIconName": "radix/card-stack-default",
+            "label": "Card Stack",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "card",
+                "stack"
+            ],
+            "path": "default/card-stack.svg",
+            "sha256": "a74c96a43b819cde381b41fa39f5194aacae39dc6ecb673ee37857d27e8568ea"
+        },
+        {
+            "id": "radix/default/caret-down",
+            "coreIconName": "radix/caret-down-default",
+            "label": "Caret Down",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "caret",
+                "down"
+            ],
+            "path": "default/caret-down.svg",
+            "sha256": "e0bf295216597fe2968b13fa116a2f3ca487b450db4b8bec2ef864da04d7adf3"
+        },
+        {
+            "id": "radix/default/caret-left",
+            "coreIconName": "radix/caret-left-default",
+            "label": "Caret Left",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "caret",
+                "left"
+            ],
+            "path": "default/caret-left.svg",
+            "sha256": "a5cac5ded2abec28e80e89c3f83b320d3d8ecc19b9589c641c805cac3d2431e3"
+        },
+        {
+            "id": "radix/default/caret-right",
+            "coreIconName": "radix/caret-right-default",
+            "label": "Caret Right",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "caret",
+                "right"
+            ],
+            "path": "default/caret-right.svg",
+            "sha256": "bedcdd800987d7e197822f8ec34874e94b202030433ae7ce5499ec15b5cab68d"
+        },
+        {
+            "id": "radix/default/caret-sort",
+            "coreIconName": "radix/caret-sort-default",
+            "label": "Caret Sort",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "caret",
+                "sort"
+            ],
+            "path": "default/caret-sort.svg",
+            "sha256": "affea326553bade50c7c56a8b2d49553f1cf104fde61a0d69e204fd2f6eafc80"
+        },
+        {
+            "id": "radix/default/caret-up",
+            "coreIconName": "radix/caret-up-default",
+            "label": "Caret Up",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "caret",
+                "up"
+            ],
+            "path": "default/caret-up.svg",
+            "sha256": "0a939e8f364df4227ad101c3ac34667aadbc2985b149ce26e53e2940093009e6"
+        },
+        {
+            "id": "radix/default/chat-bubble",
+            "coreIconName": "radix/chat-bubble-default",
+            "label": "Chat Bubble",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "chat",
+                "bubble"
+            ],
+            "path": "default/chat-bubble.svg",
+            "sha256": "5765c5244a6af840c5f1a04053110173cc7b85390cc2ac42bfe3718d3753a1d6"
+        },
+        {
+            "id": "radix/default/check-circled",
+            "coreIconName": "radix/check-circled-default",
+            "label": "Check Circled",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "check",
+                "circled"
+            ],
+            "path": "default/check-circled.svg",
+            "sha256": "a5966c243e551aa2ff93e9691a49b71737672975b019b0e8d4cf71232b01830e"
+        },
+        {
+            "id": "radix/default/check",
+            "coreIconName": "radix/check-default",
+            "label": "Check",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "check"
+            ],
+            "path": "default/check.svg",
+            "sha256": "3f1c7cc53448227c7f0ec0565cbf371b05136f6145a5d612bb9996e96cc25f41"
+        },
+        {
+            "id": "radix/default/checkbox",
+            "coreIconName": "radix/checkbox-default",
+            "label": "Checkbox",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "checkbox"
+            ],
+            "path": "default/checkbox.svg",
+            "sha256": "7e159cd2e1ad1c081222ba4a8f4bdab768caec30cdabc8cbb8b261b14c2ec692"
+        },
+        {
+            "id": "radix/default/chevron-down",
+            "coreIconName": "radix/chevron-down-default",
+            "label": "Chevron Down",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "chevron",
+                "down"
+            ],
+            "path": "default/chevron-down.svg",
+            "sha256": "9e829b6a16bf3eaa47ab6929b6ed6fc1221f7e9638f6d9f03a04448bf67c1710"
+        },
+        {
+            "id": "radix/default/chevron-left",
+            "coreIconName": "radix/chevron-left-default",
+            "label": "Chevron Left",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "chevron",
+                "left"
+            ],
+            "path": "default/chevron-left.svg",
+            "sha256": "ec00b4143cc9bf6ab41da18d6c6851726115dbde6ab03692969a216cd60a98c9"
+        },
+        {
+            "id": "radix/default/chevron-right",
+            "coreIconName": "radix/chevron-right-default",
+            "label": "Chevron Right",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "chevron",
+                "right"
+            ],
+            "path": "default/chevron-right.svg",
+            "sha256": "2cab4c6ace9609dc501289acf2b76cc0c65ab0e3ef9daba1635c2d0c9fda04bc"
+        },
+        {
+            "id": "radix/default/chevron-up",
+            "coreIconName": "radix/chevron-up-default",
+            "label": "Chevron Up",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "chevron",
+                "up"
+            ],
+            "path": "default/chevron-up.svg",
+            "sha256": "27596238efc6525033b22e629af9678198064778b56c2d4b1ae86134a79582fc"
+        },
+        {
+            "id": "radix/default/circle-backslash",
+            "coreIconName": "radix/circle-backslash-default",
+            "label": "Circle Backslash",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "circle",
+                "backslash"
+            ],
+            "path": "default/circle-backslash.svg",
+            "sha256": "6a02d9679f3ef4c52c97123fb17e9b38afa544b09f259da66e1f48de53b90aab"
+        },
+        {
+            "id": "radix/default/circle",
+            "coreIconName": "radix/circle-default",
+            "label": "Circle",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "circle"
+            ],
+            "path": "default/circle.svg",
+            "sha256": "c01b58fcea569bfca986e9124b07f8d2f0975ab8f91e9d9bf84e3dddf5d6e778"
+        },
+        {
+            "id": "radix/default/clipboard-copy",
+            "coreIconName": "radix/clipboard-copy-default",
+            "label": "Clipboard Copy",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "clipboard",
+                "copy"
+            ],
+            "path": "default/clipboard-copy.svg",
+            "sha256": "48bc0553aa9a940a0567a087745ed65675e4f20fdad82699e7ed6a97926e7b0b"
+        },
+        {
+            "id": "radix/default/clipboard",
+            "coreIconName": "radix/clipboard-default",
+            "label": "Clipboard",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "clipboard"
+            ],
+            "path": "default/clipboard.svg",
+            "sha256": "37157d59b5519eb3c20ac3bd23355e3b016a44e263fe2d456ea6e0e2ca4303e0"
+        },
+        {
+            "id": "radix/default/clock",
+            "coreIconName": "radix/clock-default",
+            "label": "Clock",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "clock"
+            ],
+            "path": "default/clock.svg",
+            "sha256": "8dbe96c382552d2cfc693f7ec97ce71a37e457d40c9e14edeefcd0bcc5a5ddf0"
+        },
+        {
+            "id": "radix/default/code",
+            "coreIconName": "radix/code-default",
+            "label": "Code",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "code"
+            ],
+            "path": "default/code.svg",
+            "sha256": "c3a1023abc66935d2d9a3cb6249ed50fb31a0099aa9e597023afed341dd15a11"
+        },
+        {
+            "id": "radix/default/color-wheel",
+            "coreIconName": "radix/color-wheel-default",
+            "label": "Color Wheel",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "color",
+                "wheel"
+            ],
+            "path": "default/color-wheel.svg",
+            "sha256": "5e34752c6748407422b51dac35c05cfd0f240049c3f42a1f94a8d83d5f748ce6"
+        },
+        {
+            "id": "radix/default/column-spacing",
+            "coreIconName": "radix/column-spacing-default",
+            "label": "Column Spacing",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "column",
+                "spacing"
+            ],
+            "path": "default/column-spacing.svg",
+            "sha256": "12da6592ac9c4e977740e3b87bfb7148c9ca47dd35f9116f5317cb5eb30cf2cd"
+        },
+        {
+            "id": "radix/default/columns",
+            "coreIconName": "radix/columns-default",
+            "label": "Columns",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "columns"
+            ],
+            "path": "default/columns.svg",
+            "sha256": "c6dac2cd6cad05e874eedf5ff73c77f114d6f96449e92eba5f7e0744d491c847"
+        },
+        {
+            "id": "radix/default/commit",
+            "coreIconName": "radix/commit-default",
+            "label": "Commit",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "commit"
+            ],
+            "path": "default/commit.svg",
+            "sha256": "0881e83c6c5262341a7b9f49579f58a51ba77a509e4aa93c58768af8b1b04c57"
+        },
+        {
+            "id": "radix/default/component-1",
+            "coreIconName": "radix/component-1-default",
+            "label": "Component 1",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "component",
+                "1"
+            ],
+            "path": "default/component-1.svg",
+            "sha256": "66b4f4b9e21accb0f3806324ba65b9c026392ce29dba4d530470174a0edba948"
+        },
+        {
+            "id": "radix/default/component-2",
+            "coreIconName": "radix/component-2-default",
+            "label": "Component 2",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "component",
+                "2"
+            ],
+            "path": "default/component-2.svg",
+            "sha256": "9c1c27c98398c7c45cb3b9b116ef4dfb1e7670f7cbe33b26d831bf8b3e7c5233"
+        },
+        {
+            "id": "radix/default/component-boolean",
+            "coreIconName": "radix/component-boolean-default",
+            "label": "Component Boolean",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "component",
+                "boolean"
+            ],
+            "path": "default/component-boolean.svg",
+            "sha256": "84ac0c68219d655e967a08328295ec2ccb7352fad21da707dfb7a7eccdb9bcd1"
+        },
+        {
+            "id": "radix/default/component-instance",
+            "coreIconName": "radix/component-instance-default",
+            "label": "Component Instance",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "component",
+                "instance"
+            ],
+            "path": "default/component-instance.svg",
+            "sha256": "fa713f3810c90ef91aeea62713606aa2eab590e93ad453800d658373870a1dad"
+        },
+        {
+            "id": "radix/default/component-none",
+            "coreIconName": "radix/component-none-default",
+            "label": "Component None",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "component",
+                "none"
+            ],
+            "path": "default/component-none.svg",
+            "sha256": "2cd3c8bc9e583584ac74fc3efee3dd6ce3f4ea6019d9f1f496fd23cbd7e91355"
+        },
+        {
+            "id": "radix/default/component-placeholder",
+            "coreIconName": "radix/component-placeholder-default",
+            "label": "Component Placeholder",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "component",
+                "placeholder"
+            ],
+            "path": "default/component-placeholder.svg",
+            "sha256": "376cda06335411b33cd1351796551fcd4ebcad5384c8d929793eb9ca0fafe059"
+        },
+        {
+            "id": "radix/default/container",
+            "coreIconName": "radix/container-default",
+            "label": "Container",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "container"
+            ],
+            "path": "default/container.svg",
+            "sha256": "758096db10bea4392630b7d54e957b2b24b2fc678a5e94d87dc2c444c4410b76"
+        },
+        {
+            "id": "radix/default/cookie",
+            "coreIconName": "radix/cookie-default",
+            "label": "Cookie",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "cookie"
+            ],
+            "path": "default/cookie.svg",
+            "sha256": "55f968a5262c3d686b007fdbc9095552eb74e8878ea18e015476c4505b343f04"
+        },
+        {
+            "id": "radix/default/copy",
+            "coreIconName": "radix/copy-default",
+            "label": "Copy",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "copy"
+            ],
+            "path": "default/copy.svg",
+            "sha256": "6ec52066dd728250fce1f0addc91253dc07ae1c0ba7074f6f83cb9d9cb68075b"
+        },
+        {
+            "id": "radix/default/corner-bottom-left",
+            "coreIconName": "radix/corner-bottom-left-default",
+            "label": "Corner Bottom Left",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "corner",
+                "bottom",
+                "left"
+            ],
+            "path": "default/corner-bottom-left.svg",
+            "sha256": "92eb0c22e788214913cbaec859ceac93be2c7f93ea3b629bdfe2ec8d9e5d7bdb"
+        },
+        {
+            "id": "radix/default/corner-bottom-right",
+            "coreIconName": "radix/corner-bottom-right-default",
+            "label": "Corner Bottom Right",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "corner",
+                "bottom",
+                "right"
+            ],
+            "path": "default/corner-bottom-right.svg",
+            "sha256": "23dc73212ec33d1a6270a8dcbeab328d4c79a7ef6c5f21b9f6555b3474764683"
+        },
+        {
+            "id": "radix/default/corner-top-left",
+            "coreIconName": "radix/corner-top-left-default",
+            "label": "Corner Top Left",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "corner",
+                "top",
+                "left"
+            ],
+            "path": "default/corner-top-left.svg",
+            "sha256": "b70c6907ba868884914ff2b09ed3c8123d774c6396e10031c93a6f1f11e200f5"
+        },
+        {
+            "id": "radix/default/corner-top-right",
+            "coreIconName": "radix/corner-top-right-default",
+            "label": "Corner Top Right",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "corner",
+                "top",
+                "right"
+            ],
+            "path": "default/corner-top-right.svg",
+            "sha256": "4275b169d9af8f66c1a38048565aedfb05d3798577fab6b91d925d99e2e3ec8b"
+        },
+        {
+            "id": "radix/default/corners",
+            "coreIconName": "radix/corners-default",
+            "label": "Corners",
+            "variant": "default",
+            "categories": [
+                "borders-and-corners"
+            ],
+            "keywords": [
+                "corners"
+            ],
+            "path": "default/corners.svg",
+            "sha256": "66634f946aac40f0000396b643d37ce13b3eb47ad2c36b9d755f1f3875664b29"
+        },
+        {
+            "id": "radix/default/countdown-timer",
+            "coreIconName": "radix/countdown-timer-default",
+            "label": "Countdown Timer",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "countdown",
+                "timer"
+            ],
+            "path": "default/countdown-timer.svg",
+            "sha256": "1fcb049288d9ba55d0df4e0564b98ed48e9cdb2d819a017144ed68766918e9ff"
+        },
+        {
+            "id": "radix/default/counter-clockwise-clock",
+            "coreIconName": "radix/counter-clockwise-clock-default",
+            "label": "Counter Clockwise Clock",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "counter",
+                "clockwise",
+                "clock"
+            ],
+            "path": "default/counter-clockwise-clock.svg",
+            "sha256": "9c583d4e3e0bb8a10113c2e4907460ae5c88ce5706c8706ddc4b76d6a0f8cb0c"
+        },
+        {
+            "id": "radix/default/crop",
+            "coreIconName": "radix/crop-default",
+            "label": "Crop",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "crop"
+            ],
+            "path": "default/crop.svg",
+            "sha256": "8a96682adfd88634a999bb6318ce97bb53b9577b3213f99f228d496b916bc69d"
+        },
+        {
+            "id": "radix/default/cross-1",
+            "coreIconName": "radix/cross-1-default",
+            "label": "Cross 1",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "cross",
+                "1"
+            ],
+            "path": "default/cross-1.svg",
+            "sha256": "831bed1cba1c70825e166d388433e0de7af61bddb1a9a3ca40a86801cadce4de"
+        },
+        {
+            "id": "radix/default/cross-2",
+            "coreIconName": "radix/cross-2-default",
+            "label": "Cross 2",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "cross",
+                "2"
+            ],
+            "path": "default/cross-2.svg",
+            "sha256": "b8b25c4ed350ae61ab60417de3068204280bcc3d7bcca8f04d993ccda9f71bfd"
+        },
+        {
+            "id": "radix/default/cross-circled",
+            "coreIconName": "radix/cross-circled-default",
+            "label": "Cross Circled",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "cross",
+                "circled"
+            ],
+            "path": "default/cross-circled.svg",
+            "sha256": "b561723192c5672ff4850b5e1f519e9b4967048b55032667c3d5b603f07225fa"
+        },
+        {
+            "id": "radix/default/crosshair-1",
+            "coreIconName": "radix/crosshair-1-default",
+            "label": "Crosshair 1",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "crosshair",
+                "1"
+            ],
+            "path": "default/crosshair-1.svg",
+            "sha256": "76b0a519ee8d9eee0a231e75f86e85cad053243d8d29dbb0e88ac2b70fffcb86"
+        },
+        {
+            "id": "radix/default/crosshair-2",
+            "coreIconName": "radix/crosshair-2-default",
+            "label": "Crosshair 2",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "crosshair",
+                "2"
+            ],
+            "path": "default/crosshair-2.svg",
+            "sha256": "09763ebc56b29f315b9e1cdde0c2af9e2d465bfafe06827172779a3798ef897f"
+        },
+        {
+            "id": "radix/default/crumpled-paper",
+            "coreIconName": "radix/crumpled-paper-default",
+            "label": "Crumpled Paper",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "crumpled",
+                "paper"
+            ],
+            "path": "default/crumpled-paper.svg",
+            "sha256": "4a29d1102bc9c5e047893a42e4dc3744c03198ab04b6e06a6d01762e7d6a4ac7"
+        },
+        {
+            "id": "radix/default/cube",
+            "coreIconName": "radix/cube-default",
+            "label": "Cube",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "cube"
+            ],
+            "path": "default/cube.svg",
+            "sha256": "e81b3cb73bea4e3780af6cbd36cd6b3277762a5ecd20f130d029f2e7c1720f58"
+        },
+        {
+            "id": "radix/default/cursor-arrow",
+            "coreIconName": "radix/cursor-arrow-default",
+            "label": "Cursor Arrow",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "cursor",
+                "arrow"
+            ],
+            "path": "default/cursor-arrow.svg",
+            "sha256": "e954c663679bc58adf33973711c212624ed58297f4beed8d58423cf11a8f9e7e"
+        },
+        {
+            "id": "radix/default/cursor-text",
+            "coreIconName": "radix/cursor-text-default",
+            "label": "Cursor Text",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "cursor",
+                "text"
+            ],
+            "path": "default/cursor-text.svg",
+            "sha256": "02878dcadfbcd16428bd71f050e70677a3929723d5b3ccdeba58e244513732c9"
+        },
+        {
+            "id": "radix/default/dash",
+            "coreIconName": "radix/dash-default",
+            "label": "Dash",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "dash"
+            ],
+            "path": "default/dash.svg",
+            "sha256": "bfe5f6a6c95189a8aee7031c417c5e7e742dd06ea7cec99f51050733a42ffa78"
+        },
+        {
+            "id": "radix/default/dashboard",
+            "coreIconName": "radix/dashboard-default",
+            "label": "Dashboard",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "dashboard"
+            ],
+            "path": "default/dashboard.svg",
+            "sha256": "d965d5cf4ba7ca5849221a14cb065e19076269738f909756a51e486a59018cbe"
+        },
+        {
+            "id": "radix/default/desktop",
+            "coreIconName": "radix/desktop-default",
+            "label": "Desktop",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "desktop"
+            ],
+            "path": "default/desktop.svg",
+            "sha256": "8b2aaf57aad39cf7fe1088c11eabe5c1c11dd98663bbee83dcefb276f7e7bd48"
+        },
+        {
+            "id": "radix/default/dimensions",
+            "coreIconName": "radix/dimensions-default",
+            "label": "Dimensions",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "dimensions"
+            ],
+            "path": "default/dimensions.svg",
+            "sha256": "2f32b6ded86460fb988a6494e2d982cae8b09bf492ee1b66d6b8731862b42d6a"
+        },
+        {
+            "id": "radix/default/disc",
+            "coreIconName": "radix/disc-default",
+            "label": "Disc",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "disc"
+            ],
+            "path": "default/disc.svg",
+            "sha256": "2332546a32e7c43b76e216673e81c8ead3118e8864c6f3172c12f843a34d1a02"
+        },
+        {
+            "id": "radix/default/divider-horizontal",
+            "coreIconName": "radix/divider-horizontal-default",
+            "label": "Divider Horizontal",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "divider",
+                "horizontal"
+            ],
+            "path": "default/divider-horizontal.svg",
+            "sha256": "a94d2e24da631a33b4ec178f3478864a351bd25f784cb14a100bac4d0db65bf9"
+        },
+        {
+            "id": "radix/default/divider-vertical",
+            "coreIconName": "radix/divider-vertical-default",
+            "label": "Divider Vertical",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "divider",
+                "vertical"
+            ],
+            "path": "default/divider-vertical.svg",
+            "sha256": "068b5e197465db971dfb67f086dfa70b898047fc1a4e94d125c64b2a3e658320"
+        },
+        {
+            "id": "radix/default/dot-filled",
+            "coreIconName": "radix/dot-filled-default",
+            "label": "Dot Filled",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "dot",
+                "filled"
+            ],
+            "path": "default/dot-filled.svg",
+            "sha256": "239f33396302291505a17074c9b7496ba38cccc12526d5336814e7d9539676d7"
+        },
+        {
+            "id": "radix/default/dot",
+            "coreIconName": "radix/dot-default",
+            "label": "Dot",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "dot"
+            ],
+            "path": "default/dot.svg",
+            "sha256": "eec1ba36e638bec27e25a95ece9129c74042466c24e9c881e811d64e03bbe724"
+        },
+        {
+            "id": "radix/default/dots-horizontal",
+            "coreIconName": "radix/dots-horizontal-default",
+            "label": "Dots Horizontal",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "dots",
+                "horizontal"
+            ],
+            "path": "default/dots-horizontal.svg",
+            "sha256": "9ed3ba8ea6651647dc8df8c33d680074097b0148bee21a5b83e44e77853e8190"
+        },
+        {
+            "id": "radix/default/dots-vertical",
+            "coreIconName": "radix/dots-vertical-default",
+            "label": "Dots Vertical",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "dots",
+                "vertical"
+            ],
+            "path": "default/dots-vertical.svg",
+            "sha256": "e91bb5d71985bdeaeb663003a2ca1b681db9ab4557a36ad246662553332b8143"
+        },
+        {
+            "id": "radix/default/double-arrow-down",
+            "coreIconName": "radix/double-arrow-down-default",
+            "label": "Double Arrow Down",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "double",
+                "arrow",
+                "down"
+            ],
+            "path": "default/double-arrow-down.svg",
+            "sha256": "8d49145edaa41b919bf24e198c4ffc99f297581c9429ce7b61e1205b2a878621"
+        },
+        {
+            "id": "radix/default/double-arrow-left",
+            "coreIconName": "radix/double-arrow-left-default",
+            "label": "Double Arrow Left",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "double",
+                "arrow",
+                "left"
+            ],
+            "path": "default/double-arrow-left.svg",
+            "sha256": "3213c6f0158f8a3cede79c2f3fcb160de0d7abb2b21bebb4c3a54baf48ad70b1"
+        },
+        {
+            "id": "radix/default/double-arrow-right",
+            "coreIconName": "radix/double-arrow-right-default",
+            "label": "Double Arrow Right",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "double",
+                "arrow",
+                "right"
+            ],
+            "path": "default/double-arrow-right.svg",
+            "sha256": "26ee6b5b18307ec8b6dea525c0ba756abfb17e64c60be456bb3e63cf18d0219f"
+        },
+        {
+            "id": "radix/default/double-arrow-up",
+            "coreIconName": "radix/double-arrow-up-default",
+            "label": "Double Arrow Up",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "double",
+                "arrow",
+                "up"
+            ],
+            "path": "default/double-arrow-up.svg",
+            "sha256": "fce014a021eb8160cb63fa16bbc3229b73323003a174ba602c94956dc19b21cf"
+        },
+        {
+            "id": "radix/default/download",
+            "coreIconName": "radix/download-default",
+            "label": "Download",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "download"
+            ],
+            "path": "default/download.svg",
+            "sha256": "f4b18c8755a1e240471f3043454b0c1e9297719f3b789c48d7119d84fada7664"
+        },
+        {
+            "id": "radix/default/drag-handle-dots-1",
+            "coreIconName": "radix/drag-handle-dots-1-default",
+            "label": "Drag Handle Dots 1",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "drag",
+                "handle",
+                "dots",
+                "1"
+            ],
+            "path": "default/drag-handle-dots-1.svg",
+            "sha256": "672c9d6aa248ad59f0f5c1cba3cc144c1a9d3e1ab9b65eafeb2fc30bea39d615"
+        },
+        {
+            "id": "radix/default/drag-handle-dots-2",
+            "coreIconName": "radix/drag-handle-dots-2-default",
+            "label": "Drag Handle Dots 2",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "drag",
+                "handle",
+                "dots",
+                "2"
+            ],
+            "path": "default/drag-handle-dots-2.svg",
+            "sha256": "5c1b16c56f02c460ab9301fa064fa72a9184eae4cfe0c18dc5e9706066bfda2b"
+        },
+        {
+            "id": "radix/default/drag-handle-horizontal",
+            "coreIconName": "radix/drag-handle-horizontal-default",
+            "label": "Drag Handle Horizontal",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "drag",
+                "handle",
+                "horizontal"
+            ],
+            "path": "default/drag-handle-horizontal.svg",
+            "sha256": "a571ac079958a34c73b5da1b3d1266874c03e40d86fb62abfe57b1231e1febf4"
+        },
+        {
+            "id": "radix/default/drag-handle-vertical",
+            "coreIconName": "radix/drag-handle-vertical-default",
+            "label": "Drag Handle Vertical",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "drag",
+                "handle",
+                "vertical"
+            ],
+            "path": "default/drag-handle-vertical.svg",
+            "sha256": "edd4fcc1367a779f7413cd283b8990d92fe32447f0c994e0d02ae121a15aa684"
+        },
+        {
+            "id": "radix/default/drawing-pin-filled",
+            "coreIconName": "radix/drawing-pin-filled-default",
+            "label": "Drawing Pin Filled",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "drawing",
+                "pin",
+                "filled"
+            ],
+            "path": "default/drawing-pin-filled.svg",
+            "sha256": "1a23aef404b39ac5409135b2e2d47ac215dfadbaf6a8c48003354e80a6034761"
+        },
+        {
+            "id": "radix/default/drawing-pin",
+            "coreIconName": "radix/drawing-pin-default",
+            "label": "Drawing Pin",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "drawing",
+                "pin"
+            ],
+            "path": "default/drawing-pin.svg",
+            "sha256": "d1f76eed8accc160496cd176aff38d4b55eaa5249aca1f49ffe50d9a53fc493f"
+        },
+        {
+            "id": "radix/default/dropdown-menu",
+            "coreIconName": "radix/dropdown-menu-default",
+            "label": "Dropdown Menu",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "dropdown",
+                "menu"
+            ],
+            "path": "default/dropdown-menu.svg",
+            "sha256": "8bdc4f7e2dccd52dade87842f5a1c076fa5201ce3f706d54ee3b659496105a99"
+        },
+        {
+            "id": "radix/default/enter-full-screen",
+            "coreIconName": "radix/enter-full-screen-default",
+            "label": "Enter Full Screen",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "enter",
+                "full",
+                "screen"
+            ],
+            "path": "default/enter-full-screen.svg",
+            "sha256": "e084339665681c495e6b14af2f83d8469c55604a420145d56082682503edac36"
+        },
+        {
+            "id": "radix/default/enter",
+            "coreIconName": "radix/enter-default",
+            "label": "Enter",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "enter"
+            ],
+            "path": "default/enter.svg",
+            "sha256": "5ac05f9581d64c397c7072ec57c4802475749eea8044cdbec9784a17bde7d95a"
+        },
+        {
+            "id": "radix/default/envelope-closed",
+            "coreIconName": "radix/envelope-closed-default",
+            "label": "Envelope Closed",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "envelope",
+                "closed"
+            ],
+            "path": "default/envelope-closed.svg",
+            "sha256": "dc5190b66dacb5afdd68f87dad48927fbcc613a9ff52d27b9ca366a14fb7bba8"
+        },
+        {
+            "id": "radix/default/envelope-open",
+            "coreIconName": "radix/envelope-open-default",
+            "label": "Envelope Open",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "envelope",
+                "open"
+            ],
+            "path": "default/envelope-open.svg",
+            "sha256": "6e740350bb0318b7e866a6e31659fbef4ec187908534ba8f7cbfe49655d32f57"
+        },
+        {
+            "id": "radix/default/eraser",
+            "coreIconName": "radix/eraser-default",
+            "label": "Eraser",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "eraser"
+            ],
+            "path": "default/eraser.svg",
+            "sha256": "e62d1e2915db0ba77c94e763fcd6bfea7e9141d4bcb6cba29128b5e3216e1f73"
+        },
+        {
+            "id": "radix/default/exclamation-triangle",
+            "coreIconName": "radix/exclamation-triangle-default",
+            "label": "Exclamation Triangle",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "exclamation",
+                "triangle"
+            ],
+            "path": "default/exclamation-triangle.svg",
+            "sha256": "091a134a2d69b81a46d4332257e2fbd436dabd185fc5f7e8d48d607642c30bea"
+        },
+        {
+            "id": "radix/default/exit-full-screen",
+            "coreIconName": "radix/exit-full-screen-default",
+            "label": "Exit Full Screen",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "exit",
+                "full",
+                "screen"
+            ],
+            "path": "default/exit-full-screen.svg",
+            "sha256": "a4a59744df27172def609e3c7787456654d8307c010adddd1dfec203629cd666"
+        },
+        {
+            "id": "radix/default/exit",
+            "coreIconName": "radix/exit-default",
+            "label": "Exit",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "exit"
+            ],
+            "path": "default/exit.svg",
+            "sha256": "e4157cc0f0514973e55ee19fd86a5711c75ccd2787bfb583792d28a34324bf2a"
+        },
+        {
+            "id": "radix/default/external-link",
+            "coreIconName": "radix/external-link-default",
+            "label": "External Link",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "external",
+                "link"
+            ],
+            "path": "default/external-link.svg",
+            "sha256": "df3417d8bcd84549a985c3237b63d56176c82a679f5cd8b7dee6ccb8256af003"
+        },
+        {
+            "id": "radix/default/eye-closed",
+            "coreIconName": "radix/eye-closed-default",
+            "label": "Eye Closed",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "eye",
+                "closed"
+            ],
+            "path": "default/eye-closed.svg",
+            "sha256": "b198dee5b789135f642470ca8d119a1f0f5cdff384047a0e2065838cd43d79bb"
+        },
+        {
+            "id": "radix/default/eye-none",
+            "coreIconName": "radix/eye-none-default",
+            "label": "Eye None",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "eye",
+                "none"
+            ],
+            "path": "default/eye-none.svg",
+            "sha256": "f3c0f197c88b16029709d143ff1041136bac0bab18476f3f29f5a27b0f002f4d"
+        },
+        {
+            "id": "radix/default/eye-open",
+            "coreIconName": "radix/eye-open-default",
+            "label": "Eye Open",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "eye",
+                "open"
+            ],
+            "path": "default/eye-open.svg",
+            "sha256": "03633dcf35a85f6326e1b577e53fb3d1b9ed0d6a5512d39cd454718e67759d5c"
+        },
+        {
+            "id": "radix/default/face",
+            "coreIconName": "radix/face-default",
+            "label": "Face",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "face"
+            ],
+            "path": "default/face.svg",
+            "sha256": "b8bfee6c03a302ee85e5d6bf8cc2b467392dbaf2385afe50261e43d5201e2b03"
+        },
+        {
+            "id": "radix/default/file-minus",
+            "coreIconName": "radix/file-minus-default",
+            "label": "File Minus",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "file",
+                "minus"
+            ],
+            "path": "default/file-minus.svg",
+            "sha256": "277eedcfe4b3757beb93e2b51ac512e5bf1d9ca6b0edc3bba81ae71115627afc"
+        },
+        {
+            "id": "radix/default/file-plus",
+            "coreIconName": "radix/file-plus-default",
+            "label": "File Plus",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "file",
+                "plus"
+            ],
+            "path": "default/file-plus.svg",
+            "sha256": "39b6bf003618302c44cf9c9b796657e37ae2485d62a788a4c0b8f7e647833a7a"
+        },
+        {
+            "id": "radix/default/file-text",
+            "coreIconName": "radix/file-text-default",
+            "label": "File Text",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "file",
+                "text"
+            ],
+            "path": "default/file-text.svg",
+            "sha256": "d3e2d949e348f71c7574410f8c3e7091ca42e677812f2906afa69583ae9a45b8"
+        },
+        {
+            "id": "radix/default/file",
+            "coreIconName": "radix/file-default",
+            "label": "File",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "file"
+            ],
+            "path": "default/file.svg",
+            "sha256": "0f29ae28fdb2bbda74d30f47790b83dfbf23e8fe486cd40b193d31b6ac85e57d"
+        },
+        {
+            "id": "radix/default/font-bold",
+            "coreIconName": "radix/font-bold-default",
+            "label": "Font Bold",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "font",
+                "bold"
+            ],
+            "path": "default/font-bold.svg",
+            "sha256": "0738aef36b208dd4ef2d7ea622867853f14a87e8639df9b340c00eb83ee876fe"
+        },
+        {
+            "id": "radix/default/font-family",
+            "coreIconName": "radix/font-family-default",
+            "label": "Font Family",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "font",
+                "family"
+            ],
+            "path": "default/font-family.svg",
+            "sha256": "f64b1bd94f4e28323b1ddd8b2caa478b446b39599b7020e23bd2dfba7a7d4a96"
+        },
+        {
+            "id": "radix/default/font-italic",
+            "coreIconName": "radix/font-italic-default",
+            "label": "Font Italic",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "font",
+                "italic"
+            ],
+            "path": "default/font-italic.svg",
+            "sha256": "fb3611209ccb4c68b5cd3b7f3a80e62cc1a64ba052f5b8d5dfefe0b637722cb0"
+        },
+        {
+            "id": "radix/default/font-roman",
+            "coreIconName": "radix/font-roman-default",
+            "label": "Font Roman",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "font",
+                "roman"
+            ],
+            "path": "default/font-roman.svg",
+            "sha256": "c065c7593aaa615edb43dd0b51737e5ad9f3bfd9c2e66a2afecee29fa3a19c04"
+        },
+        {
+            "id": "radix/default/font-size",
+            "coreIconName": "radix/font-size-default",
+            "label": "Font Size",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "font",
+                "size"
+            ],
+            "path": "default/font-size.svg",
+            "sha256": "d73c9a9c1a65aed9ab50ed8021390fa1b8dc53784bb2952d81dc0885a0e9db72"
+        },
+        {
+            "id": "radix/default/font-style",
+            "coreIconName": "radix/font-style-default",
+            "label": "Font Style",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "font",
+                "style"
+            ],
+            "path": "default/font-style.svg",
+            "sha256": "bf58e6a9be8bacdaf3319094b5226f8bb307d1379ee4513c13f1e8fa06a1fbf9"
+        },
+        {
+            "id": "radix/default/frame",
+            "coreIconName": "radix/frame-default",
+            "label": "Frame",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "frame"
+            ],
+            "path": "default/frame.svg",
+            "sha256": "c5c98c24cdbb3f3ae2278d4ae685c8f7008f04ded9ed3b9e8118129ec60f999f"
+        },
+        {
+            "id": "radix/default/gear",
+            "coreIconName": "radix/gear-default",
+            "label": "Gear",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "gear"
+            ],
+            "path": "default/gear.svg",
+            "sha256": "6c36d1f96531dea0c275bf37f1a69b0012e787799f761ade56d4a10ab3aa0df9"
+        },
+        {
+            "id": "radix/default/globe",
+            "coreIconName": "radix/globe-default",
+            "label": "Globe",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "globe"
+            ],
+            "path": "default/globe.svg",
+            "sha256": "7ab87f3c87f310aa6463cdbe2f845e9e94d5b17b18b23f73bc777ce3294cf7fd"
+        },
+        {
+            "id": "radix/default/grid",
+            "coreIconName": "radix/grid-default",
+            "label": "Grid",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "grid"
+            ],
+            "path": "default/grid.svg",
+            "sha256": "40b36760e3b23e716a340bcb26a3ceaf1019a8e92d91ba249b342d0d4138caf8"
+        },
+        {
+            "id": "radix/default/group",
+            "coreIconName": "radix/group-default",
+            "label": "Group",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "group"
+            ],
+            "path": "default/group.svg",
+            "sha256": "abbafd5c734f8478f89a13143d6a90d5ad3e2e179043d9cde600018aa1663455"
+        },
+        {
+            "id": "radix/default/half-1",
+            "coreIconName": "radix/half-1-default",
+            "label": "Half 1",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "half",
+                "1"
+            ],
+            "path": "default/half-1.svg",
+            "sha256": "2d2e8ffe4b70b8b1bb02fadb38e900aacded28bdd432aed53be2cbd1e90724c9"
+        },
+        {
+            "id": "radix/default/half-2",
+            "coreIconName": "radix/half-2-default",
+            "label": "Half 2",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "half",
+                "2"
+            ],
+            "path": "default/half-2.svg",
+            "sha256": "e9346be6885fbfdfcf15918f0ca705dbb35365787581cb0dd7212cc627cc8a73"
+        },
+        {
+            "id": "radix/default/hamburger-menu",
+            "coreIconName": "radix/hamburger-menu-default",
+            "label": "Hamburger Menu",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "hamburger",
+                "menu"
+            ],
+            "path": "default/hamburger-menu.svg",
+            "sha256": "b0da250d35ffad7a00ea076c4ef7393d7509a1f6aa6c57f08663209d08e5b925"
+        },
+        {
+            "id": "radix/default/hand",
+            "coreIconName": "radix/hand-default",
+            "label": "Hand",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "hand"
+            ],
+            "path": "default/hand.svg",
+            "sha256": "c5b3f044f86d745955b14d58f5849e49d5e41d2aed8bccbdd03d7f657562688c"
+        },
+        {
+            "id": "radix/default/heading",
+            "coreIconName": "radix/heading-default",
+            "label": "Heading",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "heading"
+            ],
+            "path": "default/heading.svg",
+            "sha256": "95b5a6dbb5f935cde140aa656d727b46d4fa55aa2572b32e9b3ccd7b8c7cabd4"
+        },
+        {
+            "id": "radix/default/heart-filled",
+            "coreIconName": "radix/heart-filled-default",
+            "label": "Heart Filled",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "heart",
+                "filled"
+            ],
+            "path": "default/heart-filled.svg",
+            "sha256": "91dedb713aadc584fca9c27cc38e836635cdd79aaa4a502beeffbb1b4a2cef2f"
+        },
+        {
+            "id": "radix/default/heart",
+            "coreIconName": "radix/heart-default",
+            "label": "Heart",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "heart"
+            ],
+            "path": "default/heart.svg",
+            "sha256": "7382674400e31b4d60618aea81839261132cb3dfe84e1d57de0c6ddc03e660c5"
+        },
+        {
+            "id": "radix/default/height",
+            "coreIconName": "radix/height-default",
+            "label": "Height",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "height"
+            ],
+            "path": "default/height.svg",
+            "sha256": "eb85867f663b9af3d46ec1cb34bbb326563ab1018b47bac1bfd2c1b9481b98c8"
+        },
+        {
+            "id": "radix/default/hobby-knife",
+            "coreIconName": "radix/hobby-knife-default",
+            "label": "Hobby Knife",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "hobby",
+                "knife"
+            ],
+            "path": "default/hobby-knife.svg",
+            "sha256": "b8ecc77a1ccfbf3f724003f35a7efe40778d9d65be88f35d16b4aaae6c0fa014"
+        },
+        {
+            "id": "radix/default/home",
+            "coreIconName": "radix/home-default",
+            "label": "Home",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "home"
+            ],
+            "path": "default/home.svg",
+            "sha256": "5f84a4c366f7b3ce04119f7489e6abae3ccc0688e83adc37947f4c78c389b4db"
+        },
+        {
+            "id": "radix/default/id-card",
+            "coreIconName": "radix/id-card-default",
+            "label": "Id Card",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "id",
+                "card"
+            ],
+            "path": "default/id-card.svg",
+            "sha256": "f0520b315726830300a726e5496263cae5e56bf83f1deed2b93b3d975e81865e"
+        },
+        {
+            "id": "radix/default/image",
+            "coreIconName": "radix/image-default",
+            "label": "Image",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "image"
+            ],
+            "path": "default/image.svg",
+            "sha256": "d6ed89ccbf7de1e1a74a490d04f1c50dbb32e8446234ab2a22b2d9baaecab063"
+        },
+        {
+            "id": "radix/default/info-circled",
+            "coreIconName": "radix/info-circled-default",
+            "label": "Info Circled",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "info",
+                "circled"
+            ],
+            "path": "default/info-circled.svg",
+            "sha256": "fadcceb3a73ccd909aaa8b9373cba7dd88ee541791c033cd51e382335c294e32"
+        },
+        {
+            "id": "radix/default/input",
+            "coreIconName": "radix/input-default",
+            "label": "Input",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "input"
+            ],
+            "path": "default/input.svg",
+            "sha256": "70e32ad2fa96ffc6a4617750bbc864ddbdb04eb8108d4baa9c8ee4b2d38b73de"
+        },
+        {
+            "id": "radix/default/keyboard",
+            "coreIconName": "radix/keyboard-default",
+            "label": "Keyboard",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "keyboard"
+            ],
+            "path": "default/keyboard.svg",
+            "sha256": "7dc53b7ead34e960b6d485c7d03cfb0a725f4af84510f2b9a74b77c2b1bec16f"
+        },
+        {
+            "id": "radix/default/lap-timer",
+            "coreIconName": "radix/lap-timer-default",
+            "label": "Lap Timer",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "lap",
+                "timer"
+            ],
+            "path": "default/lap-timer.svg",
+            "sha256": "8a830d95c39f2da7be1bbc44c05e96856753b0f16b0fb2bb5e81e8ff18f16a59"
+        },
+        {
+            "id": "radix/default/laptop",
+            "coreIconName": "radix/laptop-default",
+            "label": "Laptop",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "laptop"
+            ],
+            "path": "default/laptop.svg",
+            "sha256": "cd1b6d1082941a51e6fea1ccc6cb087791823bb3fd35cc6d5e13d76f718223af"
+        },
+        {
+            "id": "radix/default/layers",
+            "coreIconName": "radix/layers-default",
+            "label": "Layers",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "layers"
+            ],
+            "path": "default/layers.svg",
+            "sha256": "a2d44cc43dd681777c5892209f5f0468da6d9d97de16e6237efdc217d5acc7c2"
+        },
+        {
+            "id": "radix/default/layout",
+            "coreIconName": "radix/layout-default",
+            "label": "Layout",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "layout"
+            ],
+            "path": "default/layout.svg",
+            "sha256": "6277213d50bbfe8d74eafb5d0c291b87c85920f3e96442c66ac86e8aaa16f936"
+        },
+        {
+            "id": "radix/default/letter-case-capitalize",
+            "coreIconName": "radix/letter-case-capitalize-default",
+            "label": "Letter Case Capitalize",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "letter",
+                "case",
+                "capitalize"
+            ],
+            "path": "default/letter-case-capitalize.svg",
+            "sha256": "0c6a18082a9081c27493242a7648793ae5098f62fee2f7bee386605418330c5d"
+        },
+        {
+            "id": "radix/default/letter-case-lowercase",
+            "coreIconName": "radix/letter-case-lowercase-default",
+            "label": "Letter Case Lowercase",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "letter",
+                "case",
+                "lowercase"
+            ],
+            "path": "default/letter-case-lowercase.svg",
+            "sha256": "97036160059b65ce4642b41f1930cd1f44e35033e6bc774b7f96cce4aae9aa25"
+        },
+        {
+            "id": "radix/default/letter-case-toggle",
+            "coreIconName": "radix/letter-case-toggle-default",
+            "label": "Letter Case Toggle",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "letter",
+                "case",
+                "toggle"
+            ],
+            "path": "default/letter-case-toggle.svg",
+            "sha256": "a26c5877caaac97fed3ec22791b0f46ad29cff349a745769ba2dde62be3dbdb6"
+        },
+        {
+            "id": "radix/default/letter-case-uppercase",
+            "coreIconName": "radix/letter-case-uppercase-default",
+            "label": "Letter Case Uppercase",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "letter",
+                "case",
+                "uppercase"
+            ],
+            "path": "default/letter-case-uppercase.svg",
+            "sha256": "53e1c6e7ca71db6db874a09c4346f1bc2722d116916e2571c23592354672ae45"
+        },
+        {
+            "id": "radix/default/letter-spacing",
+            "coreIconName": "radix/letter-spacing-default",
+            "label": "Letter Spacing",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "letter",
+                "spacing"
+            ],
+            "path": "default/letter-spacing.svg",
+            "sha256": "021ed190cc9fc1c8f916c2257273f83ca67ae092026fdf4e1745116994328bcd"
+        },
+        {
+            "id": "radix/default/lightning-bolt",
+            "coreIconName": "radix/lightning-bolt-default",
+            "label": "Lightning Bolt",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "lightning",
+                "bolt"
+            ],
+            "path": "default/lightning-bolt.svg",
+            "sha256": "936f81834e2ebe3ae53fdc4e137a98ddca75bdb8c1bf0503ef6844c4d08f73e2"
+        },
+        {
+            "id": "radix/default/line-height",
+            "coreIconName": "radix/line-height-default",
+            "label": "Line Height",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "line",
+                "height"
+            ],
+            "path": "default/line-height.svg",
+            "sha256": "1ddb4432aa465431d5cd0b4b460b80e3bcbba28d16b94d941a53f0d7e8f7f1aa"
+        },
+        {
+            "id": "radix/default/link-1",
+            "coreIconName": "radix/link-1-default",
+            "label": "Link 1",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "link",
+                "1"
+            ],
+            "path": "default/link-1.svg",
+            "sha256": "800b0b1bed9bdf5cf51bfb7315d25fc30548ae6add2c08951a514238116c115d"
+        },
+        {
+            "id": "radix/default/link-2",
+            "coreIconName": "radix/link-2-default",
+            "label": "Link 2",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "link",
+                "2"
+            ],
+            "path": "default/link-2.svg",
+            "sha256": "09b86798532cb8262ac7404d2c600bb0abb3180a2757ff3e0987b673592785bf"
+        },
+        {
+            "id": "radix/default/link-break-1",
+            "coreIconName": "radix/link-break-1-default",
+            "label": "Link Break 1",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "link",
+                "break",
+                "1"
+            ],
+            "path": "default/link-break-1.svg",
+            "sha256": "1e499b38095c079ceeeff54a7362dbaf17adead3b9dd79916c1ebd1746c0d898"
+        },
+        {
+            "id": "radix/default/link-break-2",
+            "coreIconName": "radix/link-break-2-default",
+            "label": "Link Break 2",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "link",
+                "break",
+                "2"
+            ],
+            "path": "default/link-break-2.svg",
+            "sha256": "b9b8c94dbc33d04c272d270d286b33085844094c29254707a66e3fecbb225fbd"
+        },
+        {
+            "id": "radix/default/link-none-1",
+            "coreIconName": "radix/link-none-1-default",
+            "label": "Link None 1",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "link",
+                "none",
+                "1"
+            ],
+            "path": "default/link-none-1.svg",
+            "sha256": "ac9ab1f37c16f65b31d480ec5486f0834d2aea54d37b79f91976c12eeff09691"
+        },
+        {
+            "id": "radix/default/link-none-2",
+            "coreIconName": "radix/link-none-2-default",
+            "label": "Link None 2",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "link",
+                "none",
+                "2"
+            ],
+            "path": "default/link-none-2.svg",
+            "sha256": "8386de2b281a140790c7598ce41310e0a4874f02adbb545005a1a966fc0b3db1"
+        },
+        {
+            "id": "radix/default/list-bullet",
+            "coreIconName": "radix/list-bullet-default",
+            "label": "List Bullet",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "list",
+                "bullet"
+            ],
+            "path": "default/list-bullet.svg",
+            "sha256": "de3c24a68c86eaa999ed0353b16cdc319ffca0c39f8c66f0ac2ac261a254e715"
+        },
+        {
+            "id": "radix/default/lock-closed",
+            "coreIconName": "radix/lock-closed-default",
+            "label": "Lock Closed",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "lock",
+                "closed"
+            ],
+            "path": "default/lock-closed.svg",
+            "sha256": "8c1c5c33df3cfaf34e0eaa90996c0173d289bbe1d3ec99fe2264b164e10e8397"
+        },
+        {
+            "id": "radix/default/lock-open-1",
+            "coreIconName": "radix/lock-open-1-default",
+            "label": "Lock Open 1",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "lock",
+                "open",
+                "1"
+            ],
+            "path": "default/lock-open-1.svg",
+            "sha256": "703580022231f47e3f2650bb49ed0794ceae35c753714c1dd8eea7f148aa371f"
+        },
+        {
+            "id": "radix/default/lock-open-2",
+            "coreIconName": "radix/lock-open-2-default",
+            "label": "Lock Open 2",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "lock",
+                "open",
+                "2"
+            ],
+            "path": "default/lock-open-2.svg",
+            "sha256": "dfa0bd51d43421836afcc052deb61ad2f95d62f95e4bfdd27a82f29da95a9fb2"
+        },
+        {
+            "id": "radix/default/loop",
+            "coreIconName": "radix/loop-default",
+            "label": "Loop",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "loop"
+            ],
+            "path": "default/loop.svg",
+            "sha256": "381b42cea69a599c5d2f0a196a7171a2ca7eb59a31fa536a543e363c56ff2eb2"
+        },
+        {
+            "id": "radix/default/magic-wand",
+            "coreIconName": "radix/magic-wand-default",
+            "label": "Magic Wand",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "magic",
+                "wand"
+            ],
+            "path": "default/magic-wand.svg",
+            "sha256": "a52172ea48e917438a9f7145feaf16d18a7e1ac14e1f128c95f4cbdc9769a0bb"
+        },
+        {
+            "id": "radix/default/magnifying-glass",
+            "coreIconName": "radix/magnifying-glass-default",
+            "label": "Magnifying Glass",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "magnifying",
+                "glass"
+            ],
+            "path": "default/magnifying-glass.svg",
+            "sha256": "0debcfb8893c706e404d776b5d0360b4bcdb8070adc2fd908a6603b668283232"
+        },
+        {
+            "id": "radix/default/margin",
+            "coreIconName": "radix/margin-default",
+            "label": "Margin",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "margin"
+            ],
+            "path": "default/margin.svg",
+            "sha256": "3a543989b8df0e4498cfea67f285c0478fff64b970e8b2a7156d834f762457d6"
+        },
+        {
+            "id": "radix/default/mask-off",
+            "coreIconName": "radix/mask-off-default",
+            "label": "Mask Off",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "mask",
+                "off"
+            ],
+            "path": "default/mask-off.svg",
+            "sha256": "3893bbdfe4f4a3e53a2d9297a09ece4092dca7594919c6fb41db1b2e89ed653d"
+        },
+        {
+            "id": "radix/default/mask-on",
+            "coreIconName": "radix/mask-on-default",
+            "label": "Mask On",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "mask",
+                "on"
+            ],
+            "path": "default/mask-on.svg",
+            "sha256": "306a13885a1d6e97e175b70cf2c49f6c4f1179b963384b4c38b153eba9a4d568"
+        },
+        {
+            "id": "radix/default/minus-circled",
+            "coreIconName": "radix/minus-circled-default",
+            "label": "Minus Circled",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "minus",
+                "circled"
+            ],
+            "path": "default/minus-circled.svg",
+            "sha256": "a7c7db69b848ec605ece8ce4ce40690cd3057eba78cd75fa68553800a003d858"
+        },
+        {
+            "id": "radix/default/minus",
+            "coreIconName": "radix/minus-default",
+            "label": "Minus",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "minus"
+            ],
+            "path": "default/minus.svg",
+            "sha256": "d2abd2beed5b80c16c52e488928bfd1c948609f83dabb1ff36e50f00d59c5faf"
+        },
+        {
+            "id": "radix/default/mix",
+            "coreIconName": "radix/mix-default",
+            "label": "Mix",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "mix"
+            ],
+            "path": "default/mix.svg",
+            "sha256": "253c092aeaab719fd6d100a6ff61265dbf6d78e358602981b64a894f28a4db67"
+        },
+        {
+            "id": "radix/default/mixer-horizontal",
+            "coreIconName": "radix/mixer-horizontal-default",
+            "label": "Mixer Horizontal",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "mixer",
+                "horizontal"
+            ],
+            "path": "default/mixer-horizontal.svg",
+            "sha256": "16986c18fc2a41ed9c3401527786d27328572c13f687cbf9e89cc886e3a9b729"
+        },
+        {
+            "id": "radix/default/mixer-vertical",
+            "coreIconName": "radix/mixer-vertical-default",
+            "label": "Mixer Vertical",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "mixer",
+                "vertical"
+            ],
+            "path": "default/mixer-vertical.svg",
+            "sha256": "80a8ccc313c9bfbc36aab732fb7cc3e014de9f0d3bc5b2f3d25cb9281266ef46"
+        },
+        {
+            "id": "radix/default/mobile",
+            "coreIconName": "radix/mobile-default",
+            "label": "Mobile",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "mobile"
+            ],
+            "path": "default/mobile.svg",
+            "sha256": "82de42bfa54f93cd1ae6d67f6f50ff86d35f2597aeca4bca62a73c0cb324a568"
+        },
+        {
+            "id": "radix/default/moon",
+            "coreIconName": "radix/moon-default",
+            "label": "Moon",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "moon"
+            ],
+            "path": "default/moon.svg",
+            "sha256": "a4609a69556929e2bfe58bf32e859380a2a73189a47309413f961fd3925d27bd"
+        },
+        {
+            "id": "radix/default/move",
+            "coreIconName": "radix/move-default",
+            "label": "Move",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "move"
+            ],
+            "path": "default/move.svg",
+            "sha256": "4c62bf10c8617986458431d8d68eaa9222cfd4dc8beef6a5685c75fe1aa931e1"
+        },
+        {
+            "id": "radix/default/opacity",
+            "coreIconName": "radix/opacity-default",
+            "label": "Opacity",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "opacity"
+            ],
+            "path": "default/opacity.svg",
+            "sha256": "9934482f6b2beaa38eba39c86db07dd720d7fff840f9580421c622298dd8f2e2"
+        },
+        {
+            "id": "radix/default/open-in-new-window",
+            "coreIconName": "radix/open-in-new-window-default",
+            "label": "Open In New Window",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "open",
+                "in",
+                "new",
+                "window"
+            ],
+            "path": "default/open-in-new-window.svg",
+            "sha256": "402a0cbee77838286db4f88ddc62be6d08d6aec338b022bcff4229a818edcad6"
+        },
+        {
+            "id": "radix/default/overline",
+            "coreIconName": "radix/overline-default",
+            "label": "Overline",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "overline"
+            ],
+            "path": "default/overline.svg",
+            "sha256": "f4224c67b9a204a5f97194fbd7e483cda11fcfafc7cab174ab40c238d0ef5ca4"
+        },
+        {
+            "id": "radix/default/padding",
+            "coreIconName": "radix/padding-default",
+            "label": "Padding",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "padding"
+            ],
+            "path": "default/padding.svg",
+            "sha256": "f6971a46b02f17431eaedbc5d89d4fa58976092f896891936f3388ef6f50bae5"
+        },
+        {
+            "id": "radix/default/paper-plane",
+            "coreIconName": "radix/paper-plane-default",
+            "label": "Paper Plane",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "paper",
+                "plane"
+            ],
+            "path": "default/paper-plane.svg",
+            "sha256": "cdb9f85e0d097ed088ec84f3c8bf6f90e76cfd4d80becaaceab959ffd0b14158"
+        },
+        {
+            "id": "radix/default/pause",
+            "coreIconName": "radix/pause-default",
+            "label": "Pause",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "pause"
+            ],
+            "path": "default/pause.svg",
+            "sha256": "e59e00f35d4dcdb2de4b7238e56838c6b2471b2205798f085e0906bbfa5af632"
+        },
+        {
+            "id": "radix/default/pencil-1",
+            "coreIconName": "radix/pencil-1-default",
+            "label": "Pencil 1",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "pencil",
+                "1"
+            ],
+            "path": "default/pencil-1.svg",
+            "sha256": "adcc348bdfae01c82218126fe922bc4eb1e7a23b173bb466bcd1a38b20e4bedb"
+        },
+        {
+            "id": "radix/default/pencil-2",
+            "coreIconName": "radix/pencil-2-default",
+            "label": "Pencil 2",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "pencil",
+                "2"
+            ],
+            "path": "default/pencil-2.svg",
+            "sha256": "04cc0f9dc72e2aa71a9a2aacd069fb254bdfd0d7f6542a9a89a2b70a81652e01"
+        },
+        {
+            "id": "radix/default/person",
+            "coreIconName": "radix/person-default",
+            "label": "Person",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "person"
+            ],
+            "path": "default/person.svg",
+            "sha256": "8e4275a3d1eaab1bc84712c6f7a80467aa774c68c4adcf94ed5b58157d6480ed"
+        },
+        {
+            "id": "radix/default/pie-chart",
+            "coreIconName": "radix/pie-chart-default",
+            "label": "Pie Chart",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "pie",
+                "chart"
+            ],
+            "path": "default/pie-chart.svg",
+            "sha256": "4008049a2621816b8e48fc9685f7ddd91fd5127627ffd8d79f041e500ecce58c"
+        },
+        {
+            "id": "radix/default/pilcrow",
+            "coreIconName": "radix/pilcrow-default",
+            "label": "Pilcrow",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "pilcrow"
+            ],
+            "path": "default/pilcrow.svg",
+            "sha256": "f1a11e65d7790a9a6cd3106e0d54c525723c8e4b811eac1c614c4de995ebc87a"
+        },
+        {
+            "id": "radix/default/pin-bottom",
+            "coreIconName": "radix/pin-bottom-default",
+            "label": "Pin Bottom",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "pin",
+                "bottom"
+            ],
+            "path": "default/pin-bottom.svg",
+            "sha256": "ccd004df658f6f3c2f80f533473049177ac6427474a6b6497aaf84cae59291f8"
+        },
+        {
+            "id": "radix/default/pin-left",
+            "coreIconName": "radix/pin-left-default",
+            "label": "Pin Left",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "pin",
+                "left"
+            ],
+            "path": "default/pin-left.svg",
+            "sha256": "8bb750de13d3d2edf19ecf0af8c926b9fe9518b85ef3f0f28aeda420139a2563"
+        },
+        {
+            "id": "radix/default/pin-right",
+            "coreIconName": "radix/pin-right-default",
+            "label": "Pin Right",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "pin",
+                "right"
+            ],
+            "path": "default/pin-right.svg",
+            "sha256": "416c364ea1809ec49ea6d3958fba045e04996700c9e3edb0b2dfe4bcf0ef8c0d"
+        },
+        {
+            "id": "radix/default/pin-top",
+            "coreIconName": "radix/pin-top-default",
+            "label": "Pin Top",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "pin",
+                "top"
+            ],
+            "path": "default/pin-top.svg",
+            "sha256": "519012d64f7df494b79b3957099ef46fd51c2e19ca110ffe5e4ebce5df5d193b"
+        },
+        {
+            "id": "radix/default/play",
+            "coreIconName": "radix/play-default",
+            "label": "Play",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "play"
+            ],
+            "path": "default/play.svg",
+            "sha256": "8a8aba03f3cc5aee343e34e19298da57ebdc24e004ca49c2a49160175e55ba71"
+        },
+        {
+            "id": "radix/default/plus-circled",
+            "coreIconName": "radix/plus-circled-default",
+            "label": "Plus Circled",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "plus",
+                "circled"
+            ],
+            "path": "default/plus-circled.svg",
+            "sha256": "e28b54f52b970b0e66c5aa7308f8d4f78dfe11a54a49574e67b96b1f37605e36"
+        },
+        {
+            "id": "radix/default/plus",
+            "coreIconName": "radix/plus-default",
+            "label": "Plus",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "plus"
+            ],
+            "path": "default/plus.svg",
+            "sha256": "5a625126f7e476e124aa0a922d6a095f2ac56f57d06a3c5b6cc605b5b7932726"
+        },
+        {
+            "id": "radix/default/question-mark-circled",
+            "coreIconName": "radix/question-mark-circled-default",
+            "label": "Question Mark Circled",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "question",
+                "mark",
+                "circled"
+            ],
+            "path": "default/question-mark-circled.svg",
+            "sha256": "19436bb1fb8be970daff32b6da383adc73011769741f05ec61237585026de82c"
+        },
+        {
+            "id": "radix/default/question-mark",
+            "coreIconName": "radix/question-mark-default",
+            "label": "Question Mark",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "question",
+                "mark"
+            ],
+            "path": "default/question-mark.svg",
+            "sha256": "bbac5622be9fb248fe5288f41d3ce6500014af6ea87e8b5d940174236bb5ecef"
+        },
+        {
+            "id": "radix/default/quote",
+            "coreIconName": "radix/quote-default",
+            "label": "Quote",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "quote"
+            ],
+            "path": "default/quote.svg",
+            "sha256": "8ced7867ab3032d53ee7292ed0da379e1adce8ca9bb209a1409ffcf6f2607961"
+        },
+        {
+            "id": "radix/default/radiobutton",
+            "coreIconName": "radix/radiobutton-default",
+            "label": "Radiobutton",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "radiobutton"
+            ],
+            "path": "default/radiobutton.svg",
+            "sha256": "bb75a8b4a0ba14a4fd2b94b0f8b292de2df2f902c764639198c16d13bc800d67"
+        },
+        {
+            "id": "radix/default/reader",
+            "coreIconName": "radix/reader-default",
+            "label": "Reader",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "reader"
+            ],
+            "path": "default/reader.svg",
+            "sha256": "31c4a61b7561bbae18b86841cec3f3ea90451608d21042360c3373eecf98672f"
+        },
+        {
+            "id": "radix/default/reload",
+            "coreIconName": "radix/reload-default",
+            "label": "Reload",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "reload"
+            ],
+            "path": "default/reload.svg",
+            "sha256": "a6f5e3df2f9dd853f78bf6b9c680cebaff245f3cd19b32624575930c2f5f272f"
+        },
+        {
+            "id": "radix/default/reset",
+            "coreIconName": "radix/reset-default",
+            "label": "Reset",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "reset"
+            ],
+            "path": "default/reset.svg",
+            "sha256": "d13aa92ed96c69abcfbeda8b768c14b3f841e0c893c7d7cc8ebe47304cbbc9cb"
+        },
+        {
+            "id": "radix/default/resume",
+            "coreIconName": "radix/resume-default",
+            "label": "Resume",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "resume"
+            ],
+            "path": "default/resume.svg",
+            "sha256": "a5fe0d3113c8065e07eab55a0c649f3c4697fbbd3e5f154bdb32f51cda21d981"
+        },
+        {
+            "id": "radix/default/rocket",
+            "coreIconName": "radix/rocket-default",
+            "label": "Rocket",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "rocket"
+            ],
+            "path": "default/rocket.svg",
+            "sha256": "dd93629ea553fa8458dca05a07d3098c3394e433e93f62b537c5bd9028e1b308"
+        },
+        {
+            "id": "radix/default/rotate-counter-clockwise",
+            "coreIconName": "radix/rotate-counter-clockwise-default",
+            "label": "Rotate Counter Clockwise",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "rotate",
+                "counter",
+                "clockwise"
+            ],
+            "path": "default/rotate-counter-clockwise.svg",
+            "sha256": "4f57426b877c4b4491fe8bf853de8c0d5a910b66adace919b8231b5a2d10fcc4"
+        },
+        {
+            "id": "radix/default/row-spacing",
+            "coreIconName": "radix/row-spacing-default",
+            "label": "Row Spacing",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "row",
+                "spacing"
+            ],
+            "path": "default/row-spacing.svg",
+            "sha256": "2000519a9e949c56bcb52d0f67cdf04b2e25f970d3c30f234f4d922681cb2303"
+        },
+        {
+            "id": "radix/default/rows",
+            "coreIconName": "radix/rows-default",
+            "label": "Rows",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "rows"
+            ],
+            "path": "default/rows.svg",
+            "sha256": "0e1a737e4b6477af8548f91ec4b35891ac4c69cd4c0c8c8348f8c9c4a9ae1b79"
+        },
+        {
+            "id": "radix/default/ruler-horizontal",
+            "coreIconName": "radix/ruler-horizontal-default",
+            "label": "Ruler Horizontal",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "ruler",
+                "horizontal"
+            ],
+            "path": "default/ruler-horizontal.svg",
+            "sha256": "5c82a5614d2b2335340da6c159eacd3a7e5644a6cbfc298a14799a0e1482c1b0"
+        },
+        {
+            "id": "radix/default/ruler-square",
+            "coreIconName": "radix/ruler-square-default",
+            "label": "Ruler Square",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "ruler",
+                "square"
+            ],
+            "path": "default/ruler-square.svg",
+            "sha256": "dc89cc3cdd4ed8a8be258dcf8805db336cd8a4ab39f1d95c79f90072d59f3b82"
+        },
+        {
+            "id": "radix/default/scissors",
+            "coreIconName": "radix/scissors-default",
+            "label": "Scissors",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "scissors"
+            ],
+            "path": "default/scissors.svg",
+            "sha256": "c8bf51ee12619b5d9f28967c7add6bbb24ca9e31eaba5153338faa3c6dd02c30"
+        },
+        {
+            "id": "radix/default/section",
+            "coreIconName": "radix/section-default",
+            "label": "Section",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "section"
+            ],
+            "path": "default/section.svg",
+            "sha256": "5d1e597ee5794fffc8f253b101888b6259ffd199647d6cfcfd7f1169c3b6b30c"
+        },
+        {
+            "id": "radix/default/sewing-pin-filled",
+            "coreIconName": "radix/sewing-pin-filled-default",
+            "label": "Sewing Pin Filled",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "sewing",
+                "pin",
+                "filled"
+            ],
+            "path": "default/sewing-pin-filled.svg",
+            "sha256": "3cd2e7653514f750e0be9904b4a6f2efca187e27f58b62986eaad13fbf16c878"
+        },
+        {
+            "id": "radix/default/sewing-pin",
+            "coreIconName": "radix/sewing-pin-default",
+            "label": "Sewing Pin",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "sewing",
+                "pin"
+            ],
+            "path": "default/sewing-pin.svg",
+            "sha256": "ccffe51c5ec1219cb95cc81c1d141183dfdcf81e21c27a153709d52498fbacf6"
+        },
+        {
+            "id": "radix/default/share-1",
+            "coreIconName": "radix/share-1-default",
+            "label": "Share 1",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "share",
+                "1"
+            ],
+            "path": "default/share-1.svg",
+            "sha256": "048180479bdd9ab3bbb0ecc9b6231095384f03726537890d5f32e8abcc89d36e"
+        },
+        {
+            "id": "radix/default/share-2",
+            "coreIconName": "radix/share-2-default",
+            "label": "Share 2",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "share",
+                "2"
+            ],
+            "path": "default/share-2.svg",
+            "sha256": "57fc2d3071dd9e4c0ac75e5a0fd6ece006417df2f822f2fd113a4c1defd9d5f1"
+        },
+        {
+            "id": "radix/default/shuffle",
+            "coreIconName": "radix/shuffle-default",
+            "label": "Shuffle",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "shuffle"
+            ],
+            "path": "default/shuffle.svg",
+            "sha256": "2785a2122d5d9d8d91caf83c65fa55314189c3635f1621210c358eb91c95f58c"
+        },
+        {
+            "id": "radix/default/size",
+            "coreIconName": "radix/size-default",
+            "label": "Size",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "size"
+            ],
+            "path": "default/size.svg",
+            "sha256": "6920e3908fcca53f9d0d175b0d8cd0498776bf220af3b17a4f5d37263c3d9085"
+        },
+        {
+            "id": "radix/default/slash",
+            "coreIconName": "radix/slash-default",
+            "label": "Slash",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "slash"
+            ],
+            "path": "default/slash.svg",
+            "sha256": "c2373c4b478163e374ee87e1c877c1d9ebfd5c2427b77a63ed22b7e45ea1e39b"
+        },
+        {
+            "id": "radix/default/slider",
+            "coreIconName": "radix/slider-default",
+            "label": "Slider",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "slider"
+            ],
+            "path": "default/slider.svg",
+            "sha256": "49fa05a53dab9a696895ddbfbb30edd6b6d95ac5abbdc27f27747650633678ec"
+        },
+        {
+            "id": "radix/default/space-between-horizontally",
+            "coreIconName": "radix/space-between-horizontally-default",
+            "label": "Space Between Horizontally",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "space",
+                "between",
+                "horizontally"
+            ],
+            "path": "default/space-between-horizontally.svg",
+            "sha256": "24bd51ff12326b401bb46ceb42fde51d22f11ec0ac9d44dd6e71834215a670f0"
+        },
+        {
+            "id": "radix/default/space-between-vertically",
+            "coreIconName": "radix/space-between-vertically-default",
+            "label": "Space Between Vertically",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "space",
+                "between",
+                "vertically"
+            ],
+            "path": "default/space-between-vertically.svg",
+            "sha256": "2b5f49486a2421936fb863449f90ab45179a07192f3e5c896c355bb894fefabf"
+        },
+        {
+            "id": "radix/default/space-evenly-horizontally",
+            "coreIconName": "radix/space-evenly-horizontally-default",
+            "label": "Space Evenly Horizontally",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "space",
+                "evenly",
+                "horizontally"
+            ],
+            "path": "default/space-evenly-horizontally.svg",
+            "sha256": "1230cb802ad842cc236f36ba91ac2b30d8ea7287b9126b03e68a3d5486f80bf8"
+        },
+        {
+            "id": "radix/default/space-evenly-vertically",
+            "coreIconName": "radix/space-evenly-vertically-default",
+            "label": "Space Evenly Vertically",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "space",
+                "evenly",
+                "vertically"
+            ],
+            "path": "default/space-evenly-vertically.svg",
+            "sha256": "18d820063b3ac1ef5b524b535d996936f0e0b3dc096a1e0e04720769e1e8d0d5"
+        },
+        {
+            "id": "radix/default/speaker-loud",
+            "coreIconName": "radix/speaker-loud-default",
+            "label": "Speaker Loud",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "speaker",
+                "loud"
+            ],
+            "path": "default/speaker-loud.svg",
+            "sha256": "b140446a54a5c0d0c3091c2212d496f6ab6fd541bff2ad25cb06893f2cc759a7"
+        },
+        {
+            "id": "radix/default/speaker-moderate",
+            "coreIconName": "radix/speaker-moderate-default",
+            "label": "Speaker Moderate",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "speaker",
+                "moderate"
+            ],
+            "path": "default/speaker-moderate.svg",
+            "sha256": "d765fc56b70642fd1ae50f03fe4e9d9f087fe6dffe5329a613363b01fc279af7"
+        },
+        {
+            "id": "radix/default/speaker-off",
+            "coreIconName": "radix/speaker-off-default",
+            "label": "Speaker Off",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "speaker",
+                "off"
+            ],
+            "path": "default/speaker-off.svg",
+            "sha256": "98b95dc74be2ee2a0e678ab8c953054cbdc9039f697cfe5c5a5978bfa67766a1"
+        },
+        {
+            "id": "radix/default/speaker-quiet",
+            "coreIconName": "radix/speaker-quiet-default",
+            "label": "Speaker Quiet",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "speaker",
+                "quiet"
+            ],
+            "path": "default/speaker-quiet.svg",
+            "sha256": "452c9903a47f513a8b9e23021a0ae7bd3f482cd3f3103c79b6369694fff22dd9"
+        },
+        {
+            "id": "radix/default/square",
+            "coreIconName": "radix/square-default",
+            "label": "Square",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "square"
+            ],
+            "path": "default/square.svg",
+            "sha256": "5559850b2b73cadc9c238d24c9e6a930a8594a7fc46a5e667b5628996632d137"
+        },
+        {
+            "id": "radix/default/stack",
+            "coreIconName": "radix/stack-default",
+            "label": "Stack",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "stack"
+            ],
+            "path": "default/stack.svg",
+            "sha256": "749ce1d9c5d496622fe0d4e95883b715e557a0df113740179a5556d1ed155a0f"
+        },
+        {
+            "id": "radix/default/star-filled",
+            "coreIconName": "radix/star-filled-default",
+            "label": "Star Filled",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "star",
+                "filled"
+            ],
+            "path": "default/star-filled.svg",
+            "sha256": "90c75ecaef9dc16d0d9eef7d4de470ccc725eba4c7d0c76bc56f5db8da91a1bd"
+        },
+        {
+            "id": "radix/default/star",
+            "coreIconName": "radix/star-default",
+            "label": "Star",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "star"
+            ],
+            "path": "default/star.svg",
+            "sha256": "f22ca19757ce13f9bb2558dd2bbcf6ce63e784b06cf9122fdc8a9254e0231f47"
+        },
+        {
+            "id": "radix/default/stop",
+            "coreIconName": "radix/stop-default",
+            "label": "Stop",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "stop"
+            ],
+            "path": "default/stop.svg",
+            "sha256": "4aba1654fbb86345099ab9c0318d77e40dbcacb4d580ba2ff205e33fb2fd1a1e"
+        },
+        {
+            "id": "radix/default/stopwatch",
+            "coreIconName": "radix/stopwatch-default",
+            "label": "Stopwatch",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "stopwatch"
+            ],
+            "path": "default/stopwatch.svg",
+            "sha256": "e73f5ae063133a00fc8802aab6e21bbcaf97fb2eb1c29dd426e168a68adfbea1"
+        },
+        {
+            "id": "radix/default/stretch-horizontally",
+            "coreIconName": "radix/stretch-horizontally-default",
+            "label": "Stretch Horizontally",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "stretch",
+                "horizontally"
+            ],
+            "path": "default/stretch-horizontally.svg",
+            "sha256": "3fa9ac7974e22584692ee402dbaba725bc408072fb57a170c7a7464978cdab4c"
+        },
+        {
+            "id": "radix/default/stretch-vertically",
+            "coreIconName": "radix/stretch-vertically-default",
+            "label": "Stretch Vertically",
+            "variant": "default",
+            "categories": [
+                "alignment"
+            ],
+            "keywords": [
+                "stretch",
+                "vertically"
+            ],
+            "path": "default/stretch-vertically.svg",
+            "sha256": "665becdd613c34cb079ffcd7da5a71c930a21cf197f3babfb176622223d52b47"
+        },
+        {
+            "id": "radix/default/strikethrough",
+            "coreIconName": "radix/strikethrough-default",
+            "label": "Strikethrough",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "strikethrough"
+            ],
+            "path": "default/strikethrough.svg",
+            "sha256": "b1ea870eee5f138782aaccbe36508f49416f0ad3400d6d4f77e3aff761979d3c"
+        },
+        {
+            "id": "radix/default/sun",
+            "coreIconName": "radix/sun-default",
+            "label": "Sun",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "sun"
+            ],
+            "path": "default/sun.svg",
+            "sha256": "db9d998be337e973cbdfbd4992372e11b4cc5820ab6e6a80ff5e202d9502c38e"
+        },
+        {
+            "id": "radix/default/switch",
+            "coreIconName": "radix/switch-default",
+            "label": "Switch",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "switch"
+            ],
+            "path": "default/switch.svg",
+            "sha256": "5e3e0cfe99e53b8018174d6638c92f7363dab9eaeae105e40edb2803ed93d93d"
+        },
+        {
+            "id": "radix/default/symbol",
+            "coreIconName": "radix/symbol-default",
+            "label": "Symbol",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "symbol"
+            ],
+            "path": "default/symbol.svg",
+            "sha256": "f835a5be762b42ba5786d80730ebf4d1b8e101c65a80b91b1d019a0541b86e6a"
+        },
+        {
+            "id": "radix/default/table",
+            "coreIconName": "radix/table-default",
+            "label": "Table",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "table"
+            ],
+            "path": "default/table.svg",
+            "sha256": "13f0827b5aa84470a787d5b52f6016cab0147013c34557d2e7e93d0795f74d6a"
+        },
+        {
+            "id": "radix/default/target",
+            "coreIconName": "radix/target-default",
+            "label": "Target",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "target"
+            ],
+            "path": "default/target.svg",
+            "sha256": "e7026b8a105ac8659e7f7c08c7ae69fa01dd3db6f550e7a75a59dbffa5a626c4"
+        },
+        {
+            "id": "radix/default/text-align-bottom",
+            "coreIconName": "radix/text-align-bottom-default",
+            "label": "Text Align Bottom",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "text",
+                "align",
+                "bottom"
+            ],
+            "path": "default/text-align-bottom.svg",
+            "sha256": "e21f0e7314ebe058f228587be065cc5e453958bde4784f82689e440e9df09ff7"
+        },
+        {
+            "id": "radix/default/text-align-center",
+            "coreIconName": "radix/text-align-center-default",
+            "label": "Text Align Center",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "text",
+                "align",
+                "center"
+            ],
+            "path": "default/text-align-center.svg",
+            "sha256": "7ce1a0bc574fc4aa061cdcf4e78d3559473dfdcf766650446bb1eb5796687b4c"
+        },
+        {
+            "id": "radix/default/text-align-justify",
+            "coreIconName": "radix/text-align-justify-default",
+            "label": "Text Align Justify",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "text",
+                "align",
+                "justify"
+            ],
+            "path": "default/text-align-justify.svg",
+            "sha256": "61b4be6584e2b3ad3a65b56681158f27bf26573d7c5746e88d93fe055557b7c0"
+        },
+        {
+            "id": "radix/default/text-align-left",
+            "coreIconName": "radix/text-align-left-default",
+            "label": "Text Align Left",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "text",
+                "align",
+                "left"
+            ],
+            "path": "default/text-align-left.svg",
+            "sha256": "cc8e3ce9ed824d2988880e13bd98ea09cdd6a50392af5b6a4a2a113fd03e44ab"
+        },
+        {
+            "id": "radix/default/text-align-middle",
+            "coreIconName": "radix/text-align-middle-default",
+            "label": "Text Align Middle",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "text",
+                "align",
+                "middle"
+            ],
+            "path": "default/text-align-middle.svg",
+            "sha256": "c8860455e7aa6ae3e40906e7fb4812e97548c3d0dbf787ed96322004fc8c6fe9"
+        },
+        {
+            "id": "radix/default/text-align-right",
+            "coreIconName": "radix/text-align-right-default",
+            "label": "Text Align Right",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "text",
+                "align",
+                "right"
+            ],
+            "path": "default/text-align-right.svg",
+            "sha256": "0d11bc4de0bd1b4935dc35cd6ff28860d70305f20522183033fbded1edf0ca68"
+        },
+        {
+            "id": "radix/default/text-align-top",
+            "coreIconName": "radix/text-align-top-default",
+            "label": "Text Align Top",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "text",
+                "align",
+                "top"
+            ],
+            "path": "default/text-align-top.svg",
+            "sha256": "4f6e3a421260bafc99447931693aa2a334f7519b380c44ba9c5fd4a6cc6d15de"
+        },
+        {
+            "id": "radix/default/text-none",
+            "coreIconName": "radix/text-none-default",
+            "label": "Text None",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "text",
+                "none"
+            ],
+            "path": "default/text-none.svg",
+            "sha256": "35038fc66217d865deabd6d255c43c3ab3af6ea16a03bdc8961cc2d59ecccc68"
+        },
+        {
+            "id": "radix/default/text",
+            "coreIconName": "radix/text-default",
+            "label": "Text",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "text"
+            ],
+            "path": "default/text.svg",
+            "sha256": "e3d5cd89997c862506746f444c4e8395f0dc392e586ff40a89f5369960c1e9c4"
+        },
+        {
+            "id": "radix/default/thick-arrow-down",
+            "coreIconName": "radix/thick-arrow-down-default",
+            "label": "Thick Arrow Down",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "thick",
+                "arrow",
+                "down"
+            ],
+            "path": "default/thick-arrow-down.svg",
+            "sha256": "e8f5d57342c70bdad7cb7db2adda4b7f20f301a606fb6263a544a894e583eb34"
+        },
+        {
+            "id": "radix/default/thick-arrow-left",
+            "coreIconName": "radix/thick-arrow-left-default",
+            "label": "Thick Arrow Left",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "thick",
+                "arrow",
+                "left"
+            ],
+            "path": "default/thick-arrow-left.svg",
+            "sha256": "49cdc5f64aaaf2fb21c8ab349f03bbd6a5f2a665b4d48e08819422de286b5073"
+        },
+        {
+            "id": "radix/default/thick-arrow-right",
+            "coreIconName": "radix/thick-arrow-right-default",
+            "label": "Thick Arrow Right",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "thick",
+                "arrow",
+                "right"
+            ],
+            "path": "default/thick-arrow-right.svg",
+            "sha256": "3ec5982de6537ff937277029e81c18936e425a90ab6be4f1c5a64134675a98bc"
+        },
+        {
+            "id": "radix/default/thick-arrow-up",
+            "coreIconName": "radix/thick-arrow-up-default",
+            "label": "Thick Arrow Up",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "thick",
+                "arrow",
+                "up"
+            ],
+            "path": "default/thick-arrow-up.svg",
+            "sha256": "dfb6a8ab104c45e39b757da1d101161f1694e9ebe3845f20a2c6a289bfb62823"
+        },
+        {
+            "id": "radix/default/timer",
+            "coreIconName": "radix/timer-default",
+            "label": "Timer",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "timer"
+            ],
+            "path": "default/timer.svg",
+            "sha256": "d461249d377d3eddb6f97638b1c164f8a54d875d179e30b785a3d3294e8c0f1b"
+        },
+        {
+            "id": "radix/default/tokens",
+            "coreIconName": "radix/tokens-default",
+            "label": "Tokens",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "tokens"
+            ],
+            "path": "default/tokens.svg",
+            "sha256": "53dd7d6d7df0555fbda6dd477f85d99327cff2bfb5a6c54248927428e1df16f2"
+        },
+        {
+            "id": "radix/default/track-next",
+            "coreIconName": "radix/track-next-default",
+            "label": "Track Next",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "track",
+                "next"
+            ],
+            "path": "default/track-next.svg",
+            "sha256": "0109cfd894b1c879e5d6501ea622950f7c5f7c77262796bb5754836f2c0c9ee3"
+        },
+        {
+            "id": "radix/default/track-previous",
+            "coreIconName": "radix/track-previous-default",
+            "label": "Track Previous",
+            "variant": "default",
+            "categories": [
+                "music"
+            ],
+            "keywords": [
+                "track",
+                "previous"
+            ],
+            "path": "default/track-previous.svg",
+            "sha256": "4c7c02602259bfe34f74cb3d1e7926d0ac874783453405f5cc87adeeff7fcd1d"
+        },
+        {
+            "id": "radix/default/transform",
+            "coreIconName": "radix/transform-default",
+            "label": "Transform",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "transform"
+            ],
+            "path": "default/transform.svg",
+            "sha256": "3ed08593f221f7a10ad1664d401d8a1c4c25c7f0c31c41a9162771601072f70a"
+        },
+        {
+            "id": "radix/default/trash",
+            "coreIconName": "radix/trash-default",
+            "label": "Trash",
+            "variant": "default",
+            "categories": [
+                "objects"
+            ],
+            "keywords": [
+                "trash"
+            ],
+            "path": "default/trash.svg",
+            "sha256": "4b3f3b636713818847d7603a03e8cf5909350828412137b22894724a2cf9e6b2"
+        },
+        {
+            "id": "radix/default/triangle-down",
+            "coreIconName": "radix/triangle-down-default",
+            "label": "Triangle Down",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "triangle",
+                "down"
+            ],
+            "path": "default/triangle-down.svg",
+            "sha256": "6a09cd0435dc2bd5c6dd8169efd7ef4e5f9381fcd1c48fffe8a9d16124d5b125"
+        },
+        {
+            "id": "radix/default/triangle-left",
+            "coreIconName": "radix/triangle-left-default",
+            "label": "Triangle Left",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "triangle",
+                "left"
+            ],
+            "path": "default/triangle-left.svg",
+            "sha256": "e068e95d45a60fb81967cfe4b7108d8c280b632db42498b30f795755dea8a90a"
+        },
+        {
+            "id": "radix/default/triangle-right",
+            "coreIconName": "radix/triangle-right-default",
+            "label": "Triangle Right",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "triangle",
+                "right"
+            ],
+            "path": "default/triangle-right.svg",
+            "sha256": "5f390921199050b979bdc4a6da295598e8813c8276b3136a8f032f37ea9cbf4f"
+        },
+        {
+            "id": "radix/default/triangle-up",
+            "coreIconName": "radix/triangle-up-default",
+            "label": "Triangle Up",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "triangle",
+                "up"
+            ],
+            "path": "default/triangle-up.svg",
+            "sha256": "e2e7a9553c5573f911ce863073751a0b86b56330a847cca5d2a22d11ff6dda06"
+        },
+        {
+            "id": "radix/default/underline",
+            "coreIconName": "radix/underline-default",
+            "label": "Underline",
+            "variant": "default",
+            "categories": [
+                "typography"
+            ],
+            "keywords": [
+                "underline"
+            ],
+            "path": "default/underline.svg",
+            "sha256": "1a25055b0d4a0f47bf1a699841ef7d20ce07d50fd9679f40fb8adc8699d1940b"
+        },
+        {
+            "id": "radix/default/update",
+            "coreIconName": "radix/update-default",
+            "label": "Update",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "update"
+            ],
+            "path": "default/update.svg",
+            "sha256": "f835a5be762b42ba5786d80730ebf4d1b8e101c65a80b91b1d019a0541b86e6a"
+        },
+        {
+            "id": "radix/default/upload",
+            "coreIconName": "radix/upload-default",
+            "label": "Upload",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "upload"
+            ],
+            "path": "default/upload.svg",
+            "sha256": "9067a2a683a61856ea48a87d7e3faaf5d77dba0434c639d8c82f64b0dc685d94"
+        },
+        {
+            "id": "radix/default/value-none",
+            "coreIconName": "radix/value-none-default",
+            "label": "Value None",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "value",
+                "none"
+            ],
+            "path": "default/value-none.svg",
+            "sha256": "59be17495dcb1204de02efce4d512ae7ad28d23efb38e7f86fc4089129b72994"
+        },
+        {
+            "id": "radix/default/value",
+            "coreIconName": "radix/value-default",
+            "label": "Value",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "value"
+            ],
+            "path": "default/value.svg",
+            "sha256": "dad664427d1f05b79eab528d1ab7411fcb57ad05e1e5785ffd2042f234e4c3f7"
+        },
+        {
+            "id": "radix/default/video",
+            "coreIconName": "radix/video-default",
+            "label": "Video",
+            "variant": "default",
+            "categories": [
+                "components"
+            ],
+            "keywords": [
+                "video"
+            ],
+            "path": "default/video.svg",
+            "sha256": "92cdeccbe8cb8677f893c6c6faf326afed8e031f119ecb294b18c3cf97823197"
+        },
+        {
+            "id": "radix/default/view-grid",
+            "coreIconName": "radix/view-grid-default",
+            "label": "View Grid",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "view",
+                "grid"
+            ],
+            "path": "default/view-grid.svg",
+            "sha256": "ef09743ee6afbe92f43a0f5bd320b469b2c6bfdcf9cbb759f71bfae2af472712"
+        },
+        {
+            "id": "radix/default/view-horizontal",
+            "coreIconName": "radix/view-horizontal-default",
+            "label": "View Horizontal",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "view",
+                "horizontal"
+            ],
+            "path": "default/view-horizontal.svg",
+            "sha256": "5b79c28f6e47b52d2e24fd7042ecaea13f4fd8f401fb6fd01046d7a5832078c6"
+        },
+        {
+            "id": "radix/default/view-none",
+            "coreIconName": "radix/view-none-default",
+            "label": "View None",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "view",
+                "none"
+            ],
+            "path": "default/view-none.svg",
+            "sha256": "ffb40bec8b57e56a1a9946498ca63a66bee31bce8546575124f2ac78b00bd866"
+        },
+        {
+            "id": "radix/default/view-vertical",
+            "coreIconName": "radix/view-vertical-default",
+            "label": "View Vertical",
+            "variant": "default",
+            "categories": [
+                "abstract"
+            ],
+            "keywords": [
+                "view",
+                "vertical"
+            ],
+            "path": "default/view-vertical.svg",
+            "sha256": "8ddc6bb7de13ea19f2b83090fa0a536e6ee8313a8ae568cd30e5470cec015f84"
+        },
+        {
+            "id": "radix/default/width",
+            "coreIconName": "radix/width-default",
+            "label": "Width",
+            "variant": "default",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "width"
+            ],
+            "path": "default/width.svg",
+            "sha256": "b3b25e669d635b543d6abb6f3d839f2ed3b8e49d2584b67e9d6f4540dde67df7"
+        },
+        {
+            "id": "radix/default/zoom-in",
+            "coreIconName": "radix/zoom-in-default",
+            "label": "Zoom In",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "zoom",
+                "in"
+            ],
+            "path": "default/zoom-in.svg",
+            "sha256": "d17afdb64ddf28b6b80e25a296741b81fbcfb68234fb5d52a603eb4e0d0ee2bc"
+        },
+        {
+            "id": "radix/default/zoom-out",
+            "coreIconName": "radix/zoom-out-default",
+            "label": "Zoom Out",
+            "variant": "default",
+            "categories": [
+                "design"
+            ],
+            "keywords": [
+                "zoom",
+                "out"
+            ],
+            "path": "default/zoom-out.svg",
+            "sha256": "6407e07cbbd85cbd6b53d978c6d276b72c1cbddf7401e7b2d4283bc3af5dd563"
+        }
+    ]
+}

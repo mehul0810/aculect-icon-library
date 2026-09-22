@@ -1,0 +1,53 @@
+name: Feature request
+description: Propose a focused enhancement or icon-library integration.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search existing issues and pull requests before proposing work. Wait for maintainer scope, milestone, and target-branch alignment before implementation.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched open and closed issues and pull requests for duplicates.
+          required: true
+        - label: I understand that an issue must be aligned by maintainers before a pull request is started.
+          required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or user need
+      description: Describe the workflow or limitation, not only the proposed implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed outcome
+      description: Explain the smallest useful result and its non-goals.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting evidence
+      description: Include examples, upstream documentation, or compatibility evidence.
+    validations:
+      required: false
+  - type: textarea
+    id: library
+    attributes:
+      label: Icon-library source and license
+      description: For a new library, provide its official source, exact version, redistribution license, notices, variants, approximate icon count, and maintenance status.
+    validations:
+      required: false
+  - type: textarea
+    id: risks
+    attributes:
+      label: Security, privacy, performance, and accessibility considerations
+    validations:
+      required: false

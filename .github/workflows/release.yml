@@ -43,6 +43,12 @@ jobs:
           extensions: dom, libxml, zip
           coverage: none
 
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20.19.0'
+          cache: npm
+
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
 
@@ -75,8 +81,13 @@ jobs:
 
       - name: Run project checks
         run: composer check
-      - name: Test admin navigation
-        run: node --test tests/*.test.js
+      - name: Install JavaScript dependencies
+        run: npm ci --ignore-scripts
+      - name: Test and build admin assets
+        run: |
+          npm run test:js
+          npm run build
+          git diff --exit-code -- assets/build
 
       - name: Build production ZIP
         run: composer package

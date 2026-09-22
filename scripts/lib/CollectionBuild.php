@@ -18,6 +18,30 @@ final class CollectionBuild {
 	const SCHEMA_VERSION = 2;
 
 	/**
+	 * Removes an unfinished generated collection when an importer terminates.
+	 *
+	 * @param bool     $finalized Whether the generated directory became final.
+	 * @param string   $directory Temporary generated directory.
+	 * @param callable $cleanup   Safe directory cleanup callback.
+	 * @return void
+	 */
+	public static function register_shutdown_cleanup( &$finalized, $directory, callable $cleanup ) {
+		register_shutdown_function(
+			static function () use ( &$finalized, $directory, $cleanup ) {
+				if ( $finalized || ! is_dir( $directory ) ) {
+					return;
+				}
+
+				try {
+					$cleanup( $directory );
+				} catch ( RuntimeException $exception ) {
+					// Preserve the importer's primary failure instead of masking it during shutdown.
+				}
+			}
+		);
+	}
+
+	/**
 	 * Verifies that an importer is reading an unmodified, expected checkout.
 	 *
 	 * @param string $source_dir       Source checkout.

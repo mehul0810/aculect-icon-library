@@ -201,7 +201,8 @@ class CoreIconRegistrar {
 		if ( '/wp/v2/icon-collections' === $route ) {
 			$this->register_icons( '', true );
 		} elseif ( '/wp/v2/icons' === $route ) {
-			$this->register_icons();
+			$requested_collection = $request->get_param( 'collection' );
+			$this->register_icons( is_string( $requested_collection ) ? $requested_collection : '' );
 		} elseif ( 1 === preg_match( '#^/wp/v2/icons/([^/]+)$#', $route, $matches ) ) {
 			$this->register_icons( rawurldecode( $matches[1] ) );
 		} elseif ( 1 === preg_match( '#^/wp/v2/icons/([^/]+/[^/]+)$#', $route, $matches ) ) {
@@ -298,7 +299,11 @@ class CoreIconRegistrar {
 			$this->register_collection( $entry['library'], $entry['manifest'] );
 			$this->register_heroicons_legacy_name( $entry['library'], $entry['icon'], $requested_name );
 		} elseif ( isset( $entry['style'], $entry['variant'] ) && is_string( $entry['style'] ) && is_string( $entry['variant'] ) && '' !== $entry['style'] && '' !== $entry['variant'] ) {
-			$this->register_style_collections( $entry['library'], $entry['manifest'], array( $entry['variant'] ) );
+			if ( $this->uses_manifest_collection_namespace( $entry['manifest'] ) ) {
+				$this->register_legacy_style_collection( $entry['library'], $entry['manifest'], $entry['variant'] );
+			} else {
+				$this->register_style_collections( $entry['library'], $entry['manifest'], array( $entry['variant'] ) );
+			}
 			$this->register_icon( $entry['library'], $entry['icon'], $entry['style'] );
 		} else {
 			$this->register_collection( $entry['library'], $entry['manifest'] );
@@ -510,6 +515,9 @@ class CoreIconRegistrar {
 			// Custom icons are one user-managed set, not a visual style family.
 			return $styles;
 		}
+		if ( $this->uses_manifest_collection_namespace( $manifest ) ) {
+			return $styles;
+		}
 
 		$used = array();
 		foreach ( $manifest['icons'] as $icon ) {
@@ -546,6 +554,59 @@ class CoreIconRegistrar {
 		}
 
 		return $styles;
+	}
+
+	/**
+	 * Keeps a sole default variant in its manifest namespace for Core discovery.
+	 *
+	 * A collection such as Radix has no alternate visual style to select. Its
+	 * manifest's `radix/icon-default` names therefore form the Core collection
+	 * namespace. Multi-style collections retain their existing style tabs.
+	 *
+	 * @param array $manifest Collection manifest.
+	 * @return bool Whether the manifest namespace should be used directly.
+	 */
+	private function uses_manifest_collection_namespace( $manifest ) {
+		if ( ! is_array( $manifest ) || empty( $manifest['variants'] ) || ! is_array( $manifest['variants'] ) ) {
+			return false;
+		}
+
+		$variants = array_values(
+			array_unique(
+				array_filter(
+					array_map(
+						static function ( $variant ) {
+							return is_array( $variant ) && is_string( $variant['slug'] ?? null ) ? sanitize_key( $variant['slug'] ) : '';
+						},
+						$manifest['variants']
+					)
+				)
+			)
+		);
+
+		return array( 'default' ) === $variants;
+	}
+
+	/**
+	 * Registers the former style namespace only when saved content requires it.
+	 *
+	 * Default-only collections now use their manifest namespace in picker
+	 * discovery. The former style namespace remains lazy and hidden, so existing
+	 * blocks continue to render without creating a duplicate picker tab.
+	 *
+	 * @param string $library Library slug.
+	 * @param array  $manifest Collection manifest.
+	 * @param string $variant Variant slug.
+	 */
+	private function register_legacy_style_collection( $library, $manifest, $variant ) {
+		if ( ! is_string( $library ) || ! is_array( $manifest ) || ! is_string( $variant ) || ! $this->uses_manifest_collection_namespace( $manifest ) || ! isset( $manifest['name'] ) || ! is_string( $manifest['name'] ) || '' === trim( $manifest['name'] ) ) {
+			return;
+		}
+
+		$style = $library . '-' . sanitize_key( $variant );
+		if ( $this->register_collection_slug( $style, array( 'label' => sanitize_text_field( $manifest['name'] . ' - ' . ucfirst( sanitize_key( $variant ) ) ) ) ) ) {
+			$this->legacy_collections[] = $style;
+		}
 	}
 
 	/**
