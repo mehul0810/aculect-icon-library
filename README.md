@@ -17,12 +17,15 @@ icon fonts.
 | Font Awesome Free | Solid, Regular, Brands |
 | Tabler Icons | Filled |
 | Radix Icons | Default |
+| Google Material Icons | Filled 24px, Core-compatible subset (1,038 icons) |
 
 No libraries are installed by default. Preview and search the included libraries
 before installing them, filter by variant and category where available, and
 enable only the styles you need. Font Awesome Pro styles are not bundled.
 Included SVGs and custom uploads are stored locally; browsing and using them
 requires no external service connection.
+
+See [Material Icons scope, exclusions and provenance](docs/material-icons.md).
 
 ## Requirements And Quick Start
 

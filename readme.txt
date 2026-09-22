@@ -171,6 +171,7 @@ Bundled libraries remain under their upstream terms:
 * Font Awesome Free: https://fontawesome.com/license/free (Font Awesome Free license).
 * Tabler Icons: https://github.com/tabler/tabler-icons (MIT license).
 * Radix Icons: https://github.com/radix-ui/icons (MIT license).
+* Google Material Icons, compatible filled 24px subset: https://github.com/google/material-design-icons (Apache-2.0; bundled license and modification notices).
 
 == Changelog ==
 
