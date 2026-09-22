@@ -171,6 +171,7 @@ Bundled libraries remain under their upstream terms:
 * Font Awesome Free: https://fontawesome.com/license/free (Font Awesome Free license).
 * Tabler Icons: https://github.com/tabler/tabler-icons (MIT license).
 * Radix Icons: https://github.com/radix-ui/icons (MIT license).
+* Rune Icons, pixelated variant only: https://github.com/Nexvyn/runeicons (Apache-2.0; bundled license and SVG modification notices).
 
 == Changelog ==
 

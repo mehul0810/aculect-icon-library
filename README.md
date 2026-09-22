@@ -17,12 +17,15 @@ icon fonts.
 | Font Awesome Free | Solid, Regular, Brands |
 | Tabler Icons | Filled |
 | Radix Icons | Default |
+| Rune Icons | Pixelated (215 icons; original path colors) |
 
 No libraries are installed by default. Preview and search the included libraries
 before installing them, filter by variant and category where available, and
 enable only the styles you need. Font Awesome Pro styles are not bundled.
 Included SVGs and custom uploads are stored locally; browsing and using them
 requires no external service connection.
+
+Rune's other styles are not bundled. See [source, license and import details](docs/rune-icons.md).
 
 ## Requirements And Quick Start
 
