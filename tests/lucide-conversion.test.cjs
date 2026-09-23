@@ -23,7 +23,7 @@ test('stroke conversion preserves deterministic nonempty filled geometry', async
 
 test('unsupported presentation and hostile markup fail closed', async () => {
   const convert = await createConverter();
-  for (const shape of ['<path d="M1 1h2" opacity=".5"/>', '<path d="M1 1h2" transform="translate(1)"/>', '<script>alert(1)</script>', '<use href="https://example.com/x"/>', '<path d="bogus"/>', '<circle cx="NaN" cy="12" r="1"/>', '<g><path d="M1 1h2"/></g>']) {
+  for (const shape of ['<path d="M1 1h2" opacity=".5"/>', '<path d="M1 1h2" transform="translate(1)"/>', '<script>alert(1)</script>', '<use href="https://example.com/x"/>', '<path d="bogus"/>', '<circle cx="NaN" cy="12" r="1"/>', '<circle cx="1e308" cy="12" r="1e308"/>', '<g><path d="M1 1h2"/></g>']) {
     assert.throws(() => convert(open + shape + '</svg>'));
   }
   assert.throws(() => convert('<!DOCTYPE svg>' + open + '<path d="M1 1h2"/></svg>'));

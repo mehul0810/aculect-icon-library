@@ -8,6 +8,9 @@ const circleCubic = 0.5522847498307936;
 
 function circlePath(x, y, r, reverse = false) {
   const k = r * circleCubic;
+  if (![x, y, r, k, x - r, x + r, y - r, y + r, x - k, x + k, y - k, y + k].every(Number.isFinite)) {
+    throw new Error('Circle coordinates overflow.');
+  }
   if (reverse) {
     return `M${x-r} ${y}C${x-r} ${y+k} ${x-k} ${y+r} ${x} ${y+r}C${x+k} ${y+r} ${x+r} ${y+k} ${x+r} ${y}C${x+r} ${y-k} ${x+k} ${y-r} ${x} ${y-r}C${x-k} ${y-r} ${x-r} ${y-k} ${x-r} ${y}Z`;
   }
