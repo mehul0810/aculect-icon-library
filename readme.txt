@@ -172,6 +172,7 @@ Bundled libraries remain under their upstream terms:
 * Tabler Icons: https://github.com/tabler/tabler-icons (MIT license).
 * Radix Icons: https://github.com/radix-ui/icons (MIT license).
 * Rune Icons, pixelated variant only: https://github.com/Nexvyn/runeicons (Apache-2.0; bundled license and SVG modification notices).
+* Google Material Icons, compatible filled 24px subset: https://github.com/google/material-design-icons (Apache-2.0; bundled license and modification notices).
 
 == Changelog ==
 
