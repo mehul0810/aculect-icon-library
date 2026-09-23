@@ -176,8 +176,8 @@ Bundled libraries remain under their upstream terms:
 
 = 1.1.0 =
 
-* Add 1,012 Tabler Filled icons from the pinned 3.47.0 release, excluding Brand-category and selected trademark or character assets.
-* Add 299 non-logo Radix Icons from the pinned 1.3.2 release with their native 15-pixel viewBox.
+* Added support for [Tabler Icons](https://tabler.io/icons).
+* Added support for [Radix Icons](https://www.radix-ui.com/icons).
 * Preserve upstream categories, searchable metadata, licenses, and source revisions for both libraries.
 * Add deterministic importers and exclusion reports without weakening the WordPress Icon API SVG contract.
 
