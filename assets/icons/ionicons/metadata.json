@@ -1,0 +1,39 @@
+{
+    "schemaVersion": 2,
+    "slug": "ionicons",
+    "name": "Ionicons",
+    "description": "Ionicons filled, sharp, outline and brand SVG assets compatible with Core.",
+    "version": "8.0.13",
+    "license": {
+        "name": "MIT",
+        "url": "https://github.com/ionic-team/ionicons/blob/a9d1b7e23d7b9dec29f2041897ab14b2cef55064/LICENSE"
+    },
+    "source": {
+        "name": "ionic-team/ionicons",
+        "url": "https://github.com/ionic-team/ionicons",
+        "revision": "a9d1b7e23d7b9dec29f2041897ab14b2cef55064"
+    },
+    "variants": [
+        {
+            "slug": "filled",
+            "label": "Filled",
+            "iconCount": 313
+        },
+        {
+            "slug": "sharp",
+            "label": "Sharp",
+            "iconCount": 284
+        },
+        {
+            "slug": "outline",
+            "label": "Outline",
+            "iconCount": 14
+        },
+        {
+            "slug": "brands",
+            "label": "Brands",
+            "iconCount": 68
+        }
+    ],
+    "iconCount": 679
+}
