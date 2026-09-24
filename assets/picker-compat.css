@@ -1,0 +1,9 @@
+/* WordPress 7.1 scrolls the selected Icon result into view on picker open. */
+@media (max-width: 781px) {
+	.wp-block-icon__inserter-modal .wp-block-icon__inserter-sidebar {
+		position: sticky;
+		top: 0;
+		z-index: 2;
+		background: #fff;
+	}
+}
