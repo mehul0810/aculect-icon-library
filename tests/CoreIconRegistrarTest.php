@@ -8,6 +8,25 @@ use IconLibrary\Plugin;
 use PHPUnit\Framework\TestCase;
 
 class CoreIconRegistrarTest extends TestCase {
+	public function test_mobile_picker_compat_style_is_scoped_to_wordpress_71() {
+		$registry  = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
+		$registrar = new CoreIconRegistrar( $registry );
+
+		$GLOBALS['icon_library_test_wp_version']      = '7.1.2';
+		$GLOBALS['icon_library_test_enqueued_styles'] = array();
+		$registrar->enqueue_editor_picker_compat_styles();
+		$this->assertSame(
+			array( ICON_LIBRARY_URL . 'assets/picker-compat.css', array(), ICON_LIBRARY_VERSION ),
+			$GLOBALS['icon_library_test_enqueued_styles']['icon-library-picker-compat']
+		);
+
+		$GLOBALS['icon_library_test_wp_version']      = '7.2';
+		$GLOBALS['icon_library_test_enqueued_styles'] = array();
+		$registrar->enqueue_editor_picker_compat_styles();
+		$this->assertSame( array(), $GLOBALS['icon_library_test_enqueued_styles'] );
+		$GLOBALS['icon_library_test_wp_version'] = '7.1.2';
+	}
+
 	public function test_metadata_discovery_never_resolves_svg_files() {
 		$GLOBALS['icon_library_test_registered'] = array( 'collections' => array(), 'icons' => array() );
 		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_enabled_collection_slugs', 'get_manifest', 'get_enabled_variants', 'get_svg_path', 'get_svg_content' ) )->getMock();

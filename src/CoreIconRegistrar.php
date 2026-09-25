@@ -169,6 +169,22 @@ class CoreIconRegistrar {
 	}
 
 	/**
+	 * Keeps Core's mobile picker controls visible when a saved icon scrolls into view.
+	 */
+	public function enqueue_editor_picker_compat_styles() {
+		if ( version_compare( get_bloginfo( 'version' ), '7.2', '>=' ) ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'icon-library-picker-compat',
+			ICON_LIBRARY_URL . 'assets/picker-compat.css',
+			array(),
+			ICON_LIBRARY_VERSION
+		);
+	}
+
+	/**
 	 * Registers icons referenced by the queried post before frontend styles print.
 	 */
 	public function register_queried_post_icons() {
