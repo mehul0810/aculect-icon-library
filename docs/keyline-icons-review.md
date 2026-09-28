@@ -48,11 +48,12 @@ duotone while stripping strokes/opacity would silently change the artwork.
 ## Reproduction
 
 ```sh
-git clone --depth 1 https://github.com/keyline-icons/keyline-icons.git
+git clone https://github.com/keyline-icons/keyline-icons.git
+git -C keyline-icons checkout --detach 0a4385b467690653498a67917e554d1de6a6bfd1
 git -C keyline-icons rev-parse HEAD
 ```
 
-Check out the exact commit above if upstream has advanced. From this plugin:
+The checkout pins the reviewed revision even if upstream has advanced. From this plugin:
 
 ```php
 require 'scripts/lib/CollectionBuild.php';
