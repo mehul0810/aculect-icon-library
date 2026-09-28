@@ -3,7 +3,8 @@
 Easily add support for popular icon libraries and custom SVG icons to the native WordPress Icon block
 
 Aculect Icon Library adds Heroicons, Bootstrap Icons, Font Awesome Free, Tabler
-Icons, Radix Icons, Google Material Icons, Iconoir, and custom SVG icons to
+Icons, Radix Icons, Rune Icons, Google Material Icons, Iconoir, and custom SVG
+icons to
 WordPress's existing `core/icon` block. Manage libraries from **Appearance >
 Icons**, enable the styles you need, and choose icons in the block editor. It
 does not add a competing block or use icon fonts.
@@ -17,6 +18,7 @@ does not add a competing block or use icon fonts.
 | Font Awesome Free | Solid, Regular, Brands |
 | Tabler Icons | Filled |
 | Radix Icons | Default |
+| Rune Icons | Pixelated (215 icons; original path colors) |
 | Google Material Icons | Filled 24px, Core-compatible subset (1,038 icons) |
 | Iconoir | Solid (210 compatible icons) |
 
@@ -30,6 +32,7 @@ Iconoir includes a compatible filled-path Solid subset. Regular and mixed-stroke
 icons are explicitly deferred, not silently simplified. See
 [Iconoir compatibility scope](docs/iconoir-import.md) for source, license,
 reproduction and the complete exclusion report.
+Rune's other styles are not bundled. See [source, license and import details](docs/rune-icons.md).
 See [Material Icons scope, exclusions and provenance](docs/material-icons.md).
 
 ## Requirements And Quick Start
@@ -320,5 +323,6 @@ retain their upstream licenses: [Heroicons (MIT)](https://github.com/tailwindlab
 [Font Awesome Free](https://fontawesome.com/license/free),
 [Tabler Icons (MIT)](https://github.com/tabler/tabler-icons),
 [Radix Icons (MIT)](https://github.com/radix-ui/icons),
+[Rune Icons (Apache-2.0)](https://github.com/Nexvyn/runeicons),
 [Google Material Icons (Apache-2.0)](https://github.com/google/material-design-icons),
 and [Iconoir (MIT)](https://github.com/iconoir-icons/iconoir).
