@@ -17,6 +17,7 @@ icon fonts.
 | Font Awesome Free | Solid, Regular, Brands |
 | Tabler Icons | Filled |
 | Radix Icons | Default |
+| Lucide | Outline |
 | Google Material Icons | Filled 24px, Core-compatible subset (1,038 icons) |
 
 No libraries are installed by default. Preview and search the included libraries
@@ -24,6 +25,11 @@ before installing them, filter by variant and category where available, and
 enable only the styles you need. Font Awesome Pro styles are not bundled.
 Included SVGs and custom uploads are stored locally; browsing and using them
 requires no external service connection.
+
+Lucide 1.47.0 adds 1,848 outline icons converted to filled paths during the
+build, preserving the existing SVG sanitizer. Its Outline variant is disabled
+by default. See [Lucide import](docs/lucide-import.md) for reproducible source,
+licenses, conversion details, and release-validation requirements.
 
 See [Material Icons scope, exclusions and provenance](docs/material-icons.md).
 

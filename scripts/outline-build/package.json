@@ -1,0 +1,11 @@
+{
+  "name": "aculect-outline-build",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Build-only SVG stroke expansion; never shipped to WordPress.",
+  "dependencies": {
+    "@xmldom/xmldom": "0.9.12",
+    "pathkit-wasm": "1.0.0",
+    "svgpath": "2.6.0"
+  }
+}
