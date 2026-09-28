@@ -13,9 +13,9 @@ Easily add support for popular icon libraries and custom SVG icons to the native
 == Description ==
 
 Aculect Icon Library is a WordPress plugin that adds Heroicons, Bootstrap Icons,
-Font Awesome Free, Tabler Icons, Radix Icons, and custom SVG icons to the native
-WordPress Icon block. Manage libraries from Appearance > Icons, enable the
-styles you need, and select icons in the WordPress block editor.
+Font Awesome Free, Tabler Icons, Radix Icons, Rune Icons, and custom SVG icons
+to the native WordPress Icon block. Manage libraries from Appearance > Icons,
+enable the styles you need, and select icons in the WordPress block editor.
 
 Manage everything from Appearance > Icons. No icon libraries are installed by
 default: open Install Library to browse the included libraries and install
@@ -28,6 +28,7 @@ the ones you want to use.
 * Font Awesome Free: Solid, Regular, and Brands.
 * Tabler Icons: Filled.
 * Radix Icons: Default.
+* Rune Icons: Pixelated (215 icons).
 
 Preview icons before installing a library. Search and filter by library,
 variant, and category where available, and load more results as you browse.
@@ -78,8 +79,8 @@ Heroicons includes Outline and Solid. Bootstrap Icons includes Default and
 Filled. Font Awesome Free includes Solid, Regular, and Brands; Pro-only styles
 are not included. Tabler Icons includes 1,012 Filled icons after excluding its
 Brand category and selected trademark or character references. Radix Icons
-includes its non-logo 15-pixel icon collection. No libraries are installed by
-default.
+includes its non-logo 15-pixel icon collection. Rune Icons includes 215
+pixelated icons. No libraries are installed by default.
 
 = How do I add an icon to a WordPress post or page? =
 
@@ -171,6 +172,7 @@ Bundled libraries remain under their upstream terms:
 * Font Awesome Free: https://fontawesome.com/license/free (Font Awesome Free license).
 * Tabler Icons: https://github.com/tabler/tabler-icons (MIT license).
 * Radix Icons: https://github.com/radix-ui/icons (MIT license).
+* Rune Icons, pixelated variant only: https://github.com/Nexvyn/runeicons (Apache-2.0; bundled license and SVG modification notices).
 * Google Material Icons, compatible filled 24px subset: https://github.com/google/material-design-icons (Apache-2.0; bundled license and modification notices).
 
 == Changelog ==
