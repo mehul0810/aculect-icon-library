@@ -20,6 +20,26 @@ $library    = isset( $argv[1] ) ? $argv[1] : '';
 $source_dir = isset( $argv[2] ) ? rtrim( $argv[2], DIRECTORY_SEPARATOR ) : '';
 $plugin_dir = dirname( __DIR__ );
 $configs    = array(
+	'phosphor'        => array(
+		'name'         => 'Phosphor Icons',
+		'description'  => 'Phosphor Regular and Fill icons.',
+		'variants'     => array(
+			'regular' => array(
+				'label'  => 'Regular',
+				'source' => 'assets/regular',
+			),
+			'fill'    => array(
+				'label'  => 'Fill',
+				'source' => 'assets/fill',
+			),
+		),
+		'license'      => 'MIT',
+		'license_url'  => 'https://github.com/phosphor-icons/core/blob/d42782b2abe747d904b971ccab48b182a1455f86/LICENSE',
+		'license_file' => 'LICENSE',
+		'source_name'  => 'phosphor-icons/core',
+		'source_url'   => 'https://github.com/phosphor-icons/core',
+		'revision'     => 'd42782b2abe747d904b971ccab48b182a1455f86',
+	),
 	'bootstrap-icons' => array(
 		'name'         => 'Bootstrap Icons',
 		'description'  => 'Official open source SVG icons for Bootstrap.',
@@ -218,6 +238,11 @@ $package  = json_decode( (string) @file_get_contents( $source_dir . '/package.js
 $version  = is_array( $package ) && isset( $package['version'] ) ? $package['version'] : ltrim( basename( trim( shell_exec( 'git -C ' . escapeshellarg( $source_dir ) . ' describe --tags --exact-match 2>/dev/null' ) ) ), 'v' );
 $revision = trim( (string) shell_exec( 'git -C ' . escapeshellarg( $source_dir ) . ' rev-parse HEAD 2>/dev/null' ) );
 
+if ( isset( $config['revision'] ) && $config['revision'] !== $revision ) {
+	fwrite( STDERR, "Source checkout does not match the pinned collection revision.\n" );
+	exit( 1 );
+}
+
 if ( '' === $version || 1 !== preg_match( '/^[a-f0-9]{40}$/', $revision ) ) {
 	fwrite( STDERR, "Source checkout is missing icons, version, or Git revision.\n" );
 	exit( 1 );
@@ -403,6 +428,20 @@ if ( $errors ) {
 }
 
 $manifest_json = json_encode( $manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . "\n";
+if ( 'phosphor' === $library ) {
+	$report = array(
+		'sourceRevision'    => $revision,
+		'sourceTag'         => 'v2.0.8',
+		'packageVersion'    => $version,
+		'includedIconCount' => count( $icons ),
+		'excludedIconCount' => count( $skipped ),
+		'exclusions'        => $skipped,
+	);
+	if ( false === file_put_contents( $target_dir . '/exclusions.json', json_encode( $report, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . "\n" ) ) {
+		fwrite( STDERR, "Could not write collection exclusion report.\n" );
+		exit( 1 );
+	}
+}
 if ( false === file_put_contents( $target_dir . '/manifest.json', $manifest_json ) ) {
 	fwrite( STDERR, "Could not write collection manifest.\n" );
 	exit( 1 );
