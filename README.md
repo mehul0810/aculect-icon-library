@@ -3,10 +3,10 @@
 Easily add support for popular icon libraries and custom SVG icons to the native WordPress Icon block
 
 Aculect Icon Library adds Heroicons, Bootstrap Icons, Font Awesome Free, Tabler
-Icons, Radix Icons, and custom SVG icons to WordPress's existing `core/icon`
-block. Manage libraries from **Appearance > Icons**, enable the styles you need,
-and choose icons in the block editor. It does not add a competing block or use
-icon fonts.
+Icons, Radix Icons, Google Material Icons, Iconoir, and custom SVG icons to
+WordPress's existing `core/icon` block. Manage libraries from **Appearance >
+Icons**, enable the styles you need, and choose icons in the block editor. It
+does not add a competing block or use icon fonts.
 
 ## Supported Icon Libraries
 
@@ -17,6 +17,7 @@ icon fonts.
 | Font Awesome Free | Solid, Regular, Brands |
 | Tabler Icons | Filled |
 | Radix Icons | Default |
+| Google Material Icons | Filled 24px, Core-compatible subset (1,038 icons) |
 | Iconoir | Solid (210 compatible icons) |
 
 No libraries are installed by default. Preview and search the included libraries
@@ -29,6 +30,7 @@ Iconoir includes a compatible filled-path Solid subset. Regular and mixed-stroke
 icons are explicitly deferred, not silently simplified. See
 [Iconoir compatibility scope](docs/iconoir-import.md) for source, license,
 reproduction and the complete exclusion report.
+See [Material Icons scope, exclusions and provenance](docs/material-icons.md).
 
 ## Requirements And Quick Start
 
@@ -316,5 +318,7 @@ Aculect Icon Library is licensed under GPLv2 or later. Bundled icon libraries
 retain their upstream licenses: [Heroicons (MIT)](https://github.com/tailwindlabs/heroicons),
 [Bootstrap Icons (MIT)](https://github.com/twbs/icons),
 [Font Awesome Free](https://fontawesome.com/license/free),
-[Tabler Icons (MIT)](https://github.com/tabler/tabler-icons), and
-[Radix Icons (MIT)](https://github.com/radix-ui/icons).
+[Tabler Icons (MIT)](https://github.com/tabler/tabler-icons),
+[Radix Icons (MIT)](https://github.com/radix-ui/icons),
+[Google Material Icons (Apache-2.0)](https://github.com/google/material-design-icons),
+and [Iconoir (MIT)](https://github.com/iconoir-icons/iconoir).

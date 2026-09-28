@@ -1,0 +1,108 @@
+{
+    "schemaVersion": 2,
+    "slug": "material-icons",
+    "name": "Google Material Icons",
+    "description": "Core-compatible filled 24px Material Icons; other styles are not bundled.",
+    "version": "commit-27e9ef1dbeed",
+    "license": {
+        "name": "Apache-2.0",
+        "url": "https://github.com/google/material-design-icons/blob/27e9ef1dbeedc13d682fece4a58e1eda4cb0961a/LICENSE"
+    },
+    "source": {
+        "name": "google/material-design-icons",
+        "url": "https://github.com/google/material-design-icons",
+        "revision": "27e9ef1dbeedc13d682fece4a58e1eda4cb0961a"
+    },
+    "variants": [
+        {
+            "slug": "filled",
+            "label": "Filled",
+            "coreCompatible": true,
+            "defaultEnabled": true,
+            "iconCount": 1038
+        }
+    ],
+    "categories": [
+        {
+            "slug": "action",
+            "label": "Action",
+            "iconCount": 237
+        },
+        {
+            "slug": "alert",
+            "label": "Alert",
+            "iconCount": 5
+        },
+        {
+            "slug": "av",
+            "label": "Av",
+            "iconCount": 92
+        },
+        {
+            "slug": "communication",
+            "label": "Communication",
+            "iconCount": 59
+        },
+        {
+            "slug": "content",
+            "label": "Content",
+            "iconCount": 49
+        },
+        {
+            "slug": "device",
+            "label": "Device",
+            "iconCount": 52
+        },
+        {
+            "slug": "editor",
+            "label": "Editor",
+            "iconCount": 67
+        },
+        {
+            "slug": "file",
+            "label": "File",
+            "iconCount": 23
+        },
+        {
+            "slug": "hardware",
+            "label": "Hardware",
+            "iconCount": 41
+        },
+        {
+            "slug": "image",
+            "label": "Image",
+            "iconCount": 191
+        },
+        {
+            "slug": "maps",
+            "label": "Maps",
+            "iconCount": 74
+        },
+        {
+            "slug": "navigation",
+            "label": "Navigation",
+            "iconCount": 38
+        },
+        {
+            "slug": "notification",
+            "label": "Notification",
+            "iconCount": 56
+        },
+        {
+            "slug": "places",
+            "label": "Places",
+            "iconCount": 16
+        },
+        {
+            "slug": "social",
+            "label": "Social",
+            "iconCount": 29
+        },
+        {
+            "slug": "toggle",
+            "label": "Toggle",
+            "iconCount": 9
+        }
+    ],
+    "iconCount": 1038
+}
