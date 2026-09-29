@@ -38,6 +38,7 @@ class Plugin {
 		add_filter( 'render_block_data', array( $core_registrar, 'register_icon_block' ) );
 		add_action( 'enqueue_block_assets', array( $core_registrar, 'enqueue_styles' ) );
 		add_action( 'enqueue_block_editor_assets', array( $core_registrar, 'enqueue_styles' ) );
+		add_action( 'enqueue_block_editor_assets', array( $core_registrar, 'enqueue_editor_picker_compat_styles' ) );
 		add_filter( 'rest_request_after_callbacks', array( $core_registrar, 'filter_core_discovery_response' ), 10, 3 );
 		add_action( 'rest_api_init', array( $rest_controller, 'register_routes' ) );
 		$ability_registrar->register();

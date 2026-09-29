@@ -7,6 +7,8 @@
 
 define( 'ABSPATH', __DIR__ . '/wordpress/' );
 define( 'ICON_LIBRARY_DIR', dirname( __DIR__ ) . '/' );
+define( 'ICON_LIBRARY_URL', 'https://example.test/wp-content/plugins/aculect-icon-library/' );
+define( 'ICON_LIBRARY_VERSION', '1.1.0' );
 
 $GLOBALS['icon_library_test_options']      = array();
 $GLOBALS['icon_library_test_capabilities'] = array();
@@ -21,6 +23,16 @@ $GLOBALS['icon_library_test_actions']      = array();
 $GLOBALS['icon_library_test_abilities']    = array();
 $GLOBALS['icon_library_test_categories']   = array();
 $GLOBALS['icon_library_test_posts']       = array();
+$GLOBALS['icon_library_test_enqueued_styles'] = array();
+$GLOBALS['icon_library_test_wp_version']      = '7.1.2';
+
+function get_bloginfo( $show = '' ) {
+	return 'version' === $show ? $GLOBALS['icon_library_test_wp_version'] : '';
+}
+
+function wp_enqueue_style( $handle, $src, $deps = array(), $ver = false ) {
+	$GLOBALS['icon_library_test_enqueued_styles'][ $handle ] = array( $src, $deps, $ver );
+}
 
 class WP_REST_Request extends ArrayObject {
 	private $method;

@@ -47,6 +47,7 @@ $files            = array(
 		'assets/build/custom-icons-dataviews.js',
 		'assets/src/custom-icons-dataviews.js',
 		'assets/icons.css',
+		'assets/picker-compat.css',
 	),
 );
 $legacy_svg_paths = array();
