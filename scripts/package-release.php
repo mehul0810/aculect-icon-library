@@ -34,7 +34,7 @@ if ( ! preg_match( '/^Stable tag:\s*(\S+)/mi', $readme, $stable_match ) || $vers
 	exit( 1 );
 }
 
-$files            = array(
+$files        = array(
 	'.' => array(
 		'aculect-icon-library.php',
 		'uninstall.php',
@@ -43,6 +43,7 @@ $files            = array(
 		'assets/admin.css',
 		'assets/aculect-icon.svg',
 		'assets/admin.js',
+		'assets/library-installer.js',
 		'assets/build/custom-icons-dataviews.asset.php',
 		'assets/build/custom-icons-dataviews.js',
 		'assets/src/custom-icons-dataviews.js',
@@ -50,6 +51,38 @@ $files            = array(
 		'assets/picker-compat.css',
 	),
 );
+$catalog_path = $root . '/data/library-catalog.json';
+$catalog_raw  = is_file( $catalog_path ) && ! is_link( $catalog_path ) ? file_get_contents( $catalog_path ) : false;
+$catalog      = is_string( $catalog_raw ) && strlen( $catalog_raw ) <= 1048576 ? json_decode( $catalog_raw, true ) : null;
+if ( ! is_array( $catalog ) || 1 !== ( $catalog['schema_version'] ?? null ) || ! is_array( $catalog['libraries'] ?? null ) ) {
+	fwrite( STDERR, "Trusted library catalog is missing or invalid.\n" );
+	exit( 1 );
+}
+$catalog_keys = array();
+foreach ( $catalog['libraries'] as $entry ) {
+	if ( ! is_array( $entry ) || ! isset( $entry['library_id'], $entry['style_id'], $entry['release_version'], $entry['package_sha256'], $entry['manifest_sha256'], $entry['package_bytes'] ) || ! is_string( $entry['library_id'] ) || 1 !== preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $entry['library_id'] ) || ! is_string( $entry['style_id'] ) || 1 !== preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $entry['style_id'] ) || ! is_string( $entry['release_version'] ) || strlen( $entry['release_version'] ) > 64 || ! preg_match( '/^(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})(?:-([0-9A-Za-z.-]+))?(?:\+([0-9A-Za-z.-]+))?$/', $entry['release_version'], $version_parts ) || ! is_string( $entry['package_sha256'] ) || 1 !== preg_match( '/^[a-f0-9]{64}$/', $entry['package_sha256'] ) || ! is_string( $entry['manifest_sha256'] ) || 1 !== preg_match( '/^[a-f0-9]{64}$/', $entry['manifest_sha256'] ) || ! is_int( $entry['package_bytes'] ) || $entry['package_bytes'] < 1 || $entry['package_bytes'] > 33554432 ) {
+		fwrite( STDERR, "Trusted library catalog entry is invalid.\n" );
+		exit( 1 );
+	}
+	foreach ( array( 4, 5 ) as $part_index ) {
+		if ( empty( $version_parts[ $part_index ] ) ) {
+			continue; }
+		foreach ( explode( '.', $version_parts[ $part_index ] ) as $identifier ) {
+			if ( '' === $identifier || ( 4 === $part_index && ctype_digit( $identifier ) && strlen( $identifier ) > 1 && '0' === $identifier[0] ) ) {
+				fwrite( STDERR, "Trusted library catalog version is invalid.\n" );
+				exit( 1 );
+			}
+		}
+	}
+	$key           = $entry['library_id'] . '/' . $entry['style_id'] . '/' . $entry['release_version'];
+	$canonical_url = 'https://github.com/mehul0810/aculect-icon-libraries/releases/download/' . rawurlencode( $entry['library_id'] . '-' . $entry['style_id'] . '-' . $entry['release_version'] ) . '/' . rawurlencode( $entry['library_id'] . '-' . $entry['style_id'] . '-' . $entry['release_version'] . '.zip' );
+	if ( isset( $catalog_keys[ $key ] ) || ( isset( $entry['url'] ) && $entry['url'] !== $canonical_url ) ) {
+		fwrite( STDERR, "Trusted library catalog entry is duplicated or uses a non-canonical source.\n" );
+		exit( 1 );
+	}
+	$catalog_keys[ $key ] = true;
+}
+$files['.'][]     = 'data/library-catalog.json';
 $legacy_svg_paths = array();
 
 foreach ( glob( $root . '/src/*.php' ) as $source_file ) {

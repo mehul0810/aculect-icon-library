@@ -18,18 +18,79 @@ class Plugin {
 	const OPTION_ENABLED_COLLECTIONS = 'icon_library_enabled_collections';
 	const OPTION_ENABLED_VARIANTS    = 'icon_library_enabled_variants';
 	const REST_NAMESPACE             = 'icon-library/v1';
+	/**
+	 * Optional trusted catalog injection.
+	 *
+	 * @var TrustedLibraryCatalog|null
+	 */
+	private $library_catalog;
+	/**
+	 * Optional package validator injection.
+	 *
+	 * @var LibraryPackageValidator|null
+	 */
+	private $library_validator;
+	/**
+	 * Optional transport for isolated tests.
+	 *
+	 * @var callable|null
+	 */
+	private $library_transport;
+	/**
+	 * Optional isolated storage directory.
+	 *
+	 * @var string
+	 */
+	private $library_storage_dir;
+	/**
+	 * Optional job state store injection.
+	 *
+	 * @var LibraryJobStore|null
+	 */
+	private $library_jobs;
+
+	/**
+	 * Constructor with optional service injection for isolated runtime tests.
+	 *
+	 * @param TrustedLibraryCatalog|null   $catalog Trusted catalog override.
+	 * @param LibraryPackageValidator|null $validator Package validator override.
+	 * @param callable|null                $transport Test transport override.
+	 * @param string                       $storage_dir Optional isolated storage root.
+	 * @param LibraryJobStore|null         $jobs Optional isolated state store.
+	 */
+	public function __construct( ?TrustedLibraryCatalog $catalog = null, ?LibraryPackageValidator $validator = null, $transport = null, $storage_dir = '', ?LibraryJobStore $jobs = null ) {
+		$this->library_catalog     = $catalog;
+		$this->library_validator   = $validator;
+		$this->library_transport   = is_callable( $transport ) ? $transport : null;
+		$this->library_storage_dir = is_string( $storage_dir ) ? $storage_dir : '';
+		$this->library_jobs        = $jobs;
+	}
+
+	/** Bootstrap callback used by the plugin file and removable by isolated runtime harnesses. */
+	public static function bootstrap() {
+		$plugin = new self();
+		$plugin->register();
+	}
 
 	/**
 	 * Registers WordPress hooks.
 	 */
 	public function register() {
 		$sanitizer           = new SvgSanitizer();
+		$library_jobs        = $this->library_jobs ? $this->library_jobs : new LibraryJobStore();
+		$library_repository  = new InstalledLibraryRepository( $library_jobs, $this->library_storage_dir );
+		$library_validator   = $this->library_validator ? $this->library_validator : new LibraryPackageValidator( $sanitizer );
+		$library_catalog     = $this->library_catalog ? $this->library_catalog : new TrustedLibraryCatalog();
+		$library_installer   = new LibraryInstaller( $library_catalog, $library_repository, $library_jobs, $library_validator, $this->library_transport );
 		$custom_icons        = new CustomIconRepository( $sanitizer );
 		$manifest_loader     = new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' );
 		$collection_registry = new CollectionRegistry( $manifest_loader, $custom_icons );
 		$core_registrar      = new CoreIconRegistrar( $collection_registry );
 		$rest_controller     = new RestController( $collection_registry, $custom_icons );
 		$ability_registrar   = new AbilityRegistrar( $collection_registry );
+
+		add_filter( 'icon_library_collection_providers', array( $library_repository, 'register_providers' ) );
+		( new LibraryAdminController( $library_installer ) )->register();
 
 		// Core collections are registered only for icon REST requests or saved
 		// blocks that actually need them. This avoids catalog work on public pages.
@@ -44,7 +105,7 @@ class Plugin {
 		$ability_registrar->register();
 
 		if ( is_admin() ) {
-			$admin_page = new AdminPage( $collection_registry, $sanitizer );
+			$admin_page = new AdminPage( $collection_registry, $sanitizer, $library_installer );
 			$admin_page->register();
 			( new AdminActions( $collection_registry, $custom_icons ) )->register();
 		}

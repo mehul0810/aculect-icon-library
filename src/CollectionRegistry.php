@@ -81,6 +81,7 @@ class CollectionRegistry {
 		foreach ( array( 'added_option', 'updated_option', 'deleted_option' ) as $hook ) {
 			add_action( $hook, array( $this, 'invalidate_option' ) );
 		}
+		add_action( 'switch_blog', array( $this, 'clear_request_caches' ), 10, 0 );
 	}
 
 	/**

@@ -29,6 +29,30 @@ requires no external service connection.
 Rune's other styles are not bundled. See [source, license and import details](docs/rune-icons.md).
 See [Material Icons scope, exclusions and provenance](docs/material-icons.md).
 
+## Optional Versioned Libraries
+
+**Appearance > Icons > Optional Libraries** is for separately downloaded icon
+packages. The shipped catalog is currently empty, so this screen offers no
+optional packages. Source and redistribution approval for any future packages
+is still required; no package availability or production download has been
+verified.
+
+When a trusted release is added to the local catalog, the screen shows its
+available version alongside any installed version. An authorized administrator
+must choose **Install** or **Update** to download that exact package from its
+pinned GitHub release and store the verified contents on the site. Installation
+does not enable the library or its styles; use the separate **Library** screen
+after installation. A failed or interrupted job can be retried or resumed with
+another explicit action. Reloading the screen reads saved job status without
+starting a download, and editor, frontend, and status reads do not install
+packages.
+
+Updates retain previously saved icon names when an icon is removed from a new
+package, and disabling a library or style hides it from new selections while
+keeping existing saved blocks resolvable while the plugin and stored files
+remain available. See [Icon Lifecycle](#icon-lifecycle) for the limits of that
+compatibility.
+
 ## Requirements And Quick Start
 
 Requires **WordPress 7.1+** and **PHP 7.4+**.

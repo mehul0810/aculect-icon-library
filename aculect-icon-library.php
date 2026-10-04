@@ -43,8 +43,5 @@ register_activation_hook( __FILE__, array( 'IconLibrary\\Plugin', 'activate' ) )
 
 add_action(
 	'plugins_loaded',
-	static function () {
-		$plugin = new IconLibrary\Plugin();
-		$plugin->register();
-	}
+	array( 'IconLibrary\\Plugin', 'bootstrap' )
 );

@@ -32,14 +32,23 @@ class AdminPage {
 	private $svg_sanitizer;
 
 	/**
+	 * Optional library installer.
+	 *
+	 * @var LibraryInstaller|null
+	 */
+	private $installer;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param CollectionRegistry $collection_registry Collection registry.
-	 * @param SvgSanitizer       $svg_sanitizer       SVG sanitizer.
+	 * @param CollectionRegistry    $collection_registry Collection registry.
+	 * @param SvgSanitizer          $svg_sanitizer       SVG sanitizer.
+	 * @param LibraryInstaller|null $installer Optional library installer.
 	 */
-	public function __construct( CollectionRegistry $collection_registry, SvgSanitizer $svg_sanitizer ) {
+	public function __construct( CollectionRegistry $collection_registry, SvgSanitizer $svg_sanitizer, ?LibraryInstaller $installer = null ) {
 		$this->collection_registry = $collection_registry;
 		$this->svg_sanitizer       = $svg_sanitizer;
+		$this->installer           = $installer;
 	}
 
 	/**
@@ -113,6 +122,24 @@ class AdminPage {
 			array(),
 			ICON_LIBRARY_VERSION
 		);
+		if ( $this->installer ) {
+			wp_enqueue_script( 'icon-library-installer', ICON_LIBRARY_URL . 'assets/library-installer.js', array( 'wp-api-fetch' ), ICON_LIBRARY_VERSION, true );
+			wp_localize_script(
+				'icon-library-installer',
+				'iconLibraryInstaller',
+				array(
+					'restPath' => '/' . Plugin::REST_NAMESPACE . '/library-packages/',
+					'nonce'    => wp_create_nonce( 'wp_rest' ),
+					'i18n'     => array(
+						'working'  => __( 'Installing package...', 'aculect-icon-library' ),
+						'failed'   => __( 'Installation could not be completed. Review the job status and retry.', 'aculect-icon-library' ),
+						'complete' => __( 'Package installed. Enable its library separately in Library.', 'aculect-icon-library' ),
+						'reload'   => __( 'Installation status changed. Reload this page to continue.', 'aculect-icon-library' ),
+						'unknown'  => __( 'Could not confirm the installation result. Reload this page to check status or resume.', 'aculect-icon-library' ),
+					),
+				)
+			);
+		}
 
 		wp_enqueue_script(
 			'icon-library-admin',
@@ -188,6 +215,8 @@ class AdminPage {
 
 			<?php if ( 'browse' === $active_tab ) : ?>
 				<?php $this->render_install_tab( $filters, $collections ); ?>
+			<?php elseif ( 'packages' === $active_tab ) : ?>
+				<?php $this->render_packages_tab(); ?>
 			<?php elseif ( 'custom' === $active_tab ) : ?>
 				<?php $this->render_custom_tab(); ?>
 			<?php else : ?>
@@ -201,6 +230,11 @@ class AdminPage {
 	 * Renders status notice after a toggle.
 	 */
 	private function render_notice() {
+		// Read-only redirect feedback from the non-JavaScript installation form.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['package-error'] ) && 1 === absint( $_GET['package-error'] ) ) {
+			echo '<div class="notice icon-library-notice notice-error" role="alert"><p>' . esc_html__( 'Package installation could not be completed. Review its status and retry.', 'aculect-icon-library' ) . '</p></div>';
+		}
 		// This read-only query parameter controls feedback after a verified mutation.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ! isset( $_GET['icon-library-updated'] ) ) {
@@ -227,9 +261,10 @@ class AdminPage {
 	 */
 	private function render_tabs( $active_tab ) {
 		$tabs = array(
-			'library' => __( 'Library', 'aculect-icon-library' ),
-			'custom'  => _x( 'Upload', 'noun', 'aculect-icon-library' ),
-			'browse'  => __( 'Install Library', 'aculect-icon-library' ),
+			'library'  => __( 'Library', 'aculect-icon-library' ),
+			'custom'   => _x( 'Upload', 'noun', 'aculect-icon-library' ),
+			'browse'   => __( 'Install Library', 'aculect-icon-library' ),
+			'packages' => __( 'Optional Libraries', 'aculect-icon-library' ),
 		);
 		?>
 		<nav class="icon-library-tabs" aria-label="<?php esc_attr_e( 'Icon management', 'aculect-icon-library' ); ?>">
@@ -250,6 +285,129 @@ class AdminPage {
 		</nav>
 		<?php
 	}
+
+	/** Renders catalog choices and durable recovery state without starting work. */
+	private function render_packages_tab() {
+		$entries         = $this->installer ? $this->installer->get_entries() : array();
+		$version_catalog = new TrustedLibraryCatalog();
+		$latest          = array();
+		foreach ( $entries as $entry ) {
+			$key = $entry['library_id'] . '/' . $entry['style_id'];
+			if ( ! isset( $latest[ $key ] ) || $version_catalog->compare_versions( $entry['release_version'], $latest[ $key ]['release_version'] ) > 0 ) {
+				$latest[ $key ] = $entry;
+			}
+		}
+		ksort( $latest );
+		$libraries = array();
+		foreach ( $latest as $entry ) {
+			$libraries[ $entry['library_id'] ][] = $entry;
+		}
+		$permission = LibraryAdminController::installation_permission();
+		?>
+		<section class="icon-library-panel icon-library-packages">
+			<h2><?php esc_html_e( 'Optional Libraries', 'aculect-icon-library' ); ?></h2>
+			<p class="icon-library-package-intro"><?php esc_html_e( 'Installing downloads a verified package from GitHub and stores it on this site. It does not enable the library; manage that separately in Library.', 'aculect-icon-library' ); ?></p>
+			<?php if ( is_wp_error( $permission ) ) : ?>
+				<p class="icon-library-package-permission" role="status"><?php echo esc_html( $permission->get_error_message() ); ?></p>
+			<?php endif; ?>
+			<?php if ( empty( $libraries ) ) : ?>
+				<p class="icon-library-package-empty"><?php esc_html_e( 'No optional library packages are currently approved for installation.', 'aculect-icon-library' ); ?></p>
+			<?php else : ?>
+				<div class="icon-library-package-list">
+					<?php foreach ( $libraries as $library_id => $styles ) : ?>
+						<?php
+						$installed  = $this->installer->get_installed( $library_id );
+						$job        = $this->installer->get_job( $library_id );
+						$job_status = is_array( $job ) ? ( $job['status'] ?? '' ) : '';
+						?>
+						<div class="icon-library-package-group" data-library="<?php echo esc_attr( $library_id ); ?>">
+							<h3><?php echo esc_html( ucwords( str_replace( '-', ' ', $library_id ) ) ); ?></h3>
+							<?php if ( in_array( $job_status, array( 'queued', 'running', 'failed' ), true ) ) : ?>
+								<div class="icon-library-package-job" data-job-id="<?php echo esc_attr( $job['job_id'] ); ?>" data-job-style="<?php echo esc_attr( $job['style_id'] ); ?>" data-job-version="<?php echo esc_attr( $job['release_version'] ); ?>">
+									<p class="icon-library-package-job-status" role="status" aria-live="polite">
+										<?php echo esc_html( sprintf( /* translators: 1: style, 2: version, 3: job status. */ __( '%1$s %2$s: %3$s', 'aculect-icon-library' ), $job['style_id'], $job['release_version'], $job_status ) ); ?>
+										<?php
+										if ( 'running' === $job_status && isset( $job['progress'] ) ) :
+											?>
+											<?php echo esc_html( sprintf( /* translators: %d: progress reported by installer. */ __( ' (%d%%)', 'aculect-icon-library' ), absint( $job['progress'] ) ) ); ?><?php endif; ?>
+									</p>
+								<?php
+								if ( 'failed' === $job_status ) :
+									?>
+									<p class="icon-library-package-job-error"><?php esc_html_e( 'Installation could not be completed. Retry this package or check the site logs.', 'aculect-icon-library' ); ?></p><?php endif; ?>
+								<?php if ( ! is_wp_error( $permission ) ) : ?>
+									<?php $this->render_package_form( $library_id, $job['style_id'], $job['release_version'], $job['job_id'], 'failed' === $job_status ? __( 'Retry', 'aculect-icon-library' ) : __( 'Resume', 'aculect-icon-library' ) ); ?>
+								<?php endif; ?>
+								</div>
+							<?php endif; ?>
+							<?php foreach ( $styles as $entry ) : ?>
+								<?php
+								$style_id          = $entry['style_id'];
+								$catalog_available = ! isset( $entry['catalog_available'] ) || true === $entry['catalog_available'];
+								$available_version = $entry['release_version'];
+								$current_version   = isset( $installed['styles'][ $style_id ]['release_version'] ) ? $installed['styles'][ $style_id ]['release_version'] : '';
+								$has_update        = '' !== $current_version && $version_catalog->compare_versions( $available_version, $current_version ) > 0;
+								$already_installed = '' !== $current_version && ! $has_update;
+								?>
+								<div class="icon-library-package-row" data-style="<?php echo esc_attr( $style_id ); ?>">
+									<div class="icon-library-package-details">
+										<strong><?php echo esc_html( ucwords( str_replace( '-', ' ', $style_id ) ) ); ?></strong>
+										<span><?php echo esc_html( $catalog_available ? sprintf( /* translators: %s: available package version. */ __( 'Available: %s', 'aculect-icon-library' ), $available_version ) : __( 'Unavailable in current catalog', 'aculect-icon-library' ) ); ?></span>
+										<span><?php echo esc_html( '' === $current_version ? __( 'Not installed', 'aculect-icon-library' ) : sprintf( /* translators: %s: installed package version. */ __( 'Installed: %s', 'aculect-icon-library' ), $current_version ) ); ?></span>
+									</div>
+									<?php if ( $catalog_available && $already_installed ) : ?>
+										<span class="icon-library-package-current"><?php esc_html_e( 'Current', 'aculect-icon-library' ); ?></span>
+									<?php elseif ( $catalog_available && ! is_wp_error( $permission ) && ! in_array( $job_status, array( 'queued', 'running' ), true ) ) : ?>
+										<?php $this->render_package_form( $library_id, $style_id, $available_version, '', $has_update ? __( 'Update', 'aculect-icon-library' ) : __( 'Install', 'aculect-icon-library' ) ); ?>
+									<?php endif; ?>
+								</div>
+							<?php endforeach; ?>
+							<?php if ( ! empty( $installed['styles'] ) ) : ?>
+								<?php
+								$library_url = add_query_arg(
+									array(
+										'page' => self::MENU_SLUG,
+										'tab'  => 'library',
+									),
+									admin_url( 'themes.php' )
+								);
+								?>
+								<a class="icon-library-package-settings" href="<?php echo esc_url( $library_url ); ?>"><?php esc_html_e( 'Manage in Library', 'aculect-icon-library' ); ?></a>
+							<?php endif; ?>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
+		</section>
+		<?php
+	}
+
+	/**
+	 * Renders a single exact-version form for JS and non-JS submission.
+	 *
+	 * @param string $library Library identifier.
+	 * @param string $style   Style identifier.
+	 * @param string $version Exact catalog version.
+	 * @param string $job_id  Existing job identifier, if resuming.
+	 * @param string $label   Submit button label.
+	 */
+	private function render_package_form( $library, $style, $version, $job_id, $label ) {
+		?>
+		<form class="icon-library-package-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<?php wp_nonce_field( 'icon_library_install_package' ); ?>
+			<input type="hidden" name="action" value="icon_library_install_package" />
+			<input type="hidden" name="library" value="<?php echo esc_attr( $library ); ?>" />
+			<input type="hidden" name="style" value="<?php echo esc_attr( $style ); ?>" />
+			<input type="hidden" name="version" value="<?php echo esc_attr( $version ); ?>" />
+			<?php
+			if ( $job_id ) :
+				?>
+				<input type="hidden" name="job_id" value="<?php echo esc_attr( $job_id ); ?>" /><?php endif; ?>
+			<button type="submit" class="button button-secondary"><?php echo esc_html( $label ); ?></button>
+		</form>
+		<?php
+	}
+
 
 	/**
 	 * Renders local custom icon management.
@@ -894,6 +1052,6 @@ class AdminPage {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$tab = isset( $_GET['tab'] ) && is_string( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : 'library';
 
-		return in_array( $tab, array( 'library', 'browse', 'custom' ), true ) ? $tab : 'library';
+		return in_array( $tab, array( 'library', 'browse', 'custom', 'packages' ), true ) ? $tab : 'library';
 	}
 }
