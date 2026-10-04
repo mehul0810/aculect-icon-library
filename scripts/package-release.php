@@ -190,6 +190,12 @@ if ( ! $zip->close() ) {
 	exit( 1 );
 }
 
+if ( filesize( $temporary ) >= 10000000 ) {
+	unlink( $temporary );
+	fwrite( STDERR, "Release ZIP must be under 10,000,000 bytes for WordPress.org submission.\n" );
+	exit( 1 );
+}
+
 if ( ! rename( $temporary, $destination ) ) {
 	fwrite( STDERR, "Release ZIP could not be finalized.\n" );
 	exit( 1 );

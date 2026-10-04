@@ -1,0 +1,18 @@
+{
+    "sourceRevision": "d42782b2abe747d904b971ccab48b182a1455f86",
+    "sourceTag": "v2.0.8",
+    "packageVersion": "2.0.7",
+    "includedIconCount": 2487,
+    "excludedIconCount": 9,
+    "exclusions": [
+        "fill/bandaids-fill: Unsupported SVG element: circle.",
+        "fill/cards-fill: Unsupported SVG element: rect.",
+        "fill/monitor-fill: Unsupported SVG element: rect.",
+        "fill/qr-code-fill: Unsupported SVG element: rect.",
+        "fill/record-fill: Unsupported SVG element: circle.",
+        "fill/rectangle-fill: Unsupported SVG element: rect.",
+        "fill/square-fill: Unsupported SVG element: rect.",
+        "fill/vibrate-fill: Unsupported SVG element: rect.",
+        "fill/wall-fill: Unsupported SVG element: rect."
+    ]
+}

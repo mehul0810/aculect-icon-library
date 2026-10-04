@@ -1,0 +1,33 @@
+{
+    "schemaVersion": 2,
+    "slug": "iconoir",
+    "name": "Iconoir",
+    "description": "The compatible filled-path subset of Iconoir Solid. Regular and mixed-stroke icons are deferred.",
+    "version": "7.12.1",
+    "license": {
+        "name": "MIT",
+        "url": "https://github.com/iconoir-icons/iconoir/blob/d7dfa4d0341df0670bfed9fc24221c9d7ef2112e/LICENSE"
+    },
+    "source": {
+        "name": "iconoir-icons/iconoir",
+        "url": "https://github.com/iconoir-icons/iconoir",
+        "revision": "d7dfa4d0341df0670bfed9fc24221c9d7ef2112e"
+    },
+    "variants": [
+        {
+            "slug": "solid",
+            "label": "Solid",
+            "coreCompatible": true,
+            "defaultEnabled": false,
+            "iconCount": 210
+        }
+    ],
+    "categories": [
+        {
+            "slug": "general",
+            "label": "General",
+            "iconCount": 210
+        }
+    ],
+    "iconCount": 210
+}
