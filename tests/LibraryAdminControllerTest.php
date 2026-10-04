@@ -186,4 +186,14 @@ class LibraryAdminControllerTest extends TestCase {
 		$this->installer->method( 'request_install' )->willReturn( $error );
 		$this->assertSame( $error, $this->controller->create_job( $this->request() ) );
 	}
+
+	public function test_untrusted_release_error_preserves_bad_request_status() {
+		$error = new WP_Error( 'icon_library_release_untrusted', 'That exact library version is not in the trusted catalog.', array( 'status' => 400 ) );
+		$this->installer->expects( $this->once() )->method( 'request_install' )->with( 'lucide', 'outline', '9.9.9' )->willReturn( $error );
+		$this->installer->expects( $this->never() )->method( 'run' );
+
+		$result = $this->controller->create_job( $this->request( array( 'library' => 'lucide', 'style' => 'outline', 'version' => '9.9.9' ) ) );
+		$this->assertSame( 'icon_library_release_untrusted', $result->get_error_code() );
+		$this->assertSame( 400, $result->get_error_data()['status'] ?? null );
+	}
 }

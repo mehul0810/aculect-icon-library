@@ -21,6 +21,23 @@ class LibraryInstallerTest extends TestCase {
 		$this->remove_tree( $this->root );
 	}
 
+	public function test_untrusted_release_is_bad_request_without_job_store_mutation() {
+		$jobs = $this->getMockBuilder( LibraryJobStore::class )->disableOriginalConstructor()->getMock();
+		$jobs->expects( $this->never() )->method( 'read' );
+		$jobs->expects( $this->never() )->method( 'compare_and_swap' );
+		$installer = new LibraryInstaller(
+			new TrustedLibraryCatalog( array() ),
+			new InstalledLibraryRepository( $jobs, $this->root . '/storage' ),
+			$jobs,
+			new LibraryPackageValidator( new SvgSanitizer() )
+		);
+
+		$error = $installer->request_install( 'lucide', 'outline', '9.9.9' );
+		$this->assertInstanceOf( WP_Error::class, $error );
+		$this->assertSame( 'icon_library_release_untrusted', $error->get_error_code() );
+		$this->assertSame( 400, $error->get_error_data()['status'] ?? null );
+	}
+
 	public function test_queued_job_keeps_its_exact_release_descriptor_and_activates_only_after_install() {
 		$manifest_bytes = wp_json_encode(
 			array(

@@ -67,7 +67,7 @@ class LibraryInstaller {
 	public function request_install( $library_id, $style_id, $version ) {
 		$entry = $this->catalog->find( $library_id, $style_id, $version );
 		if ( ! $entry ) {
-			return new WP_Error( 'icon_library_release_untrusted', __( 'That exact library version is not in the trusted catalog.', 'aculect-icon-library' ) ); }
+			return new WP_Error( 'icon_library_release_untrusted', __( 'That exact library version is not in the trusted catalog.', 'aculect-icon-library' ), array( 'status' => 400 ) ); }
 		for ( $attempt = 0; $attempt < self::MAX_CAS_RETRIES; ++$attempt ) {
 			$read  = $this->jobs->read( $library_id );
 			$state = $read ? $read['value'] : $this->empty_state();
