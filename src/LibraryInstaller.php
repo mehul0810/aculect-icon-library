@@ -129,6 +129,10 @@ class LibraryInstaller {
 		$claim = $this->claim( $library_id, $job_id );
 		if ( is_wp_error( $claim ) ) {
 			return $claim; }
+		// REST requests do not load the administrative file helpers by default.
+		if ( ! function_exists( 'wp_tempnam' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
 		list( $generation, $token, $entry ) = $claim;
 		$tmp                                = wp_tempnam( 'icon-library-package-' );
 		if ( ! $tmp ) {
