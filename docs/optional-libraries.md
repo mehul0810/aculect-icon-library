@@ -1,8 +1,11 @@
 # Optional Library Runtime Contract
 
-This describes the local installer architecture and its acceptance checks. It
-is not approval to publish packages, populate the production catalog, or release
-the plugin. The shipped catalog is empty.
+This describes the local installer architecture and its acceptance checks. The
+catalog currently contains candidate descriptors for Lucide Outline and
+Hugeicons Stroke Rounded for isolated local validation. Their canonical
+GitHub release URLs are derived by the plugin; endpoint availability has not
+been verified, and this catalog is not approval to publish packages, distribute
+them through WordPress.org, or release the plugin.
 
 ## Ownership And Trust
 
@@ -12,6 +15,13 @@ library/style release versions. The plugin owns a reviewed local catalog at
 `data/library-catalog.json`. Each entry pins the ZIP size, ZIP SHA-256, manifest
 SHA-256 and exact version. URLs are derived from the canonical GitHub release
 location; browser input cannot choose a URL, digest or storage path.
+
+For local testing, an administrator explicitly starts an install from
+Appearance > Icons. Browsing the catalog does not download packages, and editor
+or frontend requests never contact the package host. Installed packages are
+validated and stored locally before they can be enabled. Catalog additions do
+not replace or migrate the plugin's already bundled libraries, saved icon
+identities, or their existing collection IDs.
 
 `TrustedLibraryCatalog` validates release descriptors and version precedence.
 `LibraryPackageValidator` checks bounded ZIP members, their digests, provenance,

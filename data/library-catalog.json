@@ -1,4 +1,21 @@
 {
   "schema_version": 1,
-  "libraries": []
+  "libraries": [
+    {
+      "library_id": "lucide",
+      "style_id": "outline",
+      "release_version": "1.0.0",
+      "package_sha256": "f9fff966a7695b52939ab93bcfc6121db1fa86178125eb1a94396a15d5a1b284",
+      "manifest_sha256": "99db2ceb4547085a6c5dc7199620c669645c3f8005322e96dd2ad33ec49fae63",
+      "package_bytes": 3039664
+    },
+    {
+      "library_id": "hugeicons",
+      "style_id": "stroke-rounded",
+      "release_version": "1.0.0",
+      "package_sha256": "a3f97b3f35c0775b06c4dbdccd1012b13b46a750405e0fdbd2cc21070bf44904",
+      "manifest_sha256": "300555c84a938a773cee554612ec46103de6cc82d92b0d6a9ea5bff1acdee474",
+      "package_bytes": 12635782
+    }
+  ]
 }

@@ -91,12 +91,14 @@ class LibraryPackageValidatorTest extends TestCase {
 		$this->assertInstanceOf( WP_Error::class, ( new LibraryPackageValidator( new SvgSanitizer(), true ) )->validate( $bad_reference['path'], $bad_reference['descriptor'] ) );
 	}
 
-	public function test_rejects_package_digest_mismatch_and_empty_production_catalog() {
+	public function test_rejects_package_digest_mismatch_and_loads_shipped_catalog_locally() {
 		$package = $this->build_package();
 		file_put_contents( $package['path'], 'corrupt' );
 		$result = ( new LibraryPackageValidator( new SvgSanitizer(), true ) )->validate( $package['path'], $package['descriptor'] );
 		$this->assertInstanceOf( WP_Error::class, $result );
-		$this->assertSame( array(), ( new TrustedLibraryCatalog() )->get_entries() );
+		$raw     = file_get_contents( ICON_LIBRARY_DIR . 'data/library-catalog.json' );
+		$catalog = json_decode( $raw, true );
+		$this->assertSame( ( new TrustedLibraryCatalog( $catalog['libraries'] ?? array() ) )->get_entries(), ( new TrustedLibraryCatalog() )->get_entries() );
 	}
 
 	public function test_semver_order_ignores_build_metadata_and_orders_prereleases() {
