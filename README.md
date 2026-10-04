@@ -53,6 +53,9 @@ keeping existing saved blocks resolvable while the plugin and stored files
 remain available. See [Icon Lifecycle](#icon-lifecycle) for the limits of that
 compatibility.
 
+See the [optional-library runtime contract](docs/optional-libraries.md) for
+ownership, recovery boundaries and packaged-runtime acceptance checks.
+
 ## Requirements And Quick Start
 
 Requires **WordPress 7.1+** and **PHP 7.4+**.
