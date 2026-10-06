@@ -12,7 +12,7 @@
       "preview_sha256": "0324d9aa126b4a0ba992b8d86ceb20be0a500acc45f76e239befd287b931b8a1",
       "preview_bytes": 7256,
       "icon_count": 1404,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -26,7 +26,7 @@
       "preview_sha256": "320557b0890f3ef24fe98e837f03acf77b2a7dbcd3065054ad6fe5bed40a1032",
       "preview_bytes": 6356,
       "icon_count": 669,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -40,7 +40,7 @@
       "preview_sha256": "914da6ae51da98d5b5a6af68f91b236515e5d029370232e96035da389b62f8d2",
       "preview_bytes": 6057,
       "icon_count": 4,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -55,7 +55,7 @@
       "preview_sha256": "7d7a15c0414d266708fa7e15f6c55e6bb4dc67a47fd5b827ba31b00a18391c25",
       "preview_bytes": 7354,
       "icon_count": 8,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -70,7 +70,7 @@
       "preview_sha256": "90fc556a4c5c791795e588cf4f979b37b0baa3695e153b08bac644fc07c35450",
       "preview_bytes": 8860,
       "icon_count": 205,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -85,7 +85,7 @@
       "preview_sha256": "42d28a9cd76183f7ae9ce8cd07c37126f339b69e13ef1e2784ac1ed6dc4e0691",
       "preview_bytes": 9158,
       "icon_count": 210,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -100,7 +100,7 @@
       "preview_sha256": "2bf0396511d7284ceb1fc39a7719451ea4f784403c6c717aa27bdd6b469c226d",
       "preview_bytes": 10751,
       "icon_count": 1741,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -115,7 +115,7 @@
       "preview_sha256": "868a6f77057c9264a499e3f1e5a04965bfbec518206774d1394ab21c7043e32f",
       "preview_bytes": 12082,
       "icon_count": 1708,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -130,7 +130,7 @@
       "preview_sha256": "8cad32e8815682001b3be8c8c7a888d9079fba454a1767b0bfa0eba4cddda72d",
       "preview_bytes": 11478,
       "icon_count": 2860,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -145,7 +145,7 @@
       "preview_sha256": "062fe902bd395d8aedb6b126db781041637ea8f1f72c5465d306ff26f6afe760",
       "preview_bytes": 13326,
       "icon_count": 2825,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -160,7 +160,7 @@
       "preview_sha256": "bede065ed3ff2913b623f792e1d4be4da899c66c93a10506ceae453727b32692",
       "preview_bytes": 11887,
       "icon_count": 2503,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -175,7 +175,7 @@
       "preview_sha256": "1494fe460231a62284d427a9ae20820053affe2db9d662e4ecdbbdfa5423a284",
       "preview_bytes": 13962,
       "icon_count": 2471,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -190,7 +190,7 @@
       "preview_sha256": "ca168fa83056d9da4e556cc4992fefec7894faf15ac313db581dc50e00b42481",
       "preview_bytes": 10987,
       "icon_count": 960,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -205,7 +205,7 @@
       "preview_sha256": "4ed01f001827b901c49769fa4fa803681f2cf09680d933fd6216af74ef13d1ef",
       "preview_bytes": 12841,
       "icon_count": 960,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -220,7 +220,7 @@
       "preview_sha256": "0a663d78c1e123304a939f84fc308561b89de0cb78779f00212107a8f2ba5894",
       "preview_bytes": 10171,
       "icon_count": 859,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -235,7 +235,7 @@
       "preview_sha256": "dc53b45425c9892acf395b7891a3b3e4c3d7a59fbab52ce0cb19863c1b60b311",
       "preview_bytes": 12201,
       "icon_count": 850,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -250,7 +250,7 @@
       "preview_sha256": "ff4797c22cc9c636ccd4be1835b270929720d9865a8b27733f01f400c64f322b",
       "preview_bytes": 10670,
       "icon_count": 712,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -265,7 +265,7 @@
       "preview_sha256": "7562f793ea1ee548c17b8a60462ed0b57931a3810940e32a7f79d5dffaaf5e66",
       "preview_bytes": 12770,
       "icon_count": 712,
-      "availability": "pending-publication",
+      "availability": "available",
       "family_id": "fluent-ui",
       "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
     },
@@ -280,7 +280,7 @@
       "preview_sha256": "277de1b8280d0845ecf974838568ff0b70a45557b5c47298eba3f9a5bf7e67d2",
       "preview_bytes": 19158,
       "icon_count": 609,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -294,7 +294,7 @@
       "preview_sha256": "7b21be18bca7a601dab34bd73f4e020d38bd6928a4efeda1fb6a76361359d301",
       "preview_bytes": 15271,
       "icon_count": 273,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -308,7 +308,7 @@
       "preview_sha256": "b05855417510fa7c50c896ff15506de334b68a1d0860e58d042f88764b1d55de",
       "preview_bytes": 12565,
       "icon_count": 2001,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -322,7 +322,7 @@
       "preview_sha256": "908ce415f42b0ccaacfe7492a7ad050a4288ef30d131ed2a86c5d3e8334c3601",
       "preview_bytes": 7501,
       "icon_count": 324,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -336,7 +336,7 @@
       "preview_sha256": "90fbc86b6c79f70c033ecc78e102975fda29e1789ee3864bf6aa92bc5debb6ec",
       "preview_bytes": 82440,
       "icon_count": 6064,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -350,7 +350,7 @@
       "preview_sha256": "5f99d5732d13b16f13d4b8839dc329a63a3399abddc9f6143e5f090ab370e222",
       "preview_bytes": 12733,
       "icon_count": 210,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -364,7 +364,7 @@
       "preview_sha256": "1bdae9ba6b920a47da656d4b3a8be1ce9f6dfc80600884830abbe9c922edc9cd",
       "preview_bytes": 12345,
       "icon_count": 68,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -378,7 +378,7 @@
       "preview_sha256": "0de4bdbe010b41976ca2b7f66a3b780cee94c16157fd31fdf681f315d8b070ca",
       "preview_bytes": 9025,
       "icon_count": 313,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -392,7 +392,7 @@
       "preview_sha256": "59b74334b2d15e49353bdb165f22bba45feb4d5c009c43545bb40877a68787ac",
       "preview_bytes": 14729,
       "icon_count": 14,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -406,7 +406,7 @@
       "preview_sha256": "e330d11ae1e8be5edd8516c5ccec492c6526192b2f1553bc9cfd4d72e9d1766a",
       "preview_bytes": 7000,
       "icon_count": 284,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -420,7 +420,7 @@
       "preview_sha256": "d9ed577df1c287f0afec26f73f9078bc8444a2473d740bf22e426a9df78c80fe",
       "preview_bytes": 57635,
       "icon_count": 1848,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -434,7 +434,7 @@
       "preview_sha256": "945b0d967dab60a9adfad140ca87dd2dc6332d0c026bfb3e1575b23a9256dfce",
       "preview_bytes": 16844,
       "icon_count": 1038,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -448,7 +448,7 @@
       "preview_sha256": "237c617dd0ce87e3764d1f0b3e10a4226b46af6270b47ff94623b7f6010a2302",
       "preview_bytes": 6681,
       "icon_count": 1239,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -462,7 +462,7 @@
       "preview_sha256": "bff6527b02aa7f39de230a2cd55772cfc5c82bb81f8ca45fe73fc72474fdfa98",
       "preview_bytes": 8097,
       "icon_count": 1248,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -476,7 +476,7 @@
       "preview_sha256": "11d3d3cd2e7eaa48f274acee681c4eb2751ecc5495aa2cee303f831b3de0e15d",
       "preview_bytes": 10022,
       "icon_count": 299,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -490,7 +490,7 @@
       "preview_sha256": "07af704bc7704daf71fa942ebfe301b97b582b6127d889ae6d98c7c345628a3d",
       "preview_bytes": 30491,
       "icon_count": 215,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -504,7 +504,7 @@
       "preview_sha256": "f8263c4473948559a98cd88042993faaa64e05ab04831701489dc2f2e4ce2dc5",
       "preview_bytes": 8372,
       "icon_count": 1012,
-      "availability": "pending-publication",
+      "availability": "available",
       "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
     },
     {
@@ -536,7 +536,7 @@
         4,
         39
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Default and Filled. MIT; original attribution retained.",
       "pack_count": 2,
       "icon_count": 2073
@@ -547,7 +547,7 @@
       "issues": [
         39
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Free Solid, Regular and Brands. Original SVG CC BY 4.0 attribution retained; no Pro artwork.",
       "pack_count": 3,
       "icon_count": 2883
@@ -559,7 +559,7 @@
         3,
         10
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Solid. Outline remains unavailable because the current Core contract cannot preserve its strokes.",
       "pack_count": 1,
       "icon_count": 324
@@ -571,7 +571,7 @@
         23,
         53
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "210 compatible Solid icons. Regular and mixed geometry remain excluded.",
       "pack_count": 1,
       "icon_count": 210
@@ -583,7 +583,7 @@
         25,
         49
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Filled, Sharp, Brands and 14 compatible Outline icons. Unsupported Outline artwork remains excluded.",
       "pack_count": 4,
       "icon_count": 679
@@ -595,7 +595,7 @@
         27,
         52
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Filled; Apache-2.0 notices retained. Material Symbols are outside this scope.",
       "pack_count": 1,
       "icon_count": 1038
@@ -607,7 +607,7 @@
         21,
         47
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Regular and Fill. Other weights and Duotone remain deferred.",
       "pack_count": 2,
       "icon_count": 2487
@@ -619,7 +619,7 @@
         26,
         38
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Default at its original 15 by 15 viewBox; exact orthogonal transforms flattened at build time.",
       "pack_count": 1,
       "icon_count": 299
@@ -631,7 +631,7 @@
         18,
         51
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Pixelated; Apache-2.0 notices retained.",
       "pack_count": 1,
       "icon_count": 215
@@ -643,7 +643,7 @@
         20,
         38
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Filled. Stroke variants remain outside this issue scope.",
       "pack_count": 1,
       "icon_count": 1012
@@ -655,7 +655,7 @@
         22,
         50
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Outline with reviewed expanded strokes. ISC and inherited Feather MIT notices retained.",
       "pack_count": 1,
       "icon_count": 1848
@@ -667,7 +667,7 @@
         19,
         55
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Free Stroke Rounded. Three opacity-dependent icons remain excluded; no restricted Pro assets.",
       "pack_count": 1,
       "icon_count": 6064
@@ -679,7 +679,7 @@
         24,
         54
       ],
-      "status": "pending-publication",
+      "status": "available",
       "scope": "Regular and Filled in separate size collections: 10, 12, 16, 20, 24, 28, 32 and 48. 45 unsupported files excluded; 945 localized files and Light/Color variants outside this scope.",
       "pack_count": 16,
       "icon_count": 19588,

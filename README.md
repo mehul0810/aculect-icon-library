@@ -43,8 +43,9 @@ See [Material Icons scope, exclusions and provenance](docs/material-icons.md).
 refresh, sample preview and package installation. The public index records all
 15 planned families, with 35 reviewed packs across 13 families and independent
 licensed previews. Simple Icons and Keyline remain explicitly gated. Packages
-are marked publication pending; no release assets have been published by this
-preparation. The local allowlist retains two earlier immutable candidate pins.
+are published as exact-version GitHub releases; all 35 public archives,
+descriptors and licensed previews passed independent HTTP verification before
+becoming installable. The local allowlist retains two earlier immutable candidate pins.
 WordPress.org distribution acceptance remains unresolved.
 
 After **Refresh from GitHub**, remote index entries must match those local pins

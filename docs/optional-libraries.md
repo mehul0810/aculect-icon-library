@@ -10,9 +10,10 @@ catalog contains 35 prepared style/size descriptors across 13 families and
 retains the two earlier immutable candidate pins. All 15 planned families appear
 in the issue-backed metadata, including the Simple Icons and Keyline gates.
 The real GitHub catalog and previews are verified. Canonical full-package release
-URLs remain pending publication, so install jobs cannot start for those entries.
-This catalog is not approval to publish packages, distribute them through
-WordPress.org, or release the plugin.
+URLs are published and independently HTTP-verified before those 35 entries are
+marked available. Simple Icons and Keyline cannot start installation jobs.
+This data publication does not authorize WordPress.org distribution or a stable
+plugin release.
 
 ## Ownership And Trust
 

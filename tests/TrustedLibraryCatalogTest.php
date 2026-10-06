@@ -37,6 +37,11 @@ class TrustedLibraryCatalogTest extends TestCase {
 		);
 		$this->assertSame( $expected_descriptors, array_slice( $catalog['libraries'], -2 ) );
 		$this->assertCount( 15, ( new TrustedLibraryCatalog() )->get_planned_libraries() );
+		$families = ( new TrustedLibraryCatalog() )->get_planned_libraries();
+		$this->assertCount( 13, array_filter( $families, function ( $family ) { return 'available' === $family['status']; } ) );
+		$this->assertCount( 2, array_filter( $families, function ( $family ) { return 'gated' === $family['status']; } ) );
+		$this->assertNotContains( 'simple-icons', array_column( $catalog['libraries'], 'library_id' ) );
+		$this->assertNotContains( 'keyline', array_column( $catalog['libraries'], 'library_id' ) );
 
 		$seen = array();
 		foreach ( $catalog['libraries'] as $descriptor ) {
@@ -45,7 +50,7 @@ class TrustedLibraryCatalogTest extends TestCase {
 			$this->assertArrayNotHasKey( $key, $seen, 'Catalog release descriptors must be unique.' );
 			$seen[ $key ] = true;
 			if ( isset( $descriptor['preview_revision'] ) ) {
-				$this->assertSame( 'pending-publication', $descriptor['availability'] );
+				$this->assertSame( 'available', $descriptor['availability'], 'Only independently verified public releases are marked available.' );
 				$this->assertMatchesRegularExpression( '/^[a-f0-9]{40}$/', $descriptor['preview_revision'] );
 				$this->assertLessThanOrEqual( IconLibrary\LibraryDiscoveryCatalog::MAX_PREVIEW, $descriptor['preview_bytes'] );
 			}

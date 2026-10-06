@@ -211,7 +211,7 @@ Bundled libraries remain under their upstream terms:
 
 * Start fresh sites with zero plugin collections and preserve existing sites' libraries and saved icons.
 * Add explicit GitHub catalog refresh and separate bounded sample preview before installation, with local reviewed integrity pins and offline cache.
-* Add explicit installation, update, retry, and resume for versioned data-only icon packages, with local storage and saved-icon preservation. Public catalog and release publication remain pending.
+* Add explicit installation, update, retry, and resume for versioned data-only icon packages, with local storage and saved-icon preservation. Thirty-five independently verified GitHub packs across thirteen families are available; Simple Icons and Keyline remain gated.
 * Add optional Phosphor Regular and Fill icons.
 * Add compatible Ionicons Filled, Sharp, Outline, and Brands icons with explicit exclusions.
 * Add the compatible Iconoir Solid subset, Rune Pixelated icons, and Google Material Icons Filled 24px subset.

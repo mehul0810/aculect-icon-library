@@ -17,8 +17,8 @@ hides picker discovery while preserving exact saved-name rendering offline.
 The public repository now lists all 15 issue-backed families, with 35 prepared
 packs containing 38,720 icons across 13 families. Simple Icons and Keyline remain
 gated. Real catalog and all 35 previews were verified through WordPress; full
-release assets remain unpublished and the Install action is blocked until their
-availability is verified. Local pins retain two earlier immutable candidate
+release assets are published and independently HTTP-verified against the reviewed
+CI bytes. Only those 35 entries are installable. Local pins retain two earlier immutable candidate
 descriptors for existing installed content. Fluent uses eight size collections,
 each with Regular/Filled styles, to bound state and metadata. Explicit installs
 use WordPress's normal per-request admin memory allowance; no persistent memory

@@ -48,7 +48,7 @@ class TrustedLibraryCatalog {
 			array_filter(
 				array_slice( $this->planned, 0, 30 ),
 				function ( $family ) {
-					return is_array( $family ) && is_string( $family['library_id'] ?? null ) && 1 === preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $family['library_id'] ) && is_string( $family['name'] ?? null ) && strlen( $family['name'] ) <= 100 && is_string( $family['scope'] ?? null ) && strlen( $family['scope'] ) <= 500 && in_array( $family['status'] ?? '', array( 'pending-publication', 'gated' ), true );
+					return is_array( $family ) && is_string( $family['library_id'] ?? null ) && 1 === preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $family['library_id'] ) && is_string( $family['name'] ?? null ) && strlen( $family['name'] ) <= 100 && is_string( $family['scope'] ?? null ) && strlen( $family['scope'] ) <= 500 && in_array( $family['status'] ?? '', array( 'available', 'pending-publication', 'gated' ), true );
 				}
 			)
 		);
