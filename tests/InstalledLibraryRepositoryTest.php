@@ -77,6 +77,30 @@ class InstalledLibraryRepositoryTest extends TestCase {
 		$this->assertTrue( $method->invoke( $installer, strtok( $external_name, '/' ), 'outline' ) );
 	}
 
+	public function test_fresh_site_can_install_old_bundled_names_but_legacy_site_reserves_them() {
+		$core_icons = WP_Icons_Registry::get_instance();
+		$core_state = new ReflectionProperty( $core_icons, 'icons' );
+		if ( PHP_VERSION_ID < 80100 ) { $core_state->setAccessible( true ); }
+		$registered = $core_state->getValue( $core_icons );
+		$core_state->setValue( $core_icons, array() );
+		$jobs = $this->getMockBuilder( LibraryJobStore::class )->disableOriginalConstructor()->getMock();
+		$jobs->method( 'all_library_ids' )->willReturn( array( 'heroicons' ) );
+		$jobs->method( 'read' )->willReturn( array( 'value' => array( 'styles' => array( 'solid' => array( 'release_version' => '1.0.0', 'package_sha256' => str_repeat( 'a', 64 ), 'installed_at' => 1 ) ) ) ) );
+		$repository = new InstalledLibraryRepository( $jobs, $this->root . '/storage' );
+		$installer = new LibraryInstaller( new TrustedLibraryCatalog( array() ), $repository, $jobs, new LibraryPackageValidator( new SvgSanitizer() ) );
+		$method = new ReflectionMethod( LibraryInstaller::class, 'has_namespace_collision' );
+		if ( PHP_VERSION_ID < 80100 ) { $method->setAccessible( true ); }
+		$before = get_option( IconLibrary\Plugin::OPTION_LEGACY_COLLECTIONS, false );
+		update_option( IconLibrary\Plugin::OPTION_LEGACY_COLLECTIONS, array() );
+		$this->assertFalse( $method->invoke( $installer, 'heroicons', 'solid' ) );
+		$this->assertArrayHasKey( 'heroicons', $repository->register_providers( array() ) );
+		update_option( IconLibrary\Plugin::OPTION_LEGACY_COLLECTIONS, array( 'heroicons' ) );
+		$this->assertTrue( $method->invoke( $installer, 'heroicons', 'solid' ) );
+		$this->assertArrayNotHasKey( 'heroicons', $repository->register_providers( array() ) );
+		if ( false === $before ) { delete_option( IconLibrary\Plugin::OPTION_LEGACY_COLLECTIONS ); } else { update_option( IconLibrary\Plugin::OPTION_LEGACY_COLLECTIONS, $before ); }
+		$core_state->setValue( $core_icons, $registered );
+	}
+
 	public function test_rejects_external_collection_provider_using_library_namespace() {
 		$jobs = $this->getMockBuilder( LibraryJobStore::class )->disableOriginalConstructor()->getMock();
 		$jobs->method( 'all_library_ids' )->willReturn( array() );

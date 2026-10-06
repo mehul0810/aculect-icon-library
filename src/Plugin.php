@@ -82,11 +82,11 @@ class Plugin {
 		$library_repository  = new InstalledLibraryRepository( $library_jobs, $this->library_storage_dir );
 		$library_validator   = $this->library_validator ? $this->library_validator : new LibraryPackageValidator( $sanitizer );
 		$library_catalog     = $this->library_catalog ? $this->library_catalog : new LibraryDiscoveryCatalog();
-		$library_installer   = new LibraryInstaller( $library_catalog, $library_repository, $library_jobs, $library_validator, $this->library_transport );
 		$custom_icons        = new CustomIconRepository( $sanitizer );
 		$manifest_loader     = new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' );
 		$collection_registry = new CollectionRegistry( $manifest_loader, $custom_icons, self::legacy_collections( $manifest_loader ) );
 		$core_registrar      = new CoreIconRegistrar( $collection_registry );
+		$library_installer   = new LibraryInstaller( $library_catalog, $library_repository, $library_jobs, $library_validator, $this->library_transport, $core_registrar );
 		$rest_controller     = new RestController( $collection_registry, $custom_icons );
 		$ability_registrar   = new AbilityRegistrar( $collection_registry );
 

@@ -88,16 +88,50 @@ class CoreIconRegistrar {
 	/**
 	 * Core names created by this registrar, excluding preexisting providers.
 	 *
-	 * @var array<string,bool>
+	 * @var array<string,array>
 	 */
 	private $owned_icons = array();
 
 	/**
 	 * Core collection slugs created by this registrar.
 	 *
-	 * @var array<string,bool>
+	 * @var array<string,array>
 	 */
 	private $owned_collections = array();
+
+	/** Checks an icon registration against the exact data created by this registrar.
+	 *
+	 * @param string $name Core icon name.
+	 * @param array  $icon Current Core registration.
+	 * @return bool
+	 */
+	public function owns_registered_icon( $name, $icon ) {
+		$owned = $this->owned_icons[ $name ] ?? null;
+		if ( ! is_array( $owned ) || ! is_array( $icon ) ) {
+			return false; }
+		foreach ( $owned as $key => $value ) {
+			if ( ( $icon[ $key ] ?? null ) !== $value ) {
+				return false; }
+		}
+		return true;
+	}
+
+	/** Checks a collection registration created by this registrar.
+	 *
+	 * @param string $slug Core collection slug.
+	 * @param array  $collection Current Core registration.
+	 * @return bool
+	 */
+	public function owns_registered_collection( $slug, $collection ) {
+		$owned = $this->owned_collections[ $slug ] ?? null;
+		if ( ! is_array( $owned ) || ! is_array( $collection ) ) {
+			return false; }
+		foreach ( $owned as $key => $value ) {
+			if ( ( $collection[ $key ] ?? null ) !== $value ) {
+				return false; }
+		}
+		return true;
+	}
 
 	/**
 	 * Constructor.
@@ -778,7 +812,7 @@ class CoreIconRegistrar {
 
 		$this->registered_collections[ $slug ] = (bool) wp_register_icon_collection( $slug, $args );
 		if ( $this->registered_collections[ $slug ] ) {
-			$this->owned_collections[ $slug ] = true;
+			$this->owned_collections[ $slug ] = $args;
 		}
 		return $this->registered_collections[ $slug ];
 	}
@@ -839,7 +873,7 @@ class CoreIconRegistrar {
 
 		$this->registered_icons[ $core_icon_name ] = (bool) wp_register_icon( $core_icon_name, $icon_args );
 		if ( $this->registered_icons[ $core_icon_name ] ) {
-			$this->owned_icons[ $core_icon_name ] = true;
+			$this->owned_icons[ $core_icon_name ] = $icon_args;
 		}
 	}
 

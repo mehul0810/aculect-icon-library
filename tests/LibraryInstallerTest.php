@@ -38,6 +38,16 @@ class LibraryInstallerTest extends TestCase {
 		$this->assertSame( 400, $error->get_error_data()['status'] ?? null );
 	}
 
+	public function test_unpublished_release_is_rejected_before_any_job_or_download() {
+		$entry = array( 'library_id' => 'prepared', 'style_id' => 'solid', 'release_version' => '1.0.0', 'package_sha256' => str_repeat( 'a', 64 ), 'manifest_sha256' => str_repeat( 'b', 64 ), 'package_bytes' => 123, 'availability' => 'pending-publication' );
+		$jobs = $this->getMockBuilder( LibraryJobStore::class )->disableOriginalConstructor()->getMock();
+		$jobs->expects( $this->never() )->method( 'read' );
+		$jobs->expects( $this->never() )->method( 'compare_and_swap' );
+		$installer = new LibraryInstaller( new TrustedLibraryCatalog( array( $entry ) ), new InstalledLibraryRepository( $jobs, $this->root . '/storage' ), $jobs, new LibraryPackageValidator( new SvgSanitizer() ), function () { $this->fail( 'Unexpected download' ); } );
+		$error = $installer->request_install( 'prepared', 'solid', '1.0.0' );
+		$this->assertSame( 'icon_library_release_unpublished', $error->get_error_code() );
+	}
+
 	public function test_queued_job_keeps_its_exact_release_descriptor_and_activates_only_after_install() {
 		$manifest_bytes = wp_json_encode(
 			array(

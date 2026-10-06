@@ -846,3 +846,8 @@ body.js .icon-library-admin.is-loading > * {
 		transition: none;
 	}
 }
+
+.icon-library-preview-license pre {
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}

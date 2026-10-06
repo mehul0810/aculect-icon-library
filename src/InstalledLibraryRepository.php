@@ -118,8 +118,9 @@ class InstalledLibraryRepository {
 	 */
 	public function register_providers( $providers ) {
 		$providers = is_array( $providers ) ? $providers : array();
+		$legacy    = Plugin::legacy_collections( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) );
 		foreach ( $this->jobs->all_library_ids() as $library_id ) {
-			if ( isset( $providers[ $library_id ] ) || in_array( $library_id, ( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) )->get_collection_slugs(), true ) || CustomIconRepository::COLLECTION_SLUG === $library_id ) {
+			if ( isset( $providers[ $library_id ] ) || in_array( $library_id, $legacy, true ) || CustomIconRepository::COLLECTION_SLUG === $library_id ) {
 				continue; }
 			$state = $this->jobs->read( $library_id );
 			if ( ! $state || empty( $state['value']['styles'] ) ) {

@@ -39,6 +39,28 @@ class LibraryDiscoveryCatalogTest extends TestCase {
 		$this->assertSame( 0, $calls );
 	}
 
+	public function test_prepared_release_can_preview_from_pinned_source_without_becoming_installable() {
+		$this->raw = json_encode( array_merge( json_decode( $this->raw, true ), array( 'license' => 'Original attribution <script>data only</script>' ) ) );
+		$this->entry['preview_sha256'] = hash( 'sha256', $this->raw );
+		$this->entry['preview_bytes'] = strlen( $this->raw );
+		$this->entry['preview_revision'] = str_repeat( 'a', 40 );
+		$this->entry['availability'] = 'pending-publication';
+		$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function ( $url ) {
+			return $this->response( LibraryDiscoveryCatalog::INDEX_URL === $url ? $this->index() : $this->raw );
+		} );
+		$entries = $catalog->refresh();
+		$this->assertSame( 'pending-publication', $entries[0]['availability'] );
+		$this->assertSame( 'https://raw.githubusercontent.com/mehul0810/aculect-icon-libraries/' . str_repeat( 'a', 40 ) . '/data/previews/sample-outline-1.0.0.preview.json', $catalog->preview_url( $entries[0] ) );
+		$this->assertIsArray( $catalog->preview( 'sample', 'outline', '1.0.0' ) );
+		$this->assertSame( 'Original attribution <script>data only</script>', $catalog->preview_license( 'sample', 'outline', '1.0.0' ) );
+		update_option( 'icon_library_preview_' . $this->entry['preview_sha256'], str_replace( 'Original', 'Modified', $this->raw ) );
+		$this->assertSame( '', $catalog->preview_license( 'sample', 'outline', '1.0.0' ) );
+		$altered = $this->entry;
+		$altered['preview_revision'] = str_repeat( 'b', 40 );
+		$bad = new LibraryDiscoveryCatalog( array( $this->entry ), function () use ( $altered ) { return $this->response( json_encode( array( 'schema_version' => 1, 'libraries' => array( $altered ) ) ) ); } );
+		$this->assertSame( array(), $bad->refresh() );
+	}
+
 	public function test_refresh_verifies_pins_and_keeps_offline_cache_on_failure() {
 		$offline = false;
 		$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function ( $url, $options ) use ( &$offline ) {

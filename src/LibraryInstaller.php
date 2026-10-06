@@ -40,6 +40,11 @@ class LibraryInstaller {
 	 * @var callable|null
 	 */
 	private $transport;
+	/** Registrar whose existing registrations may belong to this installed library.
+	 *
+	 * @var CoreIconRegistrar|null
+	 */
+	private $core_registrar;
 
 	/** Creates an installer with its trusted dependencies.
 	 *
@@ -48,13 +53,15 @@ class LibraryInstaller {
 	 * @param LibraryJobStore            $jobs Durable job store.
 	 * @param LibraryPackageValidator    $validator Package validator.
 	 * @param callable|null              $transport Optional test transport.
+	 * @param CoreIconRegistrar|null     $core_registrar Optional registration ownership tracker.
 	 */
-	public function __construct( TrustedLibraryCatalog $catalog, InstalledLibraryRepository $repository, LibraryJobStore $jobs, LibraryPackageValidator $validator, $transport = null ) {
-		$this->catalog    = $catalog;
-		$this->repository = $repository;
-		$this->jobs       = $jobs;
-		$this->validator  = $validator;
-		$this->transport  = is_callable( $transport ) ? $transport : null;
+	public function __construct( TrustedLibraryCatalog $catalog, InstalledLibraryRepository $repository, LibraryJobStore $jobs, LibraryPackageValidator $validator, $transport = null, ?CoreIconRegistrar $core_registrar = null ) {
+		$this->catalog        = $catalog;
+		$this->repository     = $repository;
+		$this->jobs           = $jobs;
+		$this->validator      = $validator;
+		$this->transport      = is_callable( $transport ) ? $transport : null;
+		$this->core_registrar = $core_registrar;
 	}
 
 	/** Queues an idempotent install request without enabling the library.
@@ -68,6 +75,11 @@ class LibraryInstaller {
 		$entry = $this->catalog->find( $library_id, $style_id, $version );
 		if ( ! $entry ) {
 			return new WP_Error( 'icon_library_release_untrusted', __( 'That exact library version is not in the trusted catalog.', 'aculect-icon-library' ), array( 'status' => 400 ) ); }
+		if ( 'available' !== ( $entry['availability'] ?? 'available' ) ) {
+			return new WP_Error( 'icon_library_release_unpublished', __( 'This library is prepared for preview, but its package has not been published yet.', 'aculect-icon-library' ), array( 'status' => 400 ) ); }
+		if ( function_exists( 'wp_raise_memory_limit' ) ) {
+			wp_raise_memory_limit( 'admin' );
+		}
 		for ( $attempt = 0; $attempt < self::MAX_CAS_RETRIES; ++$attempt ) {
 			$read  = $this->jobs->read( $library_id );
 			$state = $read ? $read['value'] : $this->empty_state();
@@ -126,6 +138,9 @@ class LibraryInstaller {
 	 * @return array|WP_Error
 	 */
 	public function run( $library_id, $job_id ) {
+		if ( function_exists( 'wp_raise_memory_limit' ) ) {
+			wp_raise_memory_limit( 'admin' );
+		}
 		$claim = $this->claim( $library_id, $job_id );
 		if ( is_wp_error( $claim ) ) {
 			return $claim; }
@@ -508,7 +523,7 @@ class LibraryInstaller {
 	private function has_namespace_collision( $library_id, $style_id ) {
 		$occupied = array();
 		$loader   = new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' );
-		foreach ( $loader->get_collection_slugs() as $slug ) {
+		foreach ( Plugin::legacy_collections( $loader ) as $slug ) {
 			$occupied[ $slug ] = $slug;
 			$manifest          = $loader->get_manifest( $slug );
 			foreach ( (array) ( $manifest['variants'] ?? array() ) as $variant ) {
@@ -526,18 +541,25 @@ class LibraryInstaller {
 				$occupied[ $installed_library . '-' . $installed_style ] = $installed_library; }
 		}
 		if ( class_exists( 'WP_Icons_Registry' ) && method_exists( 'WP_Icons_Registry', 'get_instance' ) ) {
-			$registry = \WP_Icons_Registry::get_instance();
+			$installed = $this->repository->get_installed( $library_id );
+			$registry  = \WP_Icons_Registry::get_instance();
 			if ( method_exists( $registry, 'get_registered_icons' ) ) {
 				foreach ( (array) $registry->get_registered_icons() as $icon ) {
 					$name = $icon['name'] ?? '';
 					if ( is_string( $name ) && ( 0 === strpos( $name, $library_id . '/' ) || 0 === strpos( $name, $library_id . '-' . $style_id . '/' ) ) ) {
+						if ( $installed && $this->core_registrar && $this->core_registrar->owns_registered_icon( $name, $icon ) ) {
+							continue; }
 						return true; }
 				}
 			}
 			if ( class_exists( 'WP_Icon_Collections_Registry' ) && method_exists( 'WP_Icon_Collections_Registry', 'get_instance' ) ) {
 				$collections = \WP_Icon_Collections_Registry::get_instance();
-				if ( method_exists( $collections, 'is_registered' ) && ( $collections->is_registered( $library_id ) || $collections->is_registered( $library_id . '-' . $style_id ) ) ) {
-					return true;
+				foreach ( array( $library_id, $library_id . '-' . $style_id ) as $slug ) {
+					if ( method_exists( $collections, 'is_registered' ) && $collections->is_registered( $slug ) ) {
+						if ( $installed && $this->core_registrar && method_exists( $collections, 'get_registered' ) && $this->core_registrar->owns_registered_collection( $slug, $collections->get_registered( $slug ) ) ) {
+							continue; }
+						return true;
+					}
 				}
 			}
 		}

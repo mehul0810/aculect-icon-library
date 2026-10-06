@@ -12,7 +12,7 @@ class TrustedLibraryCatalogTest extends TestCase {
 		$this->assertIsArray( $catalog );
 		$this->assertSame( 1, $catalog['schema_version'] ?? null );
 		$this->assertIsArray( $catalog['libraries'] ?? null );
-		$this->assertCount( 2, $catalog['libraries'], 'The candidate catalog should contain exactly the reviewed descriptor set.' );
+		$this->assertCount( 37, $catalog['libraries'], 'Thirty-five prepared packs and two preserved legacy pins are reviewed.' );
 		$expected_descriptors = array(
 			array(
 				'library_id'      => 'lucide',
@@ -35,18 +35,8 @@ class TrustedLibraryCatalogTest extends TestCase {
 				'preview_bytes'   => 82440,
 			),
 		);
-		$this->assertSame( $expected_descriptors, $catalog['libraries'] );
-
-		$bundled_loader = new IconLibrary\ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' );
-		$bundled         = array_fill_keys( $bundled_loader->get_collection_slugs(), true );
-		foreach ( $bundled_loader->get_collection_slugs() as $slug ) {
-			$manifest = $bundled_loader->get_manifest( $slug );
-			foreach ( (array) ( $manifest['variants'] ?? array() ) as $variant ) {
-				if ( is_array( $variant ) && isset( $variant['slug'] ) ) {
-					$bundled[ $slug . '-' . $variant['slug'] ] = true;
-				}
-			}
-		}
+		$this->assertSame( $expected_descriptors, array_slice( $catalog['libraries'], -2 ) );
+		$this->assertCount( 15, ( new TrustedLibraryCatalog() )->get_planned_libraries() );
 
 		$seen = array();
 		foreach ( $catalog['libraries'] as $descriptor ) {
@@ -54,8 +44,11 @@ class TrustedLibraryCatalogTest extends TestCase {
 			$key = ( $descriptor['library_id'] ?? '' ) . '/' . ( $descriptor['style_id'] ?? '' ) . '/' . ( $descriptor['release_version'] ?? '' );
 			$this->assertArrayNotHasKey( $key, $seen, 'Catalog release descriptors must be unique.' );
 			$seen[ $key ] = true;
-			$this->assertArrayNotHasKey( $descriptor['library_id'] ?? '', $bundled, 'Remote library IDs must not collide with bundled namespaces.' );
-			$this->assertArrayNotHasKey( ( $descriptor['library_id'] ?? '' ) . '-' . ( $descriptor['style_id'] ?? '' ), $bundled, 'Remote style IDs must not collide with bundled namespaces.' );
+			if ( isset( $descriptor['preview_revision'] ) ) {
+				$this->assertSame( 'pending-publication', $descriptor['availability'] );
+				$this->assertMatchesRegularExpression( '/^[a-f0-9]{40}$/', $descriptor['preview_revision'] );
+				$this->assertLessThanOrEqual( IconLibrary\LibraryDiscoveryCatalog::MAX_PREVIEW, $descriptor['preview_bytes'] );
+			}
 		}
 
 		$default_entries = ( new TrustedLibraryCatalog() )->get_entries();

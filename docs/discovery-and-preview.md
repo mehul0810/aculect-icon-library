@@ -14,17 +14,23 @@ job. Install keeps the existing transactional, exact-version installer. A new
 installed collection starts disabled and can be enabled in Library. Disable
 hides picker discovery while preserving exact saved-name rendering offline.
 
-The current public repository index is empty and has no data releases (verified
-2026-10-06). This source is prepared locally; it does not claim public availability.
-The local source pins Lucide Outline and Hugeicons Stroke Rounded plus sample
-digests. Source/license review for the existing two ZIPs is retained in the
-prior reports. Neither that review nor an SHA-256 proves directory-policy approval.
+The public repository now lists all 15 issue-backed families, with 35 prepared
+packs containing 38,720 icons across 13 families. Simple Icons and Keyline remain
+gated. Real catalog and all 35 previews were verified through WordPress; full
+release assets remain unpublished and the Install action is blocked until their
+availability is verified. Local pins retain two earlier immutable candidate
+descriptors for existing installed content. Fluent uses eight size collections,
+each with Regular/Filled styles, to bound state and metadata. Explicit installs
+use WordPress's normal per-request admin memory allowance; no persistent memory
+configuration changes. Neither hashes nor these checks establish publisher
+signatures or WordPress.org directory approval.
 
 ## Trust and bounds
 
 `data/library-catalog.json` is the plugin's reviewed trust allowlist. GitHub's
 index controls discovery only: library/style/version, ZIP digest, manifest
-digest, ZIP length, preview digest and preview length must match those local
+digest, ZIP length, preview digest, preview length and optional immutable preview
+revision must match those local
 pins. Remote URLs, executable modules, extra publisher keys and changed hashes
 cannot create install authority. Cached entries are matched again on every read.
 New libraries/versions currently require new reviewed plugin pins. Fully dynamic
@@ -78,6 +84,7 @@ immutable per-style release tags:
 
 ```
 data/catalog.json                      # published reviewed descriptor index
+data/previews/<library>-<style>-<version>.preview.json # bounded licensed samples
 releases/download/lucide-outline-1.0.0/
   lucide-outline-1.0.0.zip             # complete validated data pack
   lucide-outline-1.0.0.descriptor.json  # provenance/integrity record
@@ -88,7 +95,7 @@ The ZIP retains `manifest.json`, `icons/*.svg`, `licenses/*`; licenses, upstream
 revision and conversion revision remain pinned. Build samples reproducibly from
 that validated archive with companion tooling `tools/build_preview.py`; each
 separate sample JSON embeds the original license/copyright notices. Publish
-index entries only after every referenced artifact exists and independent HTTP
+entries as installable only after every full-package artifact exists and independent HTTP
 hash verification passes. Never replace versioned bytes or move published tags.
 Retain old releases for existing jobs and saved artwork. Index changes may remove
 discovery but must never purge a site's existing data.
@@ -96,7 +103,11 @@ discovery but must never purge a site's existing data.
 Whole-style packs reuse the tested installer and are the current recommendation.
 Per-icon downloading would need many more integrity, ownership and offline
 recovery transactions. The bounded sample format supplies preview without
-requiring a full-pack fetch. No new repository/catalog/service is necessary.
+requiring a full-pack fetch. Current previews use immutable raw GitHub repository
+URLs derived from locally pinned revisions; their license text is escaped and
+shown in an accessible attribution disclosure. Unpublished packages remain
+previewable but cannot start installation jobs. No new repository/catalog/service
+is necessary.
 
 ## Distribution gate
 

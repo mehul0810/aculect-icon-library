@@ -6,11 +6,13 @@ contract below remains in effect. Local allowlist entries are not themselves a
 live remote catalog; explicit GitHub refresh must discover matching entries.
 
 This describes the local installer architecture and its acceptance checks. The
-catalog currently contains candidate descriptors for Lucide Outline and
-Hugeicons Stroke Rounded for isolated local validation. Their canonical
-GitHub release URLs are derived by the plugin; endpoint availability has not
-been verified, and this catalog is not approval to publish packages, distribute
-them through WordPress.org, or release the plugin.
+catalog contains 35 prepared style/size descriptors across 13 families and
+retains the two earlier immutable candidate pins. All 15 planned families appear
+in the issue-backed metadata, including the Simple Icons and Keyline gates.
+The real GitHub catalog and previews are verified. Canonical full-package release
+URLs remain pending publication, so install jobs cannot start for those entries.
+This catalog is not approval to publish packages, distribute them through
+WordPress.org, or release the plugin.
 
 ## Ownership And Trust
 

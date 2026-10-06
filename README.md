@@ -40,14 +40,19 @@ See [Material Icons scope, exclusions and provenance](docs/material-icons.md).
 ## Optional Versioned Libraries
 
 **Appearance > Icons > Install Library** provides explicit GitHub catalog
-refresh, sample preview and package installation. The current public index is
-empty and no data releases are published. The plugin's reviewed local allowlist
-contains candidate Lucide Outline and Hugeicons Stroke Rounded descriptors;
-public availability and WordPress.org distribution acceptance remain unresolved.
+refresh, sample preview and package installation. The public index records all
+15 planned families, with 35 reviewed packs across 13 families and independent
+licensed previews. Simple Icons and Keyline remain explicitly gated. Packages
+are marked publication pending; no release assets have been published by this
+preparation. The local allowlist retains two earlier immutable candidate pins.
+WordPress.org distribution acceptance remains unresolved.
 
 After **Refresh from GitHub**, remote index entries must match those local pins
 before they appear. **Preview** fetches at most 12 safe samples in a separate
-small JSON artifact; it does not fetch the full ZIP, install or enable anything.
+small JSON artifact at an immutable repository revision; it does not fetch the
+full ZIP, install or enable anything. License and attribution text is available
+with each verified preview. Fluent Regular/Filled use eight separate size
+collections to bound per-library installation state.
 Successful catalog and sample data remain cached for offline browsing. Page
 loads, editor and frontend requests make no catalog or preview network calls.
 For a discovered release the screen shows its available version alongside any

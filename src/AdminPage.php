@@ -316,6 +316,7 @@ class AdminPage {
 			$libraries[ $entry['library_id'] ][] = $entry;
 		}
 		$permission = LibraryAdminController::installation_permission();
+		$legacy     = Plugin::legacy_collections( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) );
 		?>
 		<section class="icon-library-panel icon-library-packages">
 			<h2><?php esc_html_e( 'Install Library', 'aculect-icon-library' ); ?></h2>
@@ -358,6 +359,8 @@ class AdminPage {
 								<?php
 								$style_id          = $entry['style_id'];
 								$catalog_available = ! isset( $entry['catalog_available'] ) || true === $entry['catalog_available'];
+								$published         = 'available' === ( $entry['availability'] ?? 'available' );
+								$legacy_provided   = in_array( $library_id, $legacy, true );
 								$available_version = $entry['release_version'];
 								$current_version   = isset( $installed['styles'][ $style_id ]['release_version'] ) ? $installed['styles'][ $style_id ]['release_version'] : '';
 								$has_update        = '' !== $current_version && $version_catalog->compare_versions( $available_version, $current_version ) > 0;
@@ -366,12 +369,16 @@ class AdminPage {
 								<div class="icon-library-package-row" data-style="<?php echo esc_attr( $style_id ); ?>">
 									<div class="icon-library-package-details">
 										<strong><?php echo esc_html( ucwords( str_replace( '-', ' ', $style_id ) ) ); ?></strong>
-										<span><?php echo esc_html( $catalog_available ? sprintf( /* translators: %s: available package version. */ __( 'Available: %s', 'aculect-icon-library' ), $available_version ) : __( 'Unavailable in current catalog', 'aculect-icon-library' ) ); ?></span>
+										<span><?php echo esc_html( ! $catalog_available ? __( 'Unavailable in current catalog', 'aculect-icon-library' ) : ( $published ? sprintf( /* translators: %s: available package version. */ __( 'Available: %s', 'aculect-icon-library' ), $available_version ) : __( 'Preview available; package publication pending', 'aculect-icon-library' ) ) ); ?></span>
+										<?php
+										if ( $legacy_provided ) :
+											?>
+											<span><?php esc_html_e( 'Provided by your existing library. Manage it in Library.', 'aculect-icon-library' ); ?></span><?php endif; ?>
 										<span><?php echo esc_html( '' === $current_version ? __( 'Not installed', 'aculect-icon-library' ) : sprintf( /* translators: %s: installed package version. */ __( 'Installed: %s', 'aculect-icon-library' ), $current_version ) ); ?></span>
 									</div>
 									<?php if ( $catalog_available && $already_installed ) : ?>
 										<span class="icon-library-package-current"><?php esc_html_e( 'Current', 'aculect-icon-library' ); ?></span>
-									<?php elseif ( $catalog_available && ! is_wp_error( $permission ) && ! in_array( $job_status, array( 'queued', 'running' ), true ) ) : ?>
+									<?php elseif ( $catalog_available && $published && ! $legacy_provided && ! is_wp_error( $permission ) && ! in_array( $job_status, array( 'queued', 'running' ), true ) ) : ?>
 										<?php $this->render_package_form( $library_id, $style_id, $available_version, '', $has_update ? __( 'Update', 'aculect-icon-library' ) : __( 'Install', 'aculect-icon-library' ) ); ?>
 									<?php endif; ?>
 									<?php if ( $catalog_available && $this->discovery && isset( $entry['preview_sha256'] ) ) : ?>
@@ -421,6 +428,16 @@ class AdminPage {
 			<button class="button button-secondary" type="submit"><?php esc_html_e( 'Refresh from GitHub', 'aculect-icon-library' ); ?></button>
 		</form>
 		<p><?php echo esc_html( $this->discovery->refreshed_at() ? sprintf( /* translators: %s: UTC time of last successful refresh. */ __( 'Using saved catalog from %s UTC. Refresh to check availability.', 'aculect-icon-library' ), gmdate( 'Y-m-d H:i', $this->discovery->refreshed_at() ) ) : __( 'No catalog has been fetched yet.', 'aculect-icon-library' ) ); ?></p>
+		<?php if ( $this->discovery->refreshed_at() && $this->discovery->get_planned_libraries() ) : ?>
+			<details class="icon-library-planned">
+				<summary><?php esc_html_e( 'Supported and planned libraries', 'aculect-icon-library' ); ?></summary>
+				<ul>
+					<?php foreach ( $this->discovery->get_planned_libraries() as $family ) : ?>
+						<li><strong><?php echo esc_html( $family['name'] ); ?></strong>: <?php echo esc_html( $family['scope'] ); ?></li>
+					<?php endforeach; ?>
+				</ul>
+			</details>
+		<?php endif; ?>
 		<?php
 		// Query parameters select cached output only; no page view can fetch data.
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
@@ -440,6 +457,7 @@ class AdminPage {
 			echo '<p role="status">' . esc_html( $samples->get_error_message() ) . '</p>';
 			return;
 		}
+		$license = $this->discovery->preview_license( $library, $style, $version );
 		?>
 		<h3><?php echo esc_html( ucwords( str_replace( '-', ' ', $library . ' ' . $style ) ) ); ?></h3>
 		<p><?php esc_html_e( 'Sample preview. This library has not been installed by previewing it.', 'aculect-icon-library' ); ?></p>
@@ -451,6 +469,12 @@ class AdminPage {
 				</div>
 			<?php endforeach; ?>
 		</div>
+		<?php if ( '' !== $license ) : ?>
+			<details class="icon-library-preview-license">
+				<summary><?php esc_html_e( 'License and attribution', 'aculect-icon-library' ); ?></summary>
+				<pre><?php echo esc_html( $license ); ?></pre>
+			</details>
+		<?php endif; ?>
 		<?php
 	}
 

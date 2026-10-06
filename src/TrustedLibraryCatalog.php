@@ -18,6 +18,11 @@ class TrustedLibraryCatalog {
 	 * @var array
 	 */
 	private $entries;
+	/** Reviewed family planning metadata.
+	 *
+	 * @var array
+	 */
+	private $planned = array();
 
 	/**
 	 * Loads explicit trusted entries or the shipped catalog.
@@ -26,11 +31,27 @@ class TrustedLibraryCatalog {
 	 */
 	public function __construct( $entries = null ) {
 		if ( null === $entries && defined( 'ICON_LIBRARY_DIR' ) && is_readable( ICON_LIBRARY_DIR . 'data/library-catalog.json' ) ) {
-			$raw     = file_get_contents( ICON_LIBRARY_DIR . 'data/library-catalog.json' );
-			$catalog = is_string( $raw ) && strlen( $raw ) <= 1048576 ? json_decode( $raw, true ) : null;
-			$entries = is_array( $catalog ) && 1 === ( $catalog['schema_version'] ?? null ) && is_array( $catalog['libraries'] ?? null ) ? $catalog['libraries'] : array();
+			$raw           = file_get_contents( ICON_LIBRARY_DIR . 'data/library-catalog.json' );
+			$catalog       = is_string( $raw ) && strlen( $raw ) <= 1048576 ? json_decode( $raw, true ) : null;
+			$entries       = is_array( $catalog ) && 1 === ( $catalog['schema_version'] ?? null ) && is_array( $catalog['libraries'] ?? null ) ? $catalog['libraries'] : array();
+			$this->planned = is_array( $catalog['planned_libraries'] ?? null ) ? $catalog['planned_libraries'] : array();
 		}
 		$this->entries = is_array( $entries ) ? $entries : array();
+	}
+
+	/** Returns bounded, locally reviewed planning information.
+	 *
+	 * @return array
+	 */
+	public function get_planned_libraries() {
+		return array_values(
+			array_filter(
+				array_slice( $this->planned, 0, 30 ),
+				function ( $family ) {
+					return is_array( $family ) && is_string( $family['library_id'] ?? null ) && 1 === preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $family['library_id'] ) && is_string( $family['name'] ?? null ) && strlen( $family['name'] ) <= 100 && is_string( $family['scope'] ?? null ) && strlen( $family['scope'] ) <= 500 && in_array( $family['status'] ?? '', array( 'pending-publication', 'gated' ), true );
+				}
+			)
+		);
 	}
 
 	/**
@@ -80,6 +101,10 @@ class TrustedLibraryCatalog {
 	 * @return bool
 	 */
 	private function is_valid( $entry ) {
+		if ( isset( $entry['preview_revision'] ) && ( ! is_string( $entry['preview_revision'] ) || 1 !== preg_match( '/^[a-f0-9]{40}$/', $entry['preview_revision'] ) ) ) {
+			return false; }
+		if ( isset( $entry['availability'] ) && ! in_array( $entry['availability'], array( 'available', 'pending-publication' ), true ) ) {
+			return false; }
 		foreach ( array( 'library_id', 'style_id' ) as $key ) {
 			if ( ! isset( $entry[ $key ] ) || ! is_string( $entry[ $key ] ) || strlen( $entry[ $key ] ) > 100 || 1 !== preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $entry[ $key ] ) ) {
 				return false; }

@@ -8,6 +8,21 @@ use IconLibrary\Plugin;
 use PHPUnit\Framework\TestCase;
 
 class CoreIconRegistrarTest extends TestCase {
+	public function test_owned_registration_cannot_hide_an_external_namespace_replacement() {
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_svg_path' ) )->getMock();
+		$registry->method( 'get_svg_path' )->willReturn( __FILE__ );
+		$registrar = new CoreIconRegistrar( $registry );
+		$method = new ReflectionMethod( CoreIconRegistrar::class, 'register_icon' );
+		if ( PHP_VERSION_ID < 80100 ) { $method->setAccessible( true ); }
+		$method->invoke( $registrar, 'ownership-proof', array( 'coreIconName' => 'ownership-proof/one', 'label' => 'One', 'path' => 'one.svg' ) );
+		$icon = WP_Icons_Registry::get_instance()->get_registered_icon( 'ownership-proof/one' );
+		$this->assertTrue( $registrar->owns_registered_icon( 'ownership-proof/one', $icon ) );
+		$icon['file_path'] = '/external/one.svg';
+		$this->assertFalse( $registrar->owns_registered_icon( 'ownership-proof/one', $icon ) );
+		$this->assertFalse( $registrar->owns_registered_icon( 'external/one', $icon ) );
+		wp_unregister_icon( 'ownership-proof/one' );
+	}
+
 	public function test_mobile_picker_compat_style_is_scoped_to_wordpress_71() {
 		$registry  = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
 		$registrar = new CoreIconRegistrar( $registry );

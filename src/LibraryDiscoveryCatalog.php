@@ -143,7 +143,28 @@ class LibraryDiscoveryCatalog extends TrustedLibraryCatalog {
 	 */
 	public function preview_url( $entry ) {
 		$tag = $entry['library_id'] . '-' . $entry['style_id'] . '-' . $entry['release_version'];
+		if ( isset( $entry['preview_revision'] ) ) {
+			return 'https://raw.githubusercontent.com/mehul0810/aculect-icon-libraries/' . $entry['preview_revision'] . '/data/previews/' . rawurlencode( $tag . '.preview.json' );
+		}
 		return self::RELEASE_BASE . rawurlencode( $tag ) . '/' . rawurlencode( $tag . '.preview.json' );
+	}
+
+	/** Returns preserved attribution from verified cached sample data without fetching.
+	 *
+	 * @param string $library Library identifier.
+	 * @param string $style Style identifier.
+	 * @param string $version Release version.
+	 * @return string
+	 */
+	public function preview_license( $library, $style, $version ) {
+		$entry = $this->find( $library, $style, $version );
+		if ( ! $entry || ! $this->valid_preview_pin( $entry ) ) {
+			return ''; }
+		$raw = get_option( 'icon_library_preview_' . $entry['preview_sha256'], null );
+		if ( ! is_string( $raw ) || strlen( $raw ) !== $entry['preview_bytes'] || ! hash_equals( $entry['preview_sha256'], hash( 'sha256', $raw ) ) ) {
+			return ''; }
+		$data = json_decode( $raw, true, 16 );
+		return is_array( $data ) && is_string( $data['license'] ?? null ) && strlen( $data['license'] ) <= LibraryPackageValidator::MAX_LICENSE ? $data['license'] : '';
 	}
 
 	/**
@@ -163,13 +184,15 @@ class LibraryDiscoveryCatalog extends TrustedLibraryCatalog {
 					continue;
 				}
 				$valid = true;
-				foreach ( array( 'library_id', 'style_id', 'release_version', 'package_sha256', 'manifest_sha256', 'package_bytes', 'preview_sha256', 'preview_bytes' ) as $key ) {
+				foreach ( array( 'library_id', 'style_id', 'release_version', 'package_sha256', 'manifest_sha256', 'package_bytes', 'preview_sha256', 'preview_bytes', 'preview_revision' ) as $key ) {
 					if ( ( $local[ $key ] ?? null ) !== ( $candidate[ $key ] ?? null ) ) {
 						$valid = false;
 					}
 				}
-				if ( $valid ) {
-					$matches[] = $local;
+				$availability = $candidate['availability'] ?? 'available';
+				if ( $valid && in_array( $availability, array( 'available', 'pending-publication' ), true ) ) {
+					$local['availability'] = $availability;
+					$matches[]             = $local;
 					break;
 				}
 			}
@@ -184,7 +207,7 @@ class LibraryDiscoveryCatalog extends TrustedLibraryCatalog {
 	 * @return bool
 	 */
 	private function valid_preview_pin( $entry ) {
-		return is_string( $entry['preview_sha256'] ?? null ) && 1 === preg_match( '/^[a-f0-9]{64}$/', $entry['preview_sha256'] ) && is_int( $entry['preview_bytes'] ?? null ) && $entry['preview_bytes'] > 0 && $entry['preview_bytes'] <= self::MAX_PREVIEW;
+		return ( ! isset( $entry['preview_revision'] ) || ( is_string( $entry['preview_revision'] ) && 1 === preg_match( '/^[a-f0-9]{40}$/', $entry['preview_revision'] ) ) ) && is_string( $entry['preview_sha256'] ?? null ) && 1 === preg_match( '/^[a-f0-9]{64}$/', $entry['preview_sha256'] ) && is_int( $entry['preview_bytes'] ?? null ) && $entry['preview_bytes'] > 0 && $entry['preview_bytes'] <= self::MAX_PREVIEW;
 	}
 
 	/**

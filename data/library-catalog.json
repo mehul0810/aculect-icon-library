@@ -2,6 +2,512 @@
   "schema_version": 1,
   "libraries": [
     {
+      "schema_version": 1,
+      "library_id": "bootstrap-icons",
+      "style_id": "default",
+      "release_version": "1.0.0",
+      "package_sha256": "c52afc3745b90f70cacbff6ad081d29827b37fe2397cbcd56afeb64b4eedacfd",
+      "manifest_sha256": "768ac6c3183ff96907b1d1f6d4696d6ad4c9817d3aac40c18c2853cfbca727ab",
+      "package_bytes": 684029,
+      "preview_sha256": "0324d9aa126b4a0ba992b8d86ceb20be0a500acc45f76e239befd287b931b8a1",
+      "preview_bytes": 7256,
+      "icon_count": 1404,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "bootstrap-icons",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "6258b9805cb01e72f5cf40bf7ac590ab1d8b16b66e53ae52584c8ec30fc676bf",
+      "manifest_sha256": "50da8aaa2b9dc4780d99fa20cdfa850d0ba63e9bd6589adec2db887129c951f3",
+      "package_bytes": 296982,
+      "preview_sha256": "320557b0890f3ef24fe98e837f03acf77b2a7dbcd3065054ad6fe5bed40a1032",
+      "preview_bytes": 6356,
+      "icon_count": 669,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-10",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "54369609ac0651e459d00ac08e237560f75c98d0ca29aa15af97e95a6657236f",
+      "manifest_sha256": "8678e6916241f3df7dcc307db1d96317c557a8d54265b206989ec33aed7dc96d",
+      "package_bytes": 3087,
+      "preview_sha256": "914da6ae51da98d5b5a6af68f91b236515e5d029370232e96035da389b62f8d2",
+      "preview_bytes": 6057,
+      "icon_count": 4,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-10",
+      "style_id": "regular",
+      "release_version": "1.0.0",
+      "package_sha256": "560a20d7f6b209651d5871f5372489fa26d3a200048291e5f01586bab384361c",
+      "manifest_sha256": "9fe4b4551003c9eb3bec030cfb5345d700b955e481f22aca36ad984aa1690234",
+      "package_bytes": 4699,
+      "preview_sha256": "7d7a15c0414d266708fa7e15f6c55e6bb4dc67a47fd5b827ba31b00a18391c25",
+      "preview_bytes": 7354,
+      "icon_count": 8,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-12",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "91e2d4ca9719acb9514765a3ca3547f1e54242cd5ee5718feb4edaed72aa1002",
+      "manifest_sha256": "7cc9c6296f848b193eec262f2572e0e5b75cad1d8173f57030afa680782b3795",
+      "package_bytes": 80857,
+      "preview_sha256": "90fc556a4c5c791795e588cf4f979b37b0baa3695e153b08bac644fc07c35450",
+      "preview_bytes": 8860,
+      "icon_count": 205,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-12",
+      "style_id": "regular",
+      "release_version": "1.0.0",
+      "package_sha256": "e9b9f59ebfe0bd81e2d89e926fff035967385958d1c765286845498e0267d54a",
+      "manifest_sha256": "f99a8d76d1b11b16a5b01fd6a90b888a1e57f8454fa9f5e43eb8c023b38be575",
+      "package_bytes": 89197,
+      "preview_sha256": "42d28a9cd76183f7ae9ce8cd07c37126f339b69e13ef1e2784ac1ed6dc4e0691",
+      "preview_bytes": 9158,
+      "icon_count": 210,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-16",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "979e9395cfd9d6258ad78e7e21f0060b1eeea08b9f50b54924ca57ce85f4b813",
+      "manifest_sha256": "645f1ad70beea28c718eac1b034e0234797890004968ed30c33c8bc74cd9d782",
+      "package_bytes": 782464,
+      "preview_sha256": "2bf0396511d7284ceb1fc39a7719451ea4f784403c6c717aa27bdd6b469c226d",
+      "preview_bytes": 10751,
+      "icon_count": 1741,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-16",
+      "style_id": "regular",
+      "release_version": "1.0.0",
+      "package_sha256": "558635ad563fb47b0b17ce211c2c1e169e665e23bfa3263a1650800cf61ff0ab",
+      "manifest_sha256": "96fbb9ec8addff7e743e1a126f4ab78b407fa5eb8f061e0ce9a743e1d230c6c7",
+      "package_bytes": 824223,
+      "preview_sha256": "868a6f77057c9264a499e3f1e5a04965bfbec518206774d1394ab21c7043e32f",
+      "preview_bytes": 12082,
+      "icon_count": 1708,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-20",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "479d19bb3bd16cf0234523b9718ac4116ee81bccd16ba38f0bcd57d3cfe0514b",
+      "manifest_sha256": "8ad503458aa5b210483e0b0d78c06e465a6c10422fc87e463612bff059479c81",
+      "package_bytes": 1310443,
+      "preview_sha256": "8cad32e8815682001b3be8c8c7a888d9079fba454a1767b0bfa0eba4cddda72d",
+      "preview_bytes": 11478,
+      "icon_count": 2860,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-20",
+      "style_id": "regular",
+      "release_version": "1.0.0",
+      "package_sha256": "03c20c8e857e6307c5f61bd71e6e24f15817595d5f00299ad59fdcbc733405f1",
+      "manifest_sha256": "b04a84a4d6797036b12cdcb75df1a661bd1f4d014f8ce93ca2d837a04105d1d1",
+      "package_bytes": 1385596,
+      "preview_sha256": "062fe902bd395d8aedb6b126db781041637ea8f1f72c5465d306ff26f6afe760",
+      "preview_bytes": 13326,
+      "icon_count": 2825,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-24",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "7dadb0204e5a518c6e72b67e23f6572531615a393597d92c1b8064c3c6c58efe",
+      "manifest_sha256": "ceb4a9bc9337a4e9b552334a774d3301a029fc654a80907ce7223f55eb733f6b",
+      "package_bytes": 1191120,
+      "preview_sha256": "bede065ed3ff2913b623f792e1d4be4da899c66c93a10506ceae453727b32692",
+      "preview_bytes": 11887,
+      "icon_count": 2503,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-24",
+      "style_id": "regular",
+      "release_version": "1.0.0",
+      "package_sha256": "2608062142d936188b7edd6f326a6c135ea9d1cfa7661a99cd04092070e23033",
+      "manifest_sha256": "2ed03aee23b9b187afc87630ed094b057f808090215cf979f795205688083495",
+      "package_bytes": 1286215,
+      "preview_sha256": "1494fe460231a62284d427a9ae20820053affe2db9d662e4ecdbbdfa5423a284",
+      "preview_bytes": 13962,
+      "icon_count": 2471,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-28",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "ec8e81d83a1340ebab29529d636fbb17b99702b7851fa2c4f26678e30b8d11c0",
+      "manifest_sha256": "dc724aad41d6b157a81251a6f05cb5aa0617c9b97a84e06306e2b6c11a1c05f1",
+      "package_bytes": 445164,
+      "preview_sha256": "ca168fa83056d9da4e556cc4992fefec7894faf15ac313db581dc50e00b42481",
+      "preview_bytes": 10987,
+      "icon_count": 960,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-28",
+      "style_id": "regular",
+      "release_version": "1.0.0",
+      "package_sha256": "e66352abda0895da0203cb4afe1400ff9a0aa1c54394f052c823c0d5c149231a",
+      "manifest_sha256": "74b72207feb65345b5af501d944ad574998f77ca2e2c0ab8c1c992caf1c7f737",
+      "package_bytes": 491461,
+      "preview_sha256": "4ed01f001827b901c49769fa4fa803681f2cf09680d933fd6216af74ef13d1ef",
+      "preview_bytes": 12841,
+      "icon_count": 960,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-32",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "69c612e9b71501c610c429c6b4b65215979310e19fbc15ae689caee96787aa4c",
+      "manifest_sha256": "ad89290d7b7f008d59e2ad8ad1612a36aa196e2cafba55eeeb90b672464cae08",
+      "package_bytes": 394847,
+      "preview_sha256": "0a663d78c1e123304a939f84fc308561b89de0cb78779f00212107a8f2ba5894",
+      "preview_bytes": 10171,
+      "icon_count": 859,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-32",
+      "style_id": "regular",
+      "release_version": "1.0.0",
+      "package_sha256": "ec088be15c9c16b7b5c4d0d575d489301839252993e91df3273d98b202246181",
+      "manifest_sha256": "db538134c0cd7fe9a879a5f6ddae86b186a6a8eb5cfaa78eafe5d344702b5a4e",
+      "package_bytes": 421076,
+      "preview_sha256": "dc53b45425c9892acf395b7891a3b3e4c3d7a59fbab52ce0cb19863c1b60b311",
+      "preview_bytes": 12201,
+      "icon_count": 850,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-48",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "d6d5bfe3adcd8e0e9559adee27e2329bbd57dabea77894ee341342892e476028",
+      "manifest_sha256": "cc3c9f5e7c1d5ef8f543501b1c2ba6bc7f1bbdff7716d012245ff7cd334f0d40",
+      "package_bytes": 339910,
+      "preview_sha256": "ff4797c22cc9c636ccd4be1835b270929720d9865a8b27733f01f400c64f322b",
+      "preview_bytes": 10670,
+      "icon_count": 712,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "fluent-ui-48",
+      "style_id": "regular",
+      "release_version": "1.0.0",
+      "package_sha256": "dd6fc1346b0e7789b9c75eac242d307643d2ddb1c38fb8486c9c819da5bb3c55",
+      "manifest_sha256": "574a628933bed11bd7b5f99b219a00a33b60989309b11cbe7bd9a37151cff7f4",
+      "package_bytes": 375303,
+      "preview_sha256": "7562f793ea1ee548c17b8a60462ed0b57931a3810940e32a7f79d5dffaaf5e66",
+      "preview_bytes": 12770,
+      "icon_count": 712,
+      "availability": "pending-publication",
+      "family_id": "fluent-ui",
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "font-awesome",
+      "style_id": "brands",
+      "release_version": "1.0.0",
+      "package_sha256": "c1f1540f32dc1249bcaf79734c7babcc2d5c87a6062c7c802c7e17a366421712",
+      "manifest_sha256": "24ef2ffbf0249df54b80c6057de4a139cdd401b1b94c2c1d4f3268aef16bf4d9",
+      "package_bytes": 451650,
+      "preview_sha256": "277de1b8280d0845ecf974838568ff0b70a45557b5c47298eba3f9a5bf7e67d2",
+      "preview_bytes": 19158,
+      "icon_count": 609,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "font-awesome",
+      "style_id": "regular",
+      "release_version": "1.0.0",
+      "package_sha256": "bd578fd291986740ddb9f80817ca12c88e309d1eb1834e43cb26c2eb5579998e",
+      "manifest_sha256": "d5076c7f861057e136fbc4fb73843b09ebb27b7a883ddd1a8ac520634d1c4f83",
+      "package_bytes": 157182,
+      "preview_sha256": "7b21be18bca7a601dab34bd73f4e020d38bd6928a4efeda1fb6a76361359d301",
+      "preview_bytes": 15271,
+      "icon_count": 273,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "font-awesome",
+      "style_id": "solid",
+      "release_version": "1.0.0",
+      "package_sha256": "1702a1cb4d516745443aaae752358c34425538dcc9d855270a869d84f623e4fc",
+      "manifest_sha256": "1fd184adb4ead32e9dfaa3e6d0a250d45e34d3d2aa4a75fa9937457ae3d33ee9",
+      "package_bytes": 1087332,
+      "preview_sha256": "b05855417510fa7c50c896ff15506de334b68a1d0860e58d042f88764b1d55de",
+      "preview_bytes": 12565,
+      "icon_count": 2001,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "heroicons",
+      "style_id": "solid",
+      "release_version": "1.0.0",
+      "package_sha256": "11bafb0b539d857fd6832bebb2e14dd3e3c671271228ac292bef51c63173583d",
+      "manifest_sha256": "beff3567b877c2aa166b81657e785ac5b9a20b02c250bfe9ce4a91f7448b3460",
+      "package_bytes": 153612,
+      "preview_sha256": "908ce415f42b0ccaacfe7492a7ad050a4288ef30d131ed2a86c5d3e8334c3601",
+      "preview_bytes": 7501,
+      "icon_count": 324,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "hugeicons",
+      "style_id": "stroke-rounded",
+      "release_version": "1.0.1",
+      "package_sha256": "b9a41ef4dc5be02c8b7f723207282786a9af9d9a9edcf5026321a5a26daad80b",
+      "manifest_sha256": "66dd0b493d4413842228d3e288cef20c5b7e7bd414ee7a2aeb08b8fc638fd30f",
+      "package_bytes": 12635785,
+      "preview_sha256": "90fbc86b6c79f70c033ecc78e102975fda29e1789ee3864bf6aa92bc5debb6ec",
+      "preview_bytes": 82440,
+      "icon_count": 6064,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "iconoir",
+      "style_id": "solid",
+      "release_version": "1.0.0",
+      "package_sha256": "4eeba3d0158b44d5830acbbc1f01404a5d4322b9e3d3cac836d2b454d67a8896",
+      "manifest_sha256": "97e766d659d16139dfd60c772127eac1828895d33ed1995f52b57554537d1030",
+      "package_bytes": 143096,
+      "preview_sha256": "5f99d5732d13b16f13d4b8839dc329a63a3399abddc9f6143e5f090ab370e222",
+      "preview_bytes": 12733,
+      "icon_count": 210,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "ionicons",
+      "style_id": "brands",
+      "release_version": "1.0.0",
+      "package_sha256": "38506a084b770d6a0fdbe90568f5ed75f51cf685e5803e913e88489537767181",
+      "manifest_sha256": "bb74f01147239ae15a41e437a58d0999a2253061ac7e2c4831e32827de593be2",
+      "package_bytes": 48435,
+      "preview_sha256": "1bdae9ba6b920a47da656d4b3a8be1ce9f6dfc80600884830abbe9c922edc9cd",
+      "preview_bytes": 12345,
+      "icon_count": 68,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "ionicons",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "29ea8f1c8c6074a002747fa349e22ece9f52a201f20f4cf7c0dd88ba07376af0",
+      "manifest_sha256": "6216f3ab4944c4136991bc7fe3d65c6c3e86d1edbb3f0250b0ae872cba857ffc",
+      "package_bytes": 171472,
+      "preview_sha256": "0de4bdbe010b41976ca2b7f66a3b780cee94c16157fd31fdf681f315d8b070ca",
+      "preview_bytes": 9025,
+      "icon_count": 313,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "ionicons",
+      "style_id": "outline",
+      "release_version": "1.0.0",
+      "package_sha256": "63385f20fa7e4c9a35eca89eff1e261c7273fb3c2369ae1dcdec9634d8c6d969",
+      "manifest_sha256": "a60fb8f043825a01aab0ff4e35709dc4bf6ba3db8ce75ba792f3b06f8b413d68",
+      "package_bytes": 11873,
+      "preview_sha256": "59b74334b2d15e49353bdb165f22bba45feb4d5c009c43545bb40877a68787ac",
+      "preview_bytes": 14729,
+      "icon_count": 14,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "ionicons",
+      "style_id": "sharp",
+      "release_version": "1.0.0",
+      "package_sha256": "b226d95b0b3fa00eff913f940b7f2f1beb4e7366604f4bc70ffe879bcc3321ff",
+      "manifest_sha256": "c50e2b0156190f3052df0b767b8b08d2b1b414dc03326a82ce85e9cf0591c856",
+      "package_bytes": 136053,
+      "preview_sha256": "e330d11ae1e8be5edd8516c5ccec492c6526192b2f1553bc9cfd4d72e9d1766a",
+      "preview_bytes": 7000,
+      "icon_count": 284,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "lucide",
+      "style_id": "outline",
+      "release_version": "1.0.1",
+      "package_sha256": "9ecc403dcd0bed6d6f1e856c918ed23fb8389a13c338856f6354e4ad2ca6644a",
+      "manifest_sha256": "e30a1b500163c40949e2df1d6fc192f99f5374acfdf88841d6515c9fcdcb9dbf",
+      "package_bytes": 3039670,
+      "preview_sha256": "d9ed577df1c287f0afec26f73f9078bc8444a2473d740bf22e426a9df78c80fe",
+      "preview_bytes": 57635,
+      "icon_count": 1848,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "material-icons",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "aba01fd690cc6864496d7eb0c0672b132162b78ed2e511c631533932eb4679f8",
+      "manifest_sha256": "1620405c584ea3483a1edb05ca1b10e8a71939c6ea4526a823dbf6f8cfb41d2e",
+      "package_bytes": 420520,
+      "preview_sha256": "945b0d967dab60a9adfad140ca87dd2dc6332d0c026bfb3e1575b23a9256dfce",
+      "preview_bytes": 16844,
+      "icon_count": 1038,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "phosphor",
+      "style_id": "fill",
+      "release_version": "1.0.0",
+      "package_sha256": "70049ab6eb9f12dfd6da8316129298b9727b7fe9a0f4fcfa339be39c9b122140",
+      "manifest_sha256": "408c42acc4d147d778a7848960d3bfb21c7039e1e4554eddfbd0fe2bf852f006",
+      "package_bytes": 547862,
+      "preview_sha256": "237c617dd0ce87e3764d1f0b3e10a4226b46af6270b47ff94623b7f6010a2302",
+      "preview_bytes": 6681,
+      "icon_count": 1239,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "phosphor",
+      "style_id": "regular",
+      "release_version": "1.0.0",
+      "package_sha256": "a4bf48979fb052ecfa7992d752d135efa2a9a0fb24d17b4ddac20f1e0eeabdaa",
+      "manifest_sha256": "6dc9637be2c3b44dc1ecabdbff70ebff7d76f2ef7f23af21834295a0c80f3f07",
+      "package_bytes": 579265,
+      "preview_sha256": "bff6527b02aa7f39de230a2cd55772cfc5c82bb81f8ca45fe73fc72474fdfa98",
+      "preview_bytes": 8097,
+      "icon_count": 1248,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "radix",
+      "style_id": "default",
+      "release_version": "1.0.0",
+      "package_sha256": "cee78bc8964c8052a5ecba421d602006927e357f77a7ec710e53fa93b953c4a1",
+      "manifest_sha256": "2bcdc48f79350c557b43f621a86907c2990fc52c1f6daa8ef1d4d6b5ec6c4168",
+      "package_bytes": 185263,
+      "preview_sha256": "11d3d3cd2e7eaa48f274acee681c4eb2751ecc5495aa2cee303f831b3de0e15d",
+      "preview_bytes": 10022,
+      "icon_count": 299,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "rune",
+      "style_id": "pixelated",
+      "release_version": "1.0.0",
+      "package_sha256": "1121515f426faff1f9b066bd791481295dd0cd402ebfab52c53755adb2c24ea0",
+      "manifest_sha256": "07a149a31b87a4b0338280780e5741c034fe986baf56fbd9ace385b715cf3650",
+      "package_bytes": 185779,
+      "preview_sha256": "07af704bc7704daf71fa942ebfe301b97b582b6127d889ae6d98c7c345628a3d",
+      "preview_bytes": 30491,
+      "icon_count": 215,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
+      "schema_version": 1,
+      "library_id": "tabler-icons",
+      "style_id": "filled",
+      "release_version": "1.0.0",
+      "package_sha256": "fa77edd0d4fe384f407c5ca90cd698b6d0ad5d9d80c5e574793aa68a1a3320d0",
+      "manifest_sha256": "85e788a3f50218466e086b7d3b0ddfa6926d879a51a3ec394e3a70a9989b2e70",
+      "package_bytes": 482853,
+      "preview_sha256": "f8263c4473948559a98cd88042993faaa64e05ab04831701489dc2f2e4ce2dc5",
+      "preview_bytes": 8372,
+      "icon_count": 1012,
+      "availability": "pending-publication",
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+    },
+    {
       "library_id": "lucide",
       "style_id": "outline",
       "release_version": "1.0.0",
@@ -20,6 +526,197 @@
       "package_bytes": 12635782,
       "preview_sha256": "13c9b5b226df7a8feab24944717c6f5c2031153e2f7d849b8307a0114e924cba",
       "preview_bytes": 82440
+    }
+  ],
+  "planned_libraries": [
+    {
+      "library_id": "bootstrap-icons",
+      "name": "Bootstrap Icons",
+      "issues": [
+        4,
+        39
+      ],
+      "status": "pending-publication",
+      "scope": "Default and Filled. MIT; original attribution retained.",
+      "pack_count": 2,
+      "icon_count": 2073
+    },
+    {
+      "library_id": "font-awesome",
+      "name": "Font Awesome Free",
+      "issues": [
+        39
+      ],
+      "status": "pending-publication",
+      "scope": "Free Solid, Regular and Brands. Original SVG CC BY 4.0 attribution retained; no Pro artwork.",
+      "pack_count": 3,
+      "icon_count": 2883
+    },
+    {
+      "library_id": "heroicons",
+      "name": "Heroicons",
+      "issues": [
+        3,
+        10
+      ],
+      "status": "pending-publication",
+      "scope": "Solid. Outline remains unavailable because the current Core contract cannot preserve its strokes.",
+      "pack_count": 1,
+      "icon_count": 324
+    },
+    {
+      "library_id": "iconoir",
+      "name": "Iconoir",
+      "issues": [
+        23,
+        53
+      ],
+      "status": "pending-publication",
+      "scope": "210 compatible Solid icons. Regular and mixed geometry remain excluded.",
+      "pack_count": 1,
+      "icon_count": 210
+    },
+    {
+      "library_id": "ionicons",
+      "name": "Ionicons",
+      "issues": [
+        25,
+        49
+      ],
+      "status": "pending-publication",
+      "scope": "Filled, Sharp, Brands and 14 compatible Outline icons. Unsupported Outline artwork remains excluded.",
+      "pack_count": 4,
+      "icon_count": 679
+    },
+    {
+      "library_id": "material-icons",
+      "name": "Material Icons",
+      "issues": [
+        27,
+        52
+      ],
+      "status": "pending-publication",
+      "scope": "Filled; Apache-2.0 notices retained. Material Symbols are outside this scope.",
+      "pack_count": 1,
+      "icon_count": 1038
+    },
+    {
+      "library_id": "phosphor",
+      "name": "Phosphor",
+      "issues": [
+        21,
+        47
+      ],
+      "status": "pending-publication",
+      "scope": "Regular and Fill. Other weights and Duotone remain deferred.",
+      "pack_count": 2,
+      "icon_count": 2487
+    },
+    {
+      "library_id": "radix",
+      "name": "Radix Icons",
+      "issues": [
+        26,
+        38
+      ],
+      "status": "pending-publication",
+      "scope": "Default at its original 15 by 15 viewBox; exact orthogonal transforms flattened at build time.",
+      "pack_count": 1,
+      "icon_count": 299
+    },
+    {
+      "library_id": "rune",
+      "name": "Rune Icons",
+      "issues": [
+        18,
+        51
+      ],
+      "status": "pending-publication",
+      "scope": "Pixelated; Apache-2.0 notices retained.",
+      "pack_count": 1,
+      "icon_count": 215
+    },
+    {
+      "library_id": "tabler-icons",
+      "name": "Tabler Icons",
+      "issues": [
+        20,
+        38
+      ],
+      "status": "pending-publication",
+      "scope": "Filled. Stroke variants remain outside this issue scope.",
+      "pack_count": 1,
+      "icon_count": 1012
+    },
+    {
+      "library_id": "lucide",
+      "name": "Lucide",
+      "issues": [
+        22,
+        50
+      ],
+      "status": "pending-publication",
+      "scope": "Outline with reviewed expanded strokes. ISC and inherited Feather MIT notices retained.",
+      "pack_count": 1,
+      "icon_count": 1848
+    },
+    {
+      "library_id": "hugeicons",
+      "name": "Hugeicons",
+      "issues": [
+        19,
+        55
+      ],
+      "status": "pending-publication",
+      "scope": "Free Stroke Rounded. Three opacity-dependent icons remain excluded; no restricted Pro assets.",
+      "pack_count": 1,
+      "icon_count": 6064
+    },
+    {
+      "library_id": "fluent-ui",
+      "name": "Fluent UI System Icons",
+      "issues": [
+        24,
+        54
+      ],
+      "status": "pending-publication",
+      "scope": "Regular and Filled in separate size collections: 10, 12, 16, 20, 24, 28, 32 and 48. 45 unsupported files excluded; 945 localized files and Light/Color variants outside this scope.",
+      "pack_count": 16,
+      "icon_count": 19588,
+      "collections": [
+        "fluent-ui-10",
+        "fluent-ui-12",
+        "fluent-ui-16",
+        "fluent-ui-20",
+        "fluent-ui-24",
+        "fluent-ui-28",
+        "fluent-ui-32",
+        "fluent-ui-48"
+      ]
+    },
+    {
+      "library_id": "simple-icons",
+      "name": "Simple Icons",
+      "issues": [
+        28,
+        46
+      ],
+      "status": "gated",
+      "scope": "Unavailable: individual icon rights and brand restrictions require review. No blanket CC0 import.",
+      "pack_count": 0,
+      "icon_count": 0
+    },
+    {
+      "library_id": "keyline",
+      "name": "Keyline",
+      "issues": [
+        42,
+        48
+      ],
+      "status": "gated",
+      "scope": "Unavailable: a faithful stroke/opacity converter and style review are still required.",
+      "pack_count": 0,
+      "icon_count": 0
     }
   ]
 }
