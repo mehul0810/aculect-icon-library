@@ -583,7 +583,7 @@ class AdminPage {
 		);
 
 		?>
-		<section class="icon-library-panel">
+		<section class="icon-library-panel icon-library-installed">
 			<h2><?php esc_html_e( 'Installed Libraries', 'aculect-icon-library' ); ?></h2>
 			<?php if ( empty( $installed_collections ) ) : ?>
 				<div class="icon-library-empty-state">

@@ -184,6 +184,16 @@ body.js .icon-library-admin.is-loading > * {
 	transition: opacity 160ms ease, transform 160ms ease;
 }
 
+.icon-library-panel.icon-library-installed {
+	min-height: 0;
+	padding-bottom: 24px;
+}
+
+.icon-library-installed .icon-library-empty-state {
+	min-height: 0;
+	padding: 16px;
+}
+
 .icon-library-admin.is-navigating {
 	cursor: progress;
 }
