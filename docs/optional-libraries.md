@@ -1,5 +1,10 @@
 # Optional Library Runtime Contract
 
+The current discovery/preview and fresh-site behavior is specified in
+[discovery-and-preview.md](discovery-and-preview.md). The transactional installer
+contract below remains in effect. Local allowlist entries are not themselves a
+live remote catalog; explicit GitHub refresh must discover matching entries.
+
 This describes the local installer architecture and its acceptance checks. The
 catalog currently contains candidate descriptors for Lucide Outline and
 Hugeicons Stroke Rounded for isolated local validation. Their canonical

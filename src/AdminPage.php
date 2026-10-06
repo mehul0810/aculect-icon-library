@@ -39,16 +39,25 @@ class AdminPage {
 	private $installer;
 
 	/**
+	 * Optional GitHub catalog and bounded previews.
+	 *
+	 * @var LibraryDiscoveryCatalog|null
+	 */
+	private $discovery;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param CollectionRegistry    $collection_registry Collection registry.
-	 * @param SvgSanitizer          $svg_sanitizer       SVG sanitizer.
-	 * @param LibraryInstaller|null $installer Optional library installer.
+	 * @param CollectionRegistry           $collection_registry Collection registry.
+	 * @param SvgSanitizer                 $svg_sanitizer       SVG sanitizer.
+	 * @param LibraryInstaller|null        $installer Optional library installer.
+	 * @param LibraryDiscoveryCatalog|null $discovery Optional catalog discovery.
 	 */
-	public function __construct( CollectionRegistry $collection_registry, SvgSanitizer $svg_sanitizer, ?LibraryInstaller $installer = null ) {
+	public function __construct( CollectionRegistry $collection_registry, SvgSanitizer $svg_sanitizer, ?LibraryInstaller $installer = null, ?LibraryDiscoveryCatalog $discovery = null ) {
 		$this->collection_registry = $collection_registry;
 		$this->svg_sanitizer       = $svg_sanitizer;
 		$this->installer           = $installer;
+		$this->discovery           = $discovery;
 	}
 
 	/**
@@ -214,7 +223,12 @@ class AdminPage {
 			<?php $this->render_notice(); ?>
 
 			<?php if ( 'browse' === $active_tab ) : ?>
-				<?php $this->render_install_tab( $filters, $collections ); ?>
+				<?php if ( '' === $filters['collection'] ) : ?>
+					<?php $this->render_packages_tab(); ?>
+				<?php endif; ?>
+				<?php if ( $collections ) : ?>
+					<?php $this->render_install_tab( $filters, $collections ); ?>
+				<?php endif; ?>
 			<?php elseif ( 'packages' === $active_tab ) : ?>
 				<?php $this->render_packages_tab(); ?>
 			<?php elseif ( 'custom' === $active_tab ) : ?>
@@ -261,10 +275,9 @@ class AdminPage {
 	 */
 	private function render_tabs( $active_tab ) {
 		$tabs = array(
-			'library'  => __( 'Library', 'aculect-icon-library' ),
-			'custom'   => _x( 'Upload', 'noun', 'aculect-icon-library' ),
-			'browse'   => __( 'Install Library', 'aculect-icon-library' ),
-			'packages' => __( 'Optional Libraries', 'aculect-icon-library' ),
+			'library' => __( 'Library', 'aculect-icon-library' ),
+			'custom'  => _x( 'Upload', 'noun', 'aculect-icon-library' ),
+			'browse'  => __( 'Install Library', 'aculect-icon-library' ),
 		);
 		?>
 		<nav class="icon-library-tabs" aria-label="<?php esc_attr_e( 'Icon management', 'aculect-icon-library' ); ?>">
@@ -305,7 +318,8 @@ class AdminPage {
 		$permission = LibraryAdminController::installation_permission();
 		?>
 		<section class="icon-library-panel icon-library-packages">
-			<h2><?php esc_html_e( 'Optional Libraries', 'aculect-icon-library' ); ?></h2>
+			<h2><?php esc_html_e( 'Install Library', 'aculect-icon-library' ); ?></h2>
+			<?php $this->render_discovery(); ?>
 			<p class="icon-library-package-intro"><?php esc_html_e( 'Installing downloads a verified package from GitHub and stores it on this site. It does not enable the library; manage that separately in Library.', 'aculect-icon-library' ); ?></p>
 			<?php if ( is_wp_error( $permission ) ) : ?>
 				<p class="icon-library-package-permission" role="status"><?php echo esc_html( $permission->get_error_message() ); ?></p>
@@ -360,6 +374,17 @@ class AdminPage {
 									<?php elseif ( $catalog_available && ! is_wp_error( $permission ) && ! in_array( $job_status, array( 'queued', 'running' ), true ) ) : ?>
 										<?php $this->render_package_form( $library_id, $style_id, $available_version, '', $has_update ? __( 'Update', 'aculect-icon-library' ) : __( 'Install', 'aculect-icon-library' ) ); ?>
 									<?php endif; ?>
+									<?php if ( $catalog_available && $this->discovery && isset( $entry['preview_sha256'] ) ) : ?>
+										<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+											<?php wp_nonce_field( 'icon_library_discover' ); ?>
+											<input type="hidden" name="action" value="icon_library_discover" />
+											<input type="hidden" name="mode" value="preview" />
+											<input type="hidden" name="library" value="<?php echo esc_attr( $library_id ); ?>" />
+											<input type="hidden" name="style" value="<?php echo esc_attr( $style_id ); ?>" />
+											<input type="hidden" name="version" value="<?php echo esc_attr( $available_version ); ?>" />
+											<button class="button button-secondary" type="submit"><?php esc_html_e( 'Preview', 'aculect-icon-library' ); ?></button>
+										</form>
+									<?php endif; ?>
 								</div>
 							<?php endforeach; ?>
 							<?php if ( ! empty( $installed['styles'] ) ) : ?>
@@ -379,6 +404,53 @@ class AdminPage {
 				</div>
 			<?php endif; ?>
 		</section>
+		<?php
+	}
+
+	/** Renders metadata consent, cache status and already-cached safe samples. */
+	private function render_discovery() {
+		if ( ! $this->discovery ) {
+			return;
+		}
+		?>
+		<p><?php esc_html_e( 'Browse supported libraries from GitHub. Refresh downloads catalog metadata; Preview downloads up to 12 sample icons. Neither installs or enables a library.', 'aculect-icon-library' ); ?></p>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<?php wp_nonce_field( 'icon_library_discover' ); ?>
+			<input type="hidden" name="action" value="icon_library_discover" />
+			<input type="hidden" name="mode" value="refresh" />
+			<button class="button button-secondary" type="submit"><?php esc_html_e( 'Refresh from GitHub', 'aculect-icon-library' ); ?></button>
+		</form>
+		<p><?php echo esc_html( $this->discovery->refreshed_at() ? sprintf( /* translators: %s: UTC time of last successful refresh. */ __( 'Using saved catalog from %s UTC. Refresh to check availability.', 'aculect-icon-library' ), gmdate( 'Y-m-d H:i', $this->discovery->refreshed_at() ) ) : __( 'No catalog has been fetched yet.', 'aculect-icon-library' ) ); ?></p>
+		<?php
+		// Query parameters select cached output only; no page view can fetch data.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['discovery_result'] ) ) {
+			$failed = 'failed' === $_GET['discovery_result'];
+			echo '<p role="status">' . esc_html( $failed ? __( 'GitHub metadata could not be verified. Saved catalog and previews are unchanged. Retry when online.', 'aculect-icon-library' ) : __( 'GitHub metadata request completed.', 'aculect-icon-library' ) ) . '</p>';
+		}
+		$library = isset( $_GET['preview_library'] ) && is_string( $_GET['preview_library'] ) ? sanitize_key( wp_unslash( $_GET['preview_library'] ) ) : '';
+		$style   = isset( $_GET['preview_style'] ) && is_string( $_GET['preview_style'] ) ? sanitize_key( wp_unslash( $_GET['preview_style'] ) ) : '';
+		$version = isset( $_GET['preview_version'] ) && is_string( $_GET['preview_version'] ) ? wp_unslash( $_GET['preview_version'] ) : '';
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+		if ( ! $library ) {
+			return;
+		}
+		$samples = $this->discovery->preview( $library, $style, $version, false );
+		if ( is_wp_error( $samples ) ) {
+			echo '<p role="status">' . esc_html( $samples->get_error_message() ) . '</p>';
+			return;
+		}
+		?>
+		<h3><?php echo esc_html( ucwords( str_replace( '-', ' ', $library . ' ' . $style ) ) ); ?></h3>
+		<p><?php esc_html_e( 'Sample preview. This library has not been installed by previewing it.', 'aculect-icon-library' ); ?></p>
+		<div class="icon-library-grid">
+			<?php foreach ( $samples as $sample ) : ?>
+				<div class="icon-library-icon">
+					<div class="icon-library-icon-preview" aria-hidden="true"><?php echo wp_kses( $sample['svg'], SvgSanitizer::get_allowed_svg_tags() ); ?></div>
+					<div class="icon-library-icon-label"><?php echo esc_html( $sample['label'] ); ?></div>
+				</div>
+			<?php endforeach; ?>
+		</div>
 		<?php
 	}
 
@@ -454,7 +526,7 @@ class AdminPage {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$selected_slug = isset( $_GET['collection'] ) && is_string( $_GET['collection'] ) ? sanitize_key( wp_unslash( $_GET['collection'] ) ) : '';
 
-		if ( $selected_slug && isset( $collections[ $selected_slug ] ) && ! empty( $collections[ $selected_slug ]['enabled'] ) ) {
+		if ( $selected_slug && isset( $collections[ $selected_slug ] ) ) {
 			$this->render_collection_detail( $collections[ $selected_slug ] );
 			return;
 		}
@@ -462,7 +534,7 @@ class AdminPage {
 		$installed_collections = array_filter(
 			$collections,
 			static function ( $collection ) {
-				return ! empty( $collection['enabled'] );
+				return ! empty( $collection['enabled'] ) || 'installed' === ( $collection['version'] ?? '' );
 			}
 		);
 		$install_url           = add_query_arg(
@@ -507,7 +579,7 @@ class AdminPage {
 		}
 		?>
 		<section class="icon-library-panel">
-			<h2><?php esc_html_e( 'Available Libraries', 'aculect-icon-library' ); ?></h2>
+			<h2><?php esc_html_e( 'Libraries on this site', 'aculect-icon-library' ); ?></h2>
 			<div class="icon-library-collection-list">
 				<?php foreach ( $collections as $collection ) : ?>
 					<?php if ( CustomIconRepository::COLLECTION_SLUG !== $collection['slug'] ) : ?>
@@ -539,7 +611,7 @@ class AdminPage {
 				<h3><?php echo esc_html( $collection['name'] ); ?></h3>
 			</div>
 			<div class="icon-library-collection-actions">
-				<span class="icon-library-variant-summary"><?php echo esc_html( ! empty( $collection['enabled'] ) ? __( 'Installed', 'aculect-icon-library' ) : __( 'Available', 'aculect-icon-library' ) ); ?></span>
+				<span class="icon-library-variant-summary"><?php echo esc_html( ! empty( $collection['enabled'] ) ? __( 'Enabled', 'aculect-icon-library' ) : __( 'Disabled', 'aculect-icon-library' ) ); ?></span>
 				<span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span>
 			</div>
 		</a>
@@ -592,7 +664,7 @@ class AdminPage {
 						<input type="hidden" name="action" value="icon_library_toggle_collection" />
 						<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
 						<input type="hidden" name="state" value="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>" />
-						<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Uninstall', 'aculect-icon-library' ) : __( 'Install', 'aculect-icon-library' ) ); ?></button>
+						<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Disable', 'aculect-icon-library' ) : __( 'Enable', 'aculect-icon-library' ) ); ?></button>
 					</form>
 				</div>
 			</div>
@@ -796,7 +868,7 @@ class AdminPage {
 						<input type="hidden" name="action" value="icon_library_toggle_collection" />
 						<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
 						<input type="hidden" name="state" value="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>" />
-						<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Uninstall', 'aculect-icon-library' ) : __( 'Install', 'aculect-icon-library' ) ); ?></button>
+								<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Disable', 'aculect-icon-library' ) : __( 'Enable', 'aculect-icon-library' ) ); ?></button>
 					</form>
 				</div>
 			</div>

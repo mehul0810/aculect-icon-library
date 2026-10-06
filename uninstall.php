@@ -14,6 +14,8 @@ delete_option( 'icon_library_enabled_variants' );
 delete_option( 'icon_library_custom_icons' );
 delete_option( 'icon_library_custom_icons_lock' );
 delete_option( 'icon_library_state_lock' );
+delete_option( 'icon_library_legacy_collections' );
+delete_option( 'icon_library_discovery_catalog' );
 
 $icon_library_uploads   = wp_upload_dir();
 $icon_library_base      = empty( $icon_library_uploads['error'] ) ? realpath( $icon_library_uploads['basedir'] ) : false;

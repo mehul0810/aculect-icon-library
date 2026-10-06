@@ -18,11 +18,28 @@ a compatible Iconoir Solid subset, Phosphor Icons, Ionicons, and custom SVG icon
 Icon block. Manage libraries from Appearance > Icons, enable the styles you need,
 and select icons in the WordPress block editor.
 
-Manage everything from Appearance > Icons. No icon libraries are installed by
-default: open Install Library to browse the included libraries and install
-the ones you want to use.
+Manage everything from Appearance > Icons. Fresh sites start with no installed
+or loaded plugin collections. Open Install Library, explicitly refresh the
+GitHub catalog, preview a small sample, then install an available library.
+Installed libraries start disabled; enable them in Library when needed.
+Existing sites retain their bundled libraries, preferences and saved icons.
+The public data catalog is currently empty and its candidate releases are not
+yet published. Legacy artwork remains in the ZIP for upgrade compatibility.
 
-= Included icon libraries =
+= External library catalog and samples =
+
+Only an administrator's explicit Refresh, Preview or Install action contacts
+GitHub. Page views, the block editor and frontend rendering make no catalog or
+preview requests. Refresh uses the catalog in
+https://github.com/mehul0810/aculect-icon-libraries and only entries matching
+locally reviewed integrity pins can be installed. Preview downloads a separate
+JSON with up to 12 sanitized SVG samples, never the full library package.
+Successful metadata and samples are cached on the site for offline browsing.
+GitHub receives normal HTTP connection and request information, including the
+server IP and WordPress request headers. No posts, icon usage or credentials
+are sent. GitHub privacy terms: https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement
+
+= Legacy icon libraries retained for upgrades =
 
 * Heroicons: Outline and Solid.
 * Bootstrap Icons: Default and Filled.
@@ -71,8 +88,9 @@ Requires WordPress 7.1 or later and PHP 7.4 or later.
 
 1. Upload the plugin to the `wp-content/plugins/aculect-icon-library` directory.
 2. Activate Aculect Icon Library in WordPress.
-3. Open Appearance > Icons > Install Library to choose a library.
-4. Install the library and enable the variants you want to use.
+3. Open Appearance > Icons > Install Library and refresh the GitHub catalog.
+4. Preview an available library, explicitly install it, then enable it and its
+   variants in Library. Availability depends on approved published data packs.
 5. Open a post or page in the block editor, insert the Icon block, and select
    an icon from the enabled library. Adjust its sizing and styling, then save.
 
@@ -160,7 +178,7 @@ icon widget.
 == Screenshots ==
 
 1. View installed icon libraries and their active variants from Appearance > Icons.
-2. Browse available bundled libraries in the Install Library tab.
+2. Refresh the supported GitHub catalog and preview samples before installation.
 3. Upload custom SVG icons, search uploaded icons, rename labels, and delete icons.
 
 == Source code ==
@@ -191,7 +209,9 @@ Bundled libraries remain under their upstream terms:
 
 = 1.2.0 =
 
-* Add explicit installation, update, retry, and resume for trusted versioned icon packages, with local storage and saved-icon preservation. The downloadable catalog remains empty pending package approval.
+* Start fresh sites with zero plugin collections and preserve existing sites' libraries and saved icons.
+* Add explicit GitHub catalog refresh and separate bounded sample preview before installation, with local reviewed integrity pins and offline cache.
+* Add explicit installation, update, retry, and resume for versioned data-only icon packages, with local storage and saved-icon preservation. Public catalog and release publication remain pending.
 * Add optional Phosphor Regular and Fill icons.
 * Add compatible Ionicons Filled, Sharp, Outline, and Brands icons with explicit exclusions.
 * Add the compatible Iconoir Solid subset, Rune Pixelated icons, and Google Material Icons Filled 24px subset.

@@ -21,6 +21,8 @@ class TrustedLibraryCatalogTest extends TestCase {
 				'package_sha256'  => 'f9fff966a7695b52939ab93bcfc6121db1fa86178125eb1a94396a15d5a1b284',
 				'manifest_sha256' => '99db2ceb4547085a6c5dc7199620c669645c3f8005322e96dd2ad33ec49fae63',
 				'package_bytes'   => 3039664,
+				'preview_sha256'  => '49d242611b1949c044bfd7ba0fcb99e834442d3144747f3b36e17fc02fd6da90',
+				'preview_bytes'   => 57635,
 			),
 			array(
 				'library_id'      => 'hugeicons',
@@ -29,6 +31,8 @@ class TrustedLibraryCatalogTest extends TestCase {
 				'package_sha256'  => 'a3f97b3f35c0775b06c4dbdccd1012b13b46a750405e0fdbd2cc21070bf44904',
 				'manifest_sha256' => '300555c84a938a773cee554612ec46103de6cc82d92b0d6a9ea5bff1acdee474',
 				'package_bytes'   => 12635782,
+				'preview_sha256'  => '13c9b5b226df7a8feab24944717c6f5c2031153e2f7d849b8307a0114e924cba',
+				'preview_bytes'   => 82440,
 			),
 		);
 		$this->assertSame( $expected_descriptors, $catalog['libraries'] );

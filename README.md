@@ -8,7 +8,7 @@ Ionicons, and custom SVG icons to WordPress's existing `core/icon` block. Manage
 libraries from **Appearance > Icons**, enable the styles you need, and choose
 icons in the block editor. It does not add a competing block or use icon fonts.
 
-## Supported Icon Libraries
+## Legacy Icon Libraries Retained For Upgrades
 
 | Library | Variants |
 | --- | --- |
@@ -23,11 +23,10 @@ icons in the block editor. It does not add a competing block or use icon fonts.
 | Phosphor Icons | Regular, Fill (2,487 icons) |
 | Ionicons | Filled, Sharp, Outline, Brands (679 compatible icons) |
 
-No libraries are installed by default. Preview and search the included libraries
-before installing them, filter by variant and category where available, and
-enable only the styles you need. Font Awesome Pro styles are not bundled.
-Included SVGs and custom uploads are stored locally; browsing and using them
-requires no external service connection.
+Fresh sites start with no installed or loaded plugin collections. The legacy
+assets above remain packaged for existing users' saved icons and collection
+preferences; fresh sites do not expose them as installed libraries. Font Awesome
+Pro styles are not bundled. Custom SVG uploads remain local.
 
 Iconoir includes a compatible filled-path Solid subset. Regular and mixed-stroke
 icons are explicitly deferred, not silently simplified. See
@@ -40,14 +39,19 @@ See [Material Icons scope, exclusions and provenance](docs/material-icons.md).
 
 ## Optional Versioned Libraries
 
-**Appearance > Icons > Optional Libraries** is for separately downloaded icon
-packages. The shipped catalog is currently empty, so this screen offers no
-optional packages. Source and redistribution approval for any future packages
-is still required; no package availability or production download has been
-verified.
+**Appearance > Icons > Install Library** provides explicit GitHub catalog
+refresh, sample preview and package installation. The current public index is
+empty and no data releases are published. The plugin's reviewed local allowlist
+contains candidate Lucide Outline and Hugeicons Stroke Rounded descriptors;
+public availability and WordPress.org distribution acceptance remain unresolved.
 
-When a trusted release is added to the local catalog, the screen shows its
-available version alongside any installed version. An authorized administrator
+After **Refresh from GitHub**, remote index entries must match those local pins
+before they appear. **Preview** fetches at most 12 safe samples in a separate
+small JSON artifact; it does not fetch the full ZIP, install or enable anything.
+Successful catalog and sample data remain cached for offline browsing. Page
+loads, editor and frontend requests make no catalog or preview network calls.
+For a discovered release the screen shows its available version alongside any
+installed version. An authorized administrator
 must choose **Install** or **Update** to download that exact package from its
 pinned GitHub release and store the verified contents on the site. Installation
 does not enable the library or its styles; use the separate **Library** screen
@@ -64,6 +68,8 @@ compatibility.
 
 See the [optional-library runtime contract](docs/optional-libraries.md) for
 ownership, recovery boundaries and packaged-runtime acceptance checks.
+See [discovery, preview and upgrade behavior](docs/discovery-and-preview.md) for
+network consent, trust assumptions, bounds, the GitHub pack layout and policy gates.
 
 ## Requirements And Quick Start
 
@@ -71,8 +77,9 @@ Requires **WordPress 7.1+** and **PHP 7.4+**.
 
 1. Install the plugin ZIP through **Plugins > Add New Plugin > Upload Plugin**
    and activate Aculect Icon Library.
-2. Open **Appearance > Icons > Install Library** and install a library.
-3. Open its detail screen and enable the variants you need.
+2. Open **Appearance > Icons > Install Library**, refresh the GitHub catalog,
+   preview a supported release, then explicitly install it when available.
+3. Open **Library**, select the installed collection and enable it and its variants.
 4. Edit a post or page, insert the native **Icon** block, and select an icon.
 5. Adjust the block's sizing and styling, then save your content.
 

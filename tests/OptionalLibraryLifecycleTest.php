@@ -54,7 +54,7 @@ class OptionalLibraryLifecycleTest extends TestCase {
 		);
 		try {
 			$registry = new CollectionRegistry( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) );
-			$hooks = array_filter( $GLOBALS['icon_library_test_actions']['switch_blog'], static function ( $hook ) use ( $registry ) { return $hook[0] === array( $registry, 'clear_request_caches' ); } );
+			$hooks = array_filter( $GLOBALS['icon_library_test_actions']['switch_blog'], static function ( $hook ) use ( $registry ) { return $hook[0] === array( $registry, 'switch_site' ); } );
 			$this->assertCount( 1, $hooks );
 			$hook = reset( $hooks );
 			$this->assertSame( 'Site 1', $registry->get_manifest( 'site-fixture' )['name'] );

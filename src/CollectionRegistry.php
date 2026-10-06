@@ -35,6 +35,13 @@ class CollectionRegistry {
 	private $custom_icons;
 
 	/**
+	 * Legacy bundled discovery; null retains the standalone registry contract.
+	 *
+	 * @var array|null
+	 */
+	private $bundled_slugs;
+
+	/**
 	 * Token for the current collection-state lock.
 	 *
 	 * @var string
@@ -74,14 +81,24 @@ class CollectionRegistry {
 	 *
 	 * @param ManifestLoader            $manifest_loader Manifest loader.
 	 * @param CustomIconRepository|null $custom_icons    Custom icon repository.
+	 * @param array|null                $bundled_slugs   Bundled collections retained for an existing site.
 	 */
-	public function __construct( ManifestLoader $manifest_loader, ?CustomIconRepository $custom_icons = null ) {
+	public function __construct( ManifestLoader $manifest_loader, ?CustomIconRepository $custom_icons = null, $bundled_slugs = null ) {
 		$this->manifest_loader = $manifest_loader;
 		$this->custom_icons    = $custom_icons;
+		$this->bundled_slugs   = is_array( $bundled_slugs ) ? $this->normalize_keys( $bundled_slugs ) : null;
 		foreach ( array( 'added_option', 'updated_option', 'deleted_option' ) as $hook ) {
 			add_action( $hook, array( $this, 'invalidate_option' ) );
 		}
-		add_action( 'switch_blog', array( $this, 'clear_request_caches' ), 10, 0 );
+		add_action( 'switch_blog', array( $this, 'switch_site' ), 10, 0 );
+	}
+
+	/** Reloads legacy availability for the destination site during a blog switch. */
+	public function switch_site() {
+		if ( null !== $this->bundled_slugs ) {
+			$this->bundled_slugs = $this->normalize_keys( Plugin::legacy_collections( $this->manifest_loader ) );
+		}
+		$this->clear_request_caches();
 	}
 
 	/**
@@ -158,7 +175,7 @@ class CollectionRegistry {
 	 * @return string[]
 	 */
 	public function get_available_collection_slugs() {
-		$slugs = $this->normalize_keys( $this->manifest_loader->get_collection_slugs() );
+		$slugs = null === $this->bundled_slugs ? $this->normalize_keys( $this->manifest_loader->get_collection_slugs() ) : $this->bundled_slugs;
 		if ( $this->custom_icons && $this->custom_icons->get_manifest() ) {
 			$slugs[] = CustomIconRepository::COLLECTION_SLUG;
 		}
@@ -196,7 +213,7 @@ class CollectionRegistry {
 			$this->provider_manifests[ $slug ] = is_array( $manifest ) && ( $manifest['slug'] ?? null ) === $slug ? $manifest : null;
 			return $this->provider_manifests[ $slug ];
 		}
-		return $this->manifest_loader->get_manifest( $slug );
+		return $this->can_use_bundled( $slug ) ? $this->manifest_loader->get_manifest( $slug ) : null;
 	}
 
 	/**
@@ -210,7 +227,7 @@ class CollectionRegistry {
 		if ( CustomIconRepository::COLLECTION_SLUG === $slug || isset( $providers[ $slug ] ) ) {
 			return $this->get_manifest( $slug );
 		}
-		return $this->manifest_loader->get_metadata( $slug );
+		return $this->can_use_bundled( $slug ) ? $this->manifest_loader->get_metadata( $slug ) : null;
 	}
 
 	/**
@@ -234,7 +251,7 @@ class CollectionRegistry {
 			$resolved = is_string( $path ) ? realpath( $path ) : false;
 			return false !== $resolved && ! is_link( $path ) && is_file( $resolved ) && is_readable( $resolved ) && 'svg' === strtolower( pathinfo( $resolved, PATHINFO_EXTENSION ) ) ? $resolved : null;
 		}
-		return $this->manifest_loader->get_svg_path( $slug, $relative_path );
+		return $this->can_use_bundled( $slug ) ? $this->manifest_loader->get_svg_path( $slug, $relative_path ) : null;
 	}
 
 	/**
@@ -257,7 +274,17 @@ class CollectionRegistry {
 			$content = call_user_func( $providers[ $slug ]['svg_content'], $relative_path );
 			return is_string( $content ) ? $content : null;
 		}
-		return $this->manifest_loader->get_svg_content( $slug, $relative_path );
+		return $this->can_use_bundled( $slug ) ? $this->manifest_loader->get_svg_content( $slug, $relative_path ) : null;
+	}
+
+	/**
+	 * Blocks direct requests from bypassing the fresh-site installed inventory.
+	 *
+	 * @param string $slug Bundled collection slug.
+	 * @return bool
+	 */
+	private function can_use_bundled( $slug ) {
+		return null === $this->bundled_slugs || in_array( $slug, $this->bundled_slugs, true );
 	}
 
 	/**

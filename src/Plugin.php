@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Plugin {
 	const OPTION_ENABLED_COLLECTIONS = 'icon_library_enabled_collections';
 	const OPTION_ENABLED_VARIANTS    = 'icon_library_enabled_variants';
+	const OPTION_LEGACY_COLLECTIONS  = 'icon_library_legacy_collections';
 	const REST_NAMESPACE             = 'icon-library/v1';
 	/**
 	 * Optional trusted catalog injection.
@@ -80,17 +81,20 @@ class Plugin {
 		$library_jobs        = $this->library_jobs ? $this->library_jobs : new LibraryJobStore();
 		$library_repository  = new InstalledLibraryRepository( $library_jobs, $this->library_storage_dir );
 		$library_validator   = $this->library_validator ? $this->library_validator : new LibraryPackageValidator( $sanitizer );
-		$library_catalog     = $this->library_catalog ? $this->library_catalog : new TrustedLibraryCatalog();
+		$library_catalog     = $this->library_catalog ? $this->library_catalog : new LibraryDiscoveryCatalog();
 		$library_installer   = new LibraryInstaller( $library_catalog, $library_repository, $library_jobs, $library_validator, $this->library_transport );
 		$custom_icons        = new CustomIconRepository( $sanitizer );
 		$manifest_loader     = new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' );
-		$collection_registry = new CollectionRegistry( $manifest_loader, $custom_icons );
+		$collection_registry = new CollectionRegistry( $manifest_loader, $custom_icons, self::legacy_collections( $manifest_loader ) );
 		$core_registrar      = new CoreIconRegistrar( $collection_registry );
 		$rest_controller     = new RestController( $collection_registry, $custom_icons );
 		$ability_registrar   = new AbilityRegistrar( $collection_registry );
 
 		add_filter( 'icon_library_collection_providers', array( $library_repository, 'register_providers' ) );
 		( new LibraryAdminController( $library_installer ) )->register();
+		if ( $library_catalog instanceof LibraryDiscoveryCatalog ) {
+			( new LibraryDiscoveryController( $library_catalog ) )->register();
+		}
 
 		// Core collections are registered only for icon REST requests or saved
 		// blocks that actually need them. This avoids catalog work on public pages.
@@ -105,7 +109,7 @@ class Plugin {
 		$ability_registrar->register();
 
 		if ( is_admin() ) {
-			$admin_page = new AdminPage( $collection_registry, $sanitizer, $library_installer );
+			$admin_page = new AdminPage( $collection_registry, $sanitizer, $library_installer, $library_catalog instanceof LibraryDiscoveryCatalog ? $library_catalog : null );
 			$admin_page->register();
 			( new AdminActions( $collection_registry, $custom_icons ) )->register();
 		}
@@ -117,6 +121,23 @@ class Plugin {
 	public static function activate() {
 		if ( false === get_option( self::OPTION_ENABLED_COLLECTIONS, false ) ) {
 			add_option( self::OPTION_ENABLED_COLLECTIONS, array(), '', false );
+			add_option( self::OPTION_LEGACY_COLLECTIONS, array(), '', false );
 		}
+	}
+
+	/**
+	 * Retains bundled discovery for existing sites, including skipped upgrades.
+	 * No artwork is read or downloaded while recording this compatibility marker.
+	 *
+	 * @param ManifestLoader $loader Bundled metadata loader.
+	 * @return string[]
+	 */
+	public static function legacy_collections( ManifestLoader $loader ) {
+		$legacy = get_option( self::OPTION_LEGACY_COLLECTIONS, false );
+		if ( false === $legacy ) {
+			$legacy = false === get_option( self::OPTION_ENABLED_COLLECTIONS, false ) ? array() : $loader->get_collection_slugs();
+			add_option( self::OPTION_LEGACY_COLLECTIONS, $legacy, '', false );
+		}
+		return is_array( $legacy ) ? $legacy : array();
 	}
 }
