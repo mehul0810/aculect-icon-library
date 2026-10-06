@@ -13,7 +13,8 @@
       "preview_bytes": 7256,
       "icon_count": 1404,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -27,7 +28,8 @@
       "preview_bytes": 6356,
       "icon_count": 669,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -42,7 +44,8 @@
       "icon_count": 4,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -57,7 +60,8 @@
       "icon_count": 8,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -72,7 +76,8 @@
       "icon_count": 205,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -87,7 +92,8 @@
       "icon_count": 210,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -102,7 +108,8 @@
       "icon_count": 1741,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -117,7 +124,8 @@
       "icon_count": 1708,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -132,7 +140,8 @@
       "icon_count": 2860,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -147,7 +156,8 @@
       "icon_count": 2825,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -162,7 +172,8 @@
       "icon_count": 2503,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -177,7 +188,8 @@
       "icon_count": 2471,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -192,7 +204,8 @@
       "icon_count": 960,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -207,7 +220,8 @@
       "icon_count": 960,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -222,7 +236,8 @@
       "icon_count": 859,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -237,7 +252,8 @@
       "icon_count": 850,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -252,7 +268,8 @@
       "icon_count": 712,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -267,7 +284,8 @@
       "icon_count": 712,
       "availability": "available",
       "family_id": "fluent-ui",
-      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8"
+      "preview_revision": "221054d788bd2ab1e33c4b7aa8dc0827ffa247a8",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -281,7 +299,8 @@
       "preview_bytes": 19158,
       "icon_count": 609,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -295,7 +314,8 @@
       "preview_bytes": 15271,
       "icon_count": 273,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -309,7 +329,8 @@
       "preview_bytes": 12565,
       "icon_count": 2001,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -323,7 +344,8 @@
       "preview_bytes": 7501,
       "icon_count": 324,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -337,7 +359,8 @@
       "preview_bytes": 82440,
       "icon_count": 6064,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -351,7 +374,8 @@
       "preview_bytes": 12733,
       "icon_count": 210,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -365,7 +389,8 @@
       "preview_bytes": 12345,
       "icon_count": 68,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -379,7 +404,8 @@
       "preview_bytes": 9025,
       "icon_count": 313,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -393,7 +419,8 @@
       "preview_bytes": 14729,
       "icon_count": 14,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -407,7 +434,8 @@
       "preview_bytes": 7000,
       "icon_count": 284,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -421,7 +449,8 @@
       "preview_bytes": 57635,
       "icon_count": 1848,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -435,7 +464,8 @@
       "preview_bytes": 16844,
       "icon_count": 1038,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -449,7 +479,8 @@
       "preview_bytes": 6681,
       "icon_count": 1239,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -463,7 +494,8 @@
       "preview_bytes": 8097,
       "icon_count": 1248,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -477,7 +509,8 @@
       "preview_bytes": 10022,
       "icon_count": 299,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -491,7 +524,8 @@
       "preview_bytes": 30491,
       "icon_count": 215,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "schema_version": 1,
@@ -505,7 +539,8 @@
       "preview_bytes": 8372,
       "icon_count": 1012,
       "availability": "available",
-      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57"
+      "preview_revision": "fc9b2911d43e0f306279805d1687fca4a026ff57",
+      "discoverable": true
     },
     {
       "library_id": "lucide",
@@ -718,5 +753,6 @@
       "pack_count": 0,
       "icon_count": 0
     }
-  ]
+  ],
+  "catalog_source_revision": "e2c0fecdd7113959f636c3d2719147a616e5d4ab"
 }

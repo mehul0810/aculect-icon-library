@@ -19,20 +19,23 @@ Icon block. Manage libraries from Appearance > Icons, enable the styles you need
 and select icons in the WordPress block editor.
 
 Manage everything from Appearance > Icons. Fresh sites start with no installed
-or loaded plugin collections. Open Install Library, explicitly refresh the
-GitHub catalog, preview a small sample, then install an available library.
+or loaded plugin collections. Open Icons to see supported GitHub libraries
+immediately, preview a small sample, then install an available library.
 Installed libraries start disabled; enable them in Library when needed.
 Existing sites retain their bundled libraries, preferences and saved icons.
-The public data catalog is currently empty and its candidate releases are not
-yet published. Legacy artwork remains in the ZIP for upgrade compatibility.
+Thirty-five published packs across thirteen families are available. Legacy
+artwork remains in the ZIP for upgrade compatibility.
 
 = External library catalog and samples =
 
-Only an administrator's explicit Refresh, Preview or Install action contacts
-GitHub. Page views, the block editor and frontend rendering make no catalog or
-preview requests. Refresh uses the catalog in
+The supported list uses a reviewed GitHub catalog included with this plugin;
+no refresh or network request is required to see it. An administrator can
+optionally enable Catalog updates to allow background GitHub availability
+checks through WordPress cron. Updates use a daily cache; failed checks retry
+no more than once an hour when you browse again. Page views, the block editor
+and frontend rendering do not fetch catalog metadata or previews. Updates use
 https://github.com/mehul0810/aculect-icon-libraries and only entries matching
-locally reviewed integrity pins can be installed. Preview downloads a separate
+locally reviewed integrity pins can be installed. Explicit Preview downloads a separate
 JSON with up to 12 sanitized SVG samples, never the full library package.
 Successful metadata and samples are cached on the site for offline browsing.
 GitHub receives normal HTTP connection and request information, including the
@@ -88,7 +91,7 @@ Requires WordPress 7.1 or later and PHP 7.4 or later.
 
 1. Upload the plugin to the `wp-content/plugins/aculect-icon-library` directory.
 2. Activate Aculect Icon Library in WordPress.
-3. Open Appearance > Icons > Install Library and refresh the GitHub catalog.
+3. Open Appearance > Icons to browse the available GitHub libraries immediately.
 4. Preview an available library, explicitly install it, then enable it and its
    variants in Library. Availability depends on approved published data packs.
 5. Open a post or page in the block editor, insert the Icon block, and select
@@ -178,7 +181,7 @@ icon widget.
 == Screenshots ==
 
 1. View installed icon libraries and their active variants from Appearance > Icons.
-2. Refresh the supported GitHub catalog and preview samples before installation.
+2. Browse supported GitHub libraries immediately and preview samples before installation.
 3. Upload custom SVG icons, search uploaded icons, rename labels, and delete icons.
 
 == Source code ==
@@ -210,7 +213,7 @@ Bundled libraries remain under their upstream terms:
 = 1.2.0 =
 
 * Start fresh sites with zero plugin collections and preserve existing sites' libraries and saved icons.
-* Add explicit GitHub catalog refresh and separate bounded sample preview before installation, with local reviewed integrity pins and offline cache.
+* List reviewed GitHub libraries immediately, with optional consented background availability updates, an offline cache and separate bounded sample previews before installation.
 * Add explicit installation, update, retry, and resume for versioned data-only icon packages, with local storage and saved-icon preservation. Thirty-five independently verified GitHub packs across thirteen families are available; Simple Icons and Keyline remain gated.
 * Add optional Phosphor Regular and Fill icons.
 * Add compatible Ionicons Filled, Sharp, Outline, and Brands icons with explicit exclusions.

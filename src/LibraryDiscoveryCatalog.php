@@ -1,6 +1,6 @@
 <?php
 /**
- * Explicit GitHub discovery and bounded sample previews.
+ * Immediate reviewed discovery, consented updates and bounded sample previews.
  *
  * @package IconLibrary
  */
@@ -13,11 +13,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Remote visibility cannot change the locally reviewed package trust anchors. */
 class LibraryDiscoveryCatalog extends TrustedLibraryCatalog {
-	const INDEX_URL   = 'https://raw.githubusercontent.com/mehul0810/aculect-icon-libraries/main/data/catalog.json';
-	const OPTION      = 'icon_library_discovery_catalog';
-	const MAX_INDEX   = 1048576;
-	const MAX_PREVIEW = 262144;
-	const MAX_SAMPLES = 12;
+	const INDEX_URL      = 'https://raw.githubusercontent.com/mehul0810/aculect-icon-libraries/main/data/catalog.json';
+	const OPTION         = 'icon_library_discovery_catalog';
+	const MAX_INDEX      = 1048576;
+	const MAX_PREVIEW    = 262144;
+	const MAX_SAMPLES    = 12;
+	const OPTION_UPDATES = 'icon_library_catalog_updates';
+	const OPTION_ATTEMPT = 'icon_library_catalog_attempt';
+	const OPTION_ERROR   = 'icon_library_catalog_error';
+	const OPTION_LOCK    = 'icon_library_catalog_update_lock';
+	const UPDATE_HOOK    = 'icon_library_catalog_update';
+	const CACHE_TTL      = 86400;
+	const RETRY_DELAY    = 3600;
 
 	/**
 	 * Optional isolated transport.
@@ -38,13 +45,101 @@ class LibraryDiscoveryCatalog extends TrustedLibraryCatalog {
 	}
 
 	/**
-	 * Returns only cached GitHub entries matching local trust anchors.
+	 * Returns verified cache or the shipped GitHub snapshot without network access.
 	 *
 	 * @return array
 	 */
 	public function get_entries() {
-		$cache = get_option( self::OPTION, array() );
-		return $this->match_entries( is_array( $cache ) ? ( $cache['libraries'] ?? array() ) : array() );
+		$cache = get_option( self::OPTION, null );
+		if ( is_array( $cache ) && is_array( $cache['libraries'] ?? null ) ) {
+			$entries = $this->verified_entries( $cache['libraries'] );
+			if ( ! is_wp_error( $entries ) ) {
+				return $entries;
+			}
+		}
+		return array_values(
+			array_filter(
+				parent::get_entries(),
+				static function ( $entry ) {
+					return true === ( $entry['discoverable'] ?? false );
+				}
+			)
+		);
+	}
+
+	/** Whether an administrator opted in to background metadata updates.
+	 *
+	 * @return bool
+	 */
+	public function updates_enabled() {
+		return in_array( get_option( self::OPTION_UPDATES, false ), array( true, 1, '1' ), true );
+	}
+
+	/** Saves explicit consent without fetching or changing installed collections.
+	 *
+	 * @param bool $enabled Whether background updates are allowed.
+	 */
+	public function set_updates_enabled( $enabled ) {
+		update_option( self::OPTION_UPDATES, (bool) $enabled, false );
+		if ( $enabled ) {
+			$this->maybe_schedule_update();
+		} else {
+			wp_clear_scheduled_hook( self::UPDATE_HOOK );
+		}
+	}
+
+	/** Schedules one bounded update from a privileged catalog view, after consent. */
+	public function maybe_schedule_update() {
+		if ( ! current_user_can( 'manage_options' ) || ! $this->update_due() || wp_next_scheduled( self::UPDATE_HOOK ) ) {
+			return;
+		}
+		wp_schedule_single_event( time() + 30, self::UPDATE_HOOK );
+	}
+
+	/** Runs metadata only in cron, keeping the last valid cache on every failure. */
+	public function run_scheduled_update() {
+		if ( ! $this->update_due() ) {
+			return;
+		}
+		$lock = get_option( self::OPTION_LOCK, 0 );
+		if ( (int) $lock < time() - 300 ) {
+			delete_option( self::OPTION_LOCK );
+		}
+		if ( ! add_option( self::OPTION_LOCK, time(), '', false ) ) {
+			return;
+		}
+		try {
+			update_option( self::OPTION_ATTEMPT, time(), false );
+			$result = $this->refresh();
+			if ( is_wp_error( $result ) ) {
+				update_option(
+					self::OPTION_ERROR,
+					array(
+						'at'   => time(),
+						'code' => $result->get_error_code(),
+					),
+					false
+				);
+			}
+		} finally {
+			delete_option( self::OPTION_LOCK );
+		}
+	}
+
+	/** Whether the latest background update failed.
+	 *
+	 * @return bool
+	 */
+	public function update_failed() {
+		return is_array( get_option( self::OPTION_ERROR, false ) );
+	}
+
+	/** Applies daily cache freshness and an hourly failure backoff.
+	 *
+	 * @return bool
+	 */
+	private function update_due() {
+		return $this->updates_enabled() && $this->refreshed_at() <= time() - self::CACHE_TTL && (int) get_option( self::OPTION_ATTEMPT, 0 ) <= time() - self::RETRY_DELAY;
 	}
 
 	/**
@@ -54,7 +149,8 @@ class LibraryDiscoveryCatalog extends TrustedLibraryCatalog {
 	 */
 	public function refreshed_at() {
 		$cache = get_option( self::OPTION, array() );
-		return is_array( $cache ) ? (int) ( $cache['refreshed_at'] ?? 0 ) : 0;
+		$at    = is_array( $cache ) ? ( $cache['refreshed_at'] ?? 0 ) : 0;
+		return is_int( $at ) && $at > 0 && $at <= time() && ! is_wp_error( $this->verified_entries( $cache['libraries'] ?? null ) ) ? $at : 0;
 	}
 
 	/**
@@ -71,7 +167,10 @@ class LibraryDiscoveryCatalog extends TrustedLibraryCatalog {
 		if ( ! is_array( $index ) || 1 !== ( $index['schema_version'] ?? null ) || ! is_array( $index['libraries'] ?? null ) || count( $index['libraries'] ) > 100 ) {
 			return $this->error( 'catalog_invalid', __( 'The GitHub catalog is invalid. The last saved catalog is still available.', 'aculect-icon-library' ) );
 		}
-		$entries = $this->match_entries( $index['libraries'] );
+		$entries = $this->verified_entries( $index['libraries'] );
+		if ( is_wp_error( $entries ) ) {
+			return $entries;
+		}
 		update_option(
 			self::OPTION,
 			array(
@@ -80,6 +179,7 @@ class LibraryDiscoveryCatalog extends TrustedLibraryCatalog {
 			),
 			false
 		);
+		delete_option( self::OPTION_ERROR );
 		return $entries;
 	}
 
@@ -200,6 +300,45 @@ class LibraryDiscoveryCatalog extends TrustedLibraryCatalog {
 		return $matches;
 	}
 
+	/** Rejects malformed or altered known entries before replacing a valid cache.
+	 * Unknown valid releases never gain local installation authority. An explicitly
+	 * empty valid index is authoritative and does not revive withdrawn entries.
+	 *
+	 * @param mixed $remote Catalog descriptors.
+	 * @return array|\WP_Error
+	 */
+	private function verified_entries( $remote ) {
+		if ( ! is_array( $remote ) || count( $remote ) > 100 || array_values( $remote ) !== $remote ) {
+			return $this->error( 'catalog_invalid', __( 'The GitHub catalog is invalid. The last saved catalog is still available.', 'aculect-icon-library' ) );
+		}
+		$seen    = array();
+		$matches = array();
+		$known   = array();
+		foreach ( parent::get_entries() as $entry ) {
+			$known[ $entry['library_id'] . '/' . $entry['style_id'] . '/' . $entry['release_version'] ] = true;
+		}
+		foreach ( $remote as $candidate ) {
+			$validated = is_array( $candidate ) ? ( new TrustedLibraryCatalog( array( $candidate ) ) )->get_entries() : array();
+			if ( ! $validated || ! $this->valid_preview_pin( $candidate ) ) {
+				return $this->error( 'catalog_invalid', __( 'The GitHub catalog is invalid. The last saved catalog is still available.', 'aculect-icon-library' ) );
+			}
+			$key = $candidate['library_id'] . '/' . $candidate['style_id'] . '/' . $candidate['release_version'];
+			if ( isset( $seen[ $key ] ) ) {
+				return $this->error( 'catalog_invalid', __( 'The GitHub catalog contains duplicate releases. The last saved catalog is still available.', 'aculect-icon-library' ) );
+			}
+			$seen[ $key ] = true;
+			$matched      = $this->match_entries( array( $candidate ) );
+			if ( ! $matched && isset( $known[ $key ] ) ) {
+				return $this->error( 'catalog_integrity', __( 'The GitHub catalog failed its integrity check. The last saved catalog is still available.', 'aculect-icon-library' ) );
+			}
+			$matches = array_merge( $matches, $matched );
+		}
+		if ( $remote && ! $matches ) {
+			return $this->error( 'catalog_unreviewed', __( 'The GitHub catalog has no reviewed releases. The last saved catalog is still available.', 'aculect-icon-library' ) );
+		}
+		return $matches;
+	}
+
 	/**
 	 * Checks bounded preview pins independently from ZIP integrity.
 	 *
@@ -221,7 +360,7 @@ class LibraryDiscoveryCatalog extends TrustedLibraryCatalog {
 		$initial = $url;
 		for ( $hop = 0; $hop <= 3; ++$hop ) {
 			$options  = array(
-				'timeout'             => 15,
+				'timeout'             => self::INDEX_URL === $initial ? 5 : 15,
 				'redirection'         => 0,
 				'limit_response_size' => $limit + 1,
 				'sslverify'           => true,

@@ -5,11 +5,26 @@ It reads no bundled manifests/SVG geometry for collection discovery and makes no
 external requests. WordPress's own collection remains owned by Core. A user's
 custom icons remain local and keep their existing behavior.
 
-Appearance > Icons > Install Library provides **Refresh from GitHub**, then
-**Preview** and **Install**. Each is an explicit nonce-protected administrator
-action. Refresh contacts only the existing repository's `main/data/catalog.json`
-on raw.githubusercontent.com. Page loads, the editor and the frontend do not
-refresh it. Preview fetches a separate sample JSON, never a ZIP or installation
+Appearance > Icons immediately lists the reviewed GitHub snapshot from the
+existing `data/library-catalog.json` allowlist. The 35 published descriptors have
+an explicit `discoverable` flag; the two older compatibility pins do not. No
+Refresh action, cache warmup, HTTP request or install job is required. A valid
+saved GitHub catalog takes precedence, including an intentionally empty list.
+Missing or corrupt cache falls back to the shipped reviewed snapshot.
+
+An administrator may explicitly enable **Catalog updates** in a nonce-protected
+POST form. This preference is off by default and does not follow from Preview
+or Install. Privileged catalog views schedule at most one delayed WordPress
+cron event when the saved catalog is older than 24 hours. The page returns local
+metadata immediately. Cron checks consent again, uses an expiring concurrency
+lock and an hourly failure backoff, and fetches only the existing repository's
+`main/data/catalog.json` on raw.githubusercontent.com. Ordinary WordPress cron
+must be available; `DISABLE_WP_CRON` and outbound HTTP restrictions are honored.
+Disabling the preference cancels pending events and preserves cached metadata.
+Page loads, the editor and frontend rendering do not fetch it themselves.
+
+**Preview** and **Install** remain separate explicit nonce-protected administrator
+actions. Preview fetches a separate sample JSON, never a ZIP or installation
 job. Install keeps the existing transactional, exact-version installer. A new
 installed collection starts disabled and can be enabled in Library. Disable
 hides picker discovery while preserving exact saved-name rendering offline.
@@ -44,17 +59,18 @@ prove byte integrity relative to those pins, not that a package author is who
 they claim to be. A compromised account can withdraw index entries or disrupt
 availability, but cannot replace an approved package or sample with new bytes.
 
-The index is limited to 1 MiB, 100 entries, JSON depth 16, 15-second requests,
+The index is limited to 1 MiB, 100 entries, JSON depth 16, 5-second requests,
 TLS verification and no redirects. Previews are limited to 256 KiB, 12 samples,
-200-byte labels and 64 KiB per SVG. Sample requests permit at most three HTTPS
+200-byte labels, 64 KiB per SVG and 15-second requests. Sample requests permit at most three HTTPS
 redirects to the exact GitHub release-assets host, with no credentials, custom
 port or fragment. Every SVG passes the existing strict custom-SVG sanitizer;
 output passes the existing SVG allowlist again. All entries are plain JSON and
 static SVG. No remote PHP, JavaScript, CSS or HTML executes.
 
 Last successful catalog metadata and validated preview bytes are non-autoloaded,
-per-site options. The UI shows the catalog refresh time. Failed transport,
-malformed/oversized JSON, changed preview hashes or unsafe SVG leave prior cache
+per-site options. The UI identifies the included snapshot or last successful
+update time and displays a background failure status. Failed transport,
+malformed/oversized JSON, duplicate entries, altered known pins, changed preview hashes or unsafe SVG leave prior cache
 and installed state intact. A valid empty remote index withdraws available
 choices; installed collections/jobs remain locally manageable. Cached samples
 work offline while their release remains in the saved index. Corrupt cached
@@ -116,6 +132,9 @@ The official WordPress directory guidelines checked 2026-10-06 were last updated
 assets unrelated to a service as prohibited; guideline 8 limits external code
 and non-service remote lists. Keeping downloads data-only and opt-in is useful
 engineering but does not establish acceptance of GitHub-hosted icon offloading.
-Treat directory acceptance as unresolved; no Plugin Team outreach was performed.
+The bundled metadata fallback provides the immediate list without silent
+fresh-install contact. Background checks require a separately disclosed opt-in;
+Preview and Install are explicit downloads. Treat directory acceptance as
+unresolved; no Plugin Team outreach was performed.
 
 Source: https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/

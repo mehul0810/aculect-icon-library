@@ -16,6 +16,11 @@ delete_option( 'icon_library_custom_icons_lock' );
 delete_option( 'icon_library_state_lock' );
 delete_option( 'icon_library_legacy_collections' );
 delete_option( 'icon_library_discovery_catalog' );
+delete_option( 'icon_library_catalog_updates' );
+delete_option( 'icon_library_catalog_attempt' );
+delete_option( 'icon_library_catalog_error' );
+delete_option( 'icon_library_catalog_update_lock' );
+wp_clear_scheduled_hook( 'icon_library_catalog_update' );
 
 $icon_library_uploads   = wp_upload_dir();
 $icon_library_base      = empty( $icon_library_uploads['error'] ) ? realpath( $icon_library_uploads['basedir'] ) : false;

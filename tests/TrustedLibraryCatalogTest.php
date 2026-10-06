@@ -5,6 +5,19 @@ use IconLibrary\TrustedLibraryCatalog;
 use PHPUnit\Framework\TestCase;
 
 class TrustedLibraryCatalogTest extends TestCase {
+	public function test_shipped_snapshot_lists_only_published_packs_without_remote_access() {
+		$GLOBALS['icon_library_test_options'] = array();
+		$catalog = new IconLibrary\LibraryDiscoveryCatalog( null, function () { throw new RuntimeException( 'Unexpected request' ); } );
+		$this->assertCount( 35, $catalog->get_entries() );
+		$this->assertNull( $catalog->find( 'lucide', 'outline', '1.0.0' ) );
+		$this->assertNull( $catalog->find( 'hugeicons', 'stroke-rounded', '1.0.0' ) );
+		foreach ( $catalog->get_entries() as $entry ) {
+			$this->assertTrue( $entry['discoverable'] );
+			$this->assertSame( 'available', $entry['availability'] );
+		}
+		$this->assertSame( array(), $GLOBALS['icon_library_test_options'] );
+	}
+
 	public function test_shipped_catalog_contains_only_valid_unique_local_descriptors() {
 		$path    = ICON_LIBRARY_DIR . 'data/library-catalog.json';
 		$raw     = file_get_contents( $path );

@@ -39,8 +39,8 @@ See [Material Icons scope, exclusions and provenance](docs/material-icons.md).
 
 ## Optional Versioned Libraries
 
-**Appearance > Icons > Install Library** provides explicit GitHub catalog
-refresh, sample preview and package installation. The public index records all
+**Appearance > Icons** immediately lists supported GitHub libraries from the
+reviewed catalog included with the plugin. No refresh is required. The public index records all
 15 planned families, with 35 reviewed packs across 13 families and independent
 licensed previews. Simple Icons and Keyline remain explicitly gated. Packages
 are published as exact-version GitHub releases; all 35 public archives,
@@ -48,14 +48,21 @@ descriptors and licensed previews passed independent HTTP verification before
 becoming installable. The local allowlist retains two earlier immutable candidate pins.
 WordPress.org distribution acceptance remains unresolved.
 
-After **Refresh from GitHub**, remote index entries must match those local pins
-before they appear. **Preview** fetches at most 12 safe samples in a separate
+Optional **Catalog updates** lets an administrator consent to background GitHub
+availability checks. Updates use a daily cache and an hourly failure backoff;
+opening the screen reads local metadata and never waits for GitHub. Without
+consent, the reviewed snapshot remains available with no automatic requests.
+Remote index entries must match local pins before replacing the saved catalog.
+**Preview** fetches at most 12 safe samples in a separate
 small JSON artifact at an immutable repository revision; it does not fetch the
 full ZIP, install or enable anything. License and attribution text is available
 with each verified preview. Fluent Regular/Filled use eight separate size
 collections to bound per-library installation state.
 Successful catalog and sample data remain cached for offline browsing. Page
 loads, editor and frontend requests make no catalog or preview network calls.
+Consented metadata updates run separately through WordPress cron; ordinary cron
+scheduling must be available for updates to complete. Invalid updates preserve
+the last valid list and show an offline status.
 For a discovered release the screen shows its available version alongside any
 installed version. An authorized administrator
 must choose **Install** or **Update** to download that exact package from its
@@ -83,7 +90,7 @@ Requires **WordPress 7.1+** and **PHP 7.4+**.
 
 1. Install the plugin ZIP through **Plugins > Add New Plugin > Upload Plugin**
    and activate Aculect Icon Library.
-2. Open **Appearance > Icons > Install Library**, refresh the GitHub catalog,
+2. Open **Appearance > Icons**, browse the available libraries immediately,
    preview a supported release, then explicitly install it when available.
 3. Open **Library**, select the installed collection and enable it and its variants.
 4. Edit a post or page, insert the native **Icon** block, and select an icon.

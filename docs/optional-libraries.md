@@ -2,8 +2,9 @@
 
 The current discovery/preview and fresh-site behavior is specified in
 [discovery-and-preview.md](discovery-and-preview.md). The transactional installer
-contract below remains in effect. Local allowlist entries are not themselves a
-live remote catalog; explicit GitHub refresh must discover matching entries.
+contract below remains in effect. The existing reviewed local allowlist now
+also provides an immediate GitHub catalog snapshot. Optional consented background
+updates replace it with verified saved availability metadata.
 
 This describes the local installer architecture and its acceptance checks. The
 catalog contains 35 prepared style/size descriptors across 13 families and
@@ -75,8 +76,13 @@ bootstrap's `wp_tempnam` stub can otherwise hide a real REST failure. Exercise
 the non-JavaScript form independently as it has a different bootstrap path.
 
 Use explicit test-only catalog/transport injection outside the packaged plugin
-for local fixtures. Keep the production catalog empty, block outbound HTTP and
-mail, and use only synthetic users/content. Cover:
+for local fixtures. Keep the installed/enabled collection state empty on fresh
+sites, block outbound HTTP and mail by default, and use only synthetic
+users/content. Cover:
+
+- Immediate supported-library listing with empty cache and no automatic network
+  contact, consented delayed metadata updates, stale/offline cache, repeated
+  opens, malformed indexes and preference revocation.
 
 - First install, separate enablement, Core picker insertion, save/reopen and
   frontend rendering from local files.

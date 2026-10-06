@@ -26,6 +26,21 @@ $GLOBALS['icon_library_test_posts']       = array();
 $GLOBALS['icon_library_test_enqueued_styles'] = array();
 $GLOBALS['icon_library_test_wp_version']      = '7.1.2';
 $GLOBALS['icon_library_test_blog_id']         = 1;
+$GLOBALS['icon_library_test_cron']            = array();
+
+function wp_next_scheduled( $hook ) {
+	return $GLOBALS['icon_library_test_cron'][ $hook ] ?? false;
+}
+
+function wp_schedule_single_event( $timestamp, $hook ) {
+	$GLOBALS['icon_library_test_cron'][ $hook ] = $timestamp;
+	return true;
+}
+
+function wp_clear_scheduled_hook( $hook ) {
+	unset( $GLOBALS['icon_library_test_cron'][ $hook ] );
+	return 1;
+}
 
 function get_current_blog_id() {
 	return (int) $GLOBALS['icon_library_test_blog_id'];

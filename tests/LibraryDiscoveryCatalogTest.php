@@ -18,8 +18,10 @@ class LibraryDiscoveryCatalogTest extends TestCase {
 
 	protected function setUp(): void {
 		$GLOBALS['icon_library_test_options'] = array();
+		$GLOBALS['icon_library_test_cron'] = array();
+		$GLOBALS['icon_library_test_capabilities'] = array( 'manage_options' => true );
 		$this->raw = json_encode( array( 'schema_version' => 1, 'library_id' => 'sample', 'style_id' => 'outline', 'release_version' => '1.0.0', 'samples' => array( array( 'label' => 'Square', 'svg' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/></svg>' ) ) ) );
-		$this->entry = array( 'library_id' => 'sample', 'style_id' => 'outline', 'release_version' => '1.0.0', 'package_sha256' => str_repeat( 'a', 64 ), 'manifest_sha256' => str_repeat( 'b', 64 ), 'package_bytes' => 100, 'preview_sha256' => hash( 'sha256', $this->raw ), 'preview_bytes' => strlen( $this->raw ) );
+		$this->entry = array( 'library_id' => 'sample', 'style_id' => 'outline', 'release_version' => '1.0.0', 'package_sha256' => str_repeat( 'a', 64 ), 'manifest_sha256' => str_repeat( 'b', 64 ), 'package_bytes' => 100, 'preview_sha256' => hash( 'sha256', $this->raw ), 'preview_bytes' => strlen( $this->raw ), 'discoverable' => true );
 	}
 
 	private function response( $body, $code = 200, $headers = array() ) {
@@ -30,12 +32,19 @@ class LibraryDiscoveryCatalogTest extends TestCase {
 		return json_encode( array( 'schema_version' => 1, 'libraries' => array( $this->entry ) ) );
 	}
 
-	public function test_fresh_discovery_is_empty_and_page_reads_do_not_use_network() {
+	public function test_fresh_discovery_lists_reviewed_snapshot_without_network_or_install_state() {
 		$calls = 0;
 		$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function () use ( &$calls ) { ++$calls; throw new RuntimeException( 'Unexpected request' ); } );
-		$this->assertSame( array(), $catalog->get_entries() );
+		$this->assertCount( 1, $catalog->get_entries() );
+		$this->assertSame( 'sample', $catalog->get_entries()[0]['library_id'] );
 		$this->assertSame( 0, $catalog->refreshed_at() );
 		$this->assertInstanceOf( WP_Error::class, $catalog->preview( 'sample', 'outline', '1.0.0', false ) );
+		$this->assertSame( 0, $calls );
+		$this->assertSame( array(), $GLOBALS['icon_library_test_options'] );
+		$this->assertFalse( $catalog->updates_enabled() );
+		$catalog->maybe_schedule_update();
+		$catalog->run_scheduled_update();
+		$this->assertSame( array(), $GLOBALS['icon_library_test_cron'] );
 		$this->assertSame( 0, $calls );
 	}
 
@@ -58,7 +67,7 @@ class LibraryDiscoveryCatalogTest extends TestCase {
 		$altered = $this->entry;
 		$altered['preview_revision'] = str_repeat( 'b', 40 );
 		$bad = new LibraryDiscoveryCatalog( array( $this->entry ), function () use ( $altered ) { return $this->response( json_encode( array( 'schema_version' => 1, 'libraries' => array( $altered ) ) ) ); } );
-		$this->assertSame( array(), $bad->refresh() );
+		$this->assertInstanceOf( WP_Error::class, $bad->refresh() );
 	}
 
 	public function test_refresh_verifies_pins_and_keeps_offline_cache_on_failure() {
@@ -84,8 +93,9 @@ class LibraryDiscoveryCatalogTest extends TestCase {
 			$altered = $this->entry;
 			$altered[ $key ] = is_int( $altered[ $key ] ) ? $altered[ $key ] + 1 : 'changed';
 			$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function () use ( $altered ) { return $this->response( json_encode( array( 'schema_version' => 1, 'libraries' => array( $altered ) ) ) ); } );
-			$this->assertSame( array(), $catalog->refresh() );
-			$this->assertNull( $catalog->find( 'sample', 'outline', '1.0.0' ) );
+			$this->assertInstanceOf( WP_Error::class, $catalog->refresh() );
+			$this->assertSame( $this->entry['package_sha256'], $catalog->find( 'sample', 'outline', '1.0.0' )['package_sha256'] );
+			$this->assertFalse( get_option( LibraryDiscoveryCatalog::OPTION ) );
 		}
 	}
 
@@ -156,6 +166,132 @@ class LibraryDiscoveryCatalogTest extends TestCase {
 		$this->assertCount( 1, $catalog->preview( 'sample', 'outline', '1.0.0' ) );
 		$this->assertSame( 1, $calls );
 		$this->assertSame( $this->raw, get_option( $key ) );
+	}
+
+	public function test_background_updates_require_consent_and_schedule_once_without_blocking_views() {
+		$calls = 0;
+		$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function ( $url, $options ) use ( &$calls ) {
+			++$calls;
+			$this->assertSame( LibraryDiscoveryCatalog::INDEX_URL, $url );
+			$this->assertSame( 5, $options['timeout'] );
+			return $this->response( $this->index() );
+		} );
+		$catalog->set_updates_enabled( true );
+		for ( $i = 0; $i < 20; ++$i ) {
+			$catalog->get_entries();
+			$catalog->maybe_schedule_update();
+		}
+		$this->assertSame( 0, $calls );
+		$this->assertCount( 1, $GLOBALS['icon_library_test_cron'] );
+		$this->assertGreaterThan( time(), wp_next_scheduled( LibraryDiscoveryCatalog::UPDATE_HOOK ) );
+		$catalog->run_scheduled_update();
+		$catalog->run_scheduled_update();
+		$this->assertSame( 1, $calls );
+		$this->assertFalse( $catalog->update_failed() );
+		$this->assertFalse( get_option( LibraryDiscoveryCatalog::OPTION_LOCK ) );
+		foreach ( array( LibraryDiscoveryCatalog::OPTION_UPDATES, LibraryDiscoveryCatalog::OPTION_ATTEMPT, LibraryDiscoveryCatalog::OPTION ) as $option ) {
+			$this->assertFalse( $GLOBALS['icon_library_test_autoload'][ $option ] );
+		}
+		$this->assertFalse( get_option( 'icon_library_enabled_collections' ) );
+	}
+
+	public function test_offline_update_uses_snapshot_and_keeps_cache_with_hourly_backoff() {
+		$calls = 0;
+		$offline = true;
+		$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function () use ( &$calls, &$offline ) {
+			++$calls;
+			return $offline ? new WP_Error( 'offline' ) : $this->response( $this->index() );
+		} );
+		$catalog->set_updates_enabled( true );
+		$catalog->run_scheduled_update();
+		$this->assertTrue( $catalog->update_failed() );
+		$this->assertCount( 1, $catalog->get_entries() );
+		$this->assertFalse( get_option( LibraryDiscoveryCatalog::OPTION ) );
+		wp_clear_scheduled_hook( LibraryDiscoveryCatalog::UPDATE_HOOK );
+		$catalog->maybe_schedule_update();
+		$catalog->run_scheduled_update();
+		$this->assertSame( 1, $calls );
+		$this->assertFalse( wp_next_scheduled( LibraryDiscoveryCatalog::UPDATE_HOOK ) );
+		update_option( LibraryDiscoveryCatalog::OPTION_ATTEMPT, time() - LibraryDiscoveryCatalog::RETRY_DELAY - 1 );
+		$offline = false;
+		$catalog->run_scheduled_update();
+		$this->assertSame( 2, $calls );
+		$this->assertFalse( $catalog->update_failed() );
+		$before = get_option( LibraryDiscoveryCatalog::OPTION );
+		$before['refreshed_at'] = time() - LibraryDiscoveryCatalog::CACHE_TTL - 1;
+		update_option( LibraryDiscoveryCatalog::OPTION, $before );
+		update_option( LibraryDiscoveryCatalog::OPTION_ATTEMPT, time() - LibraryDiscoveryCatalog::RETRY_DELAY - 1 );
+		$offline = true;
+		$catalog->run_scheduled_update();
+		$this->assertSame( $before, get_option( LibraryDiscoveryCatalog::OPTION ) );
+		$this->assertCount( 1, $catalog->get_entries() );
+	}
+
+	public function test_revoking_consent_cancels_pending_work_and_preserves_data() {
+		$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function () { throw new RuntimeException( 'Unexpected request' ); } );
+		$catalog->set_updates_enabled( true );
+		update_option( 'icon_library_enabled_collections', array( 'custom' ) );
+		update_option( LibraryDiscoveryCatalog::OPTION, array( 'libraries' => array( $this->entry ), 'refreshed_at' => time() ) );
+		$before = get_option( LibraryDiscoveryCatalog::OPTION );
+		$catalog->set_updates_enabled( false );
+		$catalog->run_scheduled_update();
+		$this->assertFalse( wp_next_scheduled( LibraryDiscoveryCatalog::UPDATE_HOOK ) );
+		$this->assertSame( $before, get_option( LibraryDiscoveryCatalog::OPTION ) );
+		$this->assertSame( array( 'custom' ), get_option( 'icon_library_enabled_collections' ) );
+	}
+
+	public function test_unprivileged_views_and_concurrent_jobs_do_not_schedule_or_fetch() {
+		$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function () { throw new RuntimeException( 'Unexpected request' ); } );
+		update_option( LibraryDiscoveryCatalog::OPTION_UPDATES, true );
+		$GLOBALS['icon_library_test_capabilities'] = array();
+		$catalog->maybe_schedule_update();
+		$this->assertSame( array(), $GLOBALS['icon_library_test_cron'] );
+		update_option( LibraryDiscoveryCatalog::OPTION_LOCK, time() );
+		$catalog->run_scheduled_update();
+		$this->assertFalse( get_option( LibraryDiscoveryCatalog::OPTION_ATTEMPT ) );
+		$this->assertCount( 1, $catalog->get_entries() );
+	}
+
+	public function test_empty_verified_catalog_withdraws_availability_without_restoring_snapshot() {
+		$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function () { return $this->response( '{"schema_version":1,"libraries":[]}' ); } );
+		update_option( 'icon_library_enabled_collections', array( 'sample' ) );
+		$this->assertSame( array(), $catalog->refresh() );
+		$this->assertSame( array(), $catalog->get_entries() );
+		$this->assertSame( array( 'sample' ), get_option( 'icon_library_enabled_collections' ) );
+	}
+
+	public function test_duplicate_malformed_and_unsafe_url_descriptors_preserve_valid_cache() {
+		$good = new LibraryDiscoveryCatalog( array( $this->entry ), function () { return $this->response( $this->index() ); } );
+		$good->refresh();
+		$before = get_option( LibraryDiscoveryCatalog::OPTION );
+		$unsafe = array_merge( $this->entry, array( 'url' => 'https://attacker.invalid/package.zip' ) );
+		$changed = array_merge( $this->entry, array( 'package_sha256' => str_repeat( 'c', 64 ) ) );
+		foreach ( array( array( $this->entry, $this->entry ), array( 'broken' ), array( $unsafe ), array( $changed ), array( 'associative' => $this->entry ) ) as $entries ) {
+			$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function () use ( $entries ) { return $this->response( json_encode( array( 'schema_version' => 1, 'libraries' => $entries ) ) ); } );
+			$this->assertInstanceOf( WP_Error::class, $catalog->refresh() );
+			$this->assertSame( $before, get_option( LibraryDiscoveryCatalog::OPTION ) );
+		}
+		update_option( LibraryDiscoveryCatalog::OPTION, array( 'libraries' => array( $changed ), 'refreshed_at' => time() + 100 ) );
+		$this->assertSame( $this->entry['package_sha256'], $good->get_entries()[0]['package_sha256'] );
+		$this->assertSame( 0, $good->refreshed_at() );
+	}
+
+	public function test_unreviewed_releases_cannot_expand_a_verified_catalog() {
+		$unknown = array_merge( $this->entry, array( 'library_id' => 'unreviewed' ) );
+		$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function () use ( $unknown ) { return $this->response( json_encode( array( 'schema_version' => 1, 'libraries' => array( $this->entry, $unknown ) ) ) ); } );
+		$this->assertCount( 1, $catalog->refresh() );
+		$this->assertNull( $catalog->find( 'unreviewed', 'outline', '1.0.0' ) );
+	}
+
+	public function test_wordpress_scalar_option_roundtrip_and_expired_lock_recovery() {
+		$calls = 0;
+		$catalog = new LibraryDiscoveryCatalog( array( $this->entry ), function () use ( &$calls ) { ++$calls; return $this->response( $this->index() ); } );
+		update_option( LibraryDiscoveryCatalog::OPTION_UPDATES, '1' );
+		update_option( LibraryDiscoveryCatalog::OPTION_LOCK, (string) ( time() - 301 ) );
+		$this->assertTrue( $catalog->updates_enabled() );
+		$catalog->run_scheduled_update();
+		$this->assertSame( 1, $calls );
+		$this->assertFalse( get_option( LibraryDiscoveryCatalog::OPTION_LOCK ) );
 	}
 
 	public function test_preview_accepts_only_pinned_data_after_bounded_github_asset_redirect() {

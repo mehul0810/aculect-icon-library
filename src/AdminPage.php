@@ -235,6 +235,9 @@ class AdminPage {
 				<?php $this->render_custom_tab(); ?>
 			<?php else : ?>
 				<?php $this->render_library_tab( $collections ); ?>
+				<?php if ( '' === $filters['collection'] ) : ?>
+					<?php $this->render_packages_tab(); ?>
+				<?php endif; ?>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -319,7 +322,7 @@ class AdminPage {
 		$legacy     = Plugin::legacy_collections( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) );
 		?>
 		<section class="icon-library-panel icon-library-packages">
-			<h2><?php esc_html_e( 'Install Library', 'aculect-icon-library' ); ?></h2>
+			<h2><?php esc_html_e( 'Available Libraries', 'aculect-icon-library' ); ?></h2>
 			<?php $this->render_discovery(); ?>
 			<p class="icon-library-package-intro"><?php esc_html_e( 'Installing downloads a verified package from GitHub and stores it on this site. It does not enable the library; manage that separately in Library.', 'aculect-icon-library' ); ?></p>
 			<?php if ( is_wp_error( $permission ) ) : ?>
@@ -419,16 +422,25 @@ class AdminPage {
 		if ( ! $this->discovery ) {
 			return;
 		}
+		$this->discovery->maybe_schedule_update();
 		?>
-		<p><?php esc_html_e( 'Browse supported libraries from GitHub. Refresh downloads catalog metadata; Preview downloads up to 12 sample icons. Neither installs or enables a library.', 'aculect-icon-library' ); ?></p>
-		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-			<?php wp_nonce_field( 'icon_library_discover' ); ?>
-			<input type="hidden" name="action" value="icon_library_discover" />
-			<input type="hidden" name="mode" value="refresh" />
-			<button class="button button-secondary" type="submit"><?php esc_html_e( 'Refresh from GitHub', 'aculect-icon-library' ); ?></button>
-		</form>
-		<p><?php echo esc_html( $this->discovery->refreshed_at() ? sprintf( /* translators: %s: UTC time of last successful refresh. */ __( 'Using saved catalog from %s UTC. Refresh to check availability.', 'aculect-icon-library' ), gmdate( 'Y-m-d H:i', $this->discovery->refreshed_at() ) ) : __( 'No catalog has been fetched yet.', 'aculect-icon-library' ) ); ?></p>
-		<?php if ( $this->discovery->refreshed_at() && $this->discovery->get_planned_libraries() ) : ?>
+		<p><?php esc_html_e( 'Browse supported libraries from GitHub. Preview downloads up to 12 sample icons without installing or enabling a library.', 'aculect-icon-library' ); ?></p>
+		<p class="icon-library-catalog-source"><?php echo esc_html( $this->discovery->refreshed_at() ? sprintf( /* translators: %s: UTC time of last successful update. */ __( 'Using saved catalog from %s UTC.', 'aculect-icon-library' ), gmdate( 'Y-m-d H:i', $this->discovery->refreshed_at() ) ) : __( 'Using the reviewed GitHub catalog included with this plugin. Available libraries are ready to browse.', 'aculect-icon-library' ) ); ?></p>
+		<?php if ( $this->discovery->update_failed() ) : ?>
+			<p class="icon-library-catalog-offline" role="status"><?php esc_html_e( 'GitHub updates are currently unavailable. The last verified catalog remains available; updates will retry in the background when you next browse.', 'aculect-icon-library' ); ?></p>
+		<?php endif; ?>
+		<details class="icon-library-catalog-updates">
+			<summary><?php esc_html_e( 'Catalog updates', 'aculect-icon-library' ); ?></summary>
+			<p><?php esc_html_e( 'Allow this site to contact GitHub in the background to check library availability daily. Failed checks retry no more than once an hour. GitHub receives your server’s IP address and normal request details. Samples and packages are downloaded only when you choose Preview or Install.', 'aculect-icon-library' ); ?></p>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<?php wp_nonce_field( 'icon_library_discover' ); ?>
+				<input type="hidden" name="action" value="icon_library_discover" />
+				<input type="hidden" name="mode" value="updates" />
+				<label><input type="checkbox" name="updates" value="1" <?php checked( $this->discovery->updates_enabled() ); ?> /> <?php esc_html_e( 'Keep catalog availability up to date from GitHub', 'aculect-icon-library' ); ?></label>
+				<button class="button button-secondary" type="submit"><?php esc_html_e( 'Save catalog preference', 'aculect-icon-library' ); ?></button>
+			</form>
+		</details>
+		<?php if ( $this->discovery->get_planned_libraries() ) : ?>
 			<details class="icon-library-planned">
 				<summary><?php esc_html_e( 'Supported and planned libraries', 'aculect-icon-library' ); ?></summary>
 				<ul>
@@ -442,8 +454,9 @@ class AdminPage {
 		// Query parameters select cached output only; no page view can fetch data.
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['discovery_result'] ) ) {
-			$failed = 'failed' === $_GET['discovery_result'];
-			echo '<p role="status">' . esc_html( $failed ? __( 'GitHub metadata could not be verified. Saved catalog and previews are unchanged. Retry when online.', 'aculect-icon-library' ) : __( 'GitHub metadata request completed.', 'aculect-icon-library' ) ) . '</p>';
+			$failed  = 'failed' === $_GET['discovery_result'];
+			$message = 'settings' === $_GET['discovery_result'] ? __( 'Catalog update preference saved.', 'aculect-icon-library' ) : __( 'GitHub metadata request completed.', 'aculect-icon-library' );
+			echo '<p role="status">' . esc_html( $failed ? __( 'GitHub metadata could not be verified. Available catalog and saved previews are unchanged. Retry when online.', 'aculect-icon-library' ) : $message ) . '</p>';
 		}
 		$library = isset( $_GET['preview_library'] ) && is_string( $_GET['preview_library'] ) ? sanitize_key( wp_unslash( $_GET['preview_library'] ) ) : '';
 		$style   = isset( $_GET['preview_style'] ) && is_string( $_GET['preview_style'] ) ? sanitize_key( wp_unslash( $_GET['preview_style'] ) ) : '';
