@@ -46,6 +46,11 @@ function get_current_blog_id() {
 	return (int) $GLOBALS['icon_library_test_blog_id'];
 }
 
+function wp_raise_memory_limit( $context ) {
+	$GLOBALS['icon_library_test_memory_raises'][] = $context;
+	return '256M';
+}
+
 function get_bloginfo( $show = '' ) {
 	return 'version' === $show ? $GLOBALS['icon_library_test_wp_version'] : '';
 }

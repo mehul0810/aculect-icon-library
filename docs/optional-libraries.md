@@ -50,6 +50,11 @@ owners and do not cache raw job/lease state. Manifest and exact-name caches keep
 at most two collections per request; evicted metadata can be reread without
 removing registered SVGs or saved identities. This bounds mixed-library frontend
 memory instead of increasing the site's memory configuration.
+Authorized native icon-list REST requests use WordPress's existing per-request
+admin memory allowance, because Core returns complete collection SVG data.
+This does not change site configuration or the frontend allowance. Very large
+collections still produce large picker payloads; measured budgets and directory
+acceptance remain release-review decisions.
 
 ## State And Compatibility
 

@@ -296,6 +296,12 @@ class CoreIconRegistrar {
 		if ( '/wp/v2/icon-collections' === $route ) {
 			$this->register_icons( '', true );
 		} elseif ( '/wp/v2/icons' === $route ) {
+			// Native editor browsing returns a complete collection of SVG data.
+			// Respect WordPress's existing admin allowance after the read check;
+			// public saved-icon rendering keeps the normal frontend limit.
+			if ( function_exists( 'wp_raise_memory_limit' ) ) {
+				wp_raise_memory_limit( 'admin' );
+			}
 			$requested_collection = $request->get_param( 'collection' );
 			$this->register_icons( is_string( $requested_collection ) ? $requested_collection : '' );
 		} elseif ( 1 === preg_match( '#^/wp/v2/icons/([^/]+)$#', $route, $matches ) ) {

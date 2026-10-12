@@ -130,6 +130,22 @@ class OptionalLibraryLifecycleTest extends TestCase {
 		$this->assertCount( CollectionRegistry::MAX_REQUEST_MANIFESTS, $property->getValue( $registry ) );
 	}
 
+	public function test_admin_memory_allowance_applies_only_after_authorized_bulk_icon_read() {
+		$GLOBALS['icon_library_test_memory_raises'] = array();
+		$GLOBALS['icon_library_test_capabilities'] = array();
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
+		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array() );
+		$registrar = new CoreIconRegistrar( $registry );
+		$registrar->prepare_core_icon_request( null, null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) );
+		$this->assertSame( array(), $GLOBALS['icon_library_test_memory_raises'] );
+		$GLOBALS['icon_library_test_capabilities'] = array( 'edit_posts' => true );
+		$registrar->prepare_core_icon_request( null, null, new WP_REST_Request( 'GET', '/wp/v2/icon-collections' ) );
+		$this->assertSame( array(), $GLOBALS['icon_library_test_memory_raises'] );
+		$registrar->prepare_core_icon_request( null, null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) );
+		$this->assertSame( array( 'admin' ), $GLOBALS['icon_library_test_memory_raises'] );
+		$GLOBALS['icon_library_test_capabilities'] = array();
+	}
+
 	public function test_core_switch_cleanup_preserves_external_names_and_allows_reregistration() {
 		$GLOBALS['icon_library_test_registered'] = array( 'icons' => array(), 'collections' => array() );
 		wp_register_icon_collection( 'external-lifecycle', array( 'label' => 'External' ) );
