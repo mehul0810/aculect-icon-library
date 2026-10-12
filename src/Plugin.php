@@ -87,7 +87,7 @@ class Plugin {
 		$collection_registry = new CollectionRegistry( $manifest_loader, $custom_icons, self::legacy_collections( $manifest_loader ) );
 		$core_registrar      = new CoreIconRegistrar( $collection_registry );
 		$library_installer   = new LibraryInstaller( $library_catalog, $library_repository, $library_jobs, $library_validator, $this->library_transport, $core_registrar, $collection_registry );
-		$rest_controller     = new RestController( $collection_registry, $custom_icons );
+		$rest_controller     = new RestController( $collection_registry, $custom_icons, $core_registrar );
 		$ability_registrar   = new AbilityRegistrar( $collection_registry );
 
 		add_filter( 'icon_library_collection_providers', array( $library_repository, 'register_providers' ) );
@@ -105,6 +105,7 @@ class Plugin {
 		add_action( 'enqueue_block_assets', array( $core_registrar, 'enqueue_styles' ) );
 		add_action( 'enqueue_block_editor_assets', array( $core_registrar, 'enqueue_styles' ) );
 		add_action( 'enqueue_block_editor_assets', array( $core_registrar, 'enqueue_editor_picker_compat_styles' ) );
+		add_action( 'enqueue_block_editor_assets', array( $core_registrar, 'enqueue_bounded_picker' ) );
 		add_filter( 'rest_request_after_callbacks', array( $core_registrar, 'filter_core_discovery_response' ), 10, 3 );
 		add_action( 'rest_api_init', array( $rest_controller, 'register_routes' ) );
 		$ability_registrar->register();

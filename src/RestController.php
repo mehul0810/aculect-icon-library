@@ -35,20 +35,70 @@ class RestController {
 	private $custom_icons;
 
 	/**
+	 * Bounded editor discovery adapter.
+	 *
+	 * @var CoreIconRegistrar|null
+	 */
+	private $core_registrar;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param CollectionRegistry   $collection_registry Collection registry.
-	 * @param CustomIconRepository $custom_icons        Custom icon repository.
+	 * @param CollectionRegistry     $collection_registry Collection registry.
+	 * @param CustomIconRepository   $custom_icons        Custom icon repository.
+	 * @param CoreIconRegistrar|null $core_registrar    Bounded editor adapter.
 	 */
-	public function __construct( CollectionRegistry $collection_registry, CustomIconRepository $custom_icons ) {
+	public function __construct( CollectionRegistry $collection_registry, CustomIconRepository $custom_icons, ?CoreIconRegistrar $core_registrar = null ) {
 		$this->collection_registry = $collection_registry;
 		$this->custom_icons        = $custom_icons;
+		$this->core_registrar      = $core_registrar;
 	}
 
 	/**
 	 * Registers routes.
 	 */
 	public function register_routes() {
+		if ( $this->core_registrar ) {
+			register_rest_route(
+				Plugin::REST_NAMESPACE,
+				'/picker',
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_picker' ),
+					'permission_callback' => array( $this, 'can_read_icons' ),
+					'args'                => array(
+						'collection' => array(
+							'type'      => 'string',
+							'default'   => '',
+							'maxLength' => 100,
+							'pattern'   => '^[a-z0-9_-]*$',
+						),
+						'search'     => array(
+							'type'      => 'string',
+							'default'   => '',
+							'maxLength' => 200,
+						),
+						'selected'   => array(
+							'type'      => 'string',
+							'default'   => '',
+							'maxLength' => 256,
+						),
+						'page'       => array(
+							'type'    => 'integer',
+							'default' => 0,
+							'minimum' => 0,
+							'maximum' => CollectionRegistry::MAX_PAGE,
+						),
+						'per_page'   => array(
+							'type'    => 'integer',
+							'default' => 48,
+							'minimum' => 1,
+							'maximum' => 48,
+						),
+					),
+				)
+			);
+		}
 		register_rest_route(
 			Plugin::REST_NAMESPACE,
 			'/collections',
@@ -399,6 +449,19 @@ class RestController {
 				'variant_counts' => $query['variant_counts'],
 			)
 		);
+	}
+
+	/**
+	 * Returns bounded native-style editor choices; existing APIs stay unchanged.
+	 *
+	 * @param WP_REST_Request $request REST request.
+	 * @return WP_REST_Response|WP_Error Page response.
+	 */
+	public function get_picker( WP_REST_Request $request ) {
+		if ( ! $this->core_registrar ) {
+			return new WP_Error( 'icon_library_picker_unavailable', __( 'The icon picker is unavailable.', 'aculect-icon-library' ), array( 'status' => 503 ) ); }
+		$data = $this->core_registrar->get_picker_page( (string) $request->get_param( 'collection' ), (string) $request->get_param( 'search' ), (int) $request->get_param( 'page' ), (int) ( $request->get_param( 'per_page' ) ?? 48 ), (string) $request->get_param( 'selected' ) );
+		return is_wp_error( $data ) ? $data : rest_ensure_response( $data );
 	}
 
 	/**

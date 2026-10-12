@@ -49,6 +49,8 @@ $files        = array(
 		'assets/src/custom-icons-dataviews.js',
 		'assets/icons.css',
 		'assets/picker-compat.css',
+		'assets/bounded-picker.js',
+		'assets/bounded-picker.css',
 	),
 );
 $catalog_path = $root . '/data/library-catalog.json';

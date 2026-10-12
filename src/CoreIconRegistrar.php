@@ -263,6 +263,149 @@ class CoreIconRegistrar {
 		);
 	}
 
+	/** Enqueues bounded discovery while retaining Core's Icon edit component. */
+	public function enqueue_bounded_picker() {
+		$file    = ICON_LIBRARY_DIR . 'assets/bounded-picker.js';
+		$version = ICON_LIBRARY_VERSION . '-' . substr( hash_file( 'sha256', $file ), 0, 12 );
+		wp_enqueue_script( 'icon-library-bounded-picker', ICON_LIBRARY_URL . 'assets/bounded-picker.js', array( 'wp-hooks', 'wp-element', 'wp-components', 'wp-compose', 'wp-data', 'wp-api-fetch', 'wp-i18n' ), $version, true );
+		wp_enqueue_style( 'icon-library-bounded-picker', ICON_LIBRARY_URL . 'assets/bounded-picker.css', array( 'wp-components' ), $version );
+		wp_localize_script(
+			'icon-library-bounded-picker',
+			'iconLibraryPicker',
+			array(
+				'path'    => '/' . Plugin::REST_NAMESPACE . '/picker',
+				'perPage' => 48,
+			)
+		);
+	}
+
+	/**
+	 * Counts searchable metadata and resolves only one bounded page of artwork.
+	 *
+	 * @param string $collection Core collection namespace, or empty for All.
+	 * @param string $search     Search text.
+	 * @param int    $page       Page; zero locates the current selected icon.
+	 * @param int    $per_page   Page size, capped at 48.
+	 * @param string $selected   Existing selected name.
+	 * @return array|\WP_Error Page response or a missing-asset error.
+	 */
+	public function get_picker_page( $collection = '', $search = '', $page = 0, $per_page = 48, $selected = '' ) {
+		$page        = min( CollectionRegistry::MAX_PAGE, max( 0, (int) $page ) );
+		$per_page    = min( 48, max( 1, (int) $per_page ) );
+		$search      = trim( $search );
+		$pattern     = '' === $search ? '' : '/' . preg_quote( function_exists( 'remove_accents' ) ? remove_accents( $search ) : $search, '/' ) . '/iu';
+		$total       = 0;
+		$first       = array();
+		$chunk       = array();
+		$chosen      = array();
+		$chosen_page = 0;
+		$last_page   = 0;
+		foreach ( $this->picker_rows( $collection ) as $row ) {
+			$name     = $row['name'];
+			$label    = $row['label'];
+			$haystack = $name . "\n" . $label;
+			if ( $pattern && ! preg_match( $pattern, function_exists( 'remove_accents' ) ? remove_accents( $haystack ) : $haystack ) ) {
+				continue;
+			}
+			$current = (int) floor( $total / $per_page ) + 1;
+			if ( $page ) {
+				if ( $current === $page ) {
+					$chosen[] = $row; }
+			} else {
+				if ( $current !== $last_page ) {
+					$chunk     = array();
+					$last_page = $current; }
+				$chunk[] = $row;
+				if ( 1 === $current ) {
+					$first[] = $row; }
+				if ( $name === $selected ) {
+					$chosen_page = $current; }
+				if ( $current === $chosen_page ) {
+					$chosen = $chunk; }
+			}
+			++$total;
+		}
+		if ( ! $page ) {
+			$page   = $chosen_page ? $chosen_page : 1;
+			$chosen = $chosen_page ? $chosen : $first; }
+		$items = array();
+		foreach ( $chosen as $row ) {
+			if ( isset( $row['library'] ) ) {
+				$this->register_icon( $row['library'], $row['icon'], $row['collection'] ); }
+			$icon = \WP_Icons_Registry::get_instance()->get_registered_icon( $row['name'] );
+			if ( ! is_array( $icon ) || empty( $icon['content'] ) ) {
+				return new \WP_Error( 'icon_library_picker_asset_missing', __( 'An icon could not be loaded. Refresh the library and try again.', 'aculect-icon-library' ), array( 'status' => 503 ) );
+			}
+			$items[] = array(
+				'name'       => $row['name'],
+				'label'      => $row['label'],
+				'collection' => $row['collection'],
+				'content'    => $icon['content'],
+			);
+		}
+		return array(
+			'items'       => $items,
+			'total'       => $total,
+			'page'        => $page,
+			'per_page'    => $per_page,
+			'total_pages' => (int) ceil( $total / $per_page ),
+		);
+	}
+
+	/**
+	 * Enumerates enabled metadata without reading plugin SVG files.
+	 *
+	 * @param string $collection Optional Core namespace.
+	 * @return \Generator Metadata rows with request-local resolution hints.
+	 */
+	private function picker_rows( $collection ) {
+		$this->register_icons( $collection, true );
+		$existing = \WP_Icons_Registry::get_instance()->get_registered_icons();
+		$visible  = $this->filter_core_discovery_response( new WP_REST_Response( $existing ), null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) )->get_data();
+		$seen     = array();
+		foreach ( $visible as $icon ) {
+			if ( ! is_array( $icon ) || empty( $icon['name'] ) || $this->owns_registered_icon( $icon['name'], $icon ) ) {
+				continue; }
+			$namespace             = $icon['collection'] ?? strstr( $icon['name'], '/', true );
+			$seen[ $icon['name'] ] = true;
+			if ( ! $collection || $collection === $namespace ) {
+				yield array(
+					'name'       => $icon['name'],
+					'label'      => $icon['label'] ?? $icon['name'],
+					'collection' => $namespace,
+				);
+			}
+		}
+		unset( $visible, $existing );
+		foreach ( $this->collection_registry->get_enabled_collection_slugs() as $library ) {
+			if ( $collection && $collection !== $library && 0 !== strpos( $collection, $library . '-' ) ) {
+				continue; }
+			$manifest = $this->collection_registry->get_manifest( $library );
+			$variants = $this->collection_registry->get_enabled_variants( $library );
+			if ( ! $this->manifest_has_enabled_icons( $manifest, $variants ) ) {
+				continue; }
+			$styles = $this->register_style_collections( $library, $manifest, $variants );
+			foreach ( $manifest['icons'] as $icon ) {
+				if ( ! is_array( $icon ) || ! empty( $icon['archived'] ) || ! isset( $icon['coreIconName'], $icon['label'], $icon['path'] ) || ! is_string( $icon['coreIconName'] ) || ! is_string( $icon['label'] ) || ! is_string( $icon['path'] ) || '' === $icon['path'] || 1 !== preg_match( '/^' . preg_quote( $library, '/' ) . '\/[a-z0-9][a-z0-9_-]*$/', $icon['coreIconName'] ) ) {
+					continue; }
+				$variant = $icon['variant'] ?? '';
+				if ( $variant && ! in_array( $variant, $variants, true ) ) {
+					continue; }
+				$namespace = $styles[ $variant ] ?? $library;
+				$name      = $namespace . substr( $icon['coreIconName'], strlen( $library ) );
+				if ( isset( $seen[ $name ] ) || ( $collection && $collection !== $namespace ) ) {
+					continue; }
+				yield array(
+					'name'       => $name,
+					'label'      => sanitize_text_field( $icon['label'] ),
+					'collection' => $namespace,
+					'library'    => $library,
+					'icon'       => $icon,
+				);
+			}
+		}
+	}
+
 	/**
 	 * Registers icons referenced by the queried post before frontend styles print.
 	 */

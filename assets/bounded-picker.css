@@ -1,0 +1,20 @@
+.icon-library-bounded-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 24px; height: 100%; min-height: 0; }
+.icon-library-bounded-layout .wp-block-icon__inserter-sidebar { grid-column: 1; grid-row: 1; overflow: auto; padding-right: 4px; min-width: 0; }
+.icon-library-bounded-layout [role="tablist"] { display: flex; flex-direction: column; gap: 4px; }
+.icon-library-bounded-layout .icon-library-picker-tab { width: 100%; text-align: left; justify-content: flex-start; min-height: 40px; height: auto; white-space: normal; }
+.icon-library-picker-panel { grid-column: 2; grid-row: 1; display: block; overflow: auto; min-width: 0; width: 100%; padding: 4px; }
+.icon-library-bounded-layout .wp-block-icon__inserter-grid-icons-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+.icon-library-bounded-layout .wp-block-icon__inserter-grid-icons-list-item { display: flex; flex-direction: column; justify-content: center; height: auto; min-height: 84px; gap: 8px; padding: 12px; }
+.icon-library-bounded-layout .wp-block-icon__inserter-grid-icons-list-item-icon svg { width: 24px; height: 24px; display: block; }
+.icon-library-bounded-layout .wp-block-icon__inserter-grid-icons-list-item-title { white-space: normal; overflow-wrap: anywhere; text-align: center; font-size: 12px; line-height: 1.3; }
+.icon-library-picker-pagination { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 20px 0; }
+.icon-library-picker-pagination span { margin-right: auto; }
+.icon-library-picker-loading { display: flex; justify-content: center; padding: 24px; }
+@media (max-width: 781px) {
+	.icon-library-bounded-layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: 16px; }
+	.icon-library-bounded-layout .wp-block-icon__inserter-sidebar { max-height: 210px; padding: 4px; }
+	.icon-library-picker-panel { grid-column: 1; grid-row: 2; }
+	.icon-library-bounded-layout [role="tablist"] { flex-direction: row; overflow: auto; }
+	.icon-library-bounded-layout .icon-library-picker-tab { width: auto; flex-shrink: 0; max-width: 180px; }
+	.icon-library-bounded-layout .wp-block-icon__inserter-grid-icons-list { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+}
