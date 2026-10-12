@@ -26,6 +26,11 @@ class InstalledLibraryRepository {
 	 * @var array<string,array<string,bool>>
 	 */
 	private $allowed_paths = array();
+	/** Small per-site provider hints; large manifests remain lazy and bounded.
+	 *
+	 * @var array
+	 */
+	private $provider_definitions = array();
 
 	/** Creates a repository for site-local immutable package storage.
 	 *
@@ -35,6 +40,7 @@ class InstalledLibraryRepository {
 	public function __construct( LibraryJobStore $jobs, $base_dir = '' ) {
 		$this->jobs          = $jobs;
 		$this->base_override = is_string( $base_dir ) && '' !== $base_dir ? untrailingslashit( $base_dir ) : '';
+		add_action( 'icon_library_installed_state_changed', array( $this, 'clear_request_provider_cache' ) );
 	}
 
 	/** Publishes validated package members into immutable versioned storage.
@@ -119,36 +125,55 @@ class InstalledLibraryRepository {
 	public function register_providers( $providers ) {
 		$providers = is_array( $providers ) ? $providers : array();
 		$legacy    = Plugin::legacy_collections( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) );
-		foreach ( $this->jobs->all_library_ids() as $library_id ) {
-			if ( isset( $providers[ $library_id ] ) || in_array( $library_id, $legacy, true ) || CustomIconRepository::COLLECTION_SLUG === $library_id ) {
-				continue; }
-			$state = $this->jobs->read( $library_id );
-			if ( ! $state || empty( $state['value']['styles'] ) ) {
-				continue; }
-			$providers[ $library_id ] = array(
-				'owner'    => 'aculect-icon-library-installed',
-				'manifest' => function () use ( $library_id ) {
-					return $this->get_manifest( $library_id ); },
-				'svg_path' => function ( $path ) use ( $library_id ) {
-					return $this->get_svg_path( $library_id, $path ); },
-			);
+		$site_id   = $this->current_site_id();
+		if ( ! isset( $this->provider_definitions[ $site_id ] ) ) {
+			$this->provider_definitions[ $site_id ] = array();
+			foreach ( $this->jobs->all_library_ids() as $library_id ) {
+				$state = $this->jobs->read( $library_id );
+				if ( ! $state || empty( $state['value']['styles'] ) ) {
+					continue;
+				}
+				$this->provider_definitions[ $site_id ][ $library_id ] = array(
+					'owner'    => 'aculect-icon-library-installed',
+					'retained' => ! array_filter(
+						$state['value']['styles'],
+						static function ( $record ) {
+							return is_array( $record ) && empty( $record['uninstalled'] ); }
+					),
+					'manifest' => function () use ( $library_id ) {
+						return $this->get_manifest( $library_id ); },
+					'svg_path' => function ( $path ) use ( $library_id ) {
+						return $this->get_svg_path( $library_id, $path ); },
+				);
+			}
+		}
+		foreach ( $this->provider_definitions[ $site_id ] as $library_id => $provider ) {
+			if ( ! isset( $providers[ $library_id ] ) && ! in_array( $library_id, $legacy, true ) && CustomIconRepository::COLLECTION_SLUG !== $library_id ) {
+				$providers[ $library_id ] = $provider;
+			}
 		}
 		return $providers;
+	}
+
+	/** Invalidates request-local provider hints after an authoritative CAS. */
+	public function clear_request_provider_cache() {
+		$this->provider_definitions = array();
 	}
 
 	/** Returns authoritative installation state for one library.
 	 *
 	 * @param string $library_id Library slug.
+	 * @param bool   $include_uninstalled Include retained styles for ownership checks.
 	 * @return array|null
 	 */
-	public function get_installed( $library_id ) {
+	public function get_installed( $library_id, $include_uninstalled = false ) {
 		$state = $this->jobs->read( $library_id );
 		if ( ! $state || empty( $state['value']['styles'] ) ) {
 			return null; }
 		$styles         = array();
 		$archived_count = 0;
 		foreach ( $state['value']['styles'] as $style => $record ) {
-			if ( ! is_array( $record ) ) {
+			if ( ! is_array( $record ) || ( ! $include_uninstalled && ! empty( $record['uninstalled'] ) ) ) {
 				continue; }
 			$styles[ $style ] = array(
 				'release_version' => $record['release_version'],
@@ -156,6 +181,9 @@ class InstalledLibraryRepository {
 				'installed_at'    => $record['installed_at'],
 			);
 			$archived_count  += count( $record['archived_icons'] ?? array() );
+		}
+		if ( ! $styles ) {
+			return null;
 		}
 		return array(
 			'library_id'     => $library_id,
@@ -176,6 +204,12 @@ class InstalledLibraryRepository {
 		if ( ! $state || empty( $state['value']['styles'] ) ) {
 			return null; }
 		$manifest = null;
+		$active   = array_filter(
+			$state['value']['styles'],
+			static function ( $record ) {
+				return is_array( $record ) && empty( $record['uninstalled'] );
+			}
+		);
 		foreach ( $state['value']['styles'] as $style => $record ) {
 			$style_manifest = $record['manifest'] ?? null;
 			if ( ! is_array( $style_manifest ) ) {
@@ -186,7 +220,7 @@ class InstalledLibraryRepository {
 					'slug'          => $library_id,
 					'name'          => $style_manifest['name'],
 					'description'   => __( 'Installed locally from a trusted versioned package.', 'aculect-icon-library' ),
-					'version'       => 'installed',
+					'version'       => $active ? 'installed' : 'retained',
 					'license'       => array(
 						'name' => 'Package license',
 						'url'  => '',
@@ -199,12 +233,17 @@ class InstalledLibraryRepository {
 					'icons'         => array(),
 				);
 			}
-			$manifest['variants'][] = array(
-				'slug'           => $style,
-				'label'          => ucwords( str_replace( '-', ' ', $style ) ),
-				'defaultEnabled' => false,
-			);
+			if ( empty( $record['uninstalled'] ) ) {
+				$manifest['variants'][] = array(
+					'slug'           => $style,
+					'label'          => ucwords( str_replace( '-', ' ', $style ) ),
+					'defaultEnabled' => false,
+				);
+			}
 			foreach ( (array) ( $style_manifest['icons'] ?? array() ) as $icon ) {
+				if ( ! empty( $record['uninstalled'] ) ) {
+					$icon['archived'] = true;
+				}
 				$manifest['icons'][] = $icon;
 				if ( is_string( $icon['path'] ?? null ) ) {
 					$this->allowed_paths[ $site_id ][ $library_id ][ $icon['path'] ] = true; }

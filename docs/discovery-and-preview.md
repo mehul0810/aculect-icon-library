@@ -29,6 +29,13 @@ job. Install keeps the existing transactional, exact-version installer. A new
 installed collection starts disabled and can be enabled in Library. Disable
 hides picker discovery while preserving exact saved-name rendering offline.
 
+Downloaded libraries also expose explicit **Uninstall** in their detail screen.
+It removes installed inventory and picker availability while retaining immutable
+artwork for saved blocks. Each style requires a separate verified reinstall and
+stays disabled after reinstallation. Running/queued jobs must finish before
+removal; nonce, capability and file-modification checks apply to both the REST
+endpoint and non-JavaScript form.
+
 The public repository now lists all 15 issue-backed families, with 35 prepared
 packs containing 38,720 icons across 13 families. Simple Icons and Keyline remain
 gated. Real catalog and all 35 previews were verified through WordPress; full

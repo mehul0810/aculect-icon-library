@@ -582,6 +582,11 @@ body.js .icon-library-admin.is-loading > * {
 	width: 100%;
 }
 
+.icon-library-uninstall {
+	margin-top: 24px;
+	max-width: 760px;
+}
+
 .icon-library-footer-actions .icon-library-toggle {
 	align-items: center;
 	display: flex;

@@ -33,10 +33,20 @@ class LibraryAdminController {
 	public function register() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 		add_action( 'admin_post_icon_library_install_package', array( $this, 'submit_form' ) );
+		add_action( 'admin_post_icon_library_uninstall_package', array( $this, 'submit_uninstall_form' ) );
 	}
 
 	/** Registers explicit installation and read-only recovery endpoints. */
 	public function register_routes() {
+		register_rest_route(
+			Plugin::REST_NAMESPACE,
+			'/library-packages/(?P<library>[a-z0-9]+(?:-[a-z0-9]+)*)/uninstall',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'uninstall_library' ),
+				'permission_callback' => array( $this, 'can_install' ),
+			)
+		);
 		$route = '/library-packages/(?P<library>[a-z0-9]+(?:-[a-z0-9]+)*)/jobs';
 		register_rest_route(
 			Plugin::REST_NAMESPACE,
@@ -171,6 +181,54 @@ class LibraryAdminController {
 		}
 		$result = $this->installer->run( $library, $job_id );
 		return is_wp_error( $result ) ? $result : rest_ensure_response( $result );
+	}
+
+	/** Uninstalls only a locally owned library after the shared mutation checks.
+	 *
+	 * @param \WP_REST_Request $request REST request.
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public function uninstall_library( $request ) {
+		$permission = $this->can_install( $request );
+		if ( is_wp_error( $permission ) ) {
+			return $permission;
+		}
+		$library = $request->get_param( 'library' );
+		if ( ! $this->valid_identifier( $library ) ) {
+			return $this->invalid_request();
+		}
+		$result = $this->installer->uninstall( $library );
+		return is_wp_error( $result ) ? $result : rest_ensure_response(
+			array(
+				'library_id'           => $library,
+				'status'               => 'uninstalled',
+				'saved_icons_retained' => true,
+			)
+		);
+	}
+
+	/** Handles explicit non-JavaScript uninstall without deleting saved artwork. */
+	public function submit_uninstall_form() {
+		$permission = self::installation_permission();
+		if ( is_wp_error( $permission ) ) {
+			wp_die( esc_html( $permission->get_error_message() ), '', array( 'response' => 403 ) );
+		}
+		if ( 'POST' !== ( $_SERVER['REQUEST_METHOD'] ?? '' ) ) {
+			wp_die( esc_html__( 'Uninstall requires a form submission.', 'aculect-icon-library' ), '', array( 'response' => 405 ) );
+		}
+		check_admin_referer( 'icon_library_uninstall_package' );
+		$library = isset( $_POST['library'] ) && is_string( $_POST['library'] ) ? wp_unslash( $_POST['library'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Strictly validated below.
+		$result  = $this->valid_identifier( $library ) ? $this->installer->uninstall( $library ) : $this->invalid_request();
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'                => AdminPage::MENU_SLUG,
+					'package-uninstalled' => is_wp_error( $result ) ? 0 : 1,
+				),
+				admin_url( 'themes.php' )
+			)
+		);
+		exit;
 	}
 
 	/** Handles the same workflow when JavaScript is unavailable. */

@@ -73,6 +73,13 @@ another explicit action. Reloading the screen reads saved job status without
 starting a download, and editor, frontend, and status reads do not install
 packages.
 
+**Uninstall** removes a downloaded library from the installed list and new icon
+selections. Its immutable artwork and saved identities remain locally available
+for existing posts; this action does not free their storage. Reinstall each style
+separately to validate its exact package again. Reinstalled styles stay disabled.
+Queued/running installations must finish first, and every removal requires the
+same administrator, file-modification policy and nonce checks as installation.
+
 Updates retain previously saved icon names when an icon is removed from a new
 package, and disabling a library or style hides it from new selections while
 keeping existing saved blocks resolvable while the plugin and stored files

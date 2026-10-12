@@ -191,6 +191,29 @@ class InstalledLibraryRepositoryTest extends TestCase {
 		$this->assertSame( true, $method->invoke( $installer, $library_id, $entry, $manifest ) );
 	}
 
+	public function test_provider_hints_are_request_cached_invalidated_and_do_not_replace_external_owners() {
+		$GLOBALS['icon_library_test_options'][ IconLibrary\Plugin::OPTION_LEGACY_COLLECTIONS ] = array();
+		$GLOBALS['icon_library_test_blog_id'] = 1;
+		$uninstalled = false;
+		$jobs = $this->getMockBuilder( LibraryJobStore::class )->disableOriginalConstructor()->getMock();
+		$jobs->method( 'all_library_ids' )->willReturn( array( 'fixture-library' ) );
+		$jobs->expects( $this->exactly( 3 ) )->method( 'read' )->willReturnCallback( static function () use ( &$uninstalled ) {
+			return array( 'value' => array( 'styles' => array( 'outline' => array( 'uninstalled' => $uninstalled ) ) ) );
+		} );
+		$repository = new InstalledLibraryRepository( $jobs, $this->root . '/storage' );
+		for ( $i = 0; $i < 10; ++$i ) {
+			$this->assertFalse( $repository->register_providers( array() )['fixture-library']['retained'] );
+		}
+		$external = array( 'fixture-library' => array( 'owner' => 'another-provider' ) );
+		$this->assertSame( $external, $repository->register_providers( $external ) );
+		$uninstalled = true;
+		do_action( 'icon_library_installed_state_changed', 'fixture-library' );
+		$this->assertTrue( $repository->register_providers( array() )['fixture-library']['retained'] );
+		$GLOBALS['icon_library_test_blog_id'] = 2;
+		$this->assertTrue( $repository->register_providers( array() )['fixture-library']['retained'] );
+		$GLOBALS['icon_library_test_blog_id'] = 1;
+	}
+
 	private function remove_tree( $path ) {
 		if ( ! is_dir( $path ) || is_link( $path ) ) {
 			if ( file_exists( $path ) || is_link( $path ) ) {

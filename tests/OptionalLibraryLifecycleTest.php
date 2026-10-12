@@ -69,6 +69,67 @@ class OptionalLibraryLifecycleTest extends TestCase {
 		}
 	}
 
+	public function test_cleanup_retains_same_name_registrations_replaced_by_another_provider() {
+		$GLOBALS['icon_library_test_registered'] = array( 'icons' => array(), 'collections' => array() );
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
+		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array( 'site-fixture' ) );
+		$registry->method( 'get_enabled_variants' )->willReturn( array( 'outline' ) );
+		$registry->method( 'get_manifest' )->willReturn( $this->manifest() );
+		$registry->method( 'get_svg_content' )->willReturn( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0L1 1"/></svg>' );
+		$registrar = new CoreIconRegistrar( $registry );
+		$registrar->register_icons();
+		wp_unregister_icon( 'site-fixture-outline/one' );
+		wp_register_icon( 'site-fixture-outline/one', array( 'content' => '<svg><path d="M2 2L3 3"/></svg>', 'label' => 'External replacement' ) );
+		wp_unregister_icon_collection( 'site-fixture-outline' );
+		wp_register_icon_collection( 'site-fixture-outline', array( 'label' => 'External replacement' ) );
+		$icon = $GLOBALS['icon_library_test_registered']['icons']['site-fixture-outline/one'];
+		$collection = $GLOBALS['icon_library_test_registered']['collections']['site-fixture-outline'];
+		$registrar->reset_for_blog_switch();
+		$this->assertSame( $icon, $GLOBALS['icon_library_test_registered']['icons']['site-fixture-outline/one'] );
+		$this->assertSame( $collection, $GLOBALS['icon_library_test_registered']['collections']['site-fixture-outline'] );
+	}
+
+	public function test_evicted_name_indexes_reload_without_removing_registered_saved_icons() {
+		$GLOBALS['icon_library_test_registered'] = array( 'icons' => array(), 'collections' => array() );
+		$loads = array();
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
+		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'cache-one', 'cache-two', 'cache-three' ) );
+		$registry->method( 'get_manifest' )->willReturnCallback( static function ( $library ) use ( &$loads ) {
+			$loads[ $library ] = ( $loads[ $library ] ?? 0 ) + 1;
+			return array( 'slug' => $library, 'name' => $library, 'variants' => array(), 'icons' => array( array( 'id' => 'one', 'coreIconName' => $library . '/one', 'label' => 'One', 'path' => 'one.svg' ), array( 'id' => 'two', 'coreIconName' => $library . '/two', 'label' => 'Two', 'path' => 'two.svg' ) ) );
+		} );
+		$registry->method( 'get_svg_content' )->willReturn( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0L1 1"/></svg>' );
+		$registrar = new CoreIconRegistrar( $registry );
+		foreach ( array( 'cache-one/one', 'cache-two/one', 'cache-three/one', 'cache-one/two' ) as $name ) {
+			$registrar->register_icon_block( array( 'blockName' => 'core/icon', 'attrs' => array( 'icon' => $name ) ) );
+			$this->assertArrayHasKey( $name, $GLOBALS['icon_library_test_registered']['icons'] );
+		}
+		$this->assertSame( 2, $loads['cache-one'] );
+		$this->assertArrayHasKey( 'cache-one/one', $GLOBALS['icon_library_test_registered']['icons'] );
+		$property = new ReflectionProperty( CoreIconRegistrar::class, 'collection_indexes' );
+		if ( PHP_VERSION_ID < 80100 ) { $property->setAccessible( true ); }
+		$this->assertCount( CoreIconRegistrar::MAX_REQUEST_INDEXES, $property->getValue( $registrar ) );
+	}
+
+	public function test_provider_manifest_cache_reloads_evicted_metadata_and_keeps_hot_reads_local() {
+		$loads = array();
+		$GLOBALS['icon_library_test_filters']['icon_library_collection_providers'] = array( static function () use ( &$loads ) {
+			$providers = array();
+			foreach ( array( 'cache-one', 'cache-two', 'cache-three' ) as $slug ) {
+				$providers[ $slug ] = array( 'manifest' => static function () use ( $slug, &$loads ) { $loads[ $slug ] = ( $loads[ $slug ] ?? 0 ) + 1; return array( 'slug' => $slug, 'name' => $slug, 'icons' => array() ); } );
+			}
+			return $providers;
+		} );
+		$registry = new CollectionRegistry( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ), null, array() );
+		foreach ( array( 'cache-one', 'cache-two', 'cache-one', 'cache-three', 'cache-two' ) as $slug ) {
+			$this->assertSame( $slug, $registry->get_manifest( $slug )['name'] );
+		}
+		$this->assertSame( array( 'cache-one' => 1, 'cache-two' => 2, 'cache-three' => 1 ), $loads );
+		$property = new ReflectionProperty( CollectionRegistry::class, 'provider_manifests' );
+		if ( PHP_VERSION_ID < 80100 ) { $property->setAccessible( true ); }
+		$this->assertCount( CollectionRegistry::MAX_REQUEST_MANIFESTS, $property->getValue( $registry ) );
+	}
+
 	public function test_core_switch_cleanup_preserves_external_names_and_allows_reregistration() {
 		$GLOBALS['icon_library_test_registered'] = array( 'icons' => array(), 'collections' => array() );
 		wp_register_icon_collection( 'external-lifecycle', array( 'label' => 'External' ) );

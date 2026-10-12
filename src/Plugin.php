@@ -86,7 +86,7 @@ class Plugin {
 		$manifest_loader     = new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' );
 		$collection_registry = new CollectionRegistry( $manifest_loader, $custom_icons, self::legacy_collections( $manifest_loader ) );
 		$core_registrar      = new CoreIconRegistrar( $collection_registry );
-		$library_installer   = new LibraryInstaller( $library_catalog, $library_repository, $library_jobs, $library_validator, $this->library_transport, $core_registrar );
+		$library_installer   = new LibraryInstaller( $library_catalog, $library_repository, $library_jobs, $library_validator, $this->library_transport, $core_registrar, $collection_registry );
 		$rest_controller     = new RestController( $collection_registry, $custom_icons );
 		$ability_registrar   = new AbilityRegistrar( $collection_registry );
 

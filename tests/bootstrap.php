@@ -158,6 +158,16 @@ class WP_Icons_Registry {
 	}
 }
 
+class WP_Icon_Collections_Registry {
+	public static function get_instance() {
+		return new self();
+	}
+
+	public function get_registered( $slug ) {
+		return $GLOBALS['icon_library_test_registered']['collections'][ $slug ] ?? null;
+	}
+}
+
 function __( $text ) {
 	return $text;
 }
@@ -172,6 +182,12 @@ function apply_filters( $hook, $value, ...$args ) {
 
 function add_action( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
 	$GLOBALS['icon_library_test_actions'][ $hook ][] = array( $callback, $priority, $accepted_args );
+}
+
+function do_action( $hook, ...$args ) {
+	foreach ( $GLOBALS['icon_library_test_actions'][ $hook ] ?? array() as $action ) {
+		call_user_func_array( $action[0], array_slice( $args, 0, $action[2] ) );
+	}
 }
 
 function wp_register_ability_category( $slug, $args ) {

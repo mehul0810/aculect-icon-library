@@ -44,6 +44,13 @@ non-autoloaded state row and byte-exact compare-and-swap writes.
 manifests to the existing collection-provider boundary. `LibraryAdminController`
 owns REST and non-JavaScript authorization; `AdminPage` owns presentation only.
 
+Provider hints are small request-local snapshots scoped by site and invalidated
+after every authoritative installer CAS. They preserve external namespace
+owners and do not cache raw job/lease state. Manifest and exact-name caches keep
+at most two collections per request; evicted metadata can be reread without
+removing registered SVGs or saved identities. This bounds mixed-library frontend
+memory instead of increasing the site's memory configuration.
+
 ## State And Compatibility
 
 - Queueing pins the complete trusted descriptor. Retrying or resuming an
@@ -58,6 +65,17 @@ owns REST and non-JavaScript authorization; `AdminPage` owns presentation only.
 - Installation and collection/style enablement are separate actions. Disabling
   discovery does not delete local files or saved identities. Deactivating the
   plugin is outside this saved-icon guarantee.
+- Explicit library Uninstall disables collection discovery, marks its styles
+  uninstalled in the same durable CAS row and invalidates failed-job leases.
+  Queued/running jobs block removal. All immutable files, identity reservations
+  and saved-icon manifests remain available for exact saved-name rendering.
+  Retained-only providers are absent from collection lists and cannot be enabled.
+- Reinstall queues a new bounded validation/download attempt even at the same
+  version. Only the selected style becomes installed again; the library stays
+  disabled and other retained styles remain hidden. Failed reinstallation keeps
+  the retained artwork resolvable. An older plugin rollback ignores the additive
+  flags and may show retained libraries as installed, still disabled; no data is
+  removed by the upgrade or rollback.
 - Recovery entries absent from the current catalog offer only the existing
   job's Retry/Resume action, not a new Install/Update action.
 - State, storage paths and path grants are site-scoped. Site switches invalidate

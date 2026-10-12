@@ -85,6 +85,7 @@ class LibraryAdminControllerTest extends TestCase {
 	public function test_install_and_resume_require_both_capabilities() {
 		$this->installer->expects( $this->never() )->method( 'request_install' );
 		$this->installer->expects( $this->never() )->method( 'run' );
+		$this->installer->expects( $this->never() )->method( 'uninstall' );
 		foreach ( array( 'manage_options', 'install_plugins' ) as $missing ) {
 			$GLOBALS['icon_library_test_capabilities'] = array(
 				'manage_options'  => true,
@@ -93,13 +94,15 @@ class LibraryAdminControllerTest extends TestCase {
 			);
 			$this->assertSame( 'icon_library_install_forbidden', $this->controller->create_job( $this->request() )->get_error_code() );
 			$this->assertSame( 'icon_library_install_forbidden', $this->controller->run_job( $this->request() )->get_error_code() );
+			$this->assertSame( 'icon_library_install_forbidden', $this->controller->uninstall_library( $this->request() )->get_error_code() );
 		}
 	}
 
 	public function test_explicit_nonce_and_post_are_required_for_every_mutation() {
 		$this->installer->expects( $this->never() )->method( 'request_install' );
 		$this->installer->expects( $this->never() )->method( 'run' );
-		foreach ( array( 'create_job', 'run_job' ) as $method ) {
+		$this->installer->expects( $this->never() )->method( 'uninstall' );
+		foreach ( array( 'create_job', 'run_job', 'uninstall_library' ) as $method ) {
 			$this->assertSame( 'icon_library_install_nonce', $this->controller->$method( $this->request( array(), '' ) )->get_error_code() );
 			$this->assertSame( 'icon_library_install_nonce', $this->controller->$method( $this->request( array(), 'expired' ) )->get_error_code() );
 			$this->assertSame( 'icon_library_install_method', $this->controller->$method( $this->request( array(), 'test-valid-rest', 'GET' ) )->get_error_code() );
@@ -110,11 +113,26 @@ class LibraryAdminControllerTest extends TestCase {
 		$this->installer->expects( $this->never() )->method( 'request_install' );
 		$GLOBALS['icon_library_test_file_mods'] = false;
 		$this->assertSame( 'icon_library_file_modifications_disabled', $this->controller->create_job( $this->request() )->get_error_code() );
+		$this->assertSame( 'icon_library_file_modifications_disabled', $this->controller->uninstall_library( $this->request() )->get_error_code() );
 		$GLOBALS['icon_library_test_file_mods'] = true;
 		$GLOBALS['icon_library_test_multisite'] = true;
 		$this->assertSame( 'icon_library_install_forbidden', $this->controller->create_job( $this->request() )->get_error_code() );
+		$this->assertSame( 'icon_library_install_forbidden', $this->controller->uninstall_library( $this->request() )->get_error_code() );
 		$GLOBALS['icon_library_test_super_admin'] = true;
 		$this->assertTrue( $this->controller->can_install( $this->request() ) );
+	}
+
+	public function test_uninstall_forwards_only_exact_local_identity_and_retains_saved_icons() {
+		$this->installer->expects( $this->once() )->method( 'uninstall' )->with( 'synthetic-test' )->willReturn( true );
+		$result = $this->controller->uninstall_library( $this->request( array( 'purge' => true, 'path' => '/tmp/unsafe' ) ) );
+		$this->assertSame( array( 'library_id' => 'synthetic-test', 'status' => 'uninstalled', 'saved_icons_retained' => true ), $result->get_data() );
+	}
+
+	public function test_uninstall_rejects_nonidentifiers_before_service_calls() {
+		$this->installer->expects( $this->never() )->method( 'uninstall' );
+		foreach ( array( '../escape', array( 'synthetic-test' ), 'https://attacker.invalid', str_repeat( 'a', 101 ) ) as $library ) {
+			$this->assertSame( 'icon_library_install_request', $this->controller->uninstall_library( $this->request( array( 'library' => $library ) ) )->get_error_code() );
+		}
 	}
 
 	public function test_only_exact_catalog_identity_is_forwarded() {

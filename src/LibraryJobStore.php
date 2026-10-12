@@ -84,6 +84,7 @@ class LibraryJobStore {
 		if ( function_exists( 'wp_cache_delete' ) ) {
 			wp_cache_delete( 'alloptions', 'options' ); }
 		wp_cache_delete( 'installed_library_ids', 'icon_library' );
+		do_action( 'icon_library_installed_state_changed', $library_id );
 		return true;
 	}
 

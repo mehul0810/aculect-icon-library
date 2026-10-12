@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Registers plugin collections through the public WordPress Icon API.
  */
 class CoreIconRegistrar {
+	const MAX_REQUEST_INDEXES  = 2;
 	const MAX_PREWALK_NODES    = 1000;
 	const MAX_PREWALK_DEPTH    = 100;
 	const MAX_ICON_NAME_LENGTH = 200;
@@ -147,12 +148,16 @@ class CoreIconRegistrar {
 	public function reset_for_blog_switch() {
 		if ( function_exists( 'wp_unregister_icon' ) ) {
 			foreach ( array_keys( $this->owned_icons ) as $name ) {
-				wp_unregister_icon( $name );
+				if ( $this->owns_registered_icon( $name, \WP_Icons_Registry::get_instance()->get_registered_icon( $name ) ) ) {
+					wp_unregister_icon( $name );
+				}
 			}
 		}
 		if ( function_exists( 'wp_unregister_icon_collection' ) ) {
 			foreach ( array_keys( $this->owned_collections ) as $slug ) {
-				wp_unregister_icon_collection( $slug );
+				if ( $this->owns_registered_collection( $slug, \WP_Icon_Collections_Registry::get_instance()->get_registered( $slug ) ) ) {
+					wp_unregister_icon_collection( $slug );
+				}
 			}
 		}
 		$this->style_collections          = array();
@@ -165,6 +170,7 @@ class CoreIconRegistrar {
 		$this->registered_icons           = array();
 		$this->owned_collections          = array();
 		$this->owned_icons                = array();
+		$this->collection_registry->clear_request_caches();
 	}
 
 	/**
@@ -449,7 +455,17 @@ class CoreIconRegistrar {
 			return array();
 		}
 		if ( isset( $this->collection_indexes[ $library ] ) ) {
-			return $this->collection_indexes[ $library ];
+			$cached = $this->collection_indexes[ $library ];
+			unset( $this->collection_indexes[ $library ] );
+			$this->collection_indexes[ $library ] = $cached;
+			return $cached;
+		}
+		// A page may reference many large libraries. Keep only two name indexes;
+		// already registered SVGs and saved names remain available after eviction.
+		if ( count( $this->collection_indexes ) >= self::MAX_REQUEST_INDEXES ) {
+			$expired = array_key_first( $this->collection_indexes );
+			unset( $this->collection_indexes[ $expired ] );
+			$this->collection_registry->forget_collection_request_cache( $expired );
 		}
 
 		$manifest = $this->collection_registry->get_manifest( $library );

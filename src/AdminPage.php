@@ -247,6 +247,13 @@ class AdminPage {
 	 * Renders status notice after a toggle.
 	 */
 	private function render_notice() {
+		// Read-only feedback; all mutations use the protected POST controller.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['package-uninstalled'] ) ) {
+			$removed = 1 === absint( $_GET['package-uninstalled'] );
+			echo '<div class="notice icon-library-notice" role="status"><p>' . esc_html( $removed ? __( 'Library uninstalled. Existing saved icons remain available. Reinstall a style to use it again.', 'aculect-icon-library' ) : __( 'The library could not be uninstalled. Finish any pending installation and try again.', 'aculect-icon-library' ) ) . '</p></div>';
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 		// Read-only redirect feedback from the non-JavaScript installation form.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['package-error'] ) && 1 === absint( $_GET['package-error'] ) ) {
@@ -898,6 +905,17 @@ class AdminPage {
 					</div>
 				<?php endforeach; ?>
 			</div>
+			<?php if ( $this->installer && $this->installer->get_installed( $collection['slug'] ) ) : ?>
+					<div class="icon-library-uninstall">
+						<p><?php esc_html_e( 'Uninstall removes this library from your installed list and new selections. Artwork used by existing saved icons is retained. Reinstall each style separately when needed.', 'aculect-icon-library' ); ?></p>
+						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+							<?php wp_nonce_field( 'icon_library_uninstall_package' ); ?>
+							<input type="hidden" name="action" value="icon_library_uninstall_package" />
+							<input type="hidden" name="library" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
+							<button type="submit" class="button button-secondary"><?php esc_html_e( 'Uninstall', 'aculect-icon-library' ); ?></button>
+						</form>
+					</div>
+			<?php endif; ?>
 			<div class="icon-library-footer icon-library-collection-footer">
 				<div class="icon-library-footer-actions">
 					<form class="icon-library-toggle" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-collection="<?php echo esc_attr( $collection['slug'] ); ?>" data-state="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>">

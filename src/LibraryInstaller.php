@@ -45,6 +45,11 @@ class LibraryInstaller {
 	 * @var CoreIconRegistrar|null
 	 */
 	private $core_registrar;
+	/** Collection state service used to disable discovery before removal.
+	 *
+	 * @var CollectionRegistry|null
+	 */
+	private $collection_registry;
 
 	/** Creates an installer with its trusted dependencies.
 	 *
@@ -54,14 +59,16 @@ class LibraryInstaller {
 	 * @param LibraryPackageValidator    $validator Package validator.
 	 * @param callable|null              $transport Optional test transport.
 	 * @param CoreIconRegistrar|null     $core_registrar Optional registration ownership tracker.
+	 * @param CollectionRegistry|null    $collection_registry Collection state service.
 	 */
-	public function __construct( TrustedLibraryCatalog $catalog, InstalledLibraryRepository $repository, LibraryJobStore $jobs, LibraryPackageValidator $validator, $transport = null, ?CoreIconRegistrar $core_registrar = null ) {
-		$this->catalog        = $catalog;
-		$this->repository     = $repository;
-		$this->jobs           = $jobs;
-		$this->validator      = $validator;
-		$this->transport      = is_callable( $transport ) ? $transport : null;
-		$this->core_registrar = $core_registrar;
+	public function __construct( TrustedLibraryCatalog $catalog, InstalledLibraryRepository $repository, LibraryJobStore $jobs, LibraryPackageValidator $validator, $transport = null, ?CoreIconRegistrar $core_registrar = null, ?CollectionRegistry $collection_registry = null ) {
+		$this->catalog             = $catalog;
+		$this->repository          = $repository;
+		$this->jobs                = $jobs;
+		$this->validator           = $validator;
+		$this->transport           = is_callable( $transport ) ? $transport : null;
+		$this->core_registrar      = $core_registrar;
+		$this->collection_registry = $collection_registry;
 	}
 
 	/** Queues an idempotent install request without enabling the library.
@@ -95,17 +102,19 @@ class LibraryInstaller {
 				if ( 0 === $comparison ) {
 					if ( $entry['package_sha256'] !== $installed['package_sha256'] ) {
 						return new WP_Error( 'icon_library_version_collision', __( 'The same release version cannot identify different package bytes.', 'aculect-icon-library' ) ); }
-					return array(
-						'job_id'          => $state['job']['job_id'] ?? '',
-						'library_id'      => $library_id,
-						'style_id'        => $style_id,
-						'release_version' => $version,
-						'status'          => 'succeeded',
-						'generation'      => (int) ( $state['generation'] ?? 0 ),
-						'progress'        => 100,
-						'updated_at'      => $installed['installed_at'],
-						'error'           => '',
-					);
+					if ( empty( $installed['uninstalled'] ) ) {
+						return array(
+							'job_id'          => $state['job']['job_id'] ?? '',
+							'library_id'      => $library_id,
+							'style_id'        => $style_id,
+							'release_version' => $version,
+							'status'          => 'succeeded',
+							'generation'      => (int) ( $state['generation'] ?? 0 ),
+							'progress'        => 100,
+							'updated_at'      => $installed['installed_at'],
+							'error'           => '',
+						);
+					}
 				}
 			}
 			$generation             = (int) ( $state['generation'] ?? 0 ) + 1;
@@ -200,6 +209,54 @@ class LibraryInstaller {
 	 */
 	public function get_installed( $library_id ) {
 		return $this->repository->get_installed( $library_id ); }
+
+	/** Removes installed discovery while retaining immutable saved-icon artwork.
+	 * Running or queued jobs must finish first. CAS invalidates failed-job leases;
+	 * reinstall queues a new verified attempt for each explicitly selected style.
+	 *
+	 * @param string $library_id Library identifier.
+	 * @return true|WP_Error
+	 */
+	public function uninstall( $library_id ) {
+		if ( ! is_string( $library_id ) || strlen( $library_id ) > 100 || 1 !== preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/D', $library_id ) ) {
+			return new WP_Error( 'icon_library_invalid_library', __( 'The library identifier is invalid.', 'aculect-icon-library' ), array( 'status' => 400 ) );
+		}
+		for ( $attempt = 0; $attempt < self::MAX_CAS_RETRIES; ++$attempt ) {
+			$read = $this->jobs->read( $library_id );
+			if ( ! $read || empty( $read['value']['styles'] ) ) {
+				return new WP_Error( 'icon_library_not_installed', __( 'This library is not installed.', 'aculect-icon-library' ), array( 'status' => 404 ) );
+			}
+			$state = $read['value'];
+			if ( in_array( $state['job']['status'] ?? '', array( 'queued', 'running' ), true ) ) {
+				return new WP_Error( 'icon_library_job_busy', __( 'Finish the pending installation before uninstalling this library.', 'aculect-icon-library' ), array( 'status' => 409 ) );
+			}
+			if ( ! $this->repository->get_installed( $library_id ) ) {
+				return true;
+			}
+			if ( ! $this->collection_registry || ! $this->collection_registry->set_collection_enabled( $library_id, false ) ) {
+				return new WP_Error( 'icon_library_state_busy', __( 'The library could not be disabled. Try again.', 'aculect-icon-library' ), array( 'status' => 409 ) );
+			}
+			foreach ( $state['styles'] as &$style ) {
+				if ( is_array( $style ) ) {
+					$style['uninstalled'] = true;
+				}
+			}
+			unset( $style );
+			$state['generation']    = (int) ( $state['generation'] ?? 0 ) + 1;
+			$state['job']           = null;
+			$state['lease_token']   = '';
+			$state['lease_expires'] = 0;
+			if ( $this->jobs->compare_and_swap( $library_id, $read['raw'], $state ) ) {
+				$this->repository->clear_request_provider_cache();
+				$this->collection_registry->clear_request_caches();
+				if ( $this->core_registrar ) {
+					$this->core_registrar->reset_for_blog_switch();
+				}
+				return true;
+			}
+		}
+		return new WP_Error( 'icon_library_state_busy', __( 'Library state changed concurrently. Try again.', 'aculect-icon-library' ), array( 'status' => 409 ) );
+	}
 	/** Returns current catalog releases and descriptors pinned by active jobs.
 	 *
 	 * @return array
@@ -477,6 +534,13 @@ class LibraryInstaller {
 			$state['lease_token']       = '';
 			$state['lease_expires']     = 0;
 			if ( $this->jobs->compare_and_swap( $library_id, $read['raw'], $state ) ) {
+				$this->repository->clear_request_provider_cache();
+				if ( $this->collection_registry ) {
+					$this->collection_registry->clear_request_caches();
+				}
+				if ( $this->core_registrar ) {
+					$this->core_registrar->reset_for_blog_switch();
+				}
 				return $this->public_job( $state['job'] ); }
 		}
 		return new WP_Error( 'icon_library_job_stale', __( 'Library state changed before activation.', 'aculect-icon-library' ) );
@@ -541,7 +605,7 @@ class LibraryInstaller {
 				$occupied[ $installed_library . '-' . $installed_style ] = $installed_library; }
 		}
 		if ( class_exists( 'WP_Icons_Registry' ) && method_exists( 'WP_Icons_Registry', 'get_instance' ) ) {
-			$installed = $this->repository->get_installed( $library_id );
+			$installed = $this->repository->get_installed( $library_id, true );
 			$registry  = \WP_Icons_Registry::get_instance();
 			if ( method_exists( $registry, 'get_registered_icons' ) ) {
 				foreach ( (array) $registry->get_registered_icons() as $icon ) {

@@ -15,7 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Owns collection metadata, activation state, and icon discovery.
  */
 class CollectionRegistry {
-	const MAX_PAGE = 10000;
+	const MAX_PAGE              = 10000;
+	const MAX_REQUEST_MANIFESTS = 2;
 
 	const OPTION_STATE_LOCK = 'icon_library_state_lock';
 	const STATE_LOCK_TTL    = 30;
@@ -124,7 +125,7 @@ class CollectionRegistry {
 		foreach ( $this->get_available_collection_slugs() as $slug ) {
 			$manifest = $this->get_metadata( $slug );
 
-			if ( ! is_array( $manifest ) ) {
+			if ( ! is_array( $manifest ) || $this->is_retained_collection( $slug, $manifest ) ) {
 				continue;
 			}
 
@@ -152,7 +153,7 @@ class CollectionRegistry {
 	public function get_collection( $slug ) {
 		$slug     = is_string( $slug ) ? sanitize_key( $slug ) : '';
 		$manifest = $this->get_metadata( $slug );
-		if ( ! is_array( $manifest ) ) {
+		if ( ! is_array( $manifest ) || $this->is_retained_collection( $slug, $manifest ) ) {
 			return null;
 		}
 
@@ -201,7 +202,13 @@ class CollectionRegistry {
 		$providers = $this->get_provider_definitions();
 		if ( isset( $providers[ $slug ] ) && is_array( $providers[ $slug ] ) && isset( $providers[ $slug ]['manifest'] ) ) {
 			if ( array_key_exists( $slug, $this->provider_manifests ) ) {
-				return $this->provider_manifests[ $slug ];
+				$cached = $this->provider_manifests[ $slug ];
+				unset( $this->provider_manifests[ $slug ] );
+				$this->provider_manifests[ $slug ] = $cached;
+				return $cached;
+			}
+			if ( count( $this->provider_manifests ) >= self::MAX_REQUEST_MANIFESTS ) {
+				$this->forget_collection_request_cache( array_key_first( $this->provider_manifests ) );
 			}
 			$manifest      = is_callable( $providers[ $slug ]['manifest'] ) ? call_user_func( $providers[ $slug ]['manifest'] ) : $providers[ $slug ]['manifest'];
 			$manifest_slug = is_array( $manifest ) && is_string( $manifest['slug'] ?? null ) ? sanitize_key( $manifest['slug'] ) : '';
@@ -287,6 +294,20 @@ class CollectionRegistry {
 		return null === $this->bundled_slugs || in_array( $slug, $this->bundled_slugs, true );
 	}
 
+	/** Hides retained inventory only for this plugin's installed provider.
+	 *
+	 * @param string $slug Collection slug.
+	 * @param mixed  $manifest Collection manifest.
+	 * @return bool
+	 */
+	private function is_retained_collection( $slug, $manifest ) {
+		if ( ! is_array( $manifest ) || 'retained' !== ( $manifest['version'] ?? '' ) ) {
+			return false;
+		}
+		$providers = $this->get_provider_definitions();
+		return 'aculect-icon-library-installed' === ( $providers[ $slug ]['owner'] ?? '' );
+	}
+
 	/**
 	 * Returns enabled collection slugs.
 	 *
@@ -317,8 +338,16 @@ class CollectionRegistry {
 		 *
 		 * @param string[] $enabled Enabled collection slugs.
 		 */
-		$filtered = apply_filters( 'icon_library_enabled_collections', $enabled );
-		return array_values( array_intersect( $this->normalize_keys( $filtered ), $available ) );
+		$filtered  = apply_filters( 'icon_library_enabled_collections', $enabled );
+		$providers = $this->get_provider_definitions();
+		return array_values(
+			array_filter(
+				array_intersect( $this->normalize_keys( $filtered ), $available ),
+				static function ( $slug ) use ( $providers ) {
+					return 'aculect-icon-library-installed' !== ( $providers[ $slug ]['owner'] ?? '' ) || empty( $providers[ $slug ]['retained'] );
+				}
+			)
+		);
 	}
 
 	/**
@@ -784,6 +813,9 @@ class CollectionRegistry {
 			}
 
 			if ( ! isset( $this->name_indexes[ $collection_slug ] ) ) {
+				if ( count( $this->name_indexes ) >= self::MAX_REQUEST_MANIFESTS ) {
+					unset( $this->name_indexes[ array_key_first( $this->name_indexes ) ] );
+				}
 				$this->name_indexes[ $collection_slug ] = IconNameIndex::build( $collection_slug, $this->get_manifest( $collection_slug ) );
 			}
 			$entry = $this->name_indexes[ $collection_slug ][ $core_icon_name ] ?? null;
@@ -875,6 +907,14 @@ class CollectionRegistry {
 			}
 		}
 		return array_values( array_unique( $keys ) );
+	}
+
+	/** Releases one manifest and its lookup index without touching stored artwork.
+	 *
+	 * @param string $slug Collection slug.
+	 */
+	public function forget_collection_request_cache( $slug ) {
+		unset( $this->provider_manifests[ $slug ], $this->name_indexes[ $slug ] );
 	}
 
 	/** Clears request-local derived data after a state mutation. */

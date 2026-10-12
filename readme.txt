@@ -22,6 +22,9 @@ Manage everything from Appearance > Icons. Fresh sites start with no installed
 or loaded plugin collections. Open Icons to see supported GitHub libraries
 immediately, preview a small sample, then install an available library.
 Installed libraries start disabled; enable them in Library when needed.
+Uninstall removes downloaded libraries from your installed list and new
+selections while retaining artwork used by existing saved posts. Reinstall each
+style separately to validate it again; reinstalled libraries stay disabled.
 Existing sites retain their bundled libraries, preferences and saved icons.
 Thirty-five published packs across thirteen families are available. Legacy
 artwork remains in the ZIP for upgrade compatibility.
@@ -214,6 +217,8 @@ Bundled libraries remain under their upstream terms:
 
 * Start fresh sites with zero plugin collections and preserve existing sites' libraries and saved icons.
 * List reviewed GitHub libraries immediately, with optional consented background availability updates, an offline cache and separate bounded sample previews before installation.
+* Add protected downloaded-library uninstall and per-style verified reinstall while retaining artwork and identities used by saved posts.
+* Bound request-local manifest and name caches for mixed-library pages and preserve registrations replaced by other providers during cleanup.
 * Add explicit installation, update, retry, and resume for versioned data-only icon packages, with local storage and saved-icon preservation. Thirty-five independently verified GitHub packs across thirteen families are available; Simple Icons and Keyline remain gated.
 * Add optional Phosphor Regular and Fill icons.
 * Add compatible Ionicons Filled, Sharp, Outline, and Brands icons with explicit exclusions.
