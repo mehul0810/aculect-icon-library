@@ -99,6 +99,7 @@ class Plugin {
 		// Core collections are registered only for icon REST requests or saved
 		// blocks that actually need them. This avoids catalog work on public pages.
 		add_filter( 'rest_pre_dispatch', array( $core_registrar, 'prepare_core_icon_request' ), 10, 3 );
+		add_filter( 'rest_pre_echo_response', array( $core_registrar, 'release_bulk_response_state' ), PHP_INT_MAX, 3 );
 		add_action( 'wp', array( $core_registrar, 'register_queried_post_icons' ) );
 		add_filter( 'render_block_data', array( $core_registrar, 'register_icon_block' ) );
 		add_action( 'enqueue_block_assets', array( $core_registrar, 'enqueue_styles' ) );

@@ -314,6 +314,30 @@ class CoreIconRegistrar {
 	}
 
 	/**
+	 * Releases owned request data after Core prepares the complete response.
+	 *
+	 * The response retains its SVG strings. Registry/cache copies can be freed
+	 * before JSON output without truncating icons or changing saved names.
+	 *
+	 * @param array           $data    Prepared response data.
+	 * @param WP_REST_Server  $server  REST server.
+	 * @param WP_REST_Request $request Current request.
+	 * @return array Unchanged response data.
+	 */
+	public function release_bulk_response_state( $data, $server, $request ) {
+		unset( $server );
+		if ( ! is_array( $data ) || empty( $this->owned_icons ) || ! $request instanceof WP_REST_Request || 'GET' !== $request->get_method() || '/wp/v2/icons' !== $request->get_route() || ! $this->can_read_core_icons() ) {
+			return $data;
+		}
+
+		$this->reset_for_blog_switch();
+		if ( function_exists( 'gc_mem_caches' ) ) {
+			gc_mem_caches();
+		}
+		return $data;
+	}
+
+	/**
 	 * Mirrors Core's editor-facing Icon REST permission condition.
 	 *
 	 * @return bool
