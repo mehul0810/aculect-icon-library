@@ -25,6 +25,7 @@ $GLOBALS['icon_library_test_categories']   = array();
 $GLOBALS['icon_library_test_posts']       = array();
 $GLOBALS['icon_library_test_enqueued_styles'] = array();
 $GLOBALS['icon_library_test_wp_version']      = '7.1.2';
+$GLOBALS['icon_library_test_is_admin']         = false;
 $GLOBALS['icon_library_test_blog_id']         = 1;
 $GLOBALS['icon_library_test_cron']            = array();
 
@@ -56,6 +57,10 @@ function wp_raise_memory_limit( $context ) {
 
 function get_bloginfo( $show = '' ) {
 	return 'version' === $show ? $GLOBALS['icon_library_test_wp_version'] : '';
+}
+
+function is_admin() {
+	return $GLOBALS['icon_library_test_is_admin'];
 }
 
 function wp_enqueue_style( $handle, $src, $deps = array(), $ver = false ) {

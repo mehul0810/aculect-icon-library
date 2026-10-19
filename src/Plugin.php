@@ -48,10 +48,11 @@ class Plugin {
 		add_filter( 'rest_pre_echo_response', array( $core_registrar, 'release_bulk_response_state' ), PHP_INT_MAX, 3 );
 		add_action( 'wp', array( $core_registrar, 'register_queried_post_icons' ) );
 		add_filter( 'render_block_data', array( $core_registrar, 'register_icon_block' ) );
-		add_action( 'enqueue_block_assets', array( $core_registrar, 'enqueue_styles' ) );
+		add_action( 'enqueue_block_assets', array( $core_registrar, 'enqueue_editor_content_styles' ) );
 		add_action( 'enqueue_block_editor_assets', array( $core_registrar, 'enqueue_styles' ) );
 		add_action( 'enqueue_block_editor_assets', array( $core_registrar, 'enqueue_editor_picker_compat_styles' ) );
 		add_action( 'enqueue_block_editor_assets', array( $core_registrar, 'enqueue_bounded_picker' ) );
+		add_filter( 'render_block', array( $core_registrar, 'enqueue_styles_for_rendered_icon' ), 10, 3 );
 		add_filter( 'rest_request_after_callbacks', array( $core_registrar, 'filter_core_discovery_response' ), 10, 3 );
 		add_action( 'rest_api_init', array( $rest_controller, 'register_routes' ) );
 		$ability_registrar->register();

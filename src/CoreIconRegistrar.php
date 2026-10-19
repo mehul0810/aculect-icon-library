@@ -263,6 +263,28 @@ class CoreIconRegistrar {
 		);
 	}
 
+	/** Enqueues the stroke workaround only when a rendered Core Icon needs it.
+	 *
+	 * @param string $block_content Rendered block HTML.
+	 * @param array  $block         Parsed block data.
+	 * @param object $instance      Block instance.
+	 * @return string Unchanged block HTML.
+	 */
+	public function enqueue_styles_for_rendered_icon( $block_content, $block, $instance ) {
+		unset( $instance );
+		if ( is_array( $block ) && 'core/icon' === ( $block['blockName'] ?? '' ) && false !== strpos( $block_content, 'icon-library-stroked' ) ) {
+			$this->enqueue_styles();
+		}
+		return $block_content;
+	}
+
+	/** Enqueues icon presentation rules in the editor iframe content context. */
+	public function enqueue_editor_content_styles() {
+		if ( is_admin() ) {
+			$this->enqueue_styles();
+		}
+	}
+
 	/**
 	 * Keeps Core's mobile picker controls visible when a saved icon scrolls into view.
 	 */
