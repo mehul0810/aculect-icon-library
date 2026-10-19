@@ -1,32 +1,52 @@
 # Aculect Icon Library
 
-Easily add support for popular icon libraries and custom SVG icons to the native WordPress Icon block
+SVG icons for the native WordPress Icon block.
 
-Aculect Icon Library adds Heroicons, Bootstrap Icons, Font Awesome Free, Tabler
-Icons, Radix Icons, Rune Icons, Google Material Icons, Iconoir, Phosphor Icons,
-Ionicons, and custom SVG icons to WordPress's existing `core/icon` block. Manage
-libraries from **Appearance > Icons**, enable the styles you need, and choose
-icons in the block editor. It does not add a competing block or use icon fonts.
+Choose from ten bundled icon libraries, preview their artwork, and enable the
+styles you need in the block editor. Add your own SVG icons alongside Heroicons,
+Bootstrap Icons, Font Awesome Free, Tabler, Radix, and the other included
+collections, using the same WordPress editing workflow.
 
-## Legacy Icon Libraries Retained For Upgrades
+- **Use the native Icon block.** Pick icons and adjust their size and styling
+  with WordPress's existing block controls.
+- **Choose your libraries.** Preview bundled families before adding them to
+  Library, then enable individual styles.
+- **Bring your own SVGs.** Upload supported artwork, search your icons, and edit
+  display labels without changing the names used by saved blocks.
+- **Keep assets on your site.** Bundled libraries and custom uploads use local
+  SVG files. No icon-service account, icon font, or CDN is required.
+- **Connect compatible tools.** WordPress Abilities let authorized automation
+  clients discover icons and edit Icon blocks.
 
-| Library | Variants |
+This branch prepares **1.2.0**. For published packages, see
+[GitHub Releases](https://github.com/mehul0810/aculect-icon-library/releases).
+
+[Get started](#requirements-and-quick-start) | [Included libraries](#bundled-libraries) |
+[Custom SVGs](#custom-icons) | [Developer setup](#development)
+
+## Bundled Libraries
+
+The package includes the following curated styles. These are the plugin's
+supported subsets, rather than the full catalogs advertised by each upstream
+project.
+
+| Icon library | Included styles |
 | --- | --- |
-| Heroicons | Outline, Solid |
-| Bootstrap Icons | Default, Filled |
-| Font Awesome Free | Solid, Regular, Brands |
-| Tabler Icons | Filled |
-| Radix Icons | Default |
-| Rune Icons | Pixelated (215 icons; original path colors) |
-| Google Material Icons | Filled 24px, Core-compatible subset (1,038 icons) |
-| Iconoir | Solid (210 compatible icons) |
-| Phosphor Icons | Regular, Fill (2,487 icons) |
-| Ionicons | Filled, Sharp, Outline, Brands (679 compatible icons) |
+| [Heroicons](https://heroicons.com/) | Outline (opt-in) and Solid |
+| [Bootstrap Icons](https://icons.getbootstrap.com/) | Default and Filled |
+| [Font Awesome Free](https://fontawesome.com/) | Solid, Regular, and Brands |
+| [Tabler Icons](https://tabler.io/icons) | Filled |
+| [Radix Icons](https://www.radix-ui.com/icons) | Default, non-logo subset |
+| [Google Material Icons](https://github.com/google/material-design-icons) | Compatible Filled 24px subset |
+| [Iconoir](https://iconoir.com/) | Compatible Solid subset |
+| [Phosphor Icons](https://phosphoricons.com/) | Regular and Fill |
+| [Ionicons](https://ionic.io/ionicons) | Compatible Filled, Sharp, Outline, and Brands subset |
+| [Rune Icons](https://github.com/Nexvyn/runeicons) | Pixelated |
 
-Fresh sites start with no installed or loaded plugin collections. The legacy
-assets above remain packaged for existing users' saved icons and collection
-preferences; fresh sites do not expose them as installed libraries. Font Awesome
-Pro styles are not bundled. Custom SVG uploads remain local.
+Fresh installations start with no libraries selected or enabled. Installing a
+library adds it to **Library**; enable it or its variants there to make its
+icons available for new blocks. Existing sites retain their saved icon names
+and library preferences through an ordinary plugin update.
 
 Iconoir includes a compatible filled-path Solid subset. Regular and mixed-stroke
 icons are explicitly deferred, not silently simplified. See
@@ -37,69 +57,17 @@ See [Phosphor scope and provenance](docs/phosphor.md) and
 Rune's other styles are not bundled. See [source, license and import details](docs/rune-icons.md).
 See [Material Icons scope, exclusions and provenance](docs/material-icons.md).
 
-## Optional Versioned Libraries
-
-**Appearance > Icons** immediately lists supported GitHub libraries from the
-reviewed catalog included with the plugin. No refresh is required. The public index records all
-15 planned families, with 35 reviewed packs across 13 families and independent
-licensed previews. Simple Icons and Keyline remain explicitly gated. Packages
-are published as exact-version GitHub releases; all 35 public archives,
-descriptors and licensed previews passed independent HTTP verification before
-becoming installable. The local allowlist retains two earlier immutable candidate pins.
-WordPress.org distribution acceptance remains unresolved.
-
-Optional **Catalog updates** lets an administrator consent to background GitHub
-availability checks. Updates use a daily cache and an hourly failure backoff;
-opening the screen reads local metadata and never waits for GitHub. Without
-consent, the reviewed snapshot remains available with no automatic requests.
-Remote index entries must match local pins before replacing the saved catalog.
-**Preview** fetches at most 12 safe samples in a separate
-small JSON artifact at an immutable repository revision; it does not fetch the
-full ZIP, install or enable anything. License and attribution text is available
-with each verified preview. Fluent Regular/Filled use eight separate size
-collections to bound per-library installation state.
-Successful catalog and sample data remain cached for offline browsing. Page
-loads, editor and frontend requests make no catalog or preview network calls.
-Consented metadata updates run separately through WordPress cron; ordinary cron
-scheduling must be available for updates to complete. Invalid updates preserve
-the last valid list and show an offline status.
-For a discovered release the screen shows its available version alongside any
-installed version. An authorized administrator
-must choose **Install** or **Update** to download that exact package from its
-pinned GitHub release and store the verified contents on the site. Installation
-does not enable the library or its styles; use the separate **Library** screen
-after installation. A failed or interrupted job can be retried or resumed with
-another explicit action. Reloading the screen reads saved job status without
-starting a download, and editor, frontend, and status reads do not install
-packages.
-
-**Uninstall** removes a downloaded library from the installed list and new icon
-selections. Its immutable artwork and saved identities remain locally available
-for existing posts; this action does not free their storage. Reinstall each style
-separately to validate its exact package again. Reinstalled styles stay disabled.
-Queued/running installations must finish first, and every removal requires the
-same administrator, file-modification policy and nonce checks as installation.
-
-Updates retain previously saved icon names when an icon is removed from a new
-package, and disabling a library or style hides it from new selections while
-keeping existing saved blocks resolvable while the plugin and stored files
-remain available. See [Icon Lifecycle](#icon-lifecycle) for the limits of that
-compatibility.
-
-See the [optional-library runtime contract](docs/optional-libraries.md) for
-ownership, recovery boundaries and packaged-runtime acceptance checks.
-See [discovery, preview and upgrade behavior](docs/discovery-and-preview.md) for
-network consent, trust assumptions, bounds, the GitHub pack layout and policy gates.
-
 ## Requirements And Quick Start
 
 Requires **WordPress 7.1+** and **PHP 7.4+**.
 
 1. Install the plugin ZIP through **Plugins > Add New Plugin > Upload Plugin**
    and activate Aculect Icon Library.
-2. Open **Appearance > Icons**, browse the available libraries immediately,
-   preview a supported release, then explicitly install it when available.
-3. Open **Library**, select the installed collection and enable it and its variants.
+2. Open **Appearance > Icons > Install Library**, preview a bundled family,
+   and select **Install Library**. Its files are already included in the plugin;
+   this action does not download anything.
+3. Switch to **Library**, open the selected family, and enable the styles you
+   want to use.
 4. Edit a post or page, insert the native **Icon** block, and select an icon.
 5. Adjust the block's sizing and styling, then save your content.
 
@@ -193,6 +161,8 @@ The core ID intentionally uses one namespace separator because the current
 - `GET /wp-json/icon-library/v1/collections`
 - `POST /wp-json/icon-library/v1/collections/{slug}/activate`
 - `POST /wp-json/icon-library/v1/collections/{slug}/deactivate`
+- `POST /wp-json/icon-library/v1/collections/{slug}/install` (select a bundled library, initially disabled)
+- `POST /wp-json/icon-library/v1/collections/{slug}/remove` (remove the selection, retaining saved artwork)
 - `POST /wp-json/icon-library/v1/collections/{slug}/variants/{variant}/activate`
 - `POST /wp-json/icon-library/v1/collections/{slug}/variants/{variant}/deactivate`
 - `GET /wp-json/icon-library/v1/icons` (paginated catalog with variant facets)
@@ -214,17 +184,22 @@ through the core Abilities API and can also be used with `wp ability list` and
 
 - `icon-library/search-icons`: search enabled libraries and return safe icon metadata.
 - `icon-library/get-icon`: validate one enabled icon name and return its metadata.
-- `icon-library/list-icon-blocks`: list editable post `core/icon` blocks with stable block-tree paths and a `modified_gmt` token for stale-write protection.
+- `icon-library/list-icon-blocks`: list editable post `core/icon` blocks with stable block-tree paths, `modified_gmt`, and a SHA-256 `content_hash` token.
 - `icon-library/insert-icon-block`: insert a `core/icon` block at the root or inside a container.
 - `icon-library/replace-icon-block`: assign a different icon and selected accessible presentation attributes to an existing block.
 - `icon-library/remove-icon-block`: remove one `core/icon` block by path.
 
 Read abilities require editor-style icon access. Post discovery and all content
 mutations require the caller to have `edit_post` capability for the target
-post. Mutation inputs accept an optional `expected_modified_gmt` value (returned
-by `list-icon-blocks`) to detect changes completed before an operation starts.
-This timestamp check is not an atomic write guard: concurrent editor or agent
-writes can still race. Do not run concurrent mutations against the same post.
+post. Send the returned `content_hash` as `expected_content_hash` with a mutation
+to detect stale client content, including changes within the same second.
+The optional `expected_modified_gmt` remains supported for older clients, but
+its seconds-resolution timestamp cannot detect every stale client snapshot.
+Every mutation also compares the original content and timestamp under a database
+row lock before calling WordPress's post-update API. Conflicts return HTTP 409;
+refresh the block list and recompute the edit instead of blindly retrying it.
+These guarded writes require transactional storage and refuse to run inside a
+caller's active transaction. Unsupported database contexts fail without saving.
 Nested edits preserve WordPress's child placeholders. Insertion into an empty
 container is supported only when its HTML insertion point is unambiguous;
 unsupported containers are rejected without saving changes.
@@ -240,6 +215,11 @@ icons, allowing existing saved blocks and individual icon requests to render.
 The same rule applies when an individual variant is disabled: its style
 collection is hidden from new selections, while existing registered names
 continue to resolve.
+
+**Remove from Library** also hides the family from new selections, without
+deleting its bundled SVGs. Saved icons continue to render while the plugin is
+active and the files remain available. Installing it again restores the family
+to Library; enabling styles is a separate action.
 
 WordPress stores an Icon block's registered name rather than a copy of its SVG.
 Deactivating or uninstalling the provider plugin therefore makes those icons
@@ -269,6 +249,17 @@ deleting them. There is no user-facing archive or restore workflow. Plugin unins
 removes custom icon metadata and the plugin-owned SVG files, which prevents
 retained post content from resolving those icons.
 
+Names present in legacy archived custom-icon metadata are also reserved.
+Uploading different artwork under an archived name is rejected; use a new name
+so saved blocks cannot silently change appearance.
+
+Uninstall cleanup is scoped to the current site's custom-icon storage and
+settings. It does not sweep every site in a multisite network or erase retained
+downloaded-provider artwork from earlier experimental versions. Back up and
+review those stores separately; removing the plugin can stop saved icons from
+rendering even when their artwork is retained. No network-wide or provider-data
+deletion is performed implicitly.
+
 ## Importing bundled libraries
 
 ```bash
@@ -295,15 +286,22 @@ and fail if the approved source or exclusion counts change.
 ## Development
 
 Install the development tools with `composer install`. Tests use WordPress's
-real block parser and serializer. Set `WP_CORE_DIR` to a WordPress checkout when
-the plugin is not inside a site's `wp-content/plugins` directory. Node.js 20+
-is required for the dependency-free admin navigation tests.
+real block parser and serializer. Set `WP_CORE_DIR` to a WordPress 7.1+ checkout
+when the plugin is not inside a site's `wp-content/plugins` directory.
+Build tooling requires Node.js 20.19+ and npm 10.2.3+.
 
 ```bash
+composer install
+npm ci
 composer check
-node --test tests/*.test.js
+npm run test:js
+npm run build
 composer package
 ```
+
+Deterministic packaging needs a build PHP whose Zip extension supports
+`ZipArchive::setMtimeName()`. See [Contributing](CONTRIBUTING.md#development-setup)
+for the separate builder used with older PHP 7.4 Zip extensions.
 
 After importing or changing bundled manifests, run `composer catalog` to
 regenerate compact `metadata.json` files. `composer check` rejects stale metadata.
@@ -312,26 +310,26 @@ Provider callbacks are cached within a request; providers that change during
 that request must call `CollectionRegistry::clear_request_caches()`. Stored
 library/variant/custom-icon option changes invalidate derived registry caches.
 
-See `docs/remediation-status.md` for the review fixes, measured scope, and
-remaining concurrency and browser-proof work.
+See [quality fixes](docs/quality-fixes.md) for the scoped remediation record and
+the [release checklist](docs/release-checklist.md) for required current-candidate
+proof. Historical review notes do not establish present release readiness.
 
-`composer package` creates a versioned release ZIP in `build/`, using the plugin
-version in its filename, from an explicit production allowlist. SVG files referenced by validated library manifests
-remain available through the documented Heroicons legacy size aliases.
+`composer package` creates one versioned bundled ZIP in `build/` from an explicit
+production allowlist. It includes all ten supported families, manifest assets,
+license and exclusion material, and Heroicons aliases. The archive includes
+deterministic `data/package-profile.json` metadata. `--bridge` is unsupported.
+Packaging does not publish or deploy the artifact.
 The root `.distignore` mirrors the development paths excluded by compatible
 WordPress distribution tooling; the built-in packager keeps its stricter
 allowlist so an unexpected repository file cannot enter a release.
 
-GitHub Actions runs the same checks and production packaging for semver release
-and pre-release tags, then uploads the ZIP as a workflow artifact and GitHub
-release asset. Prereleases also upload directory images as a separate preview
-artifact and do not write to WordPress.org. Stable releases are configured to
-deploy the verified ZIP through 10up's WordPress deploy action, with
-`.wordpress-org/` images sent to SVN `/assets`, separate from plugin files.
-Deployment requires the release environment's SVN credentials and repository
-access. See [WordPress.org branding](docs/branding/README.md) for asset sizes,
-validation, and release routing. Workflow configuration alone does not confirm
-a successful directory deployment.
+GitHub Actions validates release and pre-release tags. Both public release
+workflows remain fail-closed before artifact upload or GitHub publication until
+separate owner release approval; the stable workflow also gates WordPress.org
+deployment. Do not change either gate as part of package preparation. See
+[WordPress.org branding](docs/branding/README.md) for asset sizes, validation
+and release routing; workflow configuration alone does not confirm a successful
+directory deployment.
 
 Library authors should follow `schemas/collection-manifest.schema.json`, use
 stable namespaced IDs, include source revision and license metadata, and run
@@ -363,16 +361,24 @@ They remain hidden from discovery to avoid duplicate results. Legacy Heroicons
 present. Installing or uninstalling a library controls discovery of all its
 styles; individual styles can also be enabled or disabled from the library
 detail screen. Core prepares its own REST responses, including fields added by
-other plugins. Aculect Icon Library only filters discovery results through
-`rest_request_after_callbacks`; it does not replace the picker UI or widen
+other plugins. Aculect Icon Library filters discovery through
+`rest_request_after_callbacks` and enhances the Icon block's chooser with
+bounded search and pagination. It retains the native block and does not widen
 WordPress's global SVG sanitizer.
 
 ## Documentation And Licenses
 
 - [WordPress.org readme and FAQ](readme.txt)
+- [Product scope and saved-icon behavior](PRODUCT.md)
+- [Admin design and interaction guidance](DESIGN.md)
 - [Contributor and development workflow](CONTRIBUTING.md)
+- [Release checks](docs/release-checklist.md)
 - [Release downloads and notes](https://github.com/mehul0810/aculect-icon-library/releases)
 - [Bug reports](https://github.com/mehul0810/aculect-icon-library/issues)
+
+Report security concerns through
+[private security advisories](https://github.com/mehul0810/aculect-icon-library/security/advisories/new).
+Keep sensitive details out of public issues.
 
 Aculect Icon Library is licensed under GPLv2 or later. Bundled icon libraries
 retain their upstream licenses: [Heroicons (MIT)](https://github.com/tailwindlabs/heroicons),

@@ -39,6 +39,12 @@ request.
 
 Requirements are WordPress 7.1+, PHP 7.4+, Composer, Node.js 20.19+, and
 npm 10.2.3+.
+Deterministic ZIP packaging additionally requires a build PHP whose Zip extension
+provides `ZipArchive::setMtimeName()`. A PHP 7.4 test environment with an older
+Zip extension can set `ICON_LIBRARY_BUILD_PHP=/path/to/build-php` when running
+`composer check`; only the isolated package-builder subprocess uses that executable.
+The remaining PHP tests still run under PHP 7.4. Run `composer package` itself
+with the build PHP, and do not treat this override as a PHP 7.4 runtime pass.
 The PHPUnit bootstrap loads WordPress's real block parser. In a standalone
 clone outside `wp-content/plugins`, point `WP_CORE_DIR` to a WordPress 7.1+
 checkout whose root contains `wp-includes/blocks.php`.
@@ -65,6 +71,10 @@ dependencies, credentials, local configuration, or unrelated working-tree
 changes.
 
 ## Product Safety
+
+Read [PRODUCT.md](PRODUCT.md) for the approved 1.2.0 scope and saved-icon
+contract, and [DESIGN.md](DESIGN.md) before changing admin interactions. The
+Install Library action selects bundled files; it does not download artwork.
 
 - Treat custom SVG input as hostile. Preserve the established sanitizer and
   normalizer contract; do not weaken it merely to accept another export.
@@ -117,3 +127,26 @@ responsible for every line and claim. Before submitting:
   broaden scope without maintainer direction.
 
 Repository-specific agent instructions are in [AGENTS.md](AGENTS.md).
+
+## Documentation Changes
+
+Keep user-facing claims aligned between `README.md` and `readme.txt`. Verify
+styles against bundled manifests and usage steps against the actual admin UI.
+Use [PRODUCT.md](PRODUCT.md) for scope and [DESIGN.md](DESIGN.md) for interaction
+conventions; retained experimental code is not a production feature.
+
+Use natural, task-specific language in listing copy. Keep the short description
+within 150 characters, use no more than five relevant tags, and validate the
+result with the [official readme validator](https://wordpress.org/plugins/developers/readme-validator/).
+Changing copy does not establish search-ranking or installation gains.
+
+List each newly supported icon library separately in the changelog using
+`* Added support for [Library](official-url).` and a short style/subset qualifier
+where necessary. Preserve older history and omit internal iterations and
+abandoned implementation plans.
+
+For documentation-only work, check claims, links, metadata, Markdown/readme
+structure, and `git diff --check`. Rebuild a local package when its included
+readme changes, compare member contents, and record its new identity. Reuse
+unchanged runtime evidence only within its original scope; publication still
+requires the applicable authorization.

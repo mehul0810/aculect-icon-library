@@ -10,6 +10,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 delete_option( 'icon_library_enabled_collections' );
+delete_option( 'icon_library_installed_collections' );
 delete_option( 'icon_library_enabled_variants' );
 delete_option( 'icon_library_custom_icons' );
 delete_option( 'icon_library_custom_icons_lock' );

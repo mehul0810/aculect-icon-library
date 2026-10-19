@@ -9,8 +9,13 @@ use IconLibrary\Build\CollectionBuild;
 
 $root = dirname( __DIR__ );
 
-if ( PHP_SAPI !== 'cli' ) {
+if ( 'cli' !== PHP_SAPI ) {
 	fwrite( STDERR, "This script must run from the command line.\n" );
+	exit( 1 );
+}
+
+if ( count( $argv ) > 1 ) {
+	fwrite( STDERR, "Usage: php scripts/package-release.php\n" );
 	exit( 1 );
 }
 
@@ -18,6 +23,10 @@ require_once __DIR__ . '/lib/CollectionBuild.php';
 
 if ( ! class_exists( 'ZipArchive' ) ) {
 	fwrite( STDERR, "The Zip extension is required.\n" );
+	exit( 1 );
+}
+if ( ! method_exists( 'ZipArchive', 'setMtimeName' ) ) {
+	fwrite( STDERR, "Deterministic packaging requires a PHP Zip extension with ZipArchive::setMtimeName(). Use a build PHP with this method.\n" );
 	exit( 1 );
 }
 
@@ -34,7 +43,7 @@ if ( ! preg_match( '/^Stable tag:\s*(\S+)/mi', $readme, $stable_match ) || $vers
 	exit( 1 );
 }
 
-$files        = array(
+$files            = array(
 	'.' => array(
 		'aculect-icon-library.php',
 		'uninstall.php',
@@ -43,7 +52,6 @@ $files        = array(
 		'assets/admin.css',
 		'assets/aculect-icon.svg',
 		'assets/admin.js',
-		'assets/library-installer.js',
 		'assets/build/custom-icons-dataviews.asset.php',
 		'assets/build/custom-icons-dataviews.js',
 		'assets/src/custom-icons-dataviews.js',
@@ -53,43 +61,45 @@ $files        = array(
 		'assets/bounded-picker.css',
 	),
 );
-$catalog_path = $root . '/data/library-catalog.json';
-$catalog_raw  = is_file( $catalog_path ) && ! is_link( $catalog_path ) ? file_get_contents( $catalog_path ) : false;
-$catalog      = is_string( $catalog_raw ) && strlen( $catalog_raw ) <= 1048576 ? json_decode( $catalog_raw, true ) : null;
-if ( ! is_array( $catalog ) || 1 !== ( $catalog['schema_version'] ?? null ) || ! is_array( $catalog['libraries'] ?? null ) ) {
-	fwrite( STDERR, "Trusted library catalog is missing or invalid.\n" );
-	exit( 1 );
-}
-$catalog_keys = array();
-foreach ( $catalog['libraries'] as $entry ) {
-	if ( ! is_array( $entry ) || ! isset( $entry['library_id'], $entry['style_id'], $entry['release_version'], $entry['package_sha256'], $entry['manifest_sha256'], $entry['package_bytes'] ) || ! is_string( $entry['library_id'] ) || 1 !== preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $entry['library_id'] ) || ! is_string( $entry['style_id'] ) || 1 !== preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $entry['style_id'] ) || ! is_string( $entry['release_version'] ) || strlen( $entry['release_version'] ) > 64 || ! preg_match( '/^(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})(?:-([0-9A-Za-z.-]+))?(?:\+([0-9A-Za-z.-]+))?$/', $entry['release_version'], $version_parts ) || ! is_string( $entry['package_sha256'] ) || 1 !== preg_match( '/^[a-f0-9]{64}$/', $entry['package_sha256'] ) || ! is_string( $entry['manifest_sha256'] ) || 1 !== preg_match( '/^[a-f0-9]{64}$/', $entry['manifest_sha256'] ) || ! is_int( $entry['package_bytes'] ) || $entry['package_bytes'] < 1 || $entry['package_bytes'] > 33554432 ) {
-		fwrite( STDERR, "Trusted library catalog entry is invalid.\n" );
-		exit( 1 );
-	}
-	foreach ( array( 4, 5 ) as $part_index ) {
-		if ( empty( $version_parts[ $part_index ] ) ) {
-			continue; }
-		foreach ( explode( '.', $version_parts[ $part_index ] ) as $identifier ) {
-			if ( '' === $identifier || ( 4 === $part_index && ctype_digit( $identifier ) && strlen( $identifier ) > 1 && '0' === $identifier[0] ) ) {
-				fwrite( STDERR, "Trusted library catalog version is invalid.\n" );
-				exit( 1 );
-			}
-		}
-	}
-	$key           = $entry['library_id'] . '/' . $entry['style_id'] . '/' . $entry['release_version'];
-	$canonical_url = 'https://github.com/mehul0810/aculect-icon-libraries/releases/download/' . rawurlencode( $entry['library_id'] . '-' . $entry['style_id'] . '-' . $entry['release_version'] ) . '/' . rawurlencode( $entry['library_id'] . '-' . $entry['style_id'] . '-' . $entry['release_version'] . '.zip' );
-	if ( isset( $catalog_keys[ $key ] ) || ( isset( $entry['url'] ) && $entry['url'] !== $canonical_url ) ) {
-		fwrite( STDERR, "Trusted library catalog entry is duplicated or uses a non-canonical source.\n" );
-		exit( 1 );
-	}
-	$catalog_keys[ $key ] = true;
-}
-$files['.'][]     = 'data/library-catalog.json';
+$files['.']       = array_merge(
+	$files['.'],
+	array_map(
+		static function ( $file ) {
+			return 'src/' . $file . '.php';
+		},
+		array(
+			'AbilityRegistrar',
+			'AdminActions',
+			'AdminPage',
+			'BlockTreeEditor',
+			'CollectionRegistry',
+			'CoreDiscoveryFilter',
+			'CoreIconMetadataReader',
+			'CoreIconRegistrar',
+			'CustomIconRepository',
+			'CustomIconListing',
+			'CustomSvgNormalizer',
+			'DatabaseTransaction',
+			'IconBlockService',
+			'IconNameIndex',
+			'InstalledLibraryRepository',
+			'LibraryJobStore',
+			'ManifestLoader',
+			'OptionMutationLock',
+			'Plugin',
+			'PostContentWriter',
+			'RestController',
+			'SvgSanitizer',
+		)
+	)
+);
 $legacy_svg_paths = array();
+$profile          = array(
+	'schema_version' => 1,
+	'profile'        => 'bundled',
+	'icon_families'  => array(),
+);
 
-foreach ( glob( $root . '/src/*.php' ) as $source_file ) {
-	$files['.'][] = substr( $source_file, strlen( $root ) + 1 );
-}
 foreach ( glob( $root . '/assets/icons/*/manifest.json' ) as $manifest_path ) {
 	$collection      = basename( dirname( $manifest_path ) );
 	$manifest        = json_decode( file_get_contents( $manifest_path ), true );
@@ -101,9 +111,10 @@ foreach ( glob( $root . '/assets/icons/*/manifest.json' ) as $manifest_path ) {
 		}
 		exit( 1 );
 	}
-	$files['.'][] = 'assets/icons/' . $collection . '/manifest.json';
-	$files['.'][] = 'assets/icons/' . $collection . '/metadata.json';
-	$files['.'][] = 'assets/icons/' . $collection . '/LICENSE';
+	$files['.'][]               = 'assets/icons/' . $collection . '/manifest.json';
+	$files['.'][]               = 'assets/icons/' . $collection . '/metadata.json';
+	$files['.'][]               = 'assets/icons/' . $collection . '/LICENSE';
+	$profile['icon_families'][] = $collection;
 	if ( is_file( $root . '/assets/icons/' . $collection . '/exclusions.json' ) ) {
 		$files['.'][] = 'assets/icons/' . $collection . '/exclusions.json';
 	}
@@ -127,6 +138,19 @@ foreach ( glob( $root . '/assets/icons/*/manifest.json' ) as $manifest_path ) {
 		}
 	}
 }
+
+sort( $profile['icon_families'] );
+if ( 10 !== count( $profile['icon_families'] ) ) {
+	fwrite( STDERR, "Exactly ten bundled icon families are required for this package.\n" );
+	exit( 1 );
+}
+
+$profile_json = json_encode( $profile, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
+if ( ! is_string( $profile_json ) ) {
+	fwrite( STDERR, "Package profile could not be encoded.\n" );
+	exit( 1 );
+}
+$generated_files = array( 'data/package-profile.json' => $profile_json . "\n" );
 
 $files = array_values( array_unique( $files['.'] ) );
 sort( $files );
@@ -154,7 +178,8 @@ if ( ! is_dir( $build_dir ) && ! mkdir( $build_dir, 0775, true ) ) {
 	exit( 1 );
 }
 
-$destination = $build_dir . '/aculect-icon-library.' . $version . '.zip';
+$suffix      = '.' . $version;
+$destination = $build_dir . '/aculect-icon-library' . $suffix . '.zip';
 $temporary   = $destination . '.tmp';
 if ( file_exists( $temporary ) ) {
 	unlink( $temporary );
@@ -187,6 +212,15 @@ foreach ( $files as $relative_path ) {
 		exit( 1 );
 	}
 }
+foreach ( $generated_files as $relative_path => $content ) {
+	$archive_path = 'aculect-icon-library/' . $relative_path;
+	$added        = $zip->addFromString( $archive_path, $content );
+	if ( ! $added || ! $zip->setMtimeName( $archive_path, $timestamp ) || ! $zip->setCompressionName( $archive_path, ZipArchive::CM_DEFLATE, 9 ) ) {
+		$zip->close();
+		fwrite( STDERR, sprintf( "Could not add package file: %s\n", $relative_path ) );
+		exit( 1 );
+	}
+}
 if ( ! $zip->close() ) {
 	fwrite( STDERR, "Release ZIP could not be closed.\n" );
 	exit( 1 );
@@ -207,18 +241,44 @@ $verification = new ZipArchive();
 $opened       = $verification->open( $destination );
 // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- ZipArchive exposes this standard property name.
 $entry_count = true === $opened ? $verification->numFiles : 0;
-if ( true !== $opened || count( $files ) !== $entry_count ) {
+if ( true !== $opened || count( $files ) + count( $generated_files ) !== $entry_count ) {
 	if ( true === $opened ) {
 		$verification->close();
 	}
 	fwrite( STDERR, "Release ZIP verification failed.\n" );
 	exit( 1 );
 }
+$profile_entry    = $verification->getFromName( 'aculect-icon-library/data/package-profile.json' );
+$verified_profile = is_string( $profile_entry ) ? json_decode( $profile_entry, true ) : null;
+$profile_schema   = is_array( $verified_profile ) ? ( $verified_profile['schema_version'] ?? null ) : null;
+$profile_name     = is_array( $verified_profile ) ? ( $verified_profile['profile'] ?? null ) : null;
+$profile_families = is_array( $verified_profile ) ? ( $verified_profile['icon_families'] ?? null ) : null;
+if ( ! is_array( $verified_profile ) || 1 !== $profile_schema || 'bundled' !== $profile_name || $profile['icon_families'] !== $profile_families ) {
+	$verification->close();
+	fwrite( STDERR, "Package profile verification failed.\n" );
+	exit( 1 );
+}
+for ( $index = 0; $index < $entry_count; ++$index ) {
+	$name = $verification->getNameIndex( $index );
+	if ( ! is_string( $name ) ) {
+		continue;
+	}
+	if ( 0 === strpos( $name, 'aculect-icon-library/assets/icons/' ) && ! in_array( substr( $name, strlen( 'aculect-icon-library/' ) ), $files, true ) ) {
+		$verification->close();
+		fwrite( STDERR, "Package contains an unexpected bundled-library path.\n" );
+		exit( 1 );
+	}
+	if ( preg_match( '#^aculect-icon-library/(src/(LibraryInstaller|LibraryAdminController|LibraryPackageValidator|TrustedLibraryCatalog|LibraryDiscoveryCatalog|LibraryDiscoveryController|LegacyAssetStore|LegacyMigration)\.php|assets/library-installer\.js|data/library-catalog\.json)$#', $name ) ) {
+		$verification->close();
+		fwrite( STDERR, "Package contains deferred runtime installation or migration code.\n" );
+		exit( 1 );
+	}
+}
 $verification->close();
 
 printf(
 	"Built %s (%d files, sha256 %s).\n",
 	$destination,
-	count( $files ),
+	count( $files ) + count( $generated_files ),
 	hash_file( 'sha256', $destination )
 );

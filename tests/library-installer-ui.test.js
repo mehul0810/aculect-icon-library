@@ -102,3 +102,37 @@ test( 'already-installed response succeeds without attempting to run an empty jo
 	assert.equal( status.textContent, 'complete' );
 	assert.equal( reloads, 1 );
 } );
+
+for ( const scenario of [ 'failed', 'succeeded', 'unreadable', 'superseded' ] ) {
+	test( `an interrupted run recovers durable status without retrying: ${ scenario }`, async () => {
+		const calls = [], handlers = {}, status = { textContent: '' }, button = { disabled: false };
+		let reloads = 0;
+		const group = { isConnected: true, querySelector: () => status };
+		const form = {
+			isConnected: true, closest: () => group, querySelector: () => button,
+			elements: { library: { value: 'sample-icons' }, style: { value: 'outline' }, version: { value: '1.2.3' } },
+			setAttribute() {}, removeAttribute() {}
+		};
+		const window = {
+			document: { addEventListener: ( name, handler ) => { handlers[ name ] = handler; } },
+			wp: { apiFetch: request => {
+				calls.push( request );
+				if ( calls.length === 1 ) return Promise.resolve( { job_id: 'job-123', status: 'queued' } );
+				if ( calls.length === 2 || scenario === 'unreadable' ) return Promise.reject( new Error( 'Interrupted transport' ) );
+				return Promise.resolve( { job: { job_id: scenario === 'superseded' ? 'job-new' : 'job-123', style_id: 'outline', release_version: '1.2.3', status: scenario === 'succeeded' ? 'succeeded' : 'failed', error: 'Outbound downloads are blocked.' } } );
+			} },
+			iconLibraryInstaller: { restPath: '/icon-library/v1/library-packages/', nonce: 'nonce-123', i18n: { working: 'working', complete: 'complete', failed: 'failed', unknown: 'unknown' } },
+			setInterval: () => 1, clearInterval() {}, location: { reload() { reloads++; } }
+		};
+		vm.runInNewContext( fs.readFileSync( require.resolve( '../assets/library-installer.js' ), 'utf8' ), { window } );
+		handlers.submit( { target: { closest: () => form }, preventDefault() {} } );
+		await new Promise( resolve => setImmediate( resolve ) );
+		assert.equal( calls.length, 3 );
+		assert.equal( calls.filter( request => request.method === 'POST' ).length, 2 );
+		assert.equal( calls[ 2 ].path, '/icon-library/v1/library-packages/sample-icons/jobs' );
+		assert.equal( calls[ 2 ].method, undefined );
+		assert.equal( button.disabled, false );
+		assert.equal( status.textContent, scenario === 'failed' ? 'Outbound downloads are blocked.' : scenario === 'succeeded' ? 'complete' : 'unknown' );
+		assert.equal( reloads, scenario === 'succeeded' ? 1 : 0 );
+	} );
+}

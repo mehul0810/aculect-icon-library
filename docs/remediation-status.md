@@ -1,5 +1,9 @@
 # Review Remediation
 
+This is a historical remediation record. The October 19 bundled 1.2.0 quality
+follow-up is tracked in `docs/quality-fixes.md`; the stale-write limitation
+listed below describes the earlier implementation, not the current writer.
+
 Scope: local working tree on `main`, including the unreleased Abilities API work.
 No release, merge, commit, or push is part of this remediation.
 

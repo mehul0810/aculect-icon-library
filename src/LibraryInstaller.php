@@ -586,7 +586,7 @@ class LibraryInstaller {
 	 */
 	private function has_namespace_collision( $library_id, $style_id ) {
 		$occupied = array();
-		$loader   = new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' );
+		$loader   = LegacyMigration::legacy_loader();
 		foreach ( Plugin::legacy_collections( $loader ) as $slug ) {
 			$occupied[ $slug ] = $slug;
 			$manifest          = $loader->get_manifest( $slug );

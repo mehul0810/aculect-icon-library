@@ -43,8 +43,25 @@ class AdminActions {
 	/** Registers fallback form handlers. */
 	public function register() {
 		add_action( 'admin_post_icon_library_toggle_collection', array( $this, 'toggle_collection' ) );
+		add_action( 'admin_post_icon_library_select_collection', array( $this, 'select_collection' ) );
 		add_action( 'admin_post_icon_library_toggle_variant', array( $this, 'toggle_variant' ) );
 		add_action( 'admin_post_icon_library_upload_custom_icon', array( $this, 'upload_custom_icon' ) );
+	}
+
+	/** Handles local bundle selection with a non-JavaScript fallback. */
+	public function select_collection() {
+		$this->authorize();
+		check_admin_referer( 'icon_library_select_collection' );
+		$collection = isset( $_POST['collection'] ) && is_string( $_POST['collection'] ) ? sanitize_key( wp_unslash( $_POST['collection'] ) ) : '';
+		$state      = isset( $_POST['state'] ) && is_string( $_POST['state'] ) ? sanitize_key( wp_unslash( $_POST['state'] ) ) : '';
+		$result     = in_array( $state, array( 'install', 'remove' ), true ) && $this->collection_registry->set_collection_installed( $collection, 'install' === $state );
+		$this->redirect(
+			array(
+				'tab'                  => 'install',
+				'collection'           => $collection,
+				'icon-library-updated' => $result ? 1 : 0,
+			)
+		);
 	}
 
 	/** Handles a collection activation toggle. */
@@ -90,20 +107,26 @@ class AdminActions {
 		$tmp_name  = isset( $file['tmp_name'] ) && is_string( $file['tmp_name'] ) ? $file['tmp_name'] : '';
 		$file_name = isset( $file['name'] ) && is_string( $file['name'] ) ? $file['name'] : '';
 		$valid     = UPLOAD_ERR_OK === $error && '' !== $tmp_name && is_uploaded_file( $tmp_name ) && is_readable( $tmp_name );
+		$failure   = UPLOAD_ERR_NO_FILE === $error ? 'file_missing' : ( in_array( $error, array( UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE ), true ) ? 'file_size' : 'file_failed' );
 
 		if ( $valid && ( '' === $file_name || 'svg' !== strtolower( pathinfo( sanitize_file_name( $file_name ), PATHINFO_EXTENSION ) ) ) ) {
-			$valid = false;
+			$valid   = false;
+			$failure = 'file_type';
 		}
 		$size = $valid ? filesize( $tmp_name ) : false;
 		if ( $valid && ( false === $size || SvgSanitizer::MAX_FILE_SIZE < $size ) ) {
-			$valid = false;
+			$valid   = false;
+			$failure = 'file_size';
 		}
 
 		$result = $valid ? $this->custom_icons->create( $name, $label, (string) file_get_contents( $tmp_name ) ) : false;
+		if ( is_wp_error( $result ) ) {
+			$failure = $result->get_error_code();
+		}
 		$this->redirect(
 			array(
-				'tab'                  => 'custom',
-				'icon-library-updated' => ! is_wp_error( $result ) && false !== $result ? 1 : 0,
+				'tab' => 'custom',
+				( $valid && ! is_wp_error( $result ) && false !== $result ? 'icon-library-updated' : 'icon-library-upload-error' ) => $valid && ! is_wp_error( $result ) && false !== $result ? 1 : $failure,
 			)
 		);
 	}

@@ -310,7 +310,7 @@
 		// ignore stale responses, replace only the plugin shell, and fall back to a full load.
 		function navigateTo( url, addToHistory, moveFocus ) {
 		var admin = document.querySelector( '.icon-library-admin' );
-			var focusSelector = moveFocus ? ( 'string' === typeof moveFocus ? moveFocus : '.icon-library-panel h2, .icon-library-empty-state p' ) : '';
+			var focusSelector = 'string' === typeof moveFocus ? moveFocus : '.icon-library-panel h2, .icon-library-empty-state p';
 			var requestId = ++navigationId;
 			if ( navigationController ) {
 				navigationController.abort();
@@ -345,6 +345,9 @@
 				throw new Error( 'Navigation response was incomplete.' );
 			}
 
+			if ( 'function' === typeof window.iconLibraryUnmountCustomDataViews ) {
+				window.iconLibraryUnmountCustomDataViews();
+			}
 			admin.innerHTML = nextAdmin.innerHTML;
 			document.title = page.title;
 			var nextStatus = admin.querySelector( '.icon-library-status' );

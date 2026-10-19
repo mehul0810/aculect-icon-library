@@ -74,4 +74,34 @@ class BoundedPickerTest extends TestCase {
 		$this->assertSame( 1, $data['total'] );
 		$this->assertSame( 'bounded-solid/active', $data['items'][0]['name'] );
 	}
+
+	public function test_unsupported_registry_shape_fails_closed() {
+		wp_register_icon( 'external-invalid/one', array( 'label' => array(), 'content' => '<svg/>' ) );
+		$data = $this->fixture( 0, false )->get_picker_page();
+		$this->assertInstanceOf( WP_Error::class, $data );
+		$this->assertSame( 'icon_library_picker_registry_unsupported', $data->get_error_code() );
+	}
+
+	public function test_real_core_registry_keeps_external_artwork_lazy() {
+		$script = __DIR__ . '/fixtures/real-core-picker.php';
+		$process = proc_open( array( PHP_BINARY, $script ), array( 1 => array( 'pipe', 'w' ), 2 => array( 'pipe', 'w' ) ), $pipes );
+		$this->assertIsResource( $process );
+		$output = stream_get_contents( $pipes[1] );
+		$error = stream_get_contents( $pipes[2] );
+		fclose( $pipes[1] );
+		fclose( $pipes[2] );
+		$this->assertSame( 0, proc_close( $process ), $error . $output );
+		$this->assertStringContainsString( 'lazy and bounded', $output );
+	}
+
+	public function test_final_core_registry_fails_before_adapter_autoload() {
+		$process = proc_open( array( PHP_BINARY, __DIR__ . '/fixtures/final-core-picker.php' ), array( 1 => array( 'pipe', 'w' ), 2 => array( 'pipe', 'w' ) ), $pipes );
+		$this->assertIsResource( $process );
+		$output = stream_get_contents( $pipes[1] );
+		$error = stream_get_contents( $pipes[2] );
+		fclose( $pipes[1] );
+		fclose( $pipes[2] );
+		$this->assertSame( 0, proc_close( $process ), $error . $output );
+		$this->assertStringContainsString( 'before adapter autoload', $output );
+	}
 }

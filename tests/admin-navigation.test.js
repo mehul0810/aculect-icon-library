@@ -12,10 +12,12 @@ function harness( supportsAbort = true ) {
 	const history = [];
 	const classes = new Set();
 	const storage = new Map();
+	const focused = [];
+	let unmounts = 0;
 	const admin = {
 		innerHTML: 'initial',
 		classList: { add: ( value ) => classes.add( value ), remove: ( value ) => classes.delete( value ) },
-		querySelector: () => null,
+		querySelector: () => ( { setAttribute() {}, focus: () => focused.push( 'destination' ) } ),
 		setAttribute() {}, removeAttribute() {},
 	};
 	const document = {
@@ -24,6 +26,7 @@ function harness( supportsAbort = true ) {
 	};
 	const window = {
 		wp: {}, iconLibraryAdmin: null,
+		iconLibraryUnmountCustomDataViews: () => { unmounts++; },
 		location: { href: 'https://wp.test/wp-admin/themes.php?page=icon-library', origin: 'https://wp.test', assign: ( url ) => history.push( url ) },
 		history: { pushState: ( state, title, url ) => history.push( url ) },
 		sessionStorage: { getItem: ( key ) => storage.get( key ), setItem: ( key, value ) => storage.set( key, value ), removeItem: ( key ) => storage.delete( key ) },
@@ -43,7 +46,7 @@ function harness( supportsAbort = true ) {
 		requests[index].resolve( { ok: true, text: async () => html } );
 		await new Promise( ( resolve ) => setImmediate( resolve ) );
 	}
-	return { admin, requests, history, events, window, navigate, complete };
+	return { admin, requests, history, events, window, navigate, complete, focused, get unmounts() { return unmounts; } };
 }
 
 for ( const supportsAbort of [ true, false ] ) {
@@ -69,4 +72,16 @@ test( 'back navigation supersedes an in-flight link without adding history', asy
 	await h.complete( 0, 'browse' );
 	assert.equal( h.admin.innerHTML, 'library' );
 	assert.equal( h.history.length, 0 );
+} );
+
+test( 'navigation unmounts the Upload view and restores destination focus on Back and Forward', async () => {
+	const h = harness();
+	h.events.popstate();
+	await h.complete( 0, 'library' );
+	assert.equal( h.unmounts, 1 );
+	assert.deepEqual( h.focused, [ 'destination' ] );
+	h.events.popstate();
+	await h.complete( 1, 'custom' );
+	assert.equal( h.unmounts, 2 );
+	assert.deepEqual( h.focused, [ 'destination', 'destination' ] );
 } );

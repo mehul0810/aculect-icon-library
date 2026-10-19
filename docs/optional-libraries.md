@@ -1,124 +1,26 @@
-# Optional Library Runtime Contract
+# Optional Libraries
 
-The current discovery/preview and fresh-site behavior is specified in
-[discovery-and-preview.md](discovery-and-preview.md). The transactional installer
-contract below remains in effect. The existing reviewed local allowlist now
-also provides an immediate GitHub catalog snapshot. Optional consented background
-updates replace it with verified saved availability metadata.
+Optional downloaded-library installation is not part of the bundled 1.2.0
+release. The production package does not include the installer, discovery,
+transport, or runtime catalog data, and the release documentation makes no
+claim that those controls are available to users.
 
-This describes the local installer architecture and its acceptance checks. The
-catalog contains 35 prepared style/size descriptors across 13 families and
-retains the two earlier immutable candidate pins. All 15 planned families appear
-in the issue-backed metadata, including the Simple Icons and Keyline gates.
-The real GitHub catalog and previews are verified. Canonical full-package release
-URLs are published and independently HTTP-verified before those 35 entries are
-marked available. Simple Icons and Keyline cannot start installation jobs.
-This data publication does not authorize WordPress.org distribution or a stable
-plugin release.
+The **Install Library** tab selects from the ten families already bundled in
+the plugin ZIP. Selection adds one family to **Library** without enabling it.
+Disabling retains the selection. Removing the selection disables and hides the
+family from Library, but does not delete its packaged artwork or saved icon IDs.
+No package is downloaded or stored separately for this action.
 
-## Ownership And Trust
+The source tree contains implementation and research material for a possible
+future optional-library workflow. Its catalog, previews, network behavior,
+storage, permissions, recovery, and directory-policy questions remain outside
+the shipped 1.2.0 contract. Do not use this document as an installation guide
+or as evidence that remote installation is included in the release.
 
-The separate `aculect-icon-libraries` repository owns the data-only package
-format, immutable upstream/converter provenance, license notices and independent
-library/style release versions. The plugin owns a reviewed local catalog at
-`data/library-catalog.json`. Each entry pins the ZIP size, ZIP SHA-256, manifest
-SHA-256 and exact version. URLs are derived from the canonical GitHub release
-location; browser input cannot choose a URL, digest or storage path.
+## Deferred Acceptance Areas
 
-For local testing, an administrator explicitly starts an install from
-Appearance > Icons. Browsing the catalog does not download packages, and editor
-or frontend requests never contact the package host. Installed packages are
-validated and stored locally before they can be enabled. Catalog additions do
-not replace or migrate the plugin's already bundled libraries, saved icon
-identities, or their existing collection IDs.
-
-`TrustedLibraryCatalog` validates release descriptors and version precedence.
-`LibraryPackageValidator` checks bounded ZIP members, their digests, provenance,
-license data and path-only SVG compatibility before activation. Test-fixture
-provenance is accepted only through explicit server-side test injection.
-
-`LibraryInstaller` coordinates explicit queue, claim, validation, immutable file
-publication and activation. `LibraryJobStore` owns the current site's durable,
-non-autoloaded state row and byte-exact compare-and-swap writes.
-`InstalledLibraryRepository` owns local immutable files and adapts installed
-manifests to the existing collection-provider boundary. `LibraryAdminController`
-owns REST and non-JavaScript authorization; `AdminPage` owns presentation only.
-
-Provider hints are small request-local snapshots scoped by site and invalidated
-after every authoritative installer CAS. They preserve external namespace
-owners and do not cache raw job/lease state. Manifest and exact-name caches keep
-at most two collections per request; evicted metadata can be reread without
-removing registered SVGs or saved identities. This bounds mixed-library frontend
-memory instead of increasing the site's memory configuration.
-Authorized native icon-list REST requests use WordPress's existing per-request
-admin memory allowance, because Core returns complete collection SVG data.
-This does not change site configuration or the frontend allowance. Very large
-collections still produce large picker payloads; measured budgets and directory
-acceptance remain release-review decisions.
-
-## State And Compatibility
-
-- Queueing pins the complete trusted descriptor. Retrying or resuming an
-  existing job does not reinterpret its version using a changed catalog.
-- An attempt claims a generation and expiring lease. Progress, failure and
-  activation require that same unexpired lease. The active pointer and success
-  status are written together. Failed attempts retain the previously active
-  version; a superseded worker cannot activate over its replacement.
-- Files are immutable and are activated only after validation. Existing saved
-  identities cannot be reassigned. Removed icons retain their prior file paths
-  and are excluded from discovery while exact saved names remain resolvable.
-- Installation and collection/style enablement are separate actions. Disabling
-  discovery does not delete local files or saved identities. Deactivating the
-  plugin is outside this saved-icon guarantee.
-- Explicit library Uninstall disables collection discovery, marks its styles
-  uninstalled in the same durable CAS row and invalidates failed-job leases.
-  Queued/running jobs block removal. All immutable files, identity reservations
-  and saved-icon manifests remain available for exact saved-name rendering.
-  Retained-only providers are absent from collection lists and cannot be enabled.
-- Reinstall queues a new bounded validation/download attempt even at the same
-  version. Only the selected style becomes installed again; the library stays
-  disabled and other retained styles remain hidden. Failed reinstallation keeps
-  the retained artwork resolvable. An older plugin rollback ignores the additive
-  flags and may show retained libraries as installed, still disabled; no data is
-  removed by the upgrade or rollback.
-- Recovery entries absent from the current catalog offer only the existing
-  job's Retry/Resume action, not a new Install/Update action.
-- State, storage paths and path grants are site-scoped. Site switches invalidate
-  provider caches and remove this registrar's own Core entries before lazy
-  registration for the current site. External Core registrations are retained.
-
-## Runtime Acceptance
-
-Run the commands in `AGENTS.md`, then install the exact production ZIP in a
-disposable WordPress instance. Record its SHA-256 and bytes. Source-checkout or
-mocked tests do not replace packaged runtime evidence.
-
-Test the ordinary admin REST request without preloading administrative PHP
-helpers. The installer must load the Core file helper when needed; a unit
-bootstrap's `wp_tempnam` stub can otherwise hide a real REST failure. Exercise
-the non-JavaScript form independently as it has a different bootstrap path.
-
-Use explicit test-only catalog/transport injection outside the packaged plugin
-for local fixtures. Keep the installed/enabled collection state empty on fresh
-sites, block outbound HTTP and mail by default, and use only synthetic
-users/content. Cover:
-
-- Immediate supported-library listing with empty cache and no automatic network
-  contact, consented delayed metadata updates, stale/offline cache, repeated
-  opens, malformed indexes and preference revocation.
-
-- First install, separate enablement, Core picker insertion, save/reopen and
-  frontend rendering from local files.
-- Update with a removed icon, a second style, disabled discovery and retained
-  saved rendering, including same-request Core list and exact-icon reads.
-- Corrupt/truncated downloads, timeouts, explicit retry, interruption/resume,
-  duplicate submissions, downgrade rejection and immutable identity conflicts.
-- Invalid nonce, unauthorized roles, file-modification policy and multisite
-  super-admin authority. Read-only requests must not start jobs or downloads.
-- Stale worker activation, first-CAS retry, site A/B isolation and restoring a
-  previously selected site within the same request.
-- Desktop/mobile layout, keyboard operation and truthful failure/progress state.
-
-Report each case as passed, failed or unverified. A local injected download does
-not prove a live GitHub redirect/download, source-owner approval, WordPress.org
-distribution acceptance, or compatibility with an untested PHP/WordPress version.
+Before any such workflow is proposed for a later release, its owner must review
+the trust and licensing model, consent and privacy disclosures, package and
+runtime boundaries, authorization and failure paths, WordPress.org policy, and
+the exact production ZIP. Source tests or local package construction alone do
+not establish that a feature ships or is approved for distribution.

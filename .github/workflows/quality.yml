@@ -35,6 +35,21 @@ jobs:
         php: ['7.4', '8.4']
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Set up package builder for minimum-PHP tests
+        if: matrix.php == '7.4'
+        uses: shivammathur/setup-php@b604ade2a87db23f8871b7182e69ec5e75effb45 # v2
+        with:
+          php-version: '8.4'
+          extensions: dom, libxml, zip
+          coverage: none
+      - name: Preserve package-builder executable
+        if: matrix.php == '7.4'
+        shell: bash
+        run: |
+          set -euo pipefail
+          build_php="$(readlink -f "$(command -v php)")"
+          "$build_php" -r 'exit(method_exists("ZipArchive", "setMtimeName") ? 0 : 1);'
+          echo "ICON_LIBRARY_BUILD_PHP=$build_php" >> "$GITHUB_ENV"
       - uses: shivammathur/setup-php@b604ade2a87db23f8871b7182e69ec5e75effb45 # v2
         with:
           php-version: ${{ matrix.php }}
@@ -48,9 +63,9 @@ jobs:
           test -n "$version"
           echo "value=$version" >> "$GITHUB_OUTPUT"
       - run: composer install --no-interaction --prefer-dist
-      - name: Install block parser test dependency
+      - name: Install WordPress test dependencies
         run: |
-          curl --fail --silent --show-error --location https://wordpress.org/wordpress-6.8.tar.gz -o /tmp/wordpress.tar.gz
+          curl --fail --silent --show-error --location https://wordpress.org/wordpress-7.1.2.tar.gz -o /tmp/wordpress.tar.gz
           tar -xzf /tmp/wordpress.tar.gz -C /tmp
           echo "WP_CORE_DIR=/tmp/wordpress" >> "$GITHUB_ENV"
       - run: composer check
@@ -97,14 +112,16 @@ jobs:
           plugin_dir="$GITHUB_WORKSPACE/build/plugin-check/aculect-icon-library"
           plugin_slug="$(basename "$plugin_dir")"
           wp_env="$GITHUB_WORKSPACE/.github/plugin-check/node_modules/.bin/wp-env"
-          wp_version="7.1.1"
+          wp_version="7.1.2"
           plugin_check_version="2.1.0"
 
+          mkdir -p build/plugin-check-output
           cat > .wp-env.json <<EOF
-          { "core": "WordPress/WordPress#$wp_version", "port": 8880, "testsPort": 8881, "mappings": { "wp-content/plugins/$plugin_slug": "$plugin_dir" } }
+          { "core": "WordPress/WordPress#$wp_version", "port": 8880, "testsPort": 8881, "mappings": { "wp-content/plugins/$plugin_slug": "$plugin_dir", "wp-content/plugin-check-output": "$GITHUB_WORKSPACE/build/plugin-check-output" } }
           EOF
 
           "$wp_env" start --update
           "$wp_env" run cli wp plugin install plugin-check --version="$plugin_check_version" --activate
           "$wp_env" run cli wp plugin activate "$plugin_slug"
-          "$wp_env" run cli wp plugin check "$plugin_slug" --format=json --exclude-files=.wp-env.json --require=./wp-content/plugins/plugin-check/cli.php
+          "$wp_env" run cli sh -c 'wp plugin check "$1" --format=strict-json --no-color --exclude-files=.wp-env.json --require=./wp-content/plugins/plugin-check/cli.php > /var/www/html/wp-content/plugin-check-output/report.txt' sh "$plugin_slug"
+          php scripts/validate-plugin-check.php build/plugin-check-output/report.txt

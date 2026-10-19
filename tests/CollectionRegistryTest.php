@@ -109,7 +109,9 @@ class CollectionRegistryTest extends TestCase {
 			$this->assertSame( 3, $result['total'] );
 		}
 		$cache = new ReflectionProperty( CollectionRegistry::class, 'filtered_icon_cache' );
-		$cache->setAccessible( true );
+		if ( PHP_VERSION_ID < 80100 ) {
+			$cache->setAccessible( true );
+		}
 		$this->assertCount( 4, $cache->getValue( $registry ) );
 	}
 

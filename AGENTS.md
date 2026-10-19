@@ -1,7 +1,57 @@
 # AI Agent Instructions
 
 These instructions apply to AI-assisted work in this repository. Read
-[CONTRIBUTING.md](CONTRIBUTING.md) before making changes.
+[CONTRIBUTING.md](CONTRIBUTING.md), [PRODUCT.md](PRODUCT.md), and
+[DESIGN.md](DESIGN.md) before making changes. Product and design documents
+describe the approved contract; verify implementation and package contents
+before treating a feature or validation result as delivered.
+
+## Product And Documentation Boundaries
+
+- The 1.2.0 deliverable is one bundled plugin containing ten curated families.
+  **Install Library** selects bundled artwork locally and leaves it disabled;
+  **Library** enables styles; **Upload** manages custom SVGs. No download is
+  involved. Keep selection and activation distinct.
+- Disabling or removing a bundled selection must preserve saved icon names and
+  artwork. Permanent custom-icon deletion is destructive; never describe it as
+  archival. Legacy archived names remain reserved against replacement uploads.
+- Runtime downloads, remote discovery, and bridge/preservation-stage plans are
+  deferred. Source files and historical experiments do not establish a shipped
+  feature. Verify the production allowlist in `scripts/package-release.php`.
+- Preserve the native `core/icon` block and existing identifier contracts. Do
+  not introduce a second block, a font/CDN requirement, or network dependencies
+  as an incidental change.
+- Keep `README.md`, `readme.txt`, `PRODUCT.md`, and relevant usage docs aligned
+  when behavior changes. Update `DESIGN.md` when an interaction contract changes.
+- Write public copy around verified user tasks and supported styles. Do not
+  claim full upstream catalogs, a built-in AI assistant, universal SVG support,
+  measured SEO gains, accessibility conformance, or directory-policy approval
+  without evidence. Abilities are integrations for compatible authorized tools.
+- Keep the WordPress.org short description within 150 plain-text characters
+  and use at most five relevant tags. Preserve release metadata and contributor
+  credits unless their change is separately in scope.
+- Changelog entries describe user-facing outcomes. List each newly supported
+  library separately as `* Added support for [Library](official-url).`, adding
+  a short style/subset qualifier when needed. Fold internal iterations into the
+  final feature entry; omit abandoned plans, test receipts, and implementation
+  churn. Preserve older release history.
+
+## Module Ownership
+
+| Concern | Owner |
+| --- | --- |
+| WordPress hook wiring | `src/Plugin.php` |
+| Collection selection, variants, and queries | `src/CollectionRegistry.php` |
+| Core registration and bounded discovery | `src/CoreIconRegistrar.php`, `src/CoreDiscoveryFilter.php`, `src/CoreIconMetadataReader.php` |
+| Custom artwork, metadata, and listing | `src/CustomIconRepository.php`, `src/CustomIconListing.php` |
+| Transaction ownership and option mutation | `src/DatabaseTransaction.php`, `src/OptionMutationLock.php` |
+| Guarded Icon block edits | `src/IconBlockService.php`, `src/PostContentWriter.php`, `src/BlockTreeEditor.php` |
+| Admin views and actions | `src/AdminPage.php`, `src/AdminActions.php`, `assets/admin.js`, `assets/admin.css` |
+| Uploaded-icon DataViews source | `assets/src/custom-icons-dataviews.js` |
+
+Use these existing owners instead of duplicating persistence, discovery, or
+request-lifecycle logic. Edit DataViews source and regenerate its build files;
+do not hand-edit generated JavaScript.
 
 ## Intake And Scope
 
@@ -68,6 +118,15 @@ Run focused tests while iterating, then all applicable checks. Inspect the
 production ZIP when packaging or distribution changes. UI changes require
 desktop and mobile screenshots and keyboard/accessibility checks. Report every
 command run, result, and proof gap; never claim an unrun check passed.
+
+Documentation-only changes need claim and link checks, metadata consistency,
+the official readme validator when `readme.txt` changes, and `git diff --check`.
+Do not repeat unchanged runtime suites for copy edits. When rebuilding the ZIP,
+verify its readme and member differences against the previous candidate and
+record the new hash; older package evidence belongs to its original artifact.
+Screen-reader checks are excluded by owner direction. Preserve keyboard/focus,
+labels, contrast, semantics, and responsive checks where applicable; do not
+report excluded checks as passed.
 
 ## Pull Request Handoff
 

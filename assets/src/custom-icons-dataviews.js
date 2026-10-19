@@ -1,6 +1,6 @@
 import { Button, TextControl } from '@wordpress/components';
 import { DataViews } from '@wordpress/dataviews/wp';
-import { useCallback, useEffect, useMemo, useState } from '@wordpress/element';
+import { useCallback, useEffect, useMemo, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 
@@ -11,6 +11,8 @@ function RenameModal( { items, closeModal, onDone } ) {
 	const [ label, setLabel ] = useState( item.label );
 	const [ isSaving, setIsSaving ] = useState( false );
 	const [ error, setError ] = useState( '' );
+	const request = useRef( null );
+	useEffect( () => () => request.current?.abort(), [] );
 
 	const save = async () => {
 		if ( ! label.trim() ) {
@@ -19,11 +21,13 @@ function RenameModal( { items, closeModal, onDone } ) {
 		}
 		setIsSaving( true );
 		setError( '' );
+		request.current = new AbortController();
 		try {
 			await apiFetch( {
 				path: `${ config.customPath }/${ encodeURIComponent( item.name ) }`,
 				method: 'PATCH',
 				data: { label: label.trim() },
+				signal: request.current.signal,
 			} );
 			onDone();
 			closeModal();
@@ -45,19 +49,28 @@ function RenameModal( { items, closeModal, onDone } ) {
 	);
 }
 
-function DeleteModal( { items, closeModal, onDone } ) {
+function DeleteModal( { items, closeModal, onDone, onPartialDelete } ) {
 	const item = items[ 0 ];
 	const [ isDeleting, setIsDeleting ] = useState( false );
 	const [ error, setError ] = useState( '' );
+	const request = useRef( null );
+	useEffect( () => () => request.current?.abort(), [] );
 
 	const remove = async () => {
 		setIsDeleting( true );
 		setError( '' );
+		request.current = new AbortController();
 		try {
-			await apiFetch( { path: `${ config.customPath }/${ encodeURIComponent( item.name ) }`, method: 'DELETE' } );
+			await apiFetch( { path: `${ config.customPath }/${ encodeURIComponent( item.name ) }`, method: 'DELETE', signal: request.current.signal } );
 			onDone();
 			closeModal();
 		} catch ( requestError ) {
+			if ( requestError?.data?.removed === true ) {
+				onDone();
+				onPartialDelete( requestError.message || __( 'The icon was removed, but its stored artwork could not be cleaned up. Ask your site administrator to check uploads permissions.', 'aculect-icon-library' ) );
+				closeModal();
+				return;
+			}
 			setError( requestError?.message || __( 'The icon could not be deleted.', 'aculect-icon-library' ) );
 			setIsDeleting( false );
 		}
@@ -94,11 +107,17 @@ function CustomIconsDataView() {
 	const [ data, setData ] = useState( [] );
 	const [ total, setTotal ] = useState( 0 );
 	const [ isLoading, setIsLoading ] = useState( true );
+	const [ listError, setListError ] = useState( '' );
+	const [ actionWarning, setActionWarning ] = useState( '' );
+	const [ hideData, setHideData ] = useState( false );
 	const [ refresh, setRefresh ] = useState( 0 );
+	const lastSuccessfulQuery = useRef( '' );
 
 	useEffect( () => {
 		let active = true;
+		const controller = new AbortController();
 		setIsLoading( true );
+		setListError( '' );
 		const query = new URLSearchParams( {
 			page: String( view.page || 1 ),
 			per_page: String( view.perPage || 20 ),
@@ -106,22 +125,28 @@ function CustomIconsDataView() {
 			orderby: view.sort?.field === 'name' ? 'name' : 'label',
 			order: view.sort?.direction || 'asc',
 		} );
-		apiFetch( { path: `${ config.customPath }?${ query.toString() }` } )
+		const queryKey = query.toString();
+		apiFetch( { path: `${ config.customPath }?${ queryKey }`, signal: controller.signal } )
 			.then( ( response ) => {
 				if ( active ) {
 					setData( response.items );
 					setTotal( response.total );
+					setHideData( false );
+					lastSuccessfulQuery.current = queryKey;
 				}
 			} )
 			.catch( ( error ) => {
 				if ( active ) {
-					setData( [] );
-					setTotal( 0 );
-					window.console.error( error );
+					if ( lastSuccessfulQuery.current !== queryKey ) {
+						setData( [] );
+						setTotal( 0 );
+						setHideData( true );
+					}
+					setListError( error?.message || __( 'Uploaded icons could not be loaded.', 'aculect-icon-library' ) );
 				}
 			} )
 			.finally( () => active && setIsLoading( false ) );
-		return () => { active = false; };
+		return () => { active = false; controller.abort(); };
 	}, [ view.page, view.perPage, view.search, view.sort?.field, view.sort?.direction, refresh ] );
 
 	const fields = useMemo( () => [
@@ -140,7 +165,18 @@ function CustomIconsDataView() {
 		},
 	], [] );
 
-	const changed = useCallback( () => setRefresh( ( value ) => value + 1 ), [] );
+	const changed = useCallback( () => {
+		setActionWarning( '' );
+		setRefresh( ( value ) => value + 1 );
+	}, [] );
+	const retryList = () => {
+		const heading = document.querySelector( '.icon-library-custom-heading' );
+		if ( heading ) {
+			heading.setAttribute( 'tabindex', '-1' );
+			heading.focus( { preventScroll: true } );
+		}
+		setRefresh( ( value ) => value + 1 );
+	};
 	const actions = useMemo( () => [
 		{
 			id: 'rename',
@@ -157,12 +193,18 @@ function CustomIconsDataView() {
 			isPrimary: true,
 			isDestructive: true,
 			supportsBulk: false,
-			RenderModal: ( props ) => <DeleteModal { ...props } onDone={ changed } />,
+			RenderModal: ( props ) => <DeleteModal { ...props } onDone={ changed } onPartialDelete={ setActionWarning } />,
 		},
 	], [ changed ] );
 
 	return (
-		<DataViews
+		<>
+			{ actionWarning && <p className="icon-library-dataviews-list-error" role="alert">{ actionWarning }</p> }
+			{ listError && <div className="icon-library-dataviews-list-error" role="alert">
+				<p>{ listError }</p>
+				<Button variant="secondary" onClick={ retryList }>{ __( 'Retry', 'aculect-icon-library' ) }</Button>
+			</div> }
+			{ ! hideData && <DataViews
 			data={ data }
 			fields={ fields }
 			view={ view }
@@ -173,15 +215,33 @@ function CustomIconsDataView() {
 			search
 			searchLabel={ __( 'Search icons', 'aculect-icon-library' ) }
 			defaultLayouts={ { table: {} } }
-		/>
+			/> }
+		</>
 	);
 }
 
+let mountedRoot = null;
+let mountedElement = null;
+
+window.iconLibraryUnmountCustomDataViews = () => {
+	if ( mountedRoot ) {
+		mountedRoot.unmount();
+		mountedRoot = null;
+	}
+	if ( mountedElement ) {
+		delete mountedElement.dataset.mounted;
+		mountedElement = null;
+	}
+};
+
 window.iconLibraryMountCustomDataViews = () => {
 	const root = document.getElementById( 'icon-library-custom-dataviews' );
-	if ( root && ! root.dataset.mounted ) {
+	if ( root && root !== mountedElement ) {
+		window.iconLibraryUnmountCustomDataViews();
 		root.dataset.mounted = 'true';
-		wp.element.createRoot( root ).render( <CustomIconsDataView /> );
+		mountedElement = root;
+		mountedRoot = wp.element.createRoot( root );
+		mountedRoot.render( <CustomIconsDataView /> );
 	}
 };
 

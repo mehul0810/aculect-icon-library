@@ -97,6 +97,7 @@
 			if ( ! job || ! job.job_id ) {
 				throw new Error( 'Missing job identifier.' );
 			}
+			jobId = job.job_id;
 			timer = root.setInterval( poll, 2000 );
 			return request( jobPath( config.restPath, library, job.job_id ), { method: 'POST', headers: nonceHeaders } );
 		} ).then( function ( job ) {
@@ -107,9 +108,25 @@
 			}
 			root.location.reload();
 		} ).catch( function () {
-			showStatus( group, config.i18n.unknown );
-			button.disabled = false;
-			form.removeAttribute( 'aria-busy' );
+			// A transport error is ambiguous; consult the durable job before reporting
+			// success or failure. Never retry an installation without another click.
+			return request( jobPath( config.restPath, library ) ).then( function ( state ) {
+				var job = state && state.job;
+				var sameJob = job && job.style_id === style && job.release_version === version && ( ! jobId || job.job_id === jobId );
+				if ( sameJob && 'failed' === job.status ) {
+					showStatus( group, job.error || config.i18n.failed );
+				} else if ( sameJob && 'succeeded' === job.status ) {
+					showStatus( group, config.i18n.complete );
+					root.location.reload();
+				} else {
+					showStatus( group, config.i18n.unknown );
+				}
+			} ).catch( function () {
+				showStatus( group, config.i18n.unknown );
+			} ).finally( function () {
+				button.disabled = false;
+				form.removeAttribute( 'aria-busy' );
+			} );
 		} ).finally( function () {
 			root.clearInterval( timer );
 			active = false;

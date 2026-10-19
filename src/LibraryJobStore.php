@@ -44,10 +44,10 @@ class LibraryJobStore {
 			return $cached; }
 		if ( ! isset( $wpdb->options ) ) {
 			return array(); }
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$pattern = method_exists( $wpdb, 'esc_like' ) ? $wpdb->esc_like( self::OPTION_PREFIX ) . '%' : addcslashes( self::OPTION_PREFIX, '_%\\' ) . '%';
-		$names   = $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s", $pattern ) );
-		$ids     = array();
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Options API has no prefix enumeration; the prepared result is cached above and below.
+		$names = $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s", $pattern ) );
+		$ids   = array();
 		foreach ( (array) $names as $name ) {
 			$id = substr( $name, strlen( self::OPTION_PREFIX ) );
 			if ( 1 === preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $id ) ) {

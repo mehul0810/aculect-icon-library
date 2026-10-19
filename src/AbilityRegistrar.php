@@ -124,7 +124,7 @@ class AbilityRegistrar {
 			),
 			'icon-library/list-icon-blocks'   => array(
 				'label'               => __( 'List Icon Blocks', 'aculect-icon-library' ),
-				'description'         => __( 'List core/icon blocks in an editable post. Each result includes a stable block-tree path, and the response includes a modified_gmt token for stale-write protection before a replace or remove operation.', 'aculect-icon-library' ),
+				'description'         => __( 'List core/icon blocks in an editable post. Each result includes a stable block-tree path. Send the returned content_hash as expected_content_hash when editing to detect changes, including changes within the same second.', 'aculect-icon-library' ),
 				'category'            => self::CATEGORY,
 				'input_schema'        => $this->get_post_input_schema(),
 				'output_schema'       => $this->get_block_list_output_schema(),
@@ -218,6 +218,11 @@ class AbilityRegistrar {
 			'expected_modified_gmt' => array(
 				'type'      => 'string',
 				'maxLength' => 32,
+			),
+			'expected_content_hash' => array(
+				'type'      => 'string',
+				'pattern'   => '^[a-f0-9]{64}$',
+				'maxLength' => 64,
 			),
 		);
 	}
@@ -398,6 +403,11 @@ class AbilityRegistrar {
 				'modified_gmt' => array(
 					'type'      => 'string',
 					'maxLength' => 32,
+				),
+				'content_hash' => array(
+					'type'      => 'string',
+					'pattern'   => '^[a-f0-9]{64}$',
+					'maxLength' => 64,
 				),
 				'items'        => array(
 					'type'  => 'array',

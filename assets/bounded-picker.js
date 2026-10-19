@@ -20,9 +20,16 @@
 		var retry = useState(0), attempt = retry[0], setAttempt = retry[1];
 		var gate = useRef(null);
 		var selectedButton = useRef(null);
+		var paginationFocus = useRef('');
+		var previousButton = useRef(null);
+		var nextButton = useRef(null);
+		var paginationStatus = useRef(null);
+		var retryButton = useRef(null);
 		if (!gate.current) { gate.current = helpers.createGate(wp.apiFetch, root.AbortController); }
 		useEffect(function () {
+			if (collection !== null) { return; }
 			var active = true;
+			setLoading(true); setError('');
 			wp.apiFetch({ path: '/wp/v2/icon-collections' }).then(function (rows) {
 				if (!active) { return; }
 				setCollections(rows);
@@ -30,7 +37,7 @@
 				setCollection(rows.some(function (row) { return row.slug === selected; }) ? selected : rows[0] ? rows[0].slug : '');
 			}).catch(function (failure) { if (active) { setError(failure.message || __('Icons could not be loaded.', 'aculect-icon-library')); setLoading(false); } });
 			return function () { active = false; gate.current.cancel(); };
-		}, []);
+		}, [collection, attempt]);
 		useEffect(function () {
 			if (!inputSequence) { return; }
 			var timer = root.setTimeout(function () { setSearch(searchInput); setPage(0); setAttempt(function (value) { return value + 1; }); }, 250);
@@ -46,9 +53,16 @@
 			return function () { gate.current.cancel(); };
 		}, [collection, search, page, attempt]);
 		useEffect(function () { if (!loading && selectedButton.current) { selectedButton.current.scrollIntoView({ block: 'nearest' }); } }, [loading, result]);
+		useEffect(function () {
+			if (loading || !paginationFocus.current) { return; }
+			var target = error ? retryButton.current : paginationFocus.current === 'next' ? nextButton.current : previousButton.current;
+			if (!target || target.disabled) { target = paginationStatus.current; }
+			if (target) { target.focus(); }
+			paginationFocus.current = '';
+		}, [loading, error, result]);
 		var tabs = [{ slug: '', label: __('All') }].concat(collections || []);
 		function chooseTab(slug) { if (slug === collection) { return; } gate.current.cancel(); setLoading(true); setCollection(slug); setPage(0); }
-		function changePage(value) { gate.current.cancel(); setLoading(true); setPage(value); }
+		function changePage(value, direction) { paginationFocus.current = direction; gate.current.cancel(); setLoading(true); setPage(value); }
 		function changeSearch(value) { gate.current.cancel(); setLoading(true); setSearchInput(value); setInputSequence(function (old) { return old + 1; }); }
 		function moveTab(event, index) {
 			var delta = ['ArrowDown', 'ArrowRight'].indexOf(event.key) >= 0 ? 1 : ['ArrowUp', 'ArrowLeft'].indexOf(event.key) >= 0 ? -1 : 0;
@@ -66,7 +80,7 @@
 						return h(wp.components.Button, { key: tab.slug, role: 'tab', id: 'ail-tab-' + (tab.slug || 'all'), 'aria-selected': collection === tab.slug, tabIndex: collection === tab.slug ? 0 : -1, className: 'icon-library-picker-tab', variant: collection === tab.slug ? 'primary' : 'tertiary', onClick: function () { chooseTab(tab.slug); }, onKeyDown: function (event) { moveTab(event, index); } }, tab.label);
 					}))),
 				h('section', { role: 'tabpanel', 'aria-labelledby': 'ail-tab-' + (collection || 'all'), className: 'icon-library-picker-panel', 'aria-busy': loading },
-					error ? h('div', { role: 'alert' }, h('p', null, error), h(wp.components.Button, { variant: 'secondary', onClick: function () { setAttempt(attempt + 1); } }, __('Retry', 'aculect-icon-library'))) : null,
+					error ? h('div', { role: 'alert' }, h('p', null, error), h(wp.components.Button, { ref: retryButton, variant: 'secondary', onClick: function () { setAttempt(function (value) { return value + 1; }); } }, __('Retry', 'aculect-icon-library'))) : null,
 					loading ? h('div', { role: 'status', 'aria-label': __('Loading…'), className: 'icon-library-picker-loading' }, h(wp.components.Spinner)) : null,
 					!loading && !error && !items.length ? h('p', null, __('No results found.')) : null,
 					!loading && !error ? h('div', { className: 'wp-block-icon__inserter-grid-icons-list', 'aria-label': __('Icon library') }, items.map(function (icon) {
@@ -74,9 +88,9 @@
 							h('span', { className: 'wp-block-icon__inserter-grid-icons-list-item-icon' }, h(wp.element.RawHTML, null, icon.content)), h('span', { className: 'wp-block-icon__inserter-grid-icons-list-item-title' }, icon.label));
 					})) : null,
 					!loading && !error && result && result.total ? h('div', { className: 'icon-library-picker-pagination' },
-						h('span', { 'aria-live': 'polite' }, sprintf(__('%1$d–%2$d of %3$d icons', 'aculect-icon-library'), start, start + items.length - 1, result.total)),
-						h(wp.components.Button, { variant: 'secondary', disabled: result.page <= 1, onClick: function () { changePage(result.page - 1); } }, __('Previous', 'aculect-icon-library')),
-						h(wp.components.Button, { variant: 'secondary', disabled: result.page >= result.total_pages, onClick: function () { changePage(result.page + 1); } }, __('Next', 'aculect-icon-library'))) : null)));
+						h('span', { ref: paginationStatus, tabIndex: -1, 'aria-live': 'polite' }, sprintf(__('%1$d–%2$d of %3$d icons', 'aculect-icon-library'), start, start + items.length - 1, result.total)),
+						h(wp.components.Button, { ref: previousButton, variant: 'secondary', disabled: result.page <= 1, onClick: function () { changePage(result.page - 1, 'previous'); } }, __('Previous', 'aculect-icon-library')),
+						h(wp.components.Button, { ref: nextButton, variant: 'secondary', disabled: result.page >= result.total_pages, onClick: function () { changePage(result.page + 1, 'next'); } }, __('Next', 'aculect-icon-library'))) : null)));
 	}
 	function IconEdit(props) {
 		var state = useState(false), open = state[0], setOpen = state[1], wrapper = useRef(null);

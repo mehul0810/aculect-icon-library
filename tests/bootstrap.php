@@ -28,6 +28,9 @@ $GLOBALS['icon_library_test_wp_version']      = '7.1.2';
 $GLOBALS['icon_library_test_blog_id']         = 1;
 $GLOBALS['icon_library_test_cron']            = array();
 
+require_once __DIR__ . '/support/OptionDatabase.php';
+$GLOBALS['wpdb'] = new IconLibrary_Test_Option_Database();
+
 function wp_next_scheduled( $hook ) {
 	return $GLOBALS['icon_library_test_cron'][ $hook ] ?? false;
 }
@@ -131,6 +134,11 @@ class WP_Error {
 class WP_Icons_Registry {
 	private static $instance;
 	private $icons = array();
+	protected $registered_icons = array();
+
+	private function __construct() {
+		$this->registered_icons =& $this->icons;
+	}
 
 	public static function get_instance() {
 		if ( ! self::$instance ) {
@@ -224,6 +232,9 @@ function wp_cache_set( $key, $value, $group = '' ) {
 }
 
 function wp_cache_delete( $key, $group = '' ) {
+	if ( 'options' === $group ) {
+		unset( $GLOBALS['icon_library_test_cached_options'][ $key ] );
+	}
 	$cache_key = $group . ':' . $key;
 	if ( array_key_exists( $cache_key, $GLOBALS['icon_library_test_cache'] ) ) {
 		unset( $GLOBALS['icon_library_test_cache'][ $cache_key ] );
@@ -299,6 +310,9 @@ function wp_list_pluck( $list, $field ) {
 }
 
 function get_option( $name, $default = false ) {
+	if ( array_key_exists( $name, $GLOBALS['icon_library_test_cached_options'] ?? array() ) ) {
+		return $GLOBALS['icon_library_test_cached_options'][ $name ];
+	}
 	return array_key_exists( $name, $GLOBALS['icon_library_test_options'] ) ? $GLOBALS['icon_library_test_options'][ $name ] : $default;
 }
 
@@ -309,10 +323,18 @@ function update_option( $name, $value, $autoload = null ) {
 	return $changed;
 }
 
+function sanitize_option( $name, $value ) {
+	return apply_filters( "sanitize_option_{$name}", $value, $name );
+}
+
 function add_option( $name, $value, $deprecated = '', $autoload = true ) {
 	unset( $deprecated );
 	if ( array_key_exists( $name, $GLOBALS['icon_library_test_options'] ) ) {
 		return false;
+	}
+	// Core's SQL upserts after its cache/absence precheck; races are not exclusive.
+	if ( isset( $GLOBALS['icon_library_test_before_add_option'] ) ) {
+		call_user_func( $GLOBALS['icon_library_test_before_add_option'], $name, $value );
 	}
 	$GLOBALS['icon_library_test_options'][ $name ]  = $value;
 	$GLOBALS['icon_library_test_autoload'][ $name ] = $autoload;
@@ -341,6 +363,15 @@ function wp_delete_file( $file ) {
 function get_post( $post_id = null ) {
 	$post_id = (int) $post_id;
 	return isset( $GLOBALS['icon_library_test_posts'][ $post_id ] ) ? $GLOBALS['icon_library_test_posts'][ $post_id ] : null;
+}
+
+function clean_post_cache( $post_id ) {
+	$GLOBALS['icon_library_test_cleaned_posts'][] = (int) $post_id;
+}
+
+function wp_is_file_mod_allowed( $context ) {
+	unset( $context );
+	return ! empty( $GLOBALS['icon_library_test_file_mods'] );
 }
 
 function wp_update_post( $postarr, $wp_error = false ) {

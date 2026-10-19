@@ -68,16 +68,32 @@ jobs:
           echo "release_tag=$RELEASE_TAG" >> "$GITHUB_OUTPUT"
           echo "commit=$current_commit" >> "$GITHUB_OUTPUT"
 
-      - name: Install block parser test dependency
+      - name: Install WordPress test dependencies
         run: |
-          curl --fail --silent --show-error --location https://wordpress.org/wordpress-6.8.tar.gz -o /tmp/wordpress.tar.gz
+          curl --fail --silent --show-error --location https://wordpress.org/wordpress-7.1.2.tar.gz -o /tmp/wordpress.tar.gz
           tar -xzf /tmp/wordpress.tar.gz -C /tmp
           echo "WP_CORE_DIR=/tmp/wordpress" >> "$GITHUB_ENV"
 
       - name: Run project checks
         run: composer check
-      - name: Test admin navigation
-        run: node --test tests/*.test.js
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20.19.0'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            .github/plugin-check/package-lock.json
+
+      - name: Install JavaScript dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Test and build admin assets
+        run: |
+          npm run test:js
+          npm run build
+          git diff --exit-code -- assets/build
 
       - name: Build production ZIP
         run: composer package
@@ -113,13 +129,6 @@ jobs:
           mkdir -p build/plugin-check
           unzip -q "$archive" -d build/plugin-check
 
-      - name: Set up Node.js for Plugin Check
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: '20.19.0'
-          cache: npm
-          cache-dependency-path: .github/plugin-check/package-lock.json
-
       # The official action installs an unpinned wp-env globally. Keep the same
       # packaged-plugin scan, but use the committed runner to make releases reproducible.
       - name: Install deterministic Plugin Check runner
@@ -132,17 +141,41 @@ jobs:
           plugin_dir="$GITHUB_WORKSPACE/build/plugin-check/aculect-icon-library"
           plugin_slug="$(basename "$plugin_dir")"
           wp_env="$GITHUB_WORKSPACE/.github/plugin-check/node_modules/.bin/wp-env"
-          wp_version="7.1.1"
+          wp_version="7.1.2"
           plugin_check_version="2.1.0"
 
+          mkdir -p build/plugin-check-output
           cat > .wp-env.json <<EOF
-          { "core": "WordPress/WordPress#$wp_version", "port": 8880, "testsPort": 8881, "mappings": { "wp-content/plugins/$plugin_slug": "$plugin_dir" } }
+          { "core": "WordPress/WordPress#$wp_version", "port": 8880, "testsPort": 8881, "mappings": { "wp-content/plugins/$plugin_slug": "$plugin_dir", "wp-content/plugin-check-output": "$GITHUB_WORKSPACE/build/plugin-check-output" } }
           EOF
 
           "$wp_env" start --update
           "$wp_env" run cli wp plugin install plugin-check --version="$plugin_check_version" --activate
           "$wp_env" run cli wp plugin activate "$plugin_slug"
-          "$wp_env" run cli wp plugin check "$plugin_slug" --format=json --exclude-files=.wp-env.json --require=./wp-content/plugins/plugin-check/cli.php
+          "$wp_env" run cli sh -c 'wp plugin check "$1" --format=strict-json --no-color --exclude-files=.wp-env.json --require=./wp-content/plugins/plugin-check/cli.php > /var/www/html/wp-content/plugin-check-output/report.txt' sh "$plugin_slug"
+          php scripts/validate-plugin-check.php build/plugin-check-output/report.txt
+
+      - name: Block unapproved pre-release public rollout
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag_version="${RELEASE_TAG#v}"
+          base_version="${tag_version%%-*}"
+          archive="build/aculect-icon-library.${base_version}.zip"
+          profile_json="$(unzip -p "$archive" aculect-icon-library/data/package-profile.json)"
+          php -r '
+            $profile = json_decode( stream_get_contents( STDIN ), true );
+            if ( ! is_array( $profile ) || 1 !== ( $profile["schema_version"] ?? null ) ) {
+              fwrite( STDERR, "Pre-release publication blocked: package profile metadata is missing or invalid.\n" );
+              exit( 1 );
+            }
+            if ( "bundled" !== ( $profile["profile"] ?? null ) ) {
+              fwrite( STDERR, "Pre-release publication blocked: package profile is unrecognized.\n" );
+              exit( 1 );
+            }
+            fwrite( STDERR, "Pre-release publication blocked: the bundled 1.2.0 artifact is not yet approved for public release. Prepare a manual, owner-authorized release packet before this gate is changed.\n" );
+            exit( 1 );
+          ' <<< "$profile_json"
 
       - name: Upload verified release artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

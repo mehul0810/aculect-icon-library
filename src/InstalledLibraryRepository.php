@@ -100,6 +100,7 @@ class InstalledLibraryRepository {
 					return new \WP_Error( 'icon_library_storage', __( 'The validated package could not be written completely.', 'aculect-icon-library' ) ); }
 			}
 			$this->protect_directory( $stage );
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename -- Same-filesystem directory publication must remain atomic; a remote adapter cannot provide this guarantee.
 			if ( ! @rename( $stage, $target ) ) {
 				if ( is_dir( $target ) && ! is_link( $target ) ) {
 					foreach ( $members as $member ) {
@@ -124,8 +125,12 @@ class InstalledLibraryRepository {
 	 */
 	public function register_providers( $providers ) {
 		$providers = is_array( $providers ) ? $providers : array();
-		$legacy    = Plugin::legacy_collections( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) );
-		$site_id   = $this->current_site_id();
+		$legacy    = get_option( Plugin::OPTION_LEGACY_COLLECTIONS, false );
+		if ( false === $legacy ) {
+			$legacy = false === get_option( Plugin::OPTION_ENABLED_COLLECTIONS, false ) ? array() : ( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) )->get_collection_slugs();
+		}
+		$legacy  = is_array( $legacy ) ? $legacy : array();
+		$site_id = $this->current_site_id();
 		if ( ! isset( $this->provider_definitions[ $site_id ] ) ) {
 			$this->provider_definitions[ $site_id ] = array();
 			foreach ( $this->jobs->all_library_ids() as $library_id ) {
@@ -366,6 +371,7 @@ class InstalledLibraryRepository {
 				wp_delete_file( $path ); } elseif ( is_dir( $path ) ) {
 				$this->remove_tree( $path ); }
 		}
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- Remove only the empty task-owned directory after the symlink-aware traversal above.
 		rmdir( $directory );
 	}
 }

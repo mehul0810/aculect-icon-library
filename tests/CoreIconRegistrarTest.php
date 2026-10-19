@@ -172,6 +172,60 @@ class CoreIconRegistrarTest extends TestCase {
 		$this->assertSame( array( 'core', 'test-solid', 'test-mini' ), array_column( $result->get_data(), 'slug' ) );
 	}
 
+	public function test_empty_icon_discovery_does_not_read_any_manifest() {
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_enabled_collection_slugs', 'get_manifest' ) )->getMock();
+		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'radix', 'tabler' ) );
+		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array() );
+		$registry->expects( $this->never() )->method( 'get_manifest' );
+		$response = new WP_REST_Response( array() );
+		$result   = ( new CoreIconRegistrar( $registry ) )->filter_core_discovery_response( $response, null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) );
+		$this->assertSame( array(), $result->get_data() );
+	}
+
+	public function test_disabled_family_uses_namespace_filter_without_manifest_read() {
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_enabled_collection_slugs', 'get_manifest' ) )->getMock();
+		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'radix', 'tabler' ) );
+		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array( 'radix' ) );
+		$registry->expects( $this->never() )->method( 'get_manifest' );
+		$response = new WP_REST_Response( array( array( 'name' => 'tabler/arrow', 'collection' => 'tabler' ) ) );
+		$result   = ( new CoreIconRegistrar( $registry ) )->filter_core_discovery_response( $response, null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) );
+		$this->assertSame( array(), $result->get_data() );
+	}
+
+	public function test_scoped_icon_discovery_reads_only_matching_family_manifest() {
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_enabled_collection_slugs', 'get_manifest', 'get_enabled_variants' ) )->getMock();
+		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'radix', 'tabler' ) );
+		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array( 'radix', 'tabler' ) );
+		$registry->expects( $this->once() )->method( 'get_manifest' )->with( 'radix' )->willReturn( array( 'icons' => array() ) );
+		$registry->method( 'get_enabled_variants' )->willReturn( array() );
+		$response = new WP_REST_Response( array( array( 'name' => 'radix/arrow-left', 'collection' => 'radix' ) ) );
+		$result   = ( new CoreIconRegistrar( $registry ) )->filter_core_discovery_response( $response, null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) );
+		$this->assertCount( 1, $result->get_data() );
+	}
+
+	public function test_used_style_variants_are_cached_once_per_family() {
+		$registry  = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
+		$registrar = new CoreIconRegistrar( $registry );
+		$method    = new ReflectionMethod( CoreIconRegistrar::class, 'register_style_collections' );
+		if ( PHP_VERSION_ID < 80100 ) {
+			$method->setAccessible( true );
+		}
+		$manifest = array(
+			'name'     => 'Fixture',
+			'variants' => array( array( 'slug' => 'solid', 'label' => 'Solid' ) ),
+			'icons'    => array( array( 'variant' => 'solid' ) ),
+		);
+		$method->invoke( $registrar, 'fixture', $manifest, array( 'solid' ) );
+		$method->invoke( $registrar, 'fixture', $manifest, array( 'solid' ) );
+		$property = new ReflectionProperty( CoreIconRegistrar::class, 'style_used_variants' );
+		if ( PHP_VERSION_ID < 80100 ) {
+			$property->setAccessible( true );
+		}
+		$this->assertSame( array( 'fixture' => array( 'solid' ) ), $property->getValue( $registrar ) );
+		$registrar->reset_for_blog_switch();
+		$this->assertSame( array(), $property->getValue( $registrar ) );
+	}
+
 	public function test_disabled_collection_registers_nothing_until_rendered() {
 		$registrar = $this->style_registrar( false );
 		$this->assertSame( array(), $GLOBALS['icon_library_test_registered']['icons'] );

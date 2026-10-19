@@ -35,6 +35,13 @@ class RestController {
 	private $custom_icons;
 
 	/**
+	 * Paginated custom icon listing.
+	 *
+	 * @var CustomIconListing
+	 */
+	private $custom_icon_listing;
+
+	/**
 	 * Bounded editor discovery adapter.
 	 *
 	 * @var CoreIconRegistrar|null
@@ -51,6 +58,7 @@ class RestController {
 	public function __construct( CollectionRegistry $collection_registry, CustomIconRepository $custom_icons, ?CoreIconRegistrar $core_registrar = null ) {
 		$this->collection_registry = $collection_registry;
 		$this->custom_icons        = $custom_icons;
+		$this->custom_icon_listing = new CustomIconListing( $custom_icons );
 		$this->core_registrar      = $core_registrar;
 	}
 
@@ -145,6 +153,18 @@ class RestController {
 				'args'                => $this->get_collection_mutation_args(),
 			)
 		);
+		foreach ( array( 'install', 'remove' ) as $state ) {
+			register_rest_route(
+				Plugin::REST_NAMESPACE,
+				'/collections/(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)/' . $state,
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'install' === $state ? 'install_collection' : 'remove_collection' ),
+					'permission_callback' => array( $this, 'can_manage_collections' ),
+					'args'                => $this->get_collection_mutation_args(),
+				)
+			);
+		}
 
 		foreach ( array( 'activate', 'deactivate' ) as $state ) {
 			register_rest_route(
@@ -269,42 +289,7 @@ class RestController {
 		$orderby  = 'name' === $request->get_param( 'orderby' ) ? 'name' : 'label';
 		$page     = max( 1, absint( $request->get_param( 'page' ) ) );
 		$per_page = min( 100, max( 1, absint( $request->get_param( 'per_page' ) ) ) );
-		$items    = array();
-
-		foreach ( $this->custom_icons->get_icons() as $name => $icon ) {
-			if ( ! is_array( $icon ) || ! empty( $icon['archived'] ) ) {
-				continue;
-			}
-			$label     = (string) ( $icon['label'] ?? $name );
-			$icon_name = CustomIconRepository::COLLECTION_SLUG . '/' . $name;
-			if ( '' !== $search && false === strpos( strtolower( $label ), $search ) && false === strpos( strtolower( $icon_name ), $search ) ) {
-				continue;
-			}
-			$svg     = $this->custom_icons->get_svg_content( $name . '.svg' );
-			$items[] = array(
-				'id'       => $name,
-				'name'     => $name,
-				'label'    => $label,
-				'iconName' => $icon_name,
-				'svg'      => is_string( $svg ) ? $svg : '',
-			);
-		}
-
-		usort(
-			$items,
-			static function ( $left, $right ) use ( $orderby, $order ) {
-				return $order * strcasecmp( (string) $left[ $orderby ], (string) $right[ $orderby ] );
-			}
-		);
-		$total = count( $items );
-
-		return rest_ensure_response(
-			array(
-				'items'       => array_slice( $items, ( $page - 1 ) * $per_page, $per_page ),
-				'total'       => $total,
-				'total_pages' => (int) ceil( $total / $per_page ),
-			)
-		);
+		return rest_ensure_response( $this->custom_icon_listing->get_page( $search, $order, $orderby, $page, $per_page ) );
 	}
 
 	/**
@@ -523,6 +508,41 @@ class RestController {
 		return $this->set_collection_state( $request, false );
 	}
 
+	/** Selects a bundled library without enabling it.
+	 *
+	 * @param WP_REST_Request $request REST request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function install_collection( WP_REST_Request $request ) {
+		return $this->set_installed_state( $request, true );
+	}
+
+	/** Removes a bundled library from discovery without deleting artwork.
+	 *
+	 * @param WP_REST_Request $request REST request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function remove_collection( WP_REST_Request $request ) {
+		return $this->set_installed_state( $request, false );
+	}
+
+	/** Updates only local bundled inventory.
+	 *
+	 * @param WP_REST_Request $request REST request.
+	 * @param bool            $installed Desired selection state.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	private function set_installed_state( WP_REST_Request $request, $installed ) {
+		$slug = (string) $request->get_param( 'slug' );
+		if ( ! in_array( $slug, $this->collection_registry->get_bundled_collection_slugs(), true ) || null === $this->collection_registry->get_collection( $slug ) ) {
+			return new WP_Error( 'icon_library_collection_not_found', __( 'Bundled library not found.', 'aculect-icon-library' ), array( 'status' => 404 ) );
+		}
+		if ( ! $this->collection_registry->set_collection_installed( $slug, $installed ) ) {
+			return new WP_Error( 'icon_library_collection_update_failed', __( 'The icon library could not be updated.', 'aculect-icon-library' ), array( 'status' => 500 ) );
+		}
+		return rest_ensure_response( $this->collection_registry->get_collection( $slug ) );
+	}
+
 	/**
 	 * Activates one collection variant.
 	 *
@@ -706,6 +726,10 @@ class RestController {
 					'readonly' => true,
 				),
 				'enabled'     => array(
+					'type'     => 'boolean',
+					'readonly' => true,
+				),
+				'installed'   => array(
 					'type'     => 'boolean',
 					'readonly' => true,
 				),

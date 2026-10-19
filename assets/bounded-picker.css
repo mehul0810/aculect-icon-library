@@ -9,6 +9,7 @@
 .icon-library-bounded-layout .wp-block-icon__inserter-grid-icons-list-item-title { white-space: normal; overflow-wrap: anywhere; text-align: center; font-size: 12px; line-height: 1.3; }
 .icon-library-picker-pagination { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 20px 0; }
 .icon-library-picker-pagination span { margin-right: auto; }
+.icon-library-picker-pagination span:focus { outline: 2px solid var(--wp-admin-theme-color, #3858e9); outline-offset: 3px; }
 .icon-library-picker-loading { display: flex; justify-content: center; padding: 24px; }
 @media (max-width: 781px) {
 	.icon-library-bounded-layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: 16px; }

@@ -99,4 +99,35 @@ class RestPermissionsTest extends TestCase {
 		$this->assertSame( 2, $response->get_data()['per_page'] );
 		$this->assertSame( 2, $response->get_data()['total_pages'] );
 	}
+
+	public function test_custom_icon_listing_reads_svg_only_for_requested_page() {
+		$icons = array();
+		for ( $i = 0; $i < 25; $i++ ) {
+			$name          = sprintf( 'icon-%02d', $i );
+			$icons[ $name ] = array( 'label' => sprintf( 'Icon %02d', $i ) );
+		}
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
+		$custom   = $this->getMockBuilder( CustomIconRepository::class )->disableOriginalConstructor()->onlyMethods( array( 'get_icons', 'get_svg_content' ) )->getMock();
+		$custom->method( 'get_icons' )->willReturn( $icons );
+		$read_count = 0;
+		$custom->expects( $this->exactly( 5 ) )->method( 'get_svg_content' )->willReturnCallback(
+			static function ( $path ) use ( &$read_count ) {
+				$read_count++;
+				return '<svg data-path="' . $path . '" />';
+			}
+		);
+		$response = ( new RestController( $registry, $custom ) )->get_custom_icons( new WP_REST_Request( 'GET', '', array( 'page' => 2, 'per_page' => 5 ) ) );
+		$this->assertSame( 25, $response->get_data()['total'] );
+		$this->assertSame( 5, $read_count );
+		$this->assertCount( 5, $response->get_data()['items'] );
+	}
+
+	public function test_custom_icon_listing_out_of_range_page_reads_no_svgs() {
+		$custom = $this->getMockBuilder( CustomIconRepository::class )->disableOriginalConstructor()->onlyMethods( array( 'get_icons', 'get_svg_content' ) )->getMock();
+		$custom->method( 'get_icons' )->willReturn( array( 'one' => array( 'label' => 'One' ) ) );
+		$custom->expects( $this->never() )->method( 'get_svg_content' );
+		$response = ( new RestController( $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock(), $custom ) )->get_custom_icons( new WP_REST_Request( 'GET', '', array( 'page' => 99, 'per_page' => 5 ) ) );
+		$this->assertSame( 1, $response->get_data()['total'] );
+		$this->assertSame( array(), $response->get_data()['items'] );
+	}
 }
