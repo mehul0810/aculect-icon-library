@@ -143,10 +143,22 @@ jobs:
           "$wp_env" run cli sh -c 'wp plugin check "$1" --format=strict-json --no-color --exclude-files=.wp-env.json --require=./wp-content/plugins/plugin-check/cli.php > /var/www/html/wp-content/plugin-check-output/report.txt' sh "$plugin_slug"
           php scripts/validate-plugin-check.php build/plugin-check-output/report.txt
 
-      - name: Block unapproved stable public rollout
+      - name: Verify owner-approved stable 1.2.0 profile
         shell: bash
         run: |
           set -euo pipefail
+          if [[ "${RELEASE_TAG#v}" != "1.2.0" ]]; then
+            echo "Stable publication is approved only for version 1.2.0." >&2
+            exit 1
+          fi
+
+          git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+          current_commit="$(git rev-parse HEAD)"
+          if ! git merge-base --is-ancestor "$current_commit" refs/remotes/origin/main; then
+            echo "The tagged release commit must already be present on origin/main." >&2
+            exit 1
+          fi
+
           archive="build/aculect-icon-library.${RELEASE_TAG#v}.zip"
           profile_json="$(unzip -p "$archive" aculect-icon-library/data/package-profile.json)"
           php -r '
@@ -155,12 +167,23 @@ jobs:
               fwrite( STDERR, "Stable publication blocked: package profile metadata is missing or invalid.\n" );
               exit( 1 );
             }
-            if ( "bundled" !== ( $profile["profile"] ?? null ) ) {
-              fwrite( STDERR, "Stable publication blocked: package profile is unrecognized.\n" );
+            $approved_families = array(
+              "bootstrap-icons",
+              "font-awesome",
+              "heroicons",
+              "iconoir",
+              "ionicons",
+              "material-icons",
+              "phosphor",
+              "radix",
+              "rune",
+              "tabler-icons",
+            );
+            if ( "bundled" !== ( $profile["profile"] ?? null ) || $approved_families !== ( $profile["icon_families"] ?? null ) ) {
+              fwrite( STDERR, "Stable publication blocked: package profile does not match the owner-approved 1.2.0 bundled profile.\n" );
               exit( 1 );
             }
-            fwrite( STDERR, "Stable publication blocked: the bundled 1.2.0 artifact is not yet approved for public release. Prepare a manual, owner-authorized release packet before this gate is changed.\n" );
-            exit( 1 );
+            fwrite( STDOUT, "Owner-approved stable 1.2.0 bundled profile verified.\n" );
           ' <<< "$profile_json"
 
       - name: Upload verified release artifact
