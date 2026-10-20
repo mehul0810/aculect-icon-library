@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Registers plugin collections through the public WordPress Icon API.
  */
 class CoreIconRegistrar {
+	const MAX_REQUEST_INDEXES  = 2;
 	const MAX_PREWALK_NODES    = 1000;
 	const MAX_PREWALK_DEPTH    = 100;
 	const MAX_ICON_NAME_LENGTH = 200;
@@ -28,6 +29,13 @@ class CoreIconRegistrar {
 	 * @var CollectionRegistry
 	 */
 	private $collection_registry;
+
+	/**
+	 * Native discovery response filter.
+	 *
+	 * @var CoreDiscoveryFilter
+	 */
+	private $discovery_filter;
 
 	/**
 	 * Core style collection slugs mapped to their installable library.
@@ -65,6 +73,13 @@ class CoreIconRegistrar {
 	private $resolved_icon_names = array();
 
 	/**
+	 * Used manifest variants cached for this registrar request.
+	 *
+	 * @var array<string,array>
+	 */
+	private $style_used_variants = array();
+
+	/**
 	 * Request-local name indexes keyed by collection slug.
 	 *
 	 * @var array<string,array<string,array>>
@@ -86,12 +101,92 @@ class CoreIconRegistrar {
 	private $registered_icons = array();
 
 	/**
+	 * Core names created by this registrar, excluding preexisting providers.
+	 *
+	 * @var array<string,array>
+	 */
+	private $owned_icons = array();
+
+	/**
+	 * Core collection slugs created by this registrar.
+	 *
+	 * @var array<string,array>
+	 */
+	private $owned_collections = array();
+
+	/** Checks an icon registration against the exact data created by this registrar.
+	 *
+	 * @param string $name Core icon name.
+	 * @param array  $icon Current Core registration.
+	 * @return bool
+	 */
+	public function owns_registered_icon( $name, $icon ) {
+		$owned = $this->owned_icons[ $name ] ?? null;
+		if ( ! is_array( $owned ) || ! is_array( $icon ) ) {
+			return false; }
+		foreach ( $owned as $key => $value ) {
+			if ( ( $icon[ $key ] ?? null ) !== $value ) {
+				return false; }
+		}
+		return true;
+	}
+
+	/** Checks a collection registration created by this registrar.
+	 *
+	 * @param string $slug Core collection slug.
+	 * @param array  $collection Current Core registration.
+	 * @return bool
+	 */
+	public function owns_registered_collection( $slug, $collection ) {
+		$owned = $this->owned_collections[ $slug ] ?? null;
+		if ( ! is_array( $owned ) || ! is_array( $collection ) ) {
+			return false; }
+		foreach ( $owned as $key => $value ) {
+			if ( ( $collection[ $key ] ?? null ) !== $value ) {
+				return false; }
+		}
+		return true;
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @param CollectionRegistry $collection_registry Collection registry.
 	 */
 	public function __construct( CollectionRegistry $collection_registry ) {
 		$this->collection_registry = $collection_registry;
+		$this->discovery_filter    = new CoreDiscoveryFilter( $collection_registry );
+		add_action( 'switch_blog', array( $this, 'reset_for_blog_switch' ), 10, 0 );
+	}
+
+	/** Clears site-dependent state when entering or restoring a multisite blog. */
+	public function reset_for_blog_switch() {
+		if ( function_exists( 'wp_unregister_icon' ) ) {
+			foreach ( array_keys( $this->owned_icons ) as $name ) {
+				if ( $this->owns_registered_icon( $name, \WP_Icons_Registry::get_instance()->get_registered_icon( $name ) ) ) {
+					wp_unregister_icon( $name );
+				}
+			}
+		}
+		if ( function_exists( 'wp_unregister_icon_collection' ) ) {
+			foreach ( array_keys( $this->owned_collections ) as $slug ) {
+				if ( $this->owns_registered_collection( $slug, \WP_Icon_Collections_Registry::get_instance()->get_registered( $slug ) ) ) {
+					wp_unregister_icon_collection( $slug );
+				}
+			}
+		}
+		$this->style_collections          = array();
+		$this->legacy_collections         = array();
+		$this->core_incompatible_variants = array();
+		$this->stroked_content_cache      = array();
+		$this->resolved_icon_names        = array();
+		$this->style_used_variants        = array();
+		$this->collection_indexes         = array();
+		$this->registered_collections     = array();
+		$this->registered_icons           = array();
+		$this->owned_collections          = array();
+		$this->owned_icons                = array();
+		$this->collection_registry->clear_request_caches();
 	}
 
 	/**
@@ -168,6 +263,28 @@ class CoreIconRegistrar {
 		);
 	}
 
+	/** Enqueues the stroke workaround only when a rendered Core Icon needs it.
+	 *
+	 * @param string $block_content Rendered block HTML.
+	 * @param array  $block         Parsed block data.
+	 * @param object $instance      Block instance.
+	 * @return string Unchanged block HTML.
+	 */
+	public function enqueue_styles_for_rendered_icon( $block_content, $block, $instance ) {
+		unset( $instance );
+		if ( is_array( $block ) && 'core/icon' === ( $block['blockName'] ?? '' ) && false !== strpos( $block_content, 'icon-library-stroked' ) ) {
+			$this->enqueue_styles();
+		}
+		return $block_content;
+	}
+
+	/** Enqueues icon presentation rules in the editor iframe content context. */
+	public function enqueue_editor_content_styles() {
+		if ( is_admin() ) {
+			$this->enqueue_styles();
+		}
+	}
+
 	/**
 	 * Keeps Core's mobile picker controls visible when a saved icon scrolls into view.
 	 */
@@ -182,6 +299,161 @@ class CoreIconRegistrar {
 			array(),
 			ICON_LIBRARY_VERSION
 		);
+	}
+
+	/** Enqueues bounded discovery while retaining Core's Icon edit component. */
+	public function enqueue_bounded_picker() {
+		$file    = ICON_LIBRARY_DIR . 'assets/bounded-picker.js';
+		$version = ICON_LIBRARY_VERSION . '-' . substr( hash_file( 'sha256', $file ), 0, 12 );
+		wp_enqueue_script( 'icon-library-bounded-picker', ICON_LIBRARY_URL . 'assets/bounded-picker.js', array( 'wp-hooks', 'wp-element', 'wp-components', 'wp-compose', 'wp-data', 'wp-api-fetch', 'wp-i18n' ), $version, true );
+		wp_enqueue_style( 'icon-library-bounded-picker', ICON_LIBRARY_URL . 'assets/bounded-picker.css', array( 'wp-components' ), $version );
+		wp_localize_script(
+			'icon-library-bounded-picker',
+			'iconLibraryPicker',
+			array(
+				'path'    => '/' . Plugin::REST_NAMESPACE . '/picker',
+				'perPage' => 48,
+			)
+		);
+	}
+
+	/**
+	 * Counts searchable metadata and resolves only one bounded page of artwork.
+	 *
+	 * @param string $collection Core collection namespace, or empty for All.
+	 * @param string $search     Search text.
+	 * @param int    $page       Page; zero locates the current selected icon.
+	 * @param int    $per_page   Page size, capped at 48.
+	 * @param string $selected   Existing selected name.
+	 * @return array|\WP_Error Page response or a missing-asset error.
+	 */
+	public function get_picker_page( $collection = '', $search = '', $page = 0, $per_page = 48, $selected = '' ) {
+		if ( ! class_exists( '\\WP_Icons_Registry' ) ) {
+			return new \WP_Error( 'icon_library_picker_registry_unsupported', __( 'Icon browsing is unavailable with this WordPress Icon API version.', 'aculect-icon-library' ), array( 'status' => 503 ) );
+		}
+		// Inspect class capabilities before autoloading the metadata-only subclass.
+		$core_registry = new \ReflectionClass( '\\WP_Icons_Registry' );
+		if ( $core_registry->isFinal() || ! $core_registry->hasMethod( 'get_instance' ) || ! $core_registry->getMethod( 'get_instance' )->isPublic() || ! $core_registry->getMethod( 'get_instance' )->isStatic() || ! $core_registry->hasProperty( 'registered_icons' ) || ! $core_registry->getProperty( 'registered_icons' )->isProtected() ) {
+			return new \WP_Error( 'icon_library_picker_registry_unsupported', __( 'Icon browsing is unavailable with this WordPress Icon API version.', 'aculect-icon-library' ), array( 'status' => 503 ) );
+		}
+		$this->register_icons( $collection, true );
+		$existing = CoreIconMetadataReader::get_registered_metadata();
+		if ( is_wp_error( $existing ) ) {
+			return $existing;
+		}
+		$page        = min( CollectionRegistry::MAX_PAGE, max( 0, (int) $page ) );
+		$per_page    = min( 48, max( 1, (int) $per_page ) );
+		$search      = trim( $search );
+		$pattern     = '' === $search ? '' : '/' . preg_quote( function_exists( 'remove_accents' ) ? remove_accents( $search ) : $search, '/' ) . '/iu';
+		$total       = 0;
+		$first       = array();
+		$chunk       = array();
+		$chosen      = array();
+		$chosen_page = 0;
+		$last_page   = 0;
+		foreach ( $this->picker_rows( $collection, $existing ) as $row ) {
+			$name     = $row['name'];
+			$label    = $row['label'];
+			$haystack = $name . "\n" . $label;
+			if ( $pattern && ! preg_match( $pattern, function_exists( 'remove_accents' ) ? remove_accents( $haystack ) : $haystack ) ) {
+				continue;
+			}
+			$current = (int) floor( $total / $per_page ) + 1;
+			if ( $page ) {
+				if ( $current === $page ) {
+					$chosen[] = $row; }
+			} else {
+				if ( $current !== $last_page ) {
+					$chunk     = array();
+					$last_page = $current; }
+				$chunk[] = $row;
+				if ( 1 === $current ) {
+					$first[] = $row; }
+				if ( $name === $selected ) {
+					$chosen_page = $current; }
+				if ( $current === $chosen_page ) {
+					$chosen = $chunk; }
+			}
+			++$total;
+		}
+		if ( ! $page ) {
+			$page   = $chosen_page ? $chosen_page : 1;
+			$chosen = $chosen_page ? $chosen : $first; }
+		$items = array();
+		foreach ( $chosen as $row ) {
+			if ( isset( $row['library'] ) ) {
+				$this->register_icon( $row['library'], $row['icon'], $row['collection'] ); }
+			$icon = \WP_Icons_Registry::get_instance()->get_registered_icon( $row['name'] );
+			if ( ! is_array( $icon ) || empty( $icon['content'] ) ) {
+				return new \WP_Error( 'icon_library_picker_asset_missing', __( 'An icon could not be loaded. Refresh the library and try again.', 'aculect-icon-library' ), array( 'status' => 503 ) );
+			}
+			$items[] = array(
+				'name'       => $row['name'],
+				'label'      => $row['label'],
+				'collection' => $row['collection'],
+				'content'    => $icon['content'],
+			);
+		}
+		return array(
+			'items'       => $items,
+			'total'       => $total,
+			'page'        => $page,
+			'per_page'    => $per_page,
+			'total_pages' => (int) ceil( $total / $per_page ),
+		);
+	}
+
+	/**
+	 * Enumerates enabled metadata without reading plugin SVG files.
+	 *
+	 * @param string $collection Optional Core namespace.
+	 * @param array  $existing   Unhydrated Core metadata.
+	 * @return \Generator Metadata rows with request-local resolution hints.
+	 */
+	private function picker_rows( $collection, $existing ) {
+		$visible = $this->filter_core_discovery_response( new WP_REST_Response( $existing ), null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) )->get_data();
+		$seen    = array();
+		foreach ( $visible as $icon ) {
+			if ( ! is_array( $icon ) || empty( $icon['name'] ) || $this->owns_registered_icon( $icon['name'], $icon ) ) {
+				continue; }
+			$namespace             = $icon['collection'] ?? strstr( $icon['name'], '/', true );
+			$seen[ $icon['name'] ] = true;
+			if ( ! $collection || $collection === $namespace ) {
+				yield array(
+					'name'       => $icon['name'],
+					'label'      => $icon['label'] ?? $icon['name'],
+					'collection' => $namespace,
+				);
+			}
+		}
+		unset( $visible, $existing );
+		foreach ( $this->collection_registry->get_enabled_collection_slugs() as $library ) {
+			if ( $collection && $collection !== $library && 0 !== strpos( $collection, $library . '-' ) ) {
+				continue; }
+			$manifest = $this->collection_registry->get_manifest( $library );
+			$variants = $this->collection_registry->get_enabled_variants( $library );
+			if ( ! $this->manifest_has_enabled_icons( $manifest, $variants ) ) {
+				continue; }
+			$styles = $this->register_style_collections( $library, $manifest, $variants );
+			foreach ( $manifest['icons'] as $icon ) {
+				if ( ! is_array( $icon ) || ! empty( $icon['archived'] ) || ! isset( $icon['coreIconName'], $icon['label'], $icon['path'] ) || ! is_string( $icon['coreIconName'] ) || ! is_string( $icon['label'] ) || ! is_string( $icon['path'] ) || '' === $icon['path'] || 1 !== preg_match( '/^' . preg_quote( $library, '/' ) . '\/[a-z0-9][a-z0-9_-]*$/', $icon['coreIconName'] ) ) {
+					continue; }
+				$variant = $icon['variant'] ?? '';
+				if ( $variant && ! in_array( $variant, $variants, true ) ) {
+					continue; }
+				$namespace = $styles[ $variant ] ?? $library;
+				$name      = $namespace . substr( $icon['coreIconName'], strlen( $library ) );
+				if ( isset( $seen[ $name ] ) || ( $collection && $collection !== $namespace ) ) {
+					continue; }
+				yield array(
+					'name'       => $name,
+					'label'      => sanitize_text_field( $icon['label'] ),
+					'collection' => $namespace,
+					'library'    => $library,
+					'icon'       => $icon,
+				);
+			}
+		}
 	}
 
 	/**
@@ -217,6 +489,12 @@ class CoreIconRegistrar {
 		if ( '/wp/v2/icon-collections' === $route ) {
 			$this->register_icons( '', true );
 		} elseif ( '/wp/v2/icons' === $route ) {
+			// Native editor browsing returns a complete collection of SVG data.
+			// Respect WordPress's existing admin allowance after the read check;
+			// public saved-icon rendering keeps the normal frontend limit.
+			if ( function_exists( 'wp_raise_memory_limit' ) ) {
+				wp_raise_memory_limit( 'admin' );
+			}
 			$requested_collection = $request->get_param( 'collection' );
 			$this->register_icons( is_string( $requested_collection ) ? $requested_collection : '' );
 		} elseif ( 1 === preg_match( '#^/wp/v2/icons/([^/]+)$#', $route, $matches ) ) {
@@ -226,6 +504,30 @@ class CoreIconRegistrar {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Releases owned request data after Core prepares the complete response.
+	 *
+	 * The response retains its SVG strings. Registry/cache copies can be freed
+	 * before JSON output without truncating icons or changing saved names.
+	 *
+	 * @param array           $data    Prepared response data.
+	 * @param WP_REST_Server  $server  REST server.
+	 * @param WP_REST_Request $request Current request.
+	 * @return array Unchanged response data.
+	 */
+	public function release_bulk_response_state( $data, $server, $request ) {
+		unset( $server );
+		if ( ! is_array( $data ) || empty( $this->owned_icons ) || ! $request instanceof WP_REST_Request || 'GET' !== $request->get_method() || '/wp/v2/icons' !== $request->get_route() || ! $this->can_read_core_icons() ) {
+			return $data;
+		}
+
+		$this->reset_for_blog_switch();
+		if ( function_exists( 'gc_mem_caches' ) ) {
+			gc_mem_caches();
+		}
+		return $data;
 	}
 
 	/**
@@ -311,7 +613,16 @@ class CoreIconRegistrar {
 		if ( ! is_array( $entry ) || ! isset( $entry['library'], $entry['manifest'], $entry['icon'] ) || ! is_string( $entry['library'] ) || ! is_array( $entry['manifest'] ) || ! is_array( $entry['icon'] ) ) {
 			return;
 		}
-		if ( ! empty( $entry['legacy'] ) ) {
+		if ( ! empty( $entry['icon']['archived'] ) ) {
+			// Retained package files and tombstones resolve exact saved names only.
+			$this->register_collection( $entry['library'], $entry['manifest'] );
+			if ( isset( $entry['variant'], $entry['style'] ) && is_string( $entry['variant'] ) && is_string( $entry['style'] ) && $requested_name === $entry['style'] . substr( $entry['icon']['coreIconName'], strlen( $entry['library'] ) ) ) {
+				$this->register_archived_style_collection( $entry['library'], $entry['manifest'], $entry['variant'], $entry['style'] );
+				$this->register_icon( $entry['library'], $entry['icon'], $entry['style'] );
+			} else {
+				$this->register_icon( $entry['library'], $entry['icon'] );
+			}
+		} elseif ( ! empty( $entry['legacy'] ) ) {
 			$this->register_collection( $entry['library'], $entry['manifest'] );
 			$this->register_heroicons_legacy_name( $entry['library'], $entry['icon'], $requested_name );
 		} elseif ( isset( $entry['style'], $entry['variant'] ) && is_string( $entry['style'] ) && is_string( $entry['variant'] ) && '' !== $entry['style'] && '' !== $entry['variant'] ) {
@@ -367,7 +678,17 @@ class CoreIconRegistrar {
 			return array();
 		}
 		if ( isset( $this->collection_indexes[ $library ] ) ) {
-			return $this->collection_indexes[ $library ];
+			$cached = $this->collection_indexes[ $library ];
+			unset( $this->collection_indexes[ $library ] );
+			$this->collection_indexes[ $library ] = $cached;
+			return $cached;
+		}
+		// A page may reference many large libraries. Keep only two name indexes;
+		// already registered SVGs and saved names remain available after eviction.
+		if ( count( $this->collection_indexes ) >= self::MAX_REQUEST_INDEXES ) {
+			$expired = array_key_first( $this->collection_indexes );
+			unset( $this->collection_indexes[ $expired ] );
+			$this->collection_registry->forget_collection_request_cache( $expired );
 		}
 
 		$manifest = $this->collection_registry->get_manifest( $library );
@@ -442,75 +763,7 @@ class CoreIconRegistrar {
 	 * @return mixed
 	 */
 	public function filter_core_discovery_response( $response, $server, $request ) {
-		unset( $server );
-
-		if ( ! $response instanceof WP_REST_Response || ! $request instanceof WP_REST_Request || 'GET' !== $request->get_method() ) {
-			return $response;
-		}
-
-		$route = $request->get_route();
-		if ( '/wp/v2/icon-collections' !== $route && 1 !== preg_match( '#^/wp/v2/icons(?:/[^/]+)?$#', $route ) ) {
-			return $response;
-		}
-		$data = $response->get_data();
-
-		if ( ! is_array( $data ) ) {
-			return $response;
-		}
-
-		$available = $this->collection_registry->get_available_collection_slugs();
-		$enabled   = $this->collection_registry->get_enabled_collection_slugs();
-		$available = is_array( $available ) ? array_values( array_filter( $available, 'is_string' ) ) : array();
-		$enabled   = is_array( $enabled ) ? array_values( array_filter( $enabled, 'is_string' ) ) : array();
-		$disabled  = array_values( array_diff( $available, $enabled ) );
-		$archived  = array();
-		$custom    = $this->collection_registry->get_manifest( CustomIconRepository::COLLECTION_SLUG );
-		foreach ( (array) ( $custom['icons'] ?? array() ) as $icon ) {
-			if ( is_array( $icon ) && ! empty( $icon['archived'] ) && isset( $icon['coreIconName'] ) && is_string( $icon['coreIconName'] ) && '' !== $icon['coreIconName'] ) {
-				$archived[] = $icon['coreIconName'];
-			}
-		}
-		foreach ( $this->style_collections as $style_slug => $library_slug ) {
-			$variant          = substr( $style_slug, strlen( $library_slug ) + 1 );
-			$enabled_variants = $this->collection_registry->get_enabled_variants( $library_slug );
-			$enabled_variants = is_array( $enabled_variants ) ? $enabled_variants : array();
-			if ( ! in_array( $library_slug, $enabled, true ) || ! in_array( $variant, $enabled_variants, true ) ) {
-				$disabled[] = $style_slug;
-			}
-		}
-		$disabled = array_merge( $disabled, $this->legacy_collections );
-
-		if ( empty( $disabled ) ) {
-			return $response;
-		}
-
-		if ( '/wp/v2/icon-collections' === $route ) {
-			$data = array_values(
-				array_filter(
-					$data,
-					static function ( $collection ) use ( $disabled ) {
-						return ! is_array( $collection ) || empty( $collection['slug'] ) || ! in_array( $collection['slug'], $disabled, true );
-					}
-				)
-			);
-		} elseif ( 1 === preg_match( '#^/wp/v2/icons(?:/([^/]+))?$#', $route, $matches ) ) {
-			if ( ! empty( $matches[1] ) && in_array( $matches[1], $disabled, true ) ) {
-				$data = array();
-			} else {
-				$data = array_values(
-					array_filter(
-						$data,
-						static function ( $icon ) use ( $disabled, $archived ) {
-							return ! is_array( $icon ) || ( ( empty( $icon['collection'] ) || ! in_array( $icon['collection'], $disabled, true ) ) && ( empty( $icon['name'] ) || ! in_array( $icon['name'], $archived, true ) ) );
-						}
-					)
-				);
-			}
-		}
-
-		$response->set_data( $data );
-
-		return $response;
+		return $this->discovery_filter->filter( $response, $server, $request, $this->style_collections, $this->legacy_collections );
 	}
 
 	/**
@@ -535,20 +788,20 @@ class CoreIconRegistrar {
 			return $styles;
 		}
 
-		$used = array();
-		foreach ( $manifest['icons'] as $icon ) {
-			if ( ! is_array( $icon ) ) {
-				continue;
+		if ( ! array_key_exists( $library, $this->style_used_variants ) ) {
+			$used = array();
+			foreach ( $manifest['icons'] as $icon ) {
+				if ( ! is_array( $icon ) || ! empty( $icon['archived'] ) ) {
+					continue;
+				}
+				$variant = isset( $icon['variant'] ) && is_string( $icon['variant'] ) ? sanitize_key( $icon['variant'] ) : '';
+				if ( $variant ) {
+					$used[] = $variant;
+				}
 			}
-			if ( ! empty( $icon['archived'] ) ) {
-				continue;
-			}
-			$variant = isset( $icon['variant'] ) && is_string( $icon['variant'] ) ? sanitize_key( $icon['variant'] ) : '';
-			if ( $variant ) {
-				$used[] = $variant;
-			}
+			$this->style_used_variants[ $library ] = array_values( array_unique( $used ) );
 		}
-		$used = array_values( array_unique( $used ) );
+		$used = $this->style_used_variants[ $library ];
 		foreach ( $manifest['variants'] as $variant ) {
 			if ( ! is_array( $variant ) || ! isset( $variant['slug'], $variant['label'] ) || ! is_string( $variant['slug'] ) || ! is_string( $variant['label'] ) || '' === $variant['slug'] || 1 !== preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $variant['slug'] ) || '' === $variant['label'] || ! in_array( $variant['slug'], $used, true ) ) {
 				continue;
@@ -622,6 +875,22 @@ class CoreIconRegistrar {
 		$style = $library . '-' . sanitize_key( $variant );
 		if ( $this->register_collection_slug( $style, array( 'label' => sanitize_text_field( $manifest['name'] . ' - ' . ucfirst( sanitize_key( $variant ) ) ) ) ) ) {
 			$this->legacy_collections[] = $style;
+		}
+	}
+
+	/**
+	 * Registers a style namespace to keep an archived saved icon resolvable.
+	 *
+	 * @param string $library Owning library identifier.
+	 * @param array  $manifest Library manifest.
+	 * @param string $variant Original style identifier.
+	 * @param string $style Core style namespace.
+	 */
+	private function register_archived_style_collection( $library, $manifest, $variant, $style ) {
+		if ( ! is_string( $style ) || 1 !== preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $style ) || ! isset( $manifest['name'] ) || ! is_string( $manifest['name'] ) ) {
+			return; }
+		if ( $this->register_collection_slug( $style, array( 'label' => sanitize_text_field( $manifest['name'] . ' - ' . ucfirst( sanitize_key( $variant ) ) ) ) ) ) {
+			$this->style_collections[ $style ] = $library;
 		}
 	}
 
@@ -704,6 +973,9 @@ class CoreIconRegistrar {
 		}
 
 		$this->registered_collections[ $slug ] = (bool) wp_register_icon_collection( $slug, $args );
+		if ( $this->registered_collections[ $slug ] ) {
+			$this->owned_collections[ $slug ] = $args;
+		}
 		return $this->registered_collections[ $slug ];
 	}
 
@@ -762,6 +1034,9 @@ class CoreIconRegistrar {
 		}
 
 		$this->registered_icons[ $core_icon_name ] = (bool) wp_register_icon( $core_icon_name, $icon_args );
+		if ( $this->registered_icons[ $core_icon_name ] ) {
+			$this->owned_icons[ $core_icon_name ] = $icon_args;
+		}
 	}
 
 	/**

@@ -6,14 +6,19 @@ use IconLibrary\CollectionRegistry;
 use IconLibrary\IconBlockService;
 use PHPUnit\Framework\TestCase;
 
+require_once __DIR__ . '/support/PostDatabase.php';
+
 class AbilityRegistrarTest extends TestCase {
 	/** @var CollectionRegistry */
 	private $registry;
 
 	/** @var IconBlockService */
 	private $service;
+	private $previous_database;
 
 	protected function setUp(): void {
+		$this->previous_database = $GLOBALS['wpdb'] ?? null;
+		$GLOBALS['wpdb'] = new IconLibrary_Test_Post_Database();
 		$GLOBALS['icon_library_test_abilities']  = array();
 		$GLOBALS['icon_library_test_categories'] = array();
 		$GLOBALS['icon_library_test_actions']    = array();
@@ -61,6 +66,10 @@ class AbilityRegistrarTest extends TestCase {
 		$this->service = new IconBlockService( $this->registry );
 	}
 
+	protected function tearDown(): void {
+		$GLOBALS['wpdb'] = $this->previous_database;
+	}
+
 	public function test_registers_public_catalog_and_block_abilities() {
 		$registrar = new AbilityRegistrar( $this->registry );
 		$registrar->register_category();
@@ -98,6 +107,48 @@ class AbilityRegistrarTest extends TestCase {
 		$this->assertSame( array( 0, 0 ), $result['items'][0]['path'] );
 		$this->assertSame( 'test/arrow', $result['items'][0]['icon'] );
 		$this->assertSame( '2026-01-01 00:00:00', $result['modified_gmt'] );
+		$this->assertSame( hash( 'sha256', get_post( 7 )->post_content ), $result['content_hash'] );
+	}
+
+	public function test_rejects_same_second_edit_using_content_hash() {
+		$this->set_post( array( $this->icon_block( 'test/arrow' ) ) );
+		$read = $this->service->list_icon_blocks( array( 'post_id' => 7 ) );
+		$this->set_post( array( $this->icon_block( 'test/arrow' ), $this->paragraph_block() ) );
+		$result = $this->service->remove_icon_block( array( 'post_id' => 7, 'path' => array( 0 ), 'expected_content_hash' => $read['content_hash'] ) );
+		$this->assertSame( 'icon_library_ability_stale_post', $result->get_error_code() );
+		$this->assertCount( 2, parse_blocks( get_post( 7 )->post_content ) );
+	}
+
+	public function test_rejects_concurrent_edit_between_read_and_save() {
+		$this->set_post( array( $this->icon_block( 'test/arrow' ) ) );
+		$GLOBALS['wpdb']->before_lock = static function () {
+			$GLOBALS['icon_library_test_posts'][7]->post_content = '<p>Concurrent editor content</p>';
+		};
+		$result = $this->service->remove_icon_block( array( 'post_id' => 7, 'path' => array( 0 ) ) );
+		$this->assertSame( 'icon_library_ability_stale_post', $result->get_error_code() );
+		$this->assertSame( '<p>Concurrent editor content</p>', get_post( 7 )->post_content );
+		$this->assertFalse( $GLOBALS['wpdb']->active );
+	}
+
+	public function test_commit_failure_rolls_back_and_does_not_report_success() {
+		$this->set_post( array( $this->icon_block( 'test/arrow' ) ) );
+		$original = get_post( 7 )->post_content;
+		$GLOBALS['wpdb']->fail_commit = true;
+		$result = $this->service->remove_icon_block( array( 'post_id' => 7, 'path' => array( 0 ) ) );
+		$this->assertSame( 'icon_library_ability_update_failed', $result->get_error_code() );
+		$this->assertSame( $original, get_post( 7 )->post_content );
+		$this->assertFalse( $GLOBALS['wpdb']->active );
+	}
+
+	public function test_caller_transaction_is_not_committed_or_rolled_back() {
+		$this->set_post( array( $this->icon_block( 'test/arrow' ) ) );
+		$original = get_post( 7 )->post_content;
+		$GLOBALS['wpdb']->active = true;
+		$result = $this->service->remove_icon_block( array( 'post_id' => 7, 'path' => array( 0 ) ) );
+		$this->assertSame( 'icon_library_ability_transaction_unavailable', $result->get_error_code() );
+		$this->assertSame( $original, get_post( 7 )->post_content );
+		$this->assertTrue( $GLOBALS['wpdb']->active );
+		$this->assertSame( array(), $GLOBALS['wpdb']->queries );
 	}
 
 	public function test_listing_omits_malformed_icon_names_and_unsafe_attributes() {

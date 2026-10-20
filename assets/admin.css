@@ -10,24 +10,11 @@
 }
 
 body.appearance_page_icon-library {
-	background: #1e1e1e;
+	background: #f0f0f1;
 }
 
 body.appearance_page_icon-library #wpfooter {
 	display: none;
-}
-
-body.appearance_page_icon-library #wpbody-content > .notice,
-body.appearance_page_icon-library #wpbody-content > .updated,
-body.appearance_page_icon-library #wpbody-content > .error,
-.icon-library-admin > .notice:not(.icon-library-notice),
-.icon-library-admin > .updated,
-.icon-library-admin > .error {
-	display: none !important;
-}
-
-body.js .icon-library-admin.is-loading > * {
-	visibility: hidden;
 }
 
 .icon-library-admin *,
@@ -70,6 +57,21 @@ body.js .icon-library-admin.is-loading > * {
 	margin: 16px 32px 0;
 	padding: 10px 12px;
 }
+
+.icon-library-dataviews-list-error {
+	border-left: 4px solid #d63638;
+	margin: 16px 0;
+	padding: 8px 12px;
+}
+
+.icon-library-dataviews-list-error p {
+	margin: 0 0 8px;
+}
+
+.icon-library-package-intro {
+	max-width: 780px;
+}
+
 
 .icon-library-tabs {
 	border-bottom: 1px solid #e0e0e0;
@@ -114,6 +116,16 @@ body.js .icon-library-admin.is-loading > * {
 	position: relative;
 	transform: translateY(0);
 	transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.icon-library-panel.icon-library-installed {
+	min-height: 0;
+	padding-bottom: 24px;
+}
+
+.icon-library-installed .icon-library-empty-state {
+	min-height: 0;
+	padding: 16px;
 }
 
 .icon-library-admin.is-navigating {
@@ -504,6 +516,11 @@ body.js .icon-library-admin.is-loading > * {
 	width: 100%;
 }
 
+.icon-library-uninstall {
+	margin-top: 24px;
+	max-width: 760px;
+}
+
 .icon-library-footer-actions .icon-library-toggle {
 	align-items: center;
 	display: flex;
@@ -670,6 +687,7 @@ body.js .icon-library-admin.is-loading > * {
 }
 
 @media (max-width: 782px) {
+
 	#icon-library-custom-dataviews {
 		overflow-x: auto;
 	}

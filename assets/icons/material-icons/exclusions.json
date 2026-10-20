@@ -1,0 +1,4535 @@
+{
+    "sourceRevision": "27e9ef1dbeedc13d682fece4a58e1eda4cb0961a",
+    "includedIconCount": 1038,
+    "excludedIconCount": 1132,
+    "exclusions": [
+        {
+            "source": "src/action/123/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/abc/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/accessible/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/action/accessible_forward/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/action/account_balance/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/account_box/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/account_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/add_card/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/add_home/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/add_task/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/add_to_drive/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/admin_panel_settings/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/ads_click/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/anchor/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/android/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/api/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/app_shortcut/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/arrow_circle_down/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/arrow_circle_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/arrow_circle_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/arrow_circle_up/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/arrow_outward/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/assignment_add/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/assured_workload/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/backup_table/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/balance/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/barcode_reader/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/batch_prediction/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/book_online/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/bookmark_add/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/bookmark_added/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/bookmark_remove/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/browse_gallery/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/build_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/calendar_month/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/calendar_view_month/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/calendar_view_week/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/cancel_schedule_send/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/close_fullscreen/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/code_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/comment_bank/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/commit/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/compare_arrows/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/contact_page/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/contactless/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/copyright/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/credit_card_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/css/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/currency_exchange/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/data_exploration/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/data_thresholding/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/density_large/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/density_medium/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/density_small/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/disabled_by_default/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/disabled_visible/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/display_settings/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/donut_large/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/dynamic_form/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/eco/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/edit_calendar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/edit_document/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/edit_off/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: title."
+        },
+        {
+            "source": "src/action/edit_square/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/event_repeat/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/event_seat/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/extension_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/fact_check/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/fax/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/filter_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/filter_alt_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/flaky/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/flight_land/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/flight_takeoff/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/flutter_dash/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/free_cancellation/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/gavel/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/generating_tokens/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/gif/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/gif_box/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/grading/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/help_center/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/hide_source/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/history_toggle_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/hls/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/hls_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/hotel_class/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/hourglass_disabled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/html/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/info_outline/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/install_desktop/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/install_mobile/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/integration_instructions/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/invert_colors/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/javascript/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/join_full/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/join_inner/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/join_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/join_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/leaderboard/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/lightbulb_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/lightbulb_outline/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/line_style/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/line_weight/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/lock_outline/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/lock_person/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/lock_reset/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/login/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/manage_accounts/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/manage_history/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/model_training/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/network_ping/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/new_label/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/next_plan/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/no_accounts/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/noise_aware/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/noise_control_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/not_accessible/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/not_started/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/offline_pin/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/on_device_training/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/online_prediction/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/open_in_full/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/open_in_new_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/outbond/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/outbound/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/outgoing_mail/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/outlet/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/output/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/paid/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/pan_tool/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/pan_tool_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/pending/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/pending_actions/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/percent/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/pets/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/action/php/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/pin_end/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/pin_invoke/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/pinch/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/plagiarism/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/pregnant_woman/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/preview/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/privacy_tip/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/private_connectivity/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/production_quantity_limits/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/published_with_changes/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/question_mark/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/quickreply/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/rebase_edit/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/record_voice_over/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/action/repartition/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/request_page/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/rocket/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/rocket_launch/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/rounded_corner/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/rowing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/rule/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/satellite_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/savings/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/search_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/sensors/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/sensors_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/settings/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/settings_accessibility/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/shop_2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/shopping_bag/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/shopping_cart_checkout/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/smart_button/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/source/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/space_dashboard/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/spatial_audio/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/spatial_audio_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/spatial_tracking/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/star_rate/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/sticky_note_2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/subtitles_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/support/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/swipe/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/swipe_down/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/swipe_down_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/swipe_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/swipe_left_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/swipe_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/swipe_right_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/swipe_up/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/swipe_up_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/swipe_vertical/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/switch_access_shortcut/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/switch_access_shortcut_add/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/sync_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/table_view/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/task_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/terminal/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/timeline/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/tips_and_updates/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/token/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/touch_app/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/transcribe/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/troubleshoot/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/try/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/unfold_less_double/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/unfold_more_double/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/unpublished/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/update/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/update_disabled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/upgrade/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/verified/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_agenda/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_array/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_carousel/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_column/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_comfy_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_compact_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_cozy/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_kanban/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_list/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_module/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_quilt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_sidebar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_stream/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_timeline/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/view_week/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/watch_later/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/webhook/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/width_full/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/width_normal/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/width_wide/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/wifi_protected_setup/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/work_history/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/action/wysiwyg/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/alert/auto_delete/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/alert/warning_amber/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/5g/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/airplay/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/audio_file/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/closed_caption_disabled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/control_camera/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/av/fiber_dvr/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/fiber_manual_record/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/av/fiber_new/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/fiber_smart_record/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: g."
+        },
+        {
+            "source": "src/av/forward_10/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/forward_30/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/forward_5/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/hearing_disabled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/interpreter_mode/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/lyrics/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/movie_edit/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/pause_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/play_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/playlist_add/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/playlist_add_check/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/playlist_add_check_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/playlist_add_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/playlist_play/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/playlist_remove/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/queue_music/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/queue_play_next/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/remove_from_queue/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/replay_10/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/replay_30/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/replay_5/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/stop_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/video_file/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/video_settings/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/volume_down_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/av/web_asset_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/3p/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/app_registration/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/call_missed_outgoing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/cell_tower/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/cell_wifi/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/co_present/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/comments_disabled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/contact_emergency/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/document_scanner/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/domain_verification/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/forward_to_inbox/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/hourglass_bottom/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/hourglass_top/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/hub/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/import_contacts/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/invert_colors_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/key/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/key_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/mail_lock/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/mark_chat_read/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/mark_chat_unread/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/mark_email_read/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/mark_email_unread/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/mark_unread_chat_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/more_time/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/nat/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/person_add_disabled/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/communication/person_search/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/qr_code/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/qr_code_2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/qr_code_scanner/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/read_more/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/rss_feed/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/communication/rtt/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: title."
+        },
+        {
+            "source": "src/communication/send_time_extension/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/sentiment_satisfied_alt/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/communication/sip/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/spoke/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/vpn_key_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/communication/wifi_calling/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/amp_stories/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/attribution/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/ballot/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/biotech/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/block_flipped/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/calculate/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/change_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/content_cut/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/content/content_paste_go/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/content_paste_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/content_paste_search/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/copy_all/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/deselect/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/dynamic_feed/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/filter_list_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/flag_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/font_download/materialicons/24px.svg",
+            "reason": "Unsupported baseprofile attribute on <svg>."
+        },
+        {
+            "source": "src/content/font_download_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/how_to_reg/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: g."
+        },
+        {
+            "source": "src/content/insights/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/inventory_2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/next_week/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/policy/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/push_pin/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/report_gmailerrorred/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/save_as/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/square_foot/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/stacked_bar_chart/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/stream/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/content/unarchive/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/upcoming/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/web_stories/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/content/weekend/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/1x_mobiledata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/30fps/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/3g_mobiledata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/4g_mobiledata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/4g_plus_mobiledata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/60fps/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/access_time_filled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/air/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/airplane_ticket/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/airplanemode_active/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/airplanemode_inactive/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/aod/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/battery_0_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/battery_1_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/battery_2_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/battery_3_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/battery_4_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/battery_5_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/battery_6_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/battery_saver/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/bloodtype/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/bluetooth_drive/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/cable/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/cameraswitch/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/credit_score/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/dark_mode/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/data_saver_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/data_saver_on/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/dataset/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/dataset_linked/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/devices_fold/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/discount/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/do_not_disturb_on_total_silence/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/e_mobiledata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/edgesensor_high/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/edgesensor_low/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/flashlight_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/flashlight_on/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/flourescent/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/fluorescent/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/fmd_bad/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/fmd_good/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/g_mobiledata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/gpp_bad/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/gpp_good/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/gpp_maybe/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/grid_3x3/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/grid_4x4/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/grid_goldenratio/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/h_mobiledata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/h_plus_mobiledata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/hdr_auto/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/hdr_auto_select/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/hdr_off_select/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/hdr_on_select/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/lan/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/lens_blur/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/light_mode/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/lte_mobiledata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/lte_plus_mobiledata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/macro_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/media_bluetooth_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/media_bluetooth_on/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/medication/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/medication_liquid/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/mobiledata_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/mode_night/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/mode_standby/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/monitor_heart/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/monitor_weight/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/nearby_error/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/nearby_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/network_cell/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/network_wifi/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/network_wifi_1_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/network_wifi_2_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/network_wifi_3_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/nightlight/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/note_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/password/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/pattern/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/phishing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/pin/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/play_lesson/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/price_change/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/price_check/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/punch_clock/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/quiz/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/r_mobiledata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/radar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/remember_me/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/restart_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/reviews/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/rsvp/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/screen_search_desktop/materialicons/24px.svg",
+            "reason": "Unsupported style attribute on <svg>."
+        },
+        {
+            "source": "src/device/screenshot/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/screenshot_monitor/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/security_update/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/security_update_good/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/security_update_warning/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/sell/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/send_to_mobile/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/settings_suggest/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/share_location/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/shortcut/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_cellular_0_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_cellular_alt_1_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_cellular_alt_2_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_cellular_connected_no_internet_0_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_cellular_connected_no_internet_4_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_cellular_nodata/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_wifi_0_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_wifi_4_bar_lock/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_wifi_bad/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_wifi_connected_no_internet_4/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_wifi_statusbar_4_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_wifi_statusbar_connected_no_internet_4/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/signal_wifi_statusbar_null/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/sim_card_download/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/splitscreen/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/sports_score/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/ssid_chart/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/storm/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/summarize/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/system_security_update/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/system_security_update_good/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/system_security_update_warning/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/task/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/thermostat/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/timer_10_select/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/timer_3_select/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/tungsten/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/usb_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/water/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/wifi_1_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/wifi_2_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/wifi_calling_3/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/wifi_channel/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/wifi_find/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/wifi_lock/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/wifi_password/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/wifi_tethering_error/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/wifi_tethering_error_rounded/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/device/wifi_tethering_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/align_horizontal_center/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/align_horizontal_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/align_horizontal_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/align_vertical_bottom/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/align_vertical_center/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/align_vertical_top/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/area_chart/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/auto_graph/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/bar_chart/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/border_color/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/bubble_chart/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/editor/candlestick_chart/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/checklist/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/checklist_rtl/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/data_array/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/data_object/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/drag_handle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/draw/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/edit_note/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/format_color_fill/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/format_color_text/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/format_list_bulleted_add/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/height/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/hexagon/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/highlight/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/horizontal_distribute/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/horizontal_rule/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/insert_page_break/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/line_axis/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/linear_scale/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/mode/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/mode_edit_outline/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/money_off_csred/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/move_down/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/move_up/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/numbers/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/pentagon/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/pie_chart_outline/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/polyline/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/post_add/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/query_stats/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/rectangle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/scatter_plot/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: g."
+        },
+        {
+            "source": "src/editor/schema/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/shape_line/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/short_text/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/square/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/stacked_line_chart/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/strikethrough_s/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/subscript/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/superscript/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/table_rows/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/text_decrease/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/text_fields/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/text_increase/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/type_specimen/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/editor/vertical_distribute/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/attach_email/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/cloud_sync/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/difference/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/download/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/download_done/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/download_for_offline/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/downloading/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/drive_file_move_rtl/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/file_download_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/file_open/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/file_upload_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/folder_copy/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/folder_delete/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/folder_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/folder_zip/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/format_overline/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/grid_view/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: g."
+        },
+        {
+            "source": "src/file/newspaper/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/request_quote/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/rule_folder/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/snippet_folder/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/text_snippet/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/topic/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/upload/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/file/workspaces/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/adf_scanner/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/browser_not_supported/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/browser_updated/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/cast/materialicons/24px.svg",
+            "reason": "Unsupported opacity attribute on <path>."
+        },
+        {
+            "source": "src/hardware/cast_connected/materialicons/24px.svg",
+            "reason": "Unsupported opacity attribute on <path>."
+        },
+        {
+            "source": "src/hardware/cast_for_education/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/conveyor_belt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/desktop_mac/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/desktop_windows/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/developer_board_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/earbuds/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/earbuds_battery/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/forklift/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/front_loader/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/headphones/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/headphones_battery/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/headset/materialicons/24px.svg",
+            "reason": "Unsupported opacity attribute on <path>."
+        },
+        {
+            "source": "src/hardware/headset_mic/materialicons/24px.svg",
+            "reason": "Unsupported opacity attribute on <path>."
+        },
+        {
+            "source": "src/hardware/home_max/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/home_mini/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/keyboard_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/keyboard_command_key/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/keyboard_control_key/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/keyboard_double_arrow_down/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/keyboard_double_arrow_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/keyboard_double_arrow_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/keyboard_double_arrow_up/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/keyboard_option_key/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/laptop/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/pallet/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/point_of_sale/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/smart_display/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/smart_screen/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/smart_toy/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/speaker_group/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/hardware/start/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/tablet_android/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/toys/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/trolley/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/videogame_asset_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/hardware/watch/materialicons/24px.svg",
+            "reason": "Unsupported opacity attribute on <path>."
+        },
+        {
+            "source": "src/hardware/watch_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/auto_mode/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/blinds/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/blinds_closed/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/broadcast_on_home/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/broadcast_on_personal/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/cloudy_snowing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/curtains/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/curtains_closed/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/electric_bolt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/electric_meter/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/energy_savings_leaf/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/foggy/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/gas_meter/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/heat_pump/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/mode_fan_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/nest_cam_wired_stand/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/oil_barrel/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/propane/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/propane_tank/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/roller_shades/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/roller_shades_closed/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/sensor_door/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/sensor_occupied/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/sensor_window/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/shelves/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/shield_moon/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/snowing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/solar_power/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/sunny/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/sunny_snowing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/vertical_shades/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/vertical_shades_closed/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/home/wind_power/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/30fps_select/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/60fps_select/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/add_a_photo/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/autofps_select/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/bedtime/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/bedtime_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/brightness_1/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/image/camera_alt/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/image/contrast/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/crop_16_9/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/crop_3_2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/crop_5_4/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/crop_7_5/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/currency_bitcoin/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/currency_franc/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/currency_lira/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/currency_pound/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/currency_ruble/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/currency_rupee/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/currency_yen/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/currency_yuan/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/deblur/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/details/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/euro/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/face_retouching_natural/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/image/face_retouching_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/flip_camera_android/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/flip_camera_ios/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/hdr_plus/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/hevc/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/hide_image/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/image_not_supported/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/incomplete_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/linked_camera/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/image/logo_dev/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/motion_photos_auto/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/motion_photos_on/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/motion_photos_pause/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/motion_photos_paused/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/palette/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/photo_album/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/photo_camera/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/image/raw_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/raw_on/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/receipt_long/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/rotate_90_degrees_cw/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/thermostat_auto/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/timer/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/timer_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/video_camera_back/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/video_camera_front/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/video_stable/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/view_comfy/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/view_compact/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/vrpano/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/image/wb_twilight/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/add_business/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/add_road/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/agriculture/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/airline_stops/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/airlines/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/alt_route/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/attractions/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/badge/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/bakery_dining/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/bike_scooter/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/breakfast_dining/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/brunch_dining/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/car_crash/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/car_rental/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/car_repair/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/castle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/category/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/maps/celebration/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/church/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/cleaning_services/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/compass_calibration/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/maps/connecting_airports/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/crisis_alert/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/delivery_dining/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/design_services/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/diamond/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/dinner_dining/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/directions/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/directions_boat_filled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/directions_bus_filled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/directions_car_filled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/directions_railway_filled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/directions_subway_filled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/directions_transit_filled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/dry_cleaning/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/edit_attributes/materialicons/24px.svg",
+            "reason": "Unsupported class attribute on <path>."
+        },
+        {
+            "source": "src/maps/edit_location_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/edit_road/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/egg/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/egg_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/electric_bike/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/electric_car/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/electric_moped/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/electric_rickshaw/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/electric_scooter/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/electrical_services/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/emergency/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/emergency_recording/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/emergency_share/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/factory/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/festival/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/fire_hydrant_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/fire_truck/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/flight_class/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/forest/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/fork_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/fork_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/fort/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/handyman/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/hardware/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/home_repair_service/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/hvac/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/icecream/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/kebab_dining/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/liquor/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/local_airport/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/local_fire_department/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/local_police/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/local_see/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/maps/location_pin/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/lunch_dining/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/maps_ugc/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/medical_information/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/medical_services/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/menu_book/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/merge/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/minor_crash/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/miscellaneous_services/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/mode_of_travel/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/moped/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/mosque/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/moving/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/multiple_stop/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/museum/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/near_me_disabled/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/nightlife/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/no_crash/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/no_meals/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/no_meals_ouline/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/no_transfer/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/park/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/pedal_bike/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/person_pin_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/pest_control/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/pest_control_rodent/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/plumbing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/ramen_dining/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/ramp_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/ramp_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/remove_road/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/roundabout_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/roundabout_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/route/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/run_circle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/safety_check/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/sailing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/screen_rotation_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/set_meal/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/signpost/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/snowmobile/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/sos/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/soup_kitchen/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/stadium/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/straight/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/streetview/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/maps/subway/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/maps/synagogue/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/takeout_dining/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/temple_buddhist/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/temple_hindu/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/theater_comedy/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/tire_repair/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/turn_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/turn_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/turn_sharp_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/turn_sharp_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/turn_slight_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/turn_slight_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/two_wheeler/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/u_turn_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/u_turn_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/volunteer_activism/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/warehouse/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/wine_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/wrong_location/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/zoom_in_map/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/maps/zoom_out_map/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/add_home_work/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/apps_outage/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/arrow_back_ios_new/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/arrow_forward_ios/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/assistant_direction/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: title."
+        },
+        {
+            "source": "src/navigation/double_arrow/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/east/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/expand_circle_down/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/home_work/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/legend_toggle/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/maps_home_work/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/north/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/north_east/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/north_west/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/south/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/south_east/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/south_west/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/switch_left/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/switch_right/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/navigation/west/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/confirmation_number/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/directions_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/do_disturb/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/do_disturb_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/do_disturb_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/do_disturb_on/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/no_encryption_gmailerrorred/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/phone_locked/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/priority_high/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/notification/running_with_errors/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/sd_card_alert/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/support_agent/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/sync_lock/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/video_chat/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/notification/voice_chat/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/apartment/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/baby_changing_station/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/backpack/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/balcony/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/bathtub/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/bento/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/bungalow/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/cabin/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/carpenter/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/chalet/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/charging_station/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/checkroom/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/child_care/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/places/corporate_fare/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/cottage/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/countertops/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/crib/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/desk/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/do_not_step/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/do_not_touch/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/dry/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/elevator/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/escalator/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/escalator_warning/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/family_restroom/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/fence/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/fire_extinguisher/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/food_bank/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/foundation/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/gite/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/golf_course/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/places/grass/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/holiday_village/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/hot_tub/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/places/house/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/house_siding/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/houseboat/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/iron/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/kitchen/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/microwave/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/night_shelter/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/no_backpack/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/no_cell/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/no_drinks/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/no_flash/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/no_food/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/no_photography/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/no_stroller/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/other_houses/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/pool/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/places/rice_bowl/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/roofing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/room_preferences/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/soap/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/sports_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/stairs/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/storefront/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/stroller/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/tapas/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/tty/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/umbrella/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/vape_free/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/vaping_rooms/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/villa/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/wash/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/water_damage/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/places/wheelchair_pickup/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/bathroom/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/bed/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/bedroom_baby/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/bedroom_child/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/bedroom_parent/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/blender/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/camera_indoor/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/camera_outdoor/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/chair/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/chair_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/coffee/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/coffee_maker/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/dining/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/door_back/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/door_front/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/door_sliding/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/doorbell/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/feed/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/flatware/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/garage/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/light/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/living/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/manage_search/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/podcasts/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/shower/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/table_bar/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/table_restaurant/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/window/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/search/yard/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/18_up_rating/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/6_ft_apart/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/add_reaction/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/architecture/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/assist_walker/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/back_hand/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/blind/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/boy/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/catching_pokemon/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/clean_hands/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/co2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/compost/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/connect_without_contact/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/construction/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/cookie/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/coronavirus/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/cruelty_free/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/cyclone/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/deck/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/dew_point/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/diversity_1/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/diversity_2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/diversity_3/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/domain/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/domain_add/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/downhill_skiing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/edit_notifications/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/elderly/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/elderly_woman/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/emoji_emotions/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/emoji_events/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/emoji_flags/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/emoji_food_beverage/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/emoji_nature/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/emoji_objects/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/emoji_people/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/emoji_symbols/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/emoji_transportation/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/engineering/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/face_2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/face_3/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/face_4/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/face_5/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/face_6/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/facebook/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/female/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/fireplace/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/fitbit/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/flood/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/follow_the_signs/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/front_hand/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/girl/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/group_add/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/group_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/group_remove/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/groups/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/groups_2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/groups_3/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/handshake/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/health_and_safety/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/heart_broken/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/hiking/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/history_edu/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/hive/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/ice_skating/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/interests/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/kayaking/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/king_bed/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/kitesurfing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/landslide/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/luggage/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/male/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/man/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/man_2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/man_3/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/man_4/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/masks/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/military_tech/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/nights_stay/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/no_adult_content/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/no_luggage/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/nordic_walking/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/notification_add/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/outdoor_grill/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/paragliding/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/people_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/person_2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/person_3/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/person_4/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/person_add_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/person_add_alt_1/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/person_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/person_remove/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/person_remove_alt_1/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/personal_injury/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/piano/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/piano_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/pix/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/precision_manufacturing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/psychology/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/psychology_alt/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/public_off/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/real_estate_agent/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/recommend/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: title."
+        },
+        {
+            "source": "src/social/recycling/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/reduce_capacity/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/roller_skating/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/safety_divider/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sanitizer/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/scale/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/science/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/scoreboard/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/scuba_diving/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/self_improvement/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sentiment_dissatisfied/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/social/sentiment_neutral/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/social/sentiment_satisfied/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/social/sentiment_very_dissatisfied/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/social/sentiment_very_satisfied/materialicons/24px.svg",
+            "reason": "Unsupported SVG element: circle."
+        },
+        {
+            "source": "src/social/severe_cold/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sick/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sign_language/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/single_bed/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/skateboarding/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sledding/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/snowboarding/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/snowshoeing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/social_distance/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/south_america/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_baseball/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_basketball/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_cricket/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_esports/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_football/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_golf/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_gymnastics/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_handball/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_hockey/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_kabaddi/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_martial_arts/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_mma/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_motorsports/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_rugby/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_soccer/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_tennis/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/sports_volleyball/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/surfing/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/thunderstorm/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/tornado/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/transgender/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/travel_explore/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/tsunami/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/vaccines/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/volcano/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/wallet/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/water_drop/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/waving_hand/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/whatsapp/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/woman/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/woman_2/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/social/workspace_premium/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/toggle/indeterminate_check_box/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/toggle/star_border_purple500/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/toggle/star_half/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        },
+        {
+            "source": "src/toggle/star_purple500/materialicons/24px.svg",
+            "reason": "Unsupported enable-background attribute on <svg>."
+        }
+    ]
+}

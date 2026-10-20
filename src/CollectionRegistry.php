@@ -15,7 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Owns collection metadata, activation state, and icon discovery.
  */
 class CollectionRegistry {
-	const MAX_PAGE = 10000;
+	const MAX_PAGE              = 10000;
+	const MAX_REQUEST_MANIFESTS = 2;
 
 	const OPTION_STATE_LOCK = 'icon_library_state_lock';
 	const STATE_LOCK_TTL    = 30;
@@ -35,11 +36,18 @@ class CollectionRegistry {
 	private $custom_icons;
 
 	/**
-	 * Token for the current collection-state lock.
+	 * Legacy bundled discovery; null retains the standalone registry contract.
 	 *
-	 * @var string
+	 * @var array|null
 	 */
-	private $state_lock_token = '';
+	private $bundled_slugs;
+
+	/**
+	 * Current transaction-scoped collection-state lock.
+	 *
+	 * @var OptionMutationLock|null
+	 */
+	private $state_lock;
 
 	/**
 	 * Request-local collection summary cache.
@@ -74,13 +82,24 @@ class CollectionRegistry {
 	 *
 	 * @param ManifestLoader            $manifest_loader Manifest loader.
 	 * @param CustomIconRepository|null $custom_icons    Custom icon repository.
+	 * @param array|null                $bundled_slugs   Bundled collections retained for an existing site.
 	 */
-	public function __construct( ManifestLoader $manifest_loader, ?CustomIconRepository $custom_icons = null ) {
+	public function __construct( ManifestLoader $manifest_loader, ?CustomIconRepository $custom_icons = null, $bundled_slugs = null ) {
 		$this->manifest_loader = $manifest_loader;
 		$this->custom_icons    = $custom_icons;
+		$this->bundled_slugs   = is_array( $bundled_slugs ) ? $this->normalize_keys( $bundled_slugs ) : null;
 		foreach ( array( 'added_option', 'updated_option', 'deleted_option' ) as $hook ) {
 			add_action( $hook, array( $this, 'invalidate_option' ) );
 		}
+		add_action( 'switch_blog', array( $this, 'switch_site' ), 10, 0 );
+	}
+
+	/** Reloads legacy availability for the destination site during a blog switch. */
+	public function switch_site() {
+		if ( null !== $this->bundled_slugs ) {
+			$this->bundled_slugs = $this->normalize_keys( Plugin::legacy_collections( $this->manifest_loader ) );
+		}
+		$this->clear_request_caches();
 	}
 
 	/**
@@ -89,7 +108,7 @@ class CollectionRegistry {
 	 * @param string $option Changed option name.
 	 */
 	public function invalidate_option( $option ) {
-		if ( in_array( $option, array( Plugin::OPTION_ENABLED_COLLECTIONS, Plugin::OPTION_ENABLED_VARIANTS, CustomIconRepository::OPTION_ICONS ), true ) ) {
+		if ( in_array( $option, array( Plugin::OPTION_ENABLED_COLLECTIONS, Plugin::OPTION_INSTALLED_COLLECTIONS, Plugin::OPTION_ENABLED_VARIANTS, CustomIconRepository::OPTION_ICONS ), true ) ) {
 			$this->clear_request_caches();
 		}
 	}
@@ -102,16 +121,18 @@ class CollectionRegistry {
 	public function get_collections() {
 		$collections = array();
 		$enabled     = $this->get_enabled_collection_slugs();
+		$installed   = $this->get_installed_collection_slugs();
 
 		foreach ( $this->get_available_collection_slugs() as $slug ) {
 			$manifest = $this->get_metadata( $slug );
 
-			if ( ! is_array( $manifest ) ) {
+			if ( ! is_array( $manifest ) || $this->is_retained_collection( $slug, $manifest ) ) {
 				continue;
 			}
 
 			if ( ! isset( $this->collection_summaries[ $slug ] ) ) {
-				$this->collection_summaries[ $slug ] = $this->prepare_collection_summary( $manifest, in_array( $slug, $enabled, true ) );
+				$this->collection_summaries[ $slug ]              = $this->prepare_collection_summary( $manifest, in_array( $slug, $enabled, true ) );
+				$this->collection_summaries[ $slug ]['installed'] = in_array( $slug, $installed, true ) || ! in_array( $slug, $this->get_bundled_collection_slugs(), true );
 			}
 			$collections[ $slug ] = $this->collection_summaries[ $slug ];
 		}
@@ -134,12 +155,13 @@ class CollectionRegistry {
 	public function get_collection( $slug ) {
 		$slug     = is_string( $slug ) ? sanitize_key( $slug ) : '';
 		$manifest = $this->get_metadata( $slug );
-		if ( ! is_array( $manifest ) ) {
+		if ( ! is_array( $manifest ) || $this->is_retained_collection( $slug, $manifest ) ) {
 			return null;
 		}
 
 		if ( ! isset( $this->collection_summaries[ $slug ] ) ) {
-			$this->collection_summaries[ $slug ] = $this->prepare_collection_summary( $manifest, in_array( $slug, $this->get_enabled_collection_slugs(), true ) );
+			$this->collection_summaries[ $slug ]              = $this->prepare_collection_summary( $manifest, in_array( $slug, $this->get_enabled_collection_slugs(), true ) );
+			$this->collection_summaries[ $slug ]['installed'] = in_array( $slug, $this->get_installed_collection_slugs(), true ) || ! in_array( $slug, $this->get_bundled_collection_slugs(), true );
 		}
 		$collections = apply_filters(
 			'icon_library_collections',
@@ -157,7 +179,7 @@ class CollectionRegistry {
 	 * @return string[]
 	 */
 	public function get_available_collection_slugs() {
-		$slugs = $this->normalize_keys( $this->manifest_loader->get_collection_slugs() );
+		$slugs = null === $this->bundled_slugs ? $this->normalize_keys( $this->manifest_loader->get_collection_slugs() ) : $this->bundled_slugs;
 		if ( $this->custom_icons && $this->custom_icons->get_manifest() ) {
 			$slugs[] = CustomIconRepository::COLLECTION_SLUG;
 		}
@@ -183,7 +205,13 @@ class CollectionRegistry {
 		$providers = $this->get_provider_definitions();
 		if ( isset( $providers[ $slug ] ) && is_array( $providers[ $slug ] ) && isset( $providers[ $slug ]['manifest'] ) ) {
 			if ( array_key_exists( $slug, $this->provider_manifests ) ) {
-				return $this->provider_manifests[ $slug ];
+				$cached = $this->provider_manifests[ $slug ];
+				unset( $this->provider_manifests[ $slug ] );
+				$this->provider_manifests[ $slug ] = $cached;
+				return $cached;
+			}
+			if ( count( $this->provider_manifests ) >= self::MAX_REQUEST_MANIFESTS ) {
+				$this->forget_collection_request_cache( array_key_first( $this->provider_manifests ) );
 			}
 			$manifest      = is_callable( $providers[ $slug ]['manifest'] ) ? call_user_func( $providers[ $slug ]['manifest'] ) : $providers[ $slug ]['manifest'];
 			$manifest_slug = is_array( $manifest ) && is_string( $manifest['slug'] ?? null ) ? sanitize_key( $manifest['slug'] ) : '';
@@ -195,7 +223,7 @@ class CollectionRegistry {
 			$this->provider_manifests[ $slug ] = is_array( $manifest ) && ( $manifest['slug'] ?? null ) === $slug ? $manifest : null;
 			return $this->provider_manifests[ $slug ];
 		}
-		return $this->manifest_loader->get_manifest( $slug );
+		return $this->can_use_bundled( $slug ) ? $this->manifest_loader->get_manifest( $slug ) : null;
 	}
 
 	/**
@@ -209,7 +237,7 @@ class CollectionRegistry {
 		if ( CustomIconRepository::COLLECTION_SLUG === $slug || isset( $providers[ $slug ] ) ) {
 			return $this->get_manifest( $slug );
 		}
-		return $this->manifest_loader->get_metadata( $slug );
+		return $this->can_use_bundled( $slug ) ? $this->manifest_loader->get_metadata( $slug ) : null;
 	}
 
 	/**
@@ -233,7 +261,7 @@ class CollectionRegistry {
 			$resolved = is_string( $path ) ? realpath( $path ) : false;
 			return false !== $resolved && ! is_link( $path ) && is_file( $resolved ) && is_readable( $resolved ) && 'svg' === strtolower( pathinfo( $resolved, PATHINFO_EXTENSION ) ) ? $resolved : null;
 		}
-		return $this->manifest_loader->get_svg_path( $slug, $relative_path );
+		return $this->can_use_bundled( $slug ) ? $this->manifest_loader->get_svg_path( $slug, $relative_path ) : null;
 	}
 
 	/**
@@ -256,7 +284,117 @@ class CollectionRegistry {
 			$content = call_user_func( $providers[ $slug ]['svg_content'], $relative_path );
 			return is_string( $content ) ? $content : null;
 		}
-		return $this->manifest_loader->get_svg_content( $slug, $relative_path );
+		return $this->can_use_bundled( $slug ) ? $this->manifest_loader->get_svg_content( $slug, $relative_path ) : null;
+	}
+
+	/**
+	 * Blocks direct requests from bypassing the fresh-site installed inventory.
+	 *
+	 * @param string $slug Bundled collection slug.
+	 * @return bool
+	 */
+	private function can_use_bundled( $slug ) {
+		return null === $this->bundled_slugs || in_array( $slug, $this->bundled_slugs, true );
+	}
+
+	/** Hides retained inventory only for this plugin's installed provider.
+	 *
+	 * @param string $slug Collection slug.
+	 * @param mixed  $manifest Collection manifest.
+	 * @return bool
+	 */
+	private function is_retained_collection( $slug, $manifest ) {
+		if ( ! is_array( $manifest ) || 'retained' !== ( $manifest['version'] ?? '' ) ) {
+			return false;
+		}
+		$providers = $this->get_provider_definitions();
+		return 'aculect-icon-library-installed' === ( $providers[ $slug ]['owner'] ?? '' );
+	}
+
+	/** Returns bundled slugs not owned by an existing provider. */
+	public function get_bundled_collection_slugs() {
+		return array_values( array_diff( $this->manifest_loader->get_collection_slugs(), array_keys( $this->get_provider_definitions() ) ) );
+	}
+
+	/** Returns selected bundled libraries without writing inferred upgrade state. */
+	public function get_installed_collection_slugs() {
+		$bundled = $this->get_bundled_collection_slugs();
+		$stored  = $this->read_state( Plugin::OPTION_INSTALLED_COLLECTIONS, array() );
+		$stored  = is_array( $stored ) ? $stored : array();
+		$enabled = $this->get_enabled_collection_slugs();
+		return array_values( array_intersect( $bundled, $this->normalize_keys( array_merge( $stored, $enabled ) ) ) );
+	}
+
+	/** Selects or removes a local bundle; removal never deletes artwork.
+	 *
+	 * @param string $slug Bundle slug.
+	 * @param bool   $installed Desired selection state.
+	 * @return bool
+	 */
+	public function set_collection_installed( $slug, $installed ) {
+		$slug = is_string( $slug ) ? sanitize_key( $slug ) : '';
+		if ( ! in_array( $slug, $this->get_bundled_collection_slugs(), true ) || null === $this->get_collection( $slug ) || ! $this->acquire_state_lock() ) {
+			return false;
+		}
+		try {
+			$selected = $this->get_installed_collection_slugs();
+			$enabled  = $this->read_state( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
+			$enabled  = is_array( $enabled ) ? $enabled : array();
+			if ( $installed ) {
+				$selected[] = $slug;
+			} else {
+				$selected = array_diff( $selected, array( $slug ) );
+				$enabled  = array_diff( $enabled, array( $slug ) );
+			}
+			$selected     = $this->normalize_keys( $selected );
+			$old_selected = $this->read_state( Plugin::OPTION_INSTALLED_COLLECTIONS, array() );
+			$old_enabled  = $this->read_state( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
+			if ( ! $installed && ! in_array( $slug, is_array( $old_selected ) ? $this->normalize_keys( $old_selected ) : array(), true ) && ! in_array( $slug, is_array( $old_enabled ) ? $this->normalize_keys( $old_enabled ) : array(), true ) && in_array( $slug, $this->get_enabled_collection_slugs(), true ) ) {
+				return false;
+			}
+			if ( ! $installed && $old_enabled !== $enabled && ! $this->persist_state( Plugin::OPTION_ENABLED_COLLECTIONS, $enabled ) ) {
+				return false;
+			}
+			if ( ! $this->persist_state( Plugin::OPTION_INSTALLED_COLLECTIONS, $selected ) ) {
+				if ( ! $installed && $old_enabled !== $enabled ) {
+					$this->persist_state( Plugin::OPTION_ENABLED_COLLECTIONS, $old_enabled );
+				}
+				return false;
+			}
+			if ( ! $installed && in_array( $slug, $this->get_installed_collection_slugs(), true ) ) {
+				$this->persist_state( Plugin::OPTION_INSTALLED_COLLECTIONS, $old_selected );
+				if ( $old_enabled !== $enabled ) {
+					$this->persist_state( Plugin::OPTION_ENABLED_COLLECTIONS, $old_enabled );
+				}
+				$this->clear_request_caches();
+				return false;
+			}
+			$this->clear_request_caches();
+			return $this->state_lock->commit();
+		} finally {
+			$this->release_state_lock();
+		}
+	}
+
+	/** Treats an unchanged option as a successful idempotent write.
+	 *
+	 * @param string $option Option name.
+	 * @param mixed  $value Option value.
+	 * @return bool
+	 */
+	private function persist_state( $option, $value ) {
+		return $this->state_lock && $this->state_lock->write( $option, $value );
+	}
+
+	/**
+	 * Uses authoritative reads during mutations, including cached missing options.
+	 *
+	 * @param string $option Option name.
+	 * @param mixed  $fallback Missing value.
+	 * @return mixed
+	 */
+	private function read_state( $option, $fallback = false ) {
+		return $this->state_lock ? $this->state_lock->read( $option, $fallback ) : get_option( $option, $fallback );
 	}
 
 	/**
@@ -266,7 +404,7 @@ class CollectionRegistry {
 	 */
 	public function get_enabled_collection_slugs() {
 		$available = $this->get_available_collection_slugs();
-		$enabled   = get_option( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
+		$enabled   = $this->read_state( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
 
 		if ( ! is_array( $enabled ) ) {
 			$enabled = array();
@@ -289,8 +427,16 @@ class CollectionRegistry {
 		 *
 		 * @param string[] $enabled Enabled collection slugs.
 		 */
-		$filtered = apply_filters( 'icon_library_enabled_collections', $enabled );
-		return array_values( array_intersect( $this->normalize_keys( $filtered ), $available ) );
+		$filtered  = apply_filters( 'icon_library_enabled_collections', $enabled );
+		$providers = $this->get_provider_definitions();
+		return array_values(
+			array_filter(
+				array_intersect( $this->normalize_keys( $filtered ), $available ),
+				static function ( $slug ) use ( $providers ) {
+					return 'aculect-icon-library-installed' !== ( $providers[ $slug ]['owner'] ?? '' ) || empty( $providers[ $slug ]['retained'] );
+				}
+			)
+		);
 	}
 
 	/**
@@ -316,8 +462,20 @@ class CollectionRegistry {
 		try {
 			$enabled_slugs = $this->get_enabled_collection_slugs();
 			$is_enabled    = in_array( $slug, $enabled_slugs, true );
+			$is_bundled    = in_array( $slug, $this->get_bundled_collection_slugs(), true );
+			$old_selected  = $this->read_state( Plugin::OPTION_INSTALLED_COLLECTIONS, array() );
+			$was_stored    = is_array( $old_selected ) && in_array( $slug, $this->normalize_keys( $old_selected ), true );
+			$needs_marker  = $is_bundled && ! $was_stored && ( $enabled || $is_enabled );
+			if ( $needs_marker ) {
+				$selected   = $this->get_installed_collection_slugs();
+				$selected[] = $slug;
+				if ( ! $this->persist_state( Plugin::OPTION_INSTALLED_COLLECTIONS, $this->normalize_keys( $selected ) ) ) {
+					return false;
+				}
+			}
 			if ( (bool) $enabled === $is_enabled ) {
-				return true;
+				$this->clear_request_caches();
+				return $this->state_lock->commit();
 			}
 
 			if ( $enabled ) {
@@ -327,16 +485,19 @@ class CollectionRegistry {
 			}
 
 			$enabled_slugs = $this->normalize_keys( $enabled_slugs );
-			if ( update_option( Plugin::OPTION_ENABLED_COLLECTIONS, $enabled_slugs, false ) ) {
+			if ( $this->persist_state( Plugin::OPTION_ENABLED_COLLECTIONS, $enabled_slugs ) ) {
 				$this->clear_request_caches();
-				return true;
+				return $this->state_lock->commit();
 			}
-			$stored  = get_option( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
+			if ( $needs_marker ) {
+				$this->persist_state( Plugin::OPTION_INSTALLED_COLLECTIONS, $old_selected );
+			}
+			$stored  = $this->read_state( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
 			$success = is_array( $stored ) && ( in_array( $slug, $this->normalize_keys( $stored ), true ) === (bool) $enabled );
 			if ( $success ) {
 				$this->clear_request_caches();
 			}
-			return $success;
+			return $success && $this->state_lock->commit();
 		} finally {
 			$this->release_state_lock();
 		}
@@ -379,7 +540,7 @@ class CollectionRegistry {
 				)
 			)
 		);
-		$state        = get_option( Plugin::OPTION_ENABLED_VARIANTS, array() );
+		$state        = $this->read_state( Plugin::OPTION_ENABLED_VARIANTS, array() );
 		if ( ! is_array( $state ) || ! array_key_exists( sanitize_key( $slug ), $state ) ) {
 			$enabled = $defaults;
 		} else {
@@ -451,14 +612,14 @@ class CollectionRegistry {
 			return false;
 		}
 		try {
-			$state = get_option( Plugin::OPTION_ENABLED_VARIANTS, array() );
+			$state = $this->read_state( Plugin::OPTION_ENABLED_VARIANTS, array() );
 			if ( ! is_array( $state ) ) {
 				$state = array();
 			}
 			$state[ $slug ] = $this->get_enabled_variants( $slug );
 			$is_enabled     = in_array( $variant, $state[ $slug ], true );
 			if ( (bool) $enabled === $is_enabled ) {
-				return true;
+				return $this->state_lock->commit();
 			}
 			if ( $enabled ) {
 				$state[ $slug ][] = $variant;
@@ -466,16 +627,16 @@ class CollectionRegistry {
 				$state[ $slug ] = array_diff( $state[ $slug ], array( $variant ) );
 			}
 			$state[ $slug ] = array_values( array_unique( $state[ $slug ] ) );
-			if ( update_option( Plugin::OPTION_ENABLED_VARIANTS, $state, false ) ) {
+			if ( $this->persist_state( Plugin::OPTION_ENABLED_VARIANTS, $state ) ) {
 				$this->clear_request_caches();
-				return true;
+				return $this->state_lock->commit();
 			}
-			$stored  = get_option( Plugin::OPTION_ENABLED_VARIANTS, array() );
+			$stored  = $this->read_state( Plugin::OPTION_ENABLED_VARIANTS, array() );
 			$success = isset( $stored[ $slug ] ) && is_array( $stored[ $slug ] ) && ( in_array( $variant, $this->normalize_keys( $stored[ $slug ] ), true ) === (bool) $enabled );
 			if ( $success ) {
 				$this->clear_request_caches();
 			}
-			return $success;
+			return $success && $this->state_lock->commit();
 		} finally {
 			$this->release_state_lock();
 		}
@@ -756,6 +917,9 @@ class CollectionRegistry {
 			}
 
 			if ( ! isset( $this->name_indexes[ $collection_slug ] ) ) {
+				if ( count( $this->name_indexes ) >= self::MAX_REQUEST_MANIFESTS ) {
+					unset( $this->name_indexes[ array_key_first( $this->name_indexes ) ] );
+				}
 				$this->name_indexes[ $collection_slug ] = IconNameIndex::build( $collection_slug, $this->get_manifest( $collection_slug ) );
 			}
 			$entry = $this->name_indexes[ $collection_slug ][ $core_icon_name ] ?? null;
@@ -849,6 +1013,14 @@ class CollectionRegistry {
 		return array_values( array_unique( $keys ) );
 	}
 
+	/** Releases one manifest and its lookup index without touching stored artwork.
+	 *
+	 * @param string $slug Collection slug.
+	 */
+	public function forget_collection_request_cache( $slug ) {
+		unset( $this->provider_manifests[ $slug ], $this->name_indexes[ $slug ] );
+	}
+
 	/** Clears request-local derived data after a state mutation. */
 	public function clear_request_caches() {
 		$this->collection_summaries = array();
@@ -882,52 +1054,32 @@ class CollectionRegistry {
 	}
 
 	/**
-	 * Acquires a short-lived lock for shared collection state updates.
+	 * Pins shared state until commit; recovery cannot steal an active transaction.
 	 *
-	 * Two overlapping admin/REST requests toggling collections or variants would
-	 * otherwise both read the same enabled-slugs list, mutate it independently, and
-	 * whichever update_option() call lands second would silently discard the other's
-	 * change. add_option() is used instead of get+update because it is the atomic
-	 * primitive available here: it fails if the lock option already exists, so two
-	 * concurrent callers cannot both believe they hold the lock. The TTL exists so a
-	 * lock from a request that crashed or timed out mid-update cannot block every
-	 * future toggle indefinitely.
+	 * @return bool
 	 */
 	private function acquire_state_lock() {
-		$existing = get_option( self::OPTION_STATE_LOCK, false );
-		$started  = is_array( $existing ) && is_scalar( $existing['started'] ?? null ) ? absint( $existing['started'] ) : ( is_scalar( $existing ) ? absint( $existing ) : 0 );
-		if ( $started && time() - $started > self::STATE_LOCK_TTL ) {
-			delete_option( self::OPTION_STATE_LOCK );
-		}
-		$this->state_lock_token = function_exists( 'wp_generate_uuid4' ) ? wp_generate_uuid4() : uniqid( 'icon-library-', true );
-		if ( ! add_option(
-			self::OPTION_STATE_LOCK,
-			array(
-				'token'   => $this->state_lock_token,
-				'started' => time(),
-			),
-			'',
-			false
-		) ) {
-			$this->state_lock_token = '';
+		if ( $this->state_lock ) {
 			return false;
 		}
+		$lock = new OptionMutationLock( self::OPTION_STATE_LOCK );
+		if ( ! $lock->acquire( self::STATE_LOCK_TTL ) ) {
+			return false;
+		}
+		$this->state_lock = $lock;
 		return true;
 	}
 
 	/**
 	 * Releases the shared collection state lock.
 	 *
-	 * Only deletes the lock if its token matches the one this instance acquired, so a
-	 * request cannot release a lock it doesn't hold (e.g. one a still-in-flight request
-	 * created after this instance's own lock already expired past the TTL above).
+	 * Uncommitted metadata changes are rolled back together.
 	 */
 	private function release_state_lock() {
-		$lock = get_option( self::OPTION_STATE_LOCK, false );
-		if ( is_array( $lock ) && isset( $lock['token'] ) && is_string( $lock['token'] ) && '' !== $lock['token'] && '' !== $this->state_lock_token && hash_equals( $lock['token'], $this->state_lock_token ) ) {
-			delete_option( self::OPTION_STATE_LOCK );
+		if ( $this->state_lock ) {
+			$this->state_lock->release();
 		}
-		$this->state_lock_token = '';
+		$this->state_lock = null;
 	}
 
 	/**

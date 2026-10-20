@@ -1,0 +1,3483 @@
+{
+    "schemaVersion": 2,
+    "slug": "rune",
+    "name": "Rune Icons",
+    "description": "The pixelated variant of Rune Icons, preserving original path colors.",
+    "version": "commit-f649e467d1bc",
+    "license": {
+        "name": "Apache-2.0",
+        "url": "https://github.com/Nexvyn/runeicons/blob/f649e467d1bc9f272aae3f8daa329d4c924e7340/LICENSE"
+    },
+    "source": {
+        "name": "Nexvyn/runeicons",
+        "url": "https://github.com/Nexvyn/runeicons",
+        "revision": "f649e467d1bc9f272aae3f8daa329d4c924e7340"
+    },
+    "variants": [
+        {
+            "slug": "pixelated",
+            "label": "Pixelated",
+            "coreCompatible": true,
+            "defaultEnabled": true,
+            "iconCount": 215
+        }
+    ],
+    "categories": [
+        {
+            "slug": "arrows",
+            "label": "Arrows",
+            "iconCount": 24
+        },
+        {
+            "slug": "code",
+            "label": "Code",
+            "iconCount": 15
+        },
+        {
+            "slug": "documents",
+            "label": "Documents",
+            "iconCount": 25
+        },
+        {
+            "slug": "gadgets",
+            "label": "Gadgets",
+            "iconCount": 8
+        },
+        {
+            "slug": "identity",
+            "label": "Identity",
+            "iconCount": 13
+        },
+        {
+            "slug": "indicators",
+            "label": "Indicators",
+            "iconCount": 18
+        },
+        {
+            "slug": "layouts",
+            "label": "Layouts",
+            "iconCount": 14
+        },
+        {
+            "slug": "messaging",
+            "label": "Messaging",
+            "iconCount": 12
+        },
+        {
+            "slug": "metrics",
+            "label": "Metrics",
+            "iconCount": 8
+        },
+        {
+            "slug": "money",
+            "label": "Money",
+            "iconCount": 14
+        },
+        {
+            "slug": "nature",
+            "label": "Nature",
+            "iconCount": 11
+        },
+        {
+            "slug": "other",
+            "label": "Other",
+            "iconCount": 5
+        },
+        {
+            "slug": "playback",
+            "label": "Playback",
+            "iconCount": 13
+        },
+        {
+            "slug": "schedule",
+            "label": "Schedule",
+            "iconCount": 7
+        },
+        {
+            "slug": "senses",
+            "label": "Senses",
+            "iconCount": 8
+        },
+        {
+            "slug": "tools",
+            "label": "Tools",
+            "iconCount": 20
+        }
+    ],
+    "icons": [
+        {
+            "id": "rune/pixelated/arrows-arrow-down-left",
+            "coreIconName": "rune/arrows-arrow-down-left-pixelated",
+            "label": "Arrow Down Left",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "down",
+                "left"
+            ],
+            "path": "pixelated/arrows-arrow-down-left.svg",
+            "sha256": "0c6e44ef24243e2655eeba508d1966d22053e5b38bfb16d326544140824759ec"
+        },
+        {
+            "id": "rune/pixelated/arrows-arrow-down-right",
+            "coreIconName": "rune/arrows-arrow-down-right-pixelated",
+            "label": "Arrow Down Right",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "down",
+                "right"
+            ],
+            "path": "pixelated/arrows-arrow-down-right.svg",
+            "sha256": "4f14e23e34e510cfbc50caea6cc768b164c87b774fdc976852a1e8b78962a16e"
+        },
+        {
+            "id": "rune/pixelated/arrows-arrow-down-to-line",
+            "coreIconName": "rune/arrows-arrow-down-to-line-pixelated",
+            "label": "Arrow Down To Line",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "down",
+                "to",
+                "line"
+            ],
+            "path": "pixelated/arrows-arrow-down-to-line.svg",
+            "sha256": "a760bd734a11befdb390e41bdb4d75a7e72ae9ffacfa22674f22313d03e8bf6f"
+        },
+        {
+            "id": "rune/pixelated/arrows-arrow-down",
+            "coreIconName": "rune/arrows-arrow-down-pixelated",
+            "label": "Arrow Down",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "down"
+            ],
+            "path": "pixelated/arrows-arrow-down.svg",
+            "sha256": "08603349ba588cca81753986296c951b4f96fbfb53858242c078684b77200105"
+        },
+        {
+            "id": "rune/pixelated/arrows-arrow-left-right",
+            "coreIconName": "rune/arrows-arrow-left-right-pixelated",
+            "label": "Arrow Left Right",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "left",
+                "right"
+            ],
+            "path": "pixelated/arrows-arrow-left-right.svg",
+            "sha256": "1cfc6ee4d37034617e74e9f3621467d88aed2934fe5522e98136c97179adae1c"
+        },
+        {
+            "id": "rune/pixelated/arrows-arrow-left",
+            "coreIconName": "rune/arrows-arrow-left-pixelated",
+            "label": "Arrow Left",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "left"
+            ],
+            "path": "pixelated/arrows-arrow-left.svg",
+            "sha256": "6c7f7fa9be85a8d098f24b294898a04faa4221af826595e8194a9071d9ea2d1b"
+        },
+        {
+            "id": "rune/pixelated/arrows-arrow-right",
+            "coreIconName": "rune/arrows-arrow-right-pixelated",
+            "label": "Arrow Right",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "right"
+            ],
+            "path": "pixelated/arrows-arrow-right.svg",
+            "sha256": "38340a0fd21b3425978757b9bff3a314f296af9cc4d052ef792812a77296d6de"
+        },
+        {
+            "id": "rune/pixelated/arrows-arrow-up-down",
+            "coreIconName": "rune/arrows-arrow-up-down-pixelated",
+            "label": "Arrow Up Down",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "up",
+                "down"
+            ],
+            "path": "pixelated/arrows-arrow-up-down.svg",
+            "sha256": "e7aca06c5e6349d22cdc9f8945158bc260a67e9f5817a2d39fd4e4c3bbe639db"
+        },
+        {
+            "id": "rune/pixelated/arrows-arrow-up-from-line",
+            "coreIconName": "rune/arrows-arrow-up-from-line-pixelated",
+            "label": "Arrow Up From Line",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "up",
+                "from",
+                "line"
+            ],
+            "path": "pixelated/arrows-arrow-up-from-line.svg",
+            "sha256": "afeac7e1415b0dd2690cf4ff686cf0e622707ee2492c50f632ccf9529fe46202"
+        },
+        {
+            "id": "rune/pixelated/arrows-arrow-up-left",
+            "coreIconName": "rune/arrows-arrow-up-left-pixelated",
+            "label": "Arrow Up Left",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "up",
+                "left"
+            ],
+            "path": "pixelated/arrows-arrow-up-left.svg",
+            "sha256": "6a399c1ab5dc0ba242eab9863348b7a2d0e9e365518c2841b03dc81621b70e4b"
+        },
+        {
+            "id": "rune/pixelated/arrows-arrow-up-right",
+            "coreIconName": "rune/arrows-arrow-up-right-pixelated",
+            "label": "Arrow Up Right",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "up",
+                "right"
+            ],
+            "path": "pixelated/arrows-arrow-up-right.svg",
+            "sha256": "ae96238572be46a712a6ccd0048a8da5522584610db756650b6535feeccaf01a"
+        },
+        {
+            "id": "rune/pixelated/arrows-arrow-up",
+            "coreIconName": "rune/arrows-arrow-up-pixelated",
+            "label": "Arrow Up",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "arrow",
+                "up"
+            ],
+            "path": "pixelated/arrows-arrow-up.svg",
+            "sha256": "cf510820c8d3554b670d4c2ee8f334424faf8b316dcc36a6a6012265bfab86fd"
+        },
+        {
+            "id": "rune/pixelated/arrows-chevron-down",
+            "coreIconName": "rune/arrows-chevron-down-pixelated",
+            "label": "Chevron Down",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "chevron",
+                "down"
+            ],
+            "path": "pixelated/arrows-chevron-down.svg",
+            "sha256": "58b5185667d56818851e9b32879761f0d0f8c94308b776241ff57fe7ed30a9e4"
+        },
+        {
+            "id": "rune/pixelated/arrows-chevron-left",
+            "coreIconName": "rune/arrows-chevron-left-pixelated",
+            "label": "Chevron Left",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "chevron",
+                "left"
+            ],
+            "path": "pixelated/arrows-chevron-left.svg",
+            "sha256": "8a78dc7f797e73f77cf40969dedc62249456e23a63260d0de9dd9217356da245"
+        },
+        {
+            "id": "rune/pixelated/arrows-chevron-right",
+            "coreIconName": "rune/arrows-chevron-right-pixelated",
+            "label": "Chevron Right",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "chevron",
+                "right"
+            ],
+            "path": "pixelated/arrows-chevron-right.svg",
+            "sha256": "5ac5cd2ebc72c85e9bc7340a048761503b4ed0e78b04ed660b448e41239fc7fc"
+        },
+        {
+            "id": "rune/pixelated/arrows-chevron-up",
+            "coreIconName": "rune/arrows-chevron-up-pixelated",
+            "label": "Chevron Up",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "chevron",
+                "up"
+            ],
+            "path": "pixelated/arrows-chevron-up.svg",
+            "sha256": "951943eb2cd004f0cd218d625dd1861097f1ea41a6871d7e747ee2f2e2b1820e"
+        },
+        {
+            "id": "rune/pixelated/arrows-corner-down-right",
+            "coreIconName": "rune/arrows-corner-down-right-pixelated",
+            "label": "Corner Down Right",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "corner",
+                "down",
+                "right"
+            ],
+            "path": "pixelated/arrows-corner-down-right.svg",
+            "sha256": "7e09581de281e0d87115f17909c3fe689a3315b78b0a5b6440365f80a129719f"
+        },
+        {
+            "id": "rune/pixelated/arrows-move",
+            "coreIconName": "rune/arrows-move-pixelated",
+            "label": "Move",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "move"
+            ],
+            "path": "pixelated/arrows-move.svg",
+            "sha256": "a244e608f7feb76267ffa89715d414bd476ad6741b773a6043135c07883b5020"
+        },
+        {
+            "id": "rune/pixelated/arrows-rotate-ccw",
+            "coreIconName": "rune/arrows-rotate-ccw-pixelated",
+            "label": "Rotate Ccw",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "rotate",
+                "ccw"
+            ],
+            "path": "pixelated/arrows-rotate-ccw.svg",
+            "sha256": "52f8449f1a2828d56ad44e193149b4297954f063cf021ac4957a7e237a45c00b"
+        },
+        {
+            "id": "rune/pixelated/arrows-rotate-cw",
+            "coreIconName": "rune/arrows-rotate-cw-pixelated",
+            "label": "Rotate Cw",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "rotate",
+                "cw"
+            ],
+            "path": "pixelated/arrows-rotate-cw.svg",
+            "sha256": "9b44ea2795eb73018796301cc0c1e080ce4326794869ea809d72395cb3b5d89e"
+        },
+        {
+            "id": "rune/pixelated/arrows-skip-forward",
+            "coreIconName": "rune/arrows-skip-forward-pixelated",
+            "label": "Skip Forward",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "skip",
+                "forward"
+            ],
+            "path": "pixelated/arrows-skip-forward.svg",
+            "sha256": "b84c6f9858078796eb767025261e2bbe5fedcd54dfc86890e0a0ffedc5fc1900"
+        },
+        {
+            "id": "rune/pixelated/arrows-step-back",
+            "coreIconName": "rune/arrows-step-back-pixelated",
+            "label": "Step Back",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "step",
+                "back"
+            ],
+            "path": "pixelated/arrows-step-back.svg",
+            "sha256": "f64a44062466879cf1434f84b7d1a4500b38112f116f9c1e6b9c13f54bc5e543"
+        },
+        {
+            "id": "rune/pixelated/arrows-unfold-horizontal",
+            "coreIconName": "rune/arrows-unfold-horizontal-pixelated",
+            "label": "Unfold Horizontal",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "unfold",
+                "horizontal"
+            ],
+            "path": "pixelated/arrows-unfold-horizontal.svg",
+            "sha256": "0749723d7c1fe4deea98822b9f2ce5dc3f23a1f4bd329fa992bc6a5ef4d13c74"
+        },
+        {
+            "id": "rune/pixelated/arrows-unfold-vertical",
+            "coreIconName": "rune/arrows-unfold-vertical-pixelated",
+            "label": "Unfold Vertical",
+            "variant": "pixelated",
+            "categories": [
+                "arrows"
+            ],
+            "keywords": [
+                "arrows",
+                "unfold",
+                "vertical"
+            ],
+            "path": "pixelated/arrows-unfold-vertical.svg",
+            "sha256": "1cb875cf4fe3cba22433e1b9f8330f0305003dc643a9fd73ae6d1cef0b4e48a6"
+        },
+        {
+            "id": "rune/pixelated/code-braces",
+            "coreIconName": "rune/code-braces-pixelated",
+            "label": "Braces",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "braces"
+            ],
+            "path": "pixelated/code-braces.svg",
+            "sha256": "809e075a82e8c1b88800c3e431733339880a6de0351b017d05961bede3ceef59"
+        },
+        {
+            "id": "rune/pixelated/code-code-xml",
+            "coreIconName": "rune/code-code-xml-pixelated",
+            "label": "Code Xml",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "xml"
+            ],
+            "path": "pixelated/code-code-xml.svg",
+            "sha256": "27bea2ad4f01fda7bc3a7f098d3625c7c6ebf62155072fa801725602edae4b7a"
+        },
+        {
+            "id": "rune/pixelated/code-code",
+            "coreIconName": "rune/code-code-pixelated",
+            "label": "Code",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code"
+            ],
+            "path": "pixelated/code-code.svg",
+            "sha256": "f9eb0d5b24d24137894e2ffc413df46597bf7a34669f780199fe89ae3c321d41"
+        },
+        {
+            "id": "rune/pixelated/code-compass",
+            "coreIconName": "rune/code-compass-pixelated",
+            "label": "Compass",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "compass"
+            ],
+            "path": "pixelated/code-compass.svg",
+            "sha256": "5ae4692e643a507a8dd3dcdd6e0bbc76833e86a3318f60f35f5015e37fe4c20b"
+        },
+        {
+            "id": "rune/pixelated/code-copy",
+            "coreIconName": "rune/code-copy-pixelated",
+            "label": "Copy",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "copy"
+            ],
+            "path": "pixelated/code-copy.svg",
+            "sha256": "93359e398de4742486f62ab929f8fbaf7e3b0283c685b5a86832ffe4f022ee81"
+        },
+        {
+            "id": "rune/pixelated/code-drafting-compass",
+            "coreIconName": "rune/code-drafting-compass-pixelated",
+            "label": "Drafting Compass",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "drafting",
+                "compass"
+            ],
+            "path": "pixelated/code-drafting-compass.svg",
+            "sha256": "dc69c4cf8dacfa52336abab21935a06f01771daceb41990806b9e9d8bf4aa918"
+        },
+        {
+            "id": "rune/pixelated/code-git-branch",
+            "coreIconName": "rune/code-git-branch-pixelated",
+            "label": "Git Branch",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "git",
+                "branch"
+            ],
+            "path": "pixelated/code-git-branch.svg",
+            "sha256": "caea99c0e856c48acda23013e79665d10ed5a574df559cc1111ad1ca700749f2"
+        },
+        {
+            "id": "rune/pixelated/code-git-commit-horizontal",
+            "coreIconName": "rune/code-git-commit-horizontal-pixelated",
+            "label": "Git Commit Horizontal",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "git",
+                "commit",
+                "horizontal"
+            ],
+            "path": "pixelated/code-git-commit-horizontal.svg",
+            "sha256": "65c860b7b0f3e91ad01af1b95906f4c3398232757fd106b87de3bfbabcf661a5"
+        },
+        {
+            "id": "rune/pixelated/code-group",
+            "coreIconName": "rune/code-group-pixelated",
+            "label": "Group",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "group"
+            ],
+            "path": "pixelated/code-group.svg",
+            "sha256": "e267431fd605ff8bbf9732132afed1cb388c349d84f9e3368e1008428a123f96"
+        },
+        {
+            "id": "rune/pixelated/code-link-2",
+            "coreIconName": "rune/code-link-2-pixelated",
+            "label": "Link 2",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "link",
+                "2"
+            ],
+            "path": "pixelated/code-link-2.svg",
+            "sha256": "a6e500afa5084789a35e0ef704bc8e2f93c42e7f2e4c4c6ce0e34f2e2cd1488d"
+        },
+        {
+            "id": "rune/pixelated/code-link",
+            "coreIconName": "rune/code-link-pixelated",
+            "label": "Link",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "link"
+            ],
+            "path": "pixelated/code-link.svg",
+            "sha256": "d7c13e354eaeceadbc8ceef677ae97acd0a84cd559ac72f715c1d80417b8e2e1"
+        },
+        {
+            "id": "rune/pixelated/code-server-cog",
+            "coreIconName": "rune/code-server-cog-pixelated",
+            "label": "Server Cog",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "server",
+                "cog"
+            ],
+            "path": "pixelated/code-server-cog.svg",
+            "sha256": "8e2cdc353a790a6a9af3b6c6ed9448379b50a88ef3c5f5eada6ad525be7e7414"
+        },
+        {
+            "id": "rune/pixelated/code-server",
+            "coreIconName": "rune/code-server-pixelated",
+            "label": "Server",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "server"
+            ],
+            "path": "pixelated/code-server.svg",
+            "sha256": "8a418bb54b823f01eaa31da16f1e4c81072f5ba3edeb4f940f07c24efad2147e"
+        },
+        {
+            "id": "rune/pixelated/code-terminal",
+            "coreIconName": "rune/code-terminal-pixelated",
+            "label": "Terminal",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "terminal"
+            ],
+            "path": "pixelated/code-terminal.svg",
+            "sha256": "38c23837d14747f40783651d9039a382ce92daf0afa1afcabe0e217bc814e92c"
+        },
+        {
+            "id": "rune/pixelated/code-ungroup",
+            "coreIconName": "rune/code-ungroup-pixelated",
+            "label": "Ungroup",
+            "variant": "pixelated",
+            "categories": [
+                "code"
+            ],
+            "keywords": [
+                "code",
+                "ungroup"
+            ],
+            "path": "pixelated/code-ungroup.svg",
+            "sha256": "10912c7cf7429d3ddb4e40a7215a045e18390498155436d2e247893f19f6e589"
+        },
+        {
+            "id": "rune/pixelated/documents-archive",
+            "coreIconName": "rune/documents-archive-pixelated",
+            "label": "Archive",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "archive"
+            ],
+            "path": "pixelated/documents-archive.svg",
+            "sha256": "2f2289010a0b2cf0b70ef3b689e7ce1a44e48b75450365eb6c0992ee9706aad4"
+        },
+        {
+            "id": "rune/pixelated/documents-box",
+            "coreIconName": "rune/documents-box-pixelated",
+            "label": "Box",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "box"
+            ],
+            "path": "pixelated/documents-box.svg",
+            "sha256": "55975aea5e848f39924588e034a32b766963167b4a80f5656a75552bd1817a82"
+        },
+        {
+            "id": "rune/pixelated/documents-clipboard-list",
+            "coreIconName": "rune/documents-clipboard-list-pixelated",
+            "label": "Clipboard List",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "clipboard",
+                "list"
+            ],
+            "path": "pixelated/documents-clipboard-list.svg",
+            "sha256": "612eb7a5bc1c95fabdbeaa53eb016e3324e86eee60f7d60f73b33528b7c3d61c"
+        },
+        {
+            "id": "rune/pixelated/documents-clipboard",
+            "coreIconName": "rune/documents-clipboard-pixelated",
+            "label": "Clipboard",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "clipboard"
+            ],
+            "path": "pixelated/documents-clipboard.svg",
+            "sha256": "9f4ae547e6c896cdb3e2ed6bf7c2059e1f3c74fb8d909525ddfe74b4255a92d6"
+        },
+        {
+            "id": "rune/pixelated/documents-file-down",
+            "coreIconName": "rune/documents-file-down-pixelated",
+            "label": "File Down",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "file",
+                "down"
+            ],
+            "path": "pixelated/documents-file-down.svg",
+            "sha256": "c89175e93d8c10649bbcbf787203b7163bbfaa925e9b28e2eef5e4daf3c93785"
+        },
+        {
+            "id": "rune/pixelated/documents-file-image",
+            "coreIconName": "rune/documents-file-image-pixelated",
+            "label": "File Image",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "file",
+                "image"
+            ],
+            "path": "pixelated/documents-file-image.svg",
+            "sha256": "0c20f7fa058b3c0a3917c242d0a69a4bf27b8da1d2332edac4ddd265cca99747"
+        },
+        {
+            "id": "rune/pixelated/documents-file-lock",
+            "coreIconName": "rune/documents-file-lock-pixelated",
+            "label": "File Lock",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "file",
+                "lock"
+            ],
+            "path": "pixelated/documents-file-lock.svg",
+            "sha256": "ef6efbe303568937bfcb9b7ccf68302390b785e55010f04696598fb666e84087"
+        },
+        {
+            "id": "rune/pixelated/documents-file-pen-line",
+            "coreIconName": "rune/documents-file-pen-line-pixelated",
+            "label": "File Pen Line",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "file",
+                "pen",
+                "line"
+            ],
+            "path": "pixelated/documents-file-pen-line.svg",
+            "sha256": "52ad5a6c8b450f437137b737c3e4ce2235ad7bd662f46074fa3cd7c8c1845eeb"
+        },
+        {
+            "id": "rune/pixelated/documents-file-pen",
+            "coreIconName": "rune/documents-file-pen-pixelated",
+            "label": "File Pen",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "file",
+                "pen"
+            ],
+            "path": "pixelated/documents-file-pen.svg",
+            "sha256": "a8d12b74320bc06b2fa0794ee1c24de0180e00a18e0dde8af8b26cfdb3032a83"
+        },
+        {
+            "id": "rune/pixelated/documents-file-plus",
+            "coreIconName": "rune/documents-file-plus-pixelated",
+            "label": "File Plus",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "file",
+                "plus"
+            ],
+            "path": "pixelated/documents-file-plus.svg",
+            "sha256": "9ed702318f1b7c11af164a69c3e0d8739be5c7f371b892a6f70bf86ec59c5f3c"
+        },
+        {
+            "id": "rune/pixelated/documents-file-symlink",
+            "coreIconName": "rune/documents-file-symlink-pixelated",
+            "label": "File Symlink",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "file",
+                "symlink"
+            ],
+            "path": "pixelated/documents-file-symlink.svg",
+            "sha256": "ee1f7ab30a29d962cac248de8296903bcb08cc0fec55914796b8918b893b809d"
+        },
+        {
+            "id": "rune/pixelated/documents-file-text",
+            "coreIconName": "rune/documents-file-text-pixelated",
+            "label": "File Text",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "file",
+                "text"
+            ],
+            "path": "pixelated/documents-file-text.svg",
+            "sha256": "4c823787847e623023d9cb3c5c2f651a1206a2ebe710d6243e42e828e72496de"
+        },
+        {
+            "id": "rune/pixelated/documents-file",
+            "coreIconName": "rune/documents-file-pixelated",
+            "label": "File",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "file"
+            ],
+            "path": "pixelated/documents-file.svg",
+            "sha256": "0fed338a1b069a77476834b08539fd5b3818d3607882a2e92e0158915e20cc9b"
+        },
+        {
+            "id": "rune/pixelated/documents-folder-closed",
+            "coreIconName": "rune/documents-folder-closed-pixelated",
+            "label": "Folder Closed",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "folder",
+                "closed"
+            ],
+            "path": "pixelated/documents-folder-closed.svg",
+            "sha256": "5dce734e58127e008a90fc70bc4bcadc31a31d58c4fb4a76f39a4b14eefc2f8b"
+        },
+        {
+            "id": "rune/pixelated/documents-folder-input",
+            "coreIconName": "rune/documents-folder-input-pixelated",
+            "label": "Folder Input",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "folder",
+                "input"
+            ],
+            "path": "pixelated/documents-folder-input.svg",
+            "sha256": "5252d2ccb6b0d2f369f067b6767e1953a935f20411c4c111ce14339365464e6d"
+        },
+        {
+            "id": "rune/pixelated/documents-folder-open",
+            "coreIconName": "rune/documents-folder-open-pixelated",
+            "label": "Folder Open",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "folder",
+                "open"
+            ],
+            "path": "pixelated/documents-folder-open.svg",
+            "sha256": "679f0817caa1383901c7e59cfd4132db045f497681858b0d8b410123f2489b15"
+        },
+        {
+            "id": "rune/pixelated/documents-folder-plus",
+            "coreIconName": "rune/documents-folder-plus-pixelated",
+            "label": "Folder Plus",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "folder",
+                "plus"
+            ],
+            "path": "pixelated/documents-folder-plus.svg",
+            "sha256": "7fff4786f3e423dfb42320921897c68e2f6f246cb37760dacbe9b9367b69936c"
+        },
+        {
+            "id": "rune/pixelated/documents-folder-symlink",
+            "coreIconName": "rune/documents-folder-symlink-pixelated",
+            "label": "Folder Symlink",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "folder",
+                "symlink"
+            ],
+            "path": "pixelated/documents-folder-symlink.svg",
+            "sha256": "02ec7b9369136e12e1d191feb24929506c141a8cb5c764d17ef00939022e6e7e"
+        },
+        {
+            "id": "rune/pixelated/documents-folder-up",
+            "coreIconName": "rune/documents-folder-up-pixelated",
+            "label": "Folder Up",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "folder",
+                "up"
+            ],
+            "path": "pixelated/documents-folder-up.svg",
+            "sha256": "25b4cfd7de79e83d4e23ed335aa921355ced5705773f978c8f28bd4b0afa9750"
+        },
+        {
+            "id": "rune/pixelated/documents-folder",
+            "coreIconName": "rune/documents-folder-pixelated",
+            "label": "Folder",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "folder"
+            ],
+            "path": "pixelated/documents-folder.svg",
+            "sha256": "dd2eaa5d2a7a137f650930497970cd65a709a7d4c804d1c32d147490697edf1f"
+        },
+        {
+            "id": "rune/pixelated/documents-folders",
+            "coreIconName": "rune/documents-folders-pixelated",
+            "label": "Folders",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "folders"
+            ],
+            "path": "pixelated/documents-folders.svg",
+            "sha256": "3956aad3ec94c76848723f8a68218a1dff09df1e74bf1c770938c3bf5998686b"
+        },
+        {
+            "id": "rune/pixelated/documents-import",
+            "coreIconName": "rune/documents-import-pixelated",
+            "label": "Import",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "import"
+            ],
+            "path": "pixelated/documents-import.svg",
+            "sha256": "9cc63b48dba4b7aa7de2f7b5eecd4e781543642a5b0aca95c3ace1d298138d86"
+        },
+        {
+            "id": "rune/pixelated/documents-inbox",
+            "coreIconName": "rune/documents-inbox-pixelated",
+            "label": "Inbox",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "inbox"
+            ],
+            "path": "pixelated/documents-inbox.svg",
+            "sha256": "6f93e34df8bf77d33f5ce85d0e6f389858d2d300d100ee3d62ecfcc59334b5bd"
+        },
+        {
+            "id": "rune/pixelated/documents-paperclip",
+            "coreIconName": "rune/documents-paperclip-pixelated",
+            "label": "Paperclip",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "paperclip"
+            ],
+            "path": "pixelated/documents-paperclip.svg",
+            "sha256": "a3c6da0f69ee8034dd4ec1f86b6fde40734d0a53842a92c956acae4a677b3600"
+        },
+        {
+            "id": "rune/pixelated/documents-save",
+            "coreIconName": "rune/documents-save-pixelated",
+            "label": "Save",
+            "variant": "pixelated",
+            "categories": [
+                "documents"
+            ],
+            "keywords": [
+                "documents",
+                "save"
+            ],
+            "path": "pixelated/documents-save.svg",
+            "sha256": "b55e58250101a976b3684096e14bfd059a01dfaead81277c428951823d2c8497"
+        },
+        {
+            "id": "rune/pixelated/gadgets-battery-full",
+            "coreIconName": "rune/gadgets-battery-full-pixelated",
+            "label": "Battery Full",
+            "variant": "pixelated",
+            "categories": [
+                "gadgets"
+            ],
+            "keywords": [
+                "gadgets",
+                "battery",
+                "full"
+            ],
+            "path": "pixelated/gadgets-battery-full.svg",
+            "sha256": "31df5efbf6e01a5299d7be7f7aafe104e451676ad24b8fb0c5be81d845603baf"
+        },
+        {
+            "id": "rune/pixelated/gadgets-battery-low",
+            "coreIconName": "rune/gadgets-battery-low-pixelated",
+            "label": "Battery Low",
+            "variant": "pixelated",
+            "categories": [
+                "gadgets"
+            ],
+            "keywords": [
+                "gadgets",
+                "battery",
+                "low"
+            ],
+            "path": "pixelated/gadgets-battery-low.svg",
+            "sha256": "e6be29ecdcab362629fae2567997175217cb4cc9e541166399830489b9e224bc"
+        },
+        {
+            "id": "rune/pixelated/gadgets-battery-medium",
+            "coreIconName": "rune/gadgets-battery-medium-pixelated",
+            "label": "Battery Medium",
+            "variant": "pixelated",
+            "categories": [
+                "gadgets"
+            ],
+            "keywords": [
+                "gadgets",
+                "battery",
+                "medium"
+            ],
+            "path": "pixelated/gadgets-battery-medium.svg",
+            "sha256": "34824cf37ee3b8d06fbb64a4f2eb04e3706c7f2a5bc95b9f1e6e148178533e12"
+        },
+        {
+            "id": "rune/pixelated/gadgets-laptop",
+            "coreIconName": "rune/gadgets-laptop-pixelated",
+            "label": "Laptop",
+            "variant": "pixelated",
+            "categories": [
+                "gadgets"
+            ],
+            "keywords": [
+                "gadgets",
+                "laptop"
+            ],
+            "path": "pixelated/gadgets-laptop.svg",
+            "sha256": "6905b3f78a73ce46508c17258ab9dc6285c495457e7efd4672df6e3fe2225f5f"
+        },
+        {
+            "id": "rune/pixelated/gadgets-printer",
+            "coreIconName": "rune/gadgets-printer-pixelated",
+            "label": "Printer",
+            "variant": "pixelated",
+            "categories": [
+                "gadgets"
+            ],
+            "keywords": [
+                "gadgets",
+                "printer"
+            ],
+            "path": "pixelated/gadgets-printer.svg",
+            "sha256": "bdfddb663ff0bc797112f9bb91c6e8ddeca426417956d4cc1d92286b016ee0ce"
+        },
+        {
+            "id": "rune/pixelated/gadgets-tablet",
+            "coreIconName": "rune/gadgets-tablet-pixelated",
+            "label": "Tablet",
+            "variant": "pixelated",
+            "categories": [
+                "gadgets"
+            ],
+            "keywords": [
+                "gadgets",
+                "tablet"
+            ],
+            "path": "pixelated/gadgets-tablet.svg",
+            "sha256": "4244501aeb880641e9eb924cc25def288a3196e7633ec427f265c4c7150915fe"
+        },
+        {
+            "id": "rune/pixelated/gadgets-tv",
+            "coreIconName": "rune/gadgets-tv-pixelated",
+            "label": "Tv",
+            "variant": "pixelated",
+            "categories": [
+                "gadgets"
+            ],
+            "keywords": [
+                "gadgets",
+                "tv"
+            ],
+            "path": "pixelated/gadgets-tv.svg",
+            "sha256": "055bd1e45d2a8b30ce2454b4f4d5b9a3fa0057bf1deae41f972d9f82ab29802a"
+        },
+        {
+            "id": "rune/pixelated/gadgets-watch",
+            "coreIconName": "rune/gadgets-watch-pixelated",
+            "label": "Watch",
+            "variant": "pixelated",
+            "categories": [
+                "gadgets"
+            ],
+            "keywords": [
+                "gadgets",
+                "watch"
+            ],
+            "path": "pixelated/gadgets-watch.svg",
+            "sha256": "4029286f84766a9dc5e96f0884a4e364dd31d4443bcabe1877b60b3c9c4114ac"
+        },
+        {
+            "id": "rune/pixelated/identity-fingerprint-pattern",
+            "coreIconName": "rune/identity-fingerprint-pattern-pixelated",
+            "label": "Fingerprint Pattern",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "fingerprint",
+                "pattern"
+            ],
+            "path": "pixelated/identity-fingerprint-pattern.svg",
+            "sha256": "01517873f98f14cd17601711eed693d0e372c70a2cab4e54b26d495f941bc8b4"
+        },
+        {
+            "id": "rune/pixelated/identity-lock-open",
+            "coreIconName": "rune/identity-lock-open-pixelated",
+            "label": "Lock Open",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "lock",
+                "open"
+            ],
+            "path": "pixelated/identity-lock-open.svg",
+            "sha256": "e8dbaa5b20c82ab40838696c4ba1cfc8ae9ec12495fd5dbc8d105d2767d8db18"
+        },
+        {
+            "id": "rune/pixelated/identity-lock",
+            "coreIconName": "rune/identity-lock-pixelated",
+            "label": "Lock",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "lock"
+            ],
+            "path": "pixelated/identity-lock.svg",
+            "sha256": "e9f2a68fddff50594a580131b64a259655e14ad8331d4349f43ea49e41264891"
+        },
+        {
+            "id": "rune/pixelated/identity-log-in",
+            "coreIconName": "rune/identity-log-in-pixelated",
+            "label": "Log In",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "log",
+                "in"
+            ],
+            "path": "pixelated/identity-log-in.svg",
+            "sha256": "73a73d1e29ae51cd6456162b1fdfea5b76c73ccadba382cd71bc9f914c9bf24a"
+        },
+        {
+            "id": "rune/pixelated/identity-log-out",
+            "coreIconName": "rune/identity-log-out-pixelated",
+            "label": "Log Out",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "log",
+                "out"
+            ],
+            "path": "pixelated/identity-log-out.svg",
+            "sha256": "d48200709e805152bdaccee83808454867fd8078967ddb79ac6caa2138da570c"
+        },
+        {
+            "id": "rune/pixelated/identity-shield-check",
+            "coreIconName": "rune/identity-shield-check-pixelated",
+            "label": "Shield Check",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "shield",
+                "check"
+            ],
+            "path": "pixelated/identity-shield-check.svg",
+            "sha256": "3beb9631d5be9ba546fd67d5b2f36ddc125cb4e8a926023a8d438446fc8b3cf7"
+        },
+        {
+            "id": "rune/pixelated/identity-shield-x",
+            "coreIconName": "rune/identity-shield-x-pixelated",
+            "label": "Shield X",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "shield",
+                "x"
+            ],
+            "path": "pixelated/identity-shield-x.svg",
+            "sha256": "40b0067c2a5c88522ebbbc895b0135a54982c6ac2d0b352d36ec9ad4c36dc11a"
+        },
+        {
+            "id": "rune/pixelated/identity-shield",
+            "coreIconName": "rune/identity-shield-pixelated",
+            "label": "Shield",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "shield"
+            ],
+            "path": "pixelated/identity-shield.svg",
+            "sha256": "2e700a19aeb6150a989fbdc53ca9d58e7a99cfedc36c342438027f5721b356de"
+        },
+        {
+            "id": "rune/pixelated/identity-user-cog",
+            "coreIconName": "rune/identity-user-cog-pixelated",
+            "label": "User Cog",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "user",
+                "cog"
+            ],
+            "path": "pixelated/identity-user-cog.svg",
+            "sha256": "79d8cf20639b6fd65d0999bf33bbd9c73d8e8b371eddf58ff31b8ef7af3caeac"
+        },
+        {
+            "id": "rune/pixelated/identity-user-minus",
+            "coreIconName": "rune/identity-user-minus-pixelated",
+            "label": "User Minus",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "user",
+                "minus"
+            ],
+            "path": "pixelated/identity-user-minus.svg",
+            "sha256": "0cc766f43063a06362ee6fe0dac88b13d02c55759517d123b58ab0442a90984f"
+        },
+        {
+            "id": "rune/pixelated/identity-user-plus",
+            "coreIconName": "rune/identity-user-plus-pixelated",
+            "label": "User Plus",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "user",
+                "plus"
+            ],
+            "path": "pixelated/identity-user-plus.svg",
+            "sha256": "7e1952935ff1b4cfd5be9099fc7c81a4df866616a7ba6c47e85333fc76bd67f3"
+        },
+        {
+            "id": "rune/pixelated/identity-user-round-plus",
+            "coreIconName": "rune/identity-user-round-plus-pixelated",
+            "label": "User Round Plus",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "user",
+                "round",
+                "plus"
+            ],
+            "path": "pixelated/identity-user-round-plus.svg",
+            "sha256": "6fb8b735634fd5fa5d9c95c35340e440346d772de2eda540157de3ee2fb0caee"
+        },
+        {
+            "id": "rune/pixelated/identity-users",
+            "coreIconName": "rune/identity-users-pixelated",
+            "label": "Users",
+            "variant": "pixelated",
+            "categories": [
+                "identity"
+            ],
+            "keywords": [
+                "identity",
+                "users"
+            ],
+            "path": "pixelated/identity-users.svg",
+            "sha256": "2fcc9aa7de8b11ecd8f01ce04b66980897a4e25ab97a3d151c25b80713354bae"
+        },
+        {
+            "id": "rune/pixelated/indicators-check",
+            "coreIconName": "rune/indicators-check-pixelated",
+            "label": "Check",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "check"
+            ],
+            "path": "pixelated/indicators-check.svg",
+            "sha256": "4bf87fc9bb01bb44b14c6eeb66ba6abfed01993a3bdd8a59d942a6bb0b12ce98"
+        },
+        {
+            "id": "rune/pixelated/indicators-circle-alert",
+            "coreIconName": "rune/indicators-circle-alert-pixelated",
+            "label": "Circle Alert",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "circle",
+                "alert"
+            ],
+            "path": "pixelated/indicators-circle-alert.svg",
+            "sha256": "5fa803124e30a7003cf36e72f12d8ee5f60bcdef7fd3d78c0aec9cd88474ad83"
+        },
+        {
+            "id": "rune/pixelated/indicators-circle-check",
+            "coreIconName": "rune/indicators-circle-check-pixelated",
+            "label": "Circle Check",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "circle",
+                "check"
+            ],
+            "path": "pixelated/indicators-circle-check.svg",
+            "sha256": "908afb6770f98532ff5930e8cebf9aa57a0c95259ccd419cff4ac300302d6f87"
+        },
+        {
+            "id": "rune/pixelated/indicators-circle-dot",
+            "coreIconName": "rune/indicators-circle-dot-pixelated",
+            "label": "Circle Dot",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "circle",
+                "dot"
+            ],
+            "path": "pixelated/indicators-circle-dot.svg",
+            "sha256": "8ec4898fbf87a05d54e82aa080e269183ca9826aa9de5cb3cd895e81dfb2d6b3"
+        },
+        {
+            "id": "rune/pixelated/indicators-circle-question-mark",
+            "coreIconName": "rune/indicators-circle-question-mark-pixelated",
+            "label": "Circle Question Mark",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "circle",
+                "question",
+                "mark"
+            ],
+            "path": "pixelated/indicators-circle-question-mark.svg",
+            "sha256": "8cf5e6136f98d3801903a15b6f92517fc334bb59a1149621b724492410b43b18"
+        },
+        {
+            "id": "rune/pixelated/indicators-circle-stop",
+            "coreIconName": "rune/indicators-circle-stop-pixelated",
+            "label": "Circle Stop",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "circle",
+                "stop"
+            ],
+            "path": "pixelated/indicators-circle-stop.svg",
+            "sha256": "790fd96e0628bef54d4ecd14f895df6700598638c0b33c3ef3f54d152d4e45e5"
+        },
+        {
+            "id": "rune/pixelated/indicators-circle-user",
+            "coreIconName": "rune/indicators-circle-user-pixelated",
+            "label": "Circle User",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "circle",
+                "user"
+            ],
+            "path": "pixelated/indicators-circle-user.svg",
+            "sha256": "18f5fe2bc65e9ac57a418d0dd92bb5889aa4dd5ef50d7f0515b401ce3e07062d"
+        },
+        {
+            "id": "rune/pixelated/indicators-circle-x",
+            "coreIconName": "rune/indicators-circle-x-pixelated",
+            "label": "Circle X",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "circle",
+                "x"
+            ],
+            "path": "pixelated/indicators-circle-x.svg",
+            "sha256": "fa769870437150f96e035c3253fc902a622f170a4927357f49916e130cc26464"
+        },
+        {
+            "id": "rune/pixelated/indicators-cross",
+            "coreIconName": "rune/indicators-cross-pixelated",
+            "label": "Cross",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "cross"
+            ],
+            "path": "pixelated/indicators-cross.svg",
+            "sha256": "72de264ae4090206fd2664bdc86e429e39aaf583a65249e1108d06516f50d1cb"
+        },
+        {
+            "id": "rune/pixelated/indicators-info",
+            "coreIconName": "rune/indicators-info-pixelated",
+            "label": "Info",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "info"
+            ],
+            "path": "pixelated/indicators-info.svg",
+            "sha256": "8edf93172e63ed76136e75355a56b5f78f99360633ed2fb805301765679bbb7f"
+        },
+        {
+            "id": "rune/pixelated/indicators-minus",
+            "coreIconName": "rune/indicators-minus-pixelated",
+            "label": "Minus",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "minus"
+            ],
+            "path": "pixelated/indicators-minus.svg",
+            "sha256": "94ee3e55ae83ce758e5fa1b689b9b28695249380d311805ea5b95ecc615e95c8"
+        },
+        {
+            "id": "rune/pixelated/indicators-plus",
+            "coreIconName": "rune/indicators-plus-pixelated",
+            "label": "Plus",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "plus"
+            ],
+            "path": "pixelated/indicators-plus.svg",
+            "sha256": "3cd42efc83a4814530df1941e3aff625510ae3f039dc5b1ab732bdc21cfd71c2"
+        },
+        {
+            "id": "rune/pixelated/indicators-square-arrow-out-up-right",
+            "coreIconName": "rune/indicators-square-arrow-out-up-right-pixelated",
+            "label": "Square Arrow Out Up Right",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "square",
+                "arrow",
+                "out",
+                "up",
+                "right"
+            ],
+            "path": "pixelated/indicators-square-arrow-out-up-right.svg",
+            "sha256": "799f21b7cb9587609cd20ea1bd99df214c5c47dffaf88366d48e0e0ceb044a2e"
+        },
+        {
+            "id": "rune/pixelated/indicators-square-arrow-up-right",
+            "coreIconName": "rune/indicators-square-arrow-up-right-pixelated",
+            "label": "Square Arrow Up Right",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "square",
+                "arrow",
+                "up",
+                "right"
+            ],
+            "path": "pixelated/indicators-square-arrow-up-right.svg",
+            "sha256": "24e6eab62e9a75d57fa5a824a39bd08e366d45587846d6412a5a0a7c2ec27dbd"
+        },
+        {
+            "id": "rune/pixelated/indicators-square-check",
+            "coreIconName": "rune/indicators-square-check-pixelated",
+            "label": "Square Check",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "square",
+                "check"
+            ],
+            "path": "pixelated/indicators-square-check.svg",
+            "sha256": "44c03f3f1fa377d4c166f040569a11c89e33b81da22ece4a1b924236046c9acd"
+        },
+        {
+            "id": "rune/pixelated/indicators-square-stop",
+            "coreIconName": "rune/indicators-square-stop-pixelated",
+            "label": "Square Stop",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "square",
+                "stop"
+            ],
+            "path": "pixelated/indicators-square-stop.svg",
+            "sha256": "98bdee6359b27ce20e8389b8a9a47930a30d85214730c4b483dd57d83bda5798"
+        },
+        {
+            "id": "rune/pixelated/indicators-triangle-alert",
+            "coreIconName": "rune/indicators-triangle-alert-pixelated",
+            "label": "Triangle Alert",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "triangle",
+                "alert"
+            ],
+            "path": "pixelated/indicators-triangle-alert.svg",
+            "sha256": "8c06a88341e6fad1b8faf2877358887cd0d8eed6502664024aac25aca113adc2"
+        },
+        {
+            "id": "rune/pixelated/indicators-x",
+            "coreIconName": "rune/indicators-x-pixelated",
+            "label": "X",
+            "variant": "pixelated",
+            "categories": [
+                "indicators"
+            ],
+            "keywords": [
+                "indicators",
+                "x"
+            ],
+            "path": "pixelated/indicators-x.svg",
+            "sha256": "46b69f8dea0cf78ab13eb41b04d9c3e2ddc57dc69d3a8c1b333f1a0017b1621a"
+        },
+        {
+            "id": "rune/pixelated/layouts-columns-3",
+            "coreIconName": "rune/layouts-columns-3-pixelated",
+            "label": "Columns 3",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "columns",
+                "3"
+            ],
+            "path": "pixelated/layouts-columns-3.svg",
+            "sha256": "df8820691ad07e2e961ccd629eacaea0e8cb411bb695b6d8ca85da26e55e3b59"
+        },
+        {
+            "id": "rune/pixelated/layouts-grid-2x2",
+            "coreIconName": "rune/layouts-grid-2x2-pixelated",
+            "label": "Grid 2x2",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "grid",
+                "2x2"
+            ],
+            "path": "pixelated/layouts-grid-2x2.svg",
+            "sha256": "75c78a934e9b5d3231808f5897e4790f8d4f9dd2dc0fd64ae683ea6a395caf2e"
+        },
+        {
+            "id": "rune/pixelated/layouts-grid-3x3",
+            "coreIconName": "rune/layouts-grid-3x3-pixelated",
+            "label": "Grid 3x3",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "grid",
+                "3x3"
+            ],
+            "path": "pixelated/layouts-grid-3x3.svg",
+            "sha256": "5d066b045f2bde75ea589fbe3ac6ff6f02a33630387294c2d35b2777aa626f58"
+        },
+        {
+            "id": "rune/pixelated/layouts-grip-horizontal",
+            "coreIconName": "rune/layouts-grip-horizontal-pixelated",
+            "label": "Grip Horizontal",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "grip",
+                "horizontal"
+            ],
+            "path": "pixelated/layouts-grip-horizontal.svg",
+            "sha256": "4c17cfd72f8ced9d04daf362a9213181a51caf023a9ce332ee32cbb6b6e03cfa"
+        },
+        {
+            "id": "rune/pixelated/layouts-grip-vertical",
+            "coreIconName": "rune/layouts-grip-vertical-pixelated",
+            "label": "Grip Vertical",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "grip",
+                "vertical"
+            ],
+            "path": "pixelated/layouts-grip-vertical.svg",
+            "sha256": "f4f7638c4949d9a338144382ecaef5b0efb8edaf737f1991ddfe5467bc8458b6"
+        },
+        {
+            "id": "rune/pixelated/layouts-kanban",
+            "coreIconName": "rune/layouts-kanban-pixelated",
+            "label": "Kanban",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "kanban"
+            ],
+            "path": "pixelated/layouts-kanban.svg",
+            "sha256": "d7d86b0a2ae571e16d47e7452e9dc42319c7fd8419c606c3207c6911d06298e3"
+        },
+        {
+            "id": "rune/pixelated/layouts-layers-2",
+            "coreIconName": "rune/layouts-layers-2-pixelated",
+            "label": "Layers 2",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "layers",
+                "2"
+            ],
+            "path": "pixelated/layouts-layers-2.svg",
+            "sha256": "0311c175e0b735dc13e073c295d59ff92397b2349913e8aac44269ab2349164a"
+        },
+        {
+            "id": "rune/pixelated/layouts-layout-grid",
+            "coreIconName": "rune/layouts-layout-grid-pixelated",
+            "label": "Layout Grid",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "layout",
+                "grid"
+            ],
+            "path": "pixelated/layouts-layout-grid.svg",
+            "sha256": "e7a79668151a523940d9761e549feb6f24bf54208491540eb6a9f086d6156f47"
+        },
+        {
+            "id": "rune/pixelated/layouts-menu",
+            "coreIconName": "rune/layouts-menu-pixelated",
+            "label": "Menu",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "menu"
+            ],
+            "path": "pixelated/layouts-menu.svg",
+            "sha256": "1bd83c019ea2e37102951a78e222439f4668185c3995ab69a78c157067f1e2a9"
+        },
+        {
+            "id": "rune/pixelated/layouts-panel-bottom",
+            "coreIconName": "rune/layouts-panel-bottom-pixelated",
+            "label": "Panel Bottom",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "panel",
+                "bottom"
+            ],
+            "path": "pixelated/layouts-panel-bottom.svg",
+            "sha256": "29aede344570fd556d45fdfc97e1b6adcb91b3178bca14cf70318eede5b8f052"
+        },
+        {
+            "id": "rune/pixelated/layouts-panel-left-close",
+            "coreIconName": "rune/layouts-panel-left-close-pixelated",
+            "label": "Panel Left Close",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "panel",
+                "left",
+                "close"
+            ],
+            "path": "pixelated/layouts-panel-left-close.svg",
+            "sha256": "a57b6b99937842e06fd08cde074d8ac72ee622983a1fc9e8fda3f11844004ba5"
+        },
+        {
+            "id": "rune/pixelated/layouts-panel-left",
+            "coreIconName": "rune/layouts-panel-left-pixelated",
+            "label": "Panel Left",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "panel",
+                "left"
+            ],
+            "path": "pixelated/layouts-panel-left.svg",
+            "sha256": "c88c4a6f8de316f509a78b2711954fd7cd44ee7fb416667516e4894c55931c3e"
+        },
+        {
+            "id": "rune/pixelated/layouts-panel-right-close",
+            "coreIconName": "rune/layouts-panel-right-close-pixelated",
+            "label": "Panel Right Close",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "panel",
+                "right",
+                "close"
+            ],
+            "path": "pixelated/layouts-panel-right-close.svg",
+            "sha256": "89cb97feb643f6a076eef8081d59d62e093e0d2d120821fe771461e1df7fa23e"
+        },
+        {
+            "id": "rune/pixelated/layouts-panel-top",
+            "coreIconName": "rune/layouts-panel-top-pixelated",
+            "label": "Panel Top",
+            "variant": "pixelated",
+            "categories": [
+                "layouts"
+            ],
+            "keywords": [
+                "layouts",
+                "panel",
+                "top"
+            ],
+            "path": "pixelated/layouts-panel-top.svg",
+            "sha256": "93e542c5c43ee9a02a9ad39b791854bbe412bee2f2b81833b236d8f01bfdfde2"
+        },
+        {
+            "id": "rune/pixelated/messaging-contact",
+            "coreIconName": "rune/messaging-contact-pixelated",
+            "label": "Contact",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "contact"
+            ],
+            "path": "pixelated/messaging-contact.svg",
+            "sha256": "bc9b43ceb2d3171143a7a4a36b1d446e7d998c2c222534db0a61ccc7734305d2"
+        },
+        {
+            "id": "rune/pixelated/messaging-mail-check",
+            "coreIconName": "rune/messaging-mail-check-pixelated",
+            "label": "Mail Check",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "mail",
+                "check"
+            ],
+            "path": "pixelated/messaging-mail-check.svg",
+            "sha256": "2b8cebfcbb55d8686ed5a4f220eeb0e2f0e1f01a8cea15ebd5887b5f9ed7db41"
+        },
+        {
+            "id": "rune/pixelated/messaging-mail-plus",
+            "coreIconName": "rune/messaging-mail-plus-pixelated",
+            "label": "Mail Plus",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "mail",
+                "plus"
+            ],
+            "path": "pixelated/messaging-mail-plus.svg",
+            "sha256": "65da6fdc7ff107e25b2fd4dd76b030a9684c1eeb270c5ae46c9df3773309f3b8"
+        },
+        {
+            "id": "rune/pixelated/messaging-mail",
+            "coreIconName": "rune/messaging-mail-pixelated",
+            "label": "Mail",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "mail"
+            ],
+            "path": "pixelated/messaging-mail.svg",
+            "sha256": "09c18f8120acd72d26c87ab277756bb26b2b6f345e35bf715a75271ddca4b94c"
+        },
+        {
+            "id": "rune/pixelated/messaging-message-circle-warning",
+            "coreIconName": "rune/messaging-message-circle-warning-pixelated",
+            "label": "Message Circle Warning",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "message",
+                "circle",
+                "warning"
+            ],
+            "path": "pixelated/messaging-message-circle-warning.svg",
+            "sha256": "f390197cf416478c52237d9c0237a79914d9580f9393774c2250cdb2dc081ba9"
+        },
+        {
+            "id": "rune/pixelated/messaging-message-circle",
+            "coreIconName": "rune/messaging-message-circle-pixelated",
+            "label": "Message Circle",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "message",
+                "circle"
+            ],
+            "path": "pixelated/messaging-message-circle.svg",
+            "sha256": "35396877d7ee86c6fdfcb8a74779fc6ce78d4c4eb6f7c7705648867679ce0a0d"
+        },
+        {
+            "id": "rune/pixelated/messaging-message-square-text",
+            "coreIconName": "rune/messaging-message-square-text-pixelated",
+            "label": "Message Square Text",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "message",
+                "square",
+                "text"
+            ],
+            "path": "pixelated/messaging-message-square-text.svg",
+            "sha256": "58e01496e9e3b309b574dd063efb98c647d51982c45d045c7b446a77fd2e1c11"
+        },
+        {
+            "id": "rune/pixelated/messaging-message-square",
+            "coreIconName": "rune/messaging-message-square-pixelated",
+            "label": "Message Square",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "message",
+                "square"
+            ],
+            "path": "pixelated/messaging-message-square.svg",
+            "sha256": "90ad1d2fdbf545dadfcc0e9d80848f4fbe2f32a4111ad49c9b4edc331b364490"
+        },
+        {
+            "id": "rune/pixelated/messaging-phone-incoming",
+            "coreIconName": "rune/messaging-phone-incoming-pixelated",
+            "label": "Phone Incoming",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "phone",
+                "incoming"
+            ],
+            "path": "pixelated/messaging-phone-incoming.svg",
+            "sha256": "e2c98546d4c2c25bc2372f50b54c7825d79f94654889f98ef17d48cc600af3f5"
+        },
+        {
+            "id": "rune/pixelated/messaging-phone-outgoing",
+            "coreIconName": "rune/messaging-phone-outgoing-pixelated",
+            "label": "Phone Outgoing",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "phone",
+                "outgoing"
+            ],
+            "path": "pixelated/messaging-phone-outgoing.svg",
+            "sha256": "52fb8dc2ae381461134466e37d6ec4ed06802acde3c6432b2dd906a6476765d2"
+        },
+        {
+            "id": "rune/pixelated/messaging-phone",
+            "coreIconName": "rune/messaging-phone-pixelated",
+            "label": "Phone",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "phone"
+            ],
+            "path": "pixelated/messaging-phone.svg",
+            "sha256": "340e0fcc1db1e79208c9e1183dbcf6670771665f6385f79cd4f5cceef387541c"
+        },
+        {
+            "id": "rune/pixelated/messaging-send",
+            "coreIconName": "rune/messaging-send-pixelated",
+            "label": "Send",
+            "variant": "pixelated",
+            "categories": [
+                "messaging"
+            ],
+            "keywords": [
+                "messaging",
+                "send"
+            ],
+            "path": "pixelated/messaging-send.svg",
+            "sha256": "b5adce6467b6078982adea7f954bea2492d14ab917a21346452463f19efac473"
+        },
+        {
+            "id": "rune/pixelated/metrics-activity",
+            "coreIconName": "rune/metrics-activity-pixelated",
+            "label": "Activity",
+            "variant": "pixelated",
+            "categories": [
+                "metrics"
+            ],
+            "keywords": [
+                "metrics",
+                "activity"
+            ],
+            "path": "pixelated/metrics-activity.svg",
+            "sha256": "71d3be2922a038b72de5ea200496dac96f4d82fed1e560bc9437fcde3a42d391"
+        },
+        {
+            "id": "rune/pixelated/metrics-chart-area",
+            "coreIconName": "rune/metrics-chart-area-pixelated",
+            "label": "Chart Area",
+            "variant": "pixelated",
+            "categories": [
+                "metrics"
+            ],
+            "keywords": [
+                "metrics",
+                "chart",
+                "area"
+            ],
+            "path": "pixelated/metrics-chart-area.svg",
+            "sha256": "e8aa0252503ef49e8a2af9271494498a2291bb36f097558dbaa9eba8c9f383c4"
+        },
+        {
+            "id": "rune/pixelated/metrics-chart-bar",
+            "coreIconName": "rune/metrics-chart-bar-pixelated",
+            "label": "Chart Bar",
+            "variant": "pixelated",
+            "categories": [
+                "metrics"
+            ],
+            "keywords": [
+                "metrics",
+                "chart",
+                "bar"
+            ],
+            "path": "pixelated/metrics-chart-bar.svg",
+            "sha256": "63f5303f199953c899509d0c83c89b4eb7c467aed131e6f299e2e7bfdacb2e4a"
+        },
+        {
+            "id": "rune/pixelated/metrics-chart-line",
+            "coreIconName": "rune/metrics-chart-line-pixelated",
+            "label": "Chart Line",
+            "variant": "pixelated",
+            "categories": [
+                "metrics"
+            ],
+            "keywords": [
+                "metrics",
+                "chart",
+                "line"
+            ],
+            "path": "pixelated/metrics-chart-line.svg",
+            "sha256": "46a248c76f4c27cc0b05913eb7791702e9ddbe56dbb9a4d220faccc663ce9b7b"
+        },
+        {
+            "id": "rune/pixelated/metrics-chart-pie",
+            "coreIconName": "rune/metrics-chart-pie-pixelated",
+            "label": "Chart Pie",
+            "variant": "pixelated",
+            "categories": [
+                "metrics"
+            ],
+            "keywords": [
+                "metrics",
+                "chart",
+                "pie"
+            ],
+            "path": "pixelated/metrics-chart-pie.svg",
+            "sha256": "aac663d1784627c1f4177262745c543942304c8794b9b0b9c61289ac3eeb471b"
+        },
+        {
+            "id": "rune/pixelated/metrics-sliders-horizontal",
+            "coreIconName": "rune/metrics-sliders-horizontal-pixelated",
+            "label": "Sliders Horizontal",
+            "variant": "pixelated",
+            "categories": [
+                "metrics"
+            ],
+            "keywords": [
+                "metrics",
+                "sliders",
+                "horizontal"
+            ],
+            "path": "pixelated/metrics-sliders-horizontal.svg",
+            "sha256": "c19fcb3c16350503e1c3d181d5e4700b4111c48e44c4e21cad068d80c328c79e"
+        },
+        {
+            "id": "rune/pixelated/metrics-sliders-vertical",
+            "coreIconName": "rune/metrics-sliders-vertical-pixelated",
+            "label": "Sliders Vertical",
+            "variant": "pixelated",
+            "categories": [
+                "metrics"
+            ],
+            "keywords": [
+                "metrics",
+                "sliders",
+                "vertical"
+            ],
+            "path": "pixelated/metrics-sliders-vertical.svg",
+            "sha256": "d329f2cb2a97814fa7fd4473924de21a8b9d39ec494618dc362078ad2ae0caaf"
+        },
+        {
+            "id": "rune/pixelated/metrics-trending-up",
+            "coreIconName": "rune/metrics-trending-up-pixelated",
+            "label": "Trending Up",
+            "variant": "pixelated",
+            "categories": [
+                "metrics"
+            ],
+            "keywords": [
+                "metrics",
+                "trending",
+                "up"
+            ],
+            "path": "pixelated/metrics-trending-up.svg",
+            "sha256": "38b26072c6e62000d601362e09254162c7f740c45be869c29e4c9bf4d61bb8f9"
+        },
+        {
+            "id": "rune/pixelated/money-credit-card",
+            "coreIconName": "rune/money-credit-card-pixelated",
+            "label": "Credit Card",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "credit",
+                "card"
+            ],
+            "path": "pixelated/money-credit-card.svg",
+            "sha256": "ec01006172e96a9ff79bde3af6e1d1802bd51aac3922fcc6f029e20d8bbbd27f"
+        },
+        {
+            "id": "rune/pixelated/money-dollar-sign",
+            "coreIconName": "rune/money-dollar-sign-pixelated",
+            "label": "Dollar Sign",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "dollar",
+                "sign"
+            ],
+            "path": "pixelated/money-dollar-sign.svg",
+            "sha256": "52ffffc7b546cf05fc7a22aa8d04d84a384d0eed570ef3e2e713f674911c1554"
+        },
+        {
+            "id": "rune/pixelated/money-euro",
+            "coreIconName": "rune/money-euro-pixelated",
+            "label": "Euro",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "euro"
+            ],
+            "path": "pixelated/money-euro.svg",
+            "sha256": "0d2ec3348f0a8befd7d1cb4e2387891563dab719e2048e356b83b095c6bfe9bf"
+        },
+        {
+            "id": "rune/pixelated/money-gift",
+            "coreIconName": "rune/money-gift-pixelated",
+            "label": "Gift",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "gift"
+            ],
+            "path": "pixelated/money-gift.svg",
+            "sha256": "e738a4b2eac1073c74644b627efe8ac0d8bf5b8ea006274f35b1087a04d057ef"
+        },
+        {
+            "id": "rune/pixelated/money-indian-rupee",
+            "coreIconName": "rune/money-indian-rupee-pixelated",
+            "label": "Indian Rupee",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "indian",
+                "rupee"
+            ],
+            "path": "pixelated/money-indian-rupee.svg",
+            "sha256": "c10837ae5b542efcf5a9610a917b5135b44a1aebbf3fe616556b91ced569eae9"
+        },
+        {
+            "id": "rune/pixelated/money-package",
+            "coreIconName": "rune/money-package-pixelated",
+            "label": "Package",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "package"
+            ],
+            "path": "pixelated/money-package.svg",
+            "sha256": "3e3f3fb1b063e34c231c1a2c82c89e59cff0c2307afd5d7c94915ad43c34f034"
+        },
+        {
+            "id": "rune/pixelated/money-pound-sterling",
+            "coreIconName": "rune/money-pound-sterling-pixelated",
+            "label": "Pound Sterling",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "pound",
+                "sterling"
+            ],
+            "path": "pixelated/money-pound-sterling.svg",
+            "sha256": "069fa23382ce87804ca2bbe704f64645c96d563e196c9ec60bf6b7e430dccd8f"
+        },
+        {
+            "id": "rune/pixelated/money-receipt",
+            "coreIconName": "rune/money-receipt-pixelated",
+            "label": "Receipt",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "receipt"
+            ],
+            "path": "pixelated/money-receipt.svg",
+            "sha256": "a02eaf43cda37a70447dcfb37065bec1634dbda5a4c43cd1c392c73ef54b263a"
+        },
+        {
+            "id": "rune/pixelated/money-shopping-bag",
+            "coreIconName": "rune/money-shopping-bag-pixelated",
+            "label": "Shopping Bag",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "shopping",
+                "bag"
+            ],
+            "path": "pixelated/money-shopping-bag.svg",
+            "sha256": "6ef6d824d4375f58f29dda82fa6698bc1cf7518de0feec0ba8033953fd1e639f"
+        },
+        {
+            "id": "rune/pixelated/money-shopping-basket",
+            "coreIconName": "rune/money-shopping-basket-pixelated",
+            "label": "Shopping Basket",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "shopping",
+                "basket"
+            ],
+            "path": "pixelated/money-shopping-basket.svg",
+            "sha256": "6807a9fbba842b5901e68cd8d452e6f05285278444488af58bee5b389efb88c1"
+        },
+        {
+            "id": "rune/pixelated/money-shopping-cart",
+            "coreIconName": "rune/money-shopping-cart-pixelated",
+            "label": "Shopping Cart",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "shopping",
+                "cart"
+            ],
+            "path": "pixelated/money-shopping-cart.svg",
+            "sha256": "15fbc181bfe56b1fa20b0bacc83f79fb08121adee9287413a1219a3dcad70fb9"
+        },
+        {
+            "id": "rune/pixelated/money-tag",
+            "coreIconName": "rune/money-tag-pixelated",
+            "label": "Tag",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "tag"
+            ],
+            "path": "pixelated/money-tag.svg",
+            "sha256": "7ea6a9fe6f526deca5220dbf7a94aee1ca243e11f8b10abc2451acf9f0eb1ab7"
+        },
+        {
+            "id": "rune/pixelated/money-truck",
+            "coreIconName": "rune/money-truck-pixelated",
+            "label": "Truck",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "truck"
+            ],
+            "path": "pixelated/money-truck.svg",
+            "sha256": "067e46f4f4f0d756883b6f022b9074e1b0c47696f1901b9191c53f7661cb59af"
+        },
+        {
+            "id": "rune/pixelated/money-wallet",
+            "coreIconName": "rune/money-wallet-pixelated",
+            "label": "Wallet",
+            "variant": "pixelated",
+            "categories": [
+                "money"
+            ],
+            "keywords": [
+                "money",
+                "wallet"
+            ],
+            "path": "pixelated/money-wallet.svg",
+            "sha256": "f919ad1598cd819a231bf5d208136b446c79be3c0d4ecbd457cc490d47e4256a"
+        },
+        {
+            "id": "rune/pixelated/nature-cloud-download",
+            "coreIconName": "rune/nature-cloud-download-pixelated",
+            "label": "Cloud Download",
+            "variant": "pixelated",
+            "categories": [
+                "nature"
+            ],
+            "keywords": [
+                "nature",
+                "cloud",
+                "download"
+            ],
+            "path": "pixelated/nature-cloud-download.svg",
+            "sha256": "b8b730a03abb13a3e62052be00c1ac31b1a0161eb11b7abac7c94f97660e910f"
+        },
+        {
+            "id": "rune/pixelated/nature-cloud-rain",
+            "coreIconName": "rune/nature-cloud-rain-pixelated",
+            "label": "Cloud Rain",
+            "variant": "pixelated",
+            "categories": [
+                "nature"
+            ],
+            "keywords": [
+                "nature",
+                "cloud",
+                "rain"
+            ],
+            "path": "pixelated/nature-cloud-rain.svg",
+            "sha256": "f7e7e085fa374f31215f74929095168d0d97b1d1c208b5527996f34758872ff1"
+        },
+        {
+            "id": "rune/pixelated/nature-cloud-snow",
+            "coreIconName": "rune/nature-cloud-snow-pixelated",
+            "label": "Cloud Snow",
+            "variant": "pixelated",
+            "categories": [
+                "nature"
+            ],
+            "keywords": [
+                "nature",
+                "cloud",
+                "snow"
+            ],
+            "path": "pixelated/nature-cloud-snow.svg",
+            "sha256": "aa5c21ca80c946c313cba45bd73dc69eacf2ffb282bd6a8f4b514415c363c729"
+        },
+        {
+            "id": "rune/pixelated/nature-cloud-upload",
+            "coreIconName": "rune/nature-cloud-upload-pixelated",
+            "label": "Cloud Upload",
+            "variant": "pixelated",
+            "categories": [
+                "nature"
+            ],
+            "keywords": [
+                "nature",
+                "cloud",
+                "upload"
+            ],
+            "path": "pixelated/nature-cloud-upload.svg",
+            "sha256": "fa17a92f3d60e1107e2eb131a59b295501372b0a136344ae0c8cbfc8f709ed5b"
+        },
+        {
+            "id": "rune/pixelated/nature-cloud",
+            "coreIconName": "rune/nature-cloud-pixelated",
+            "label": "Cloud",
+            "variant": "pixelated",
+            "categories": [
+                "nature"
+            ],
+            "keywords": [
+                "nature",
+                "cloud"
+            ],
+            "path": "pixelated/nature-cloud.svg",
+            "sha256": "e87908f03205d59835e8e039b955da497ca29f051112a74524002a6ea200e770"
+        },
+        {
+            "id": "rune/pixelated/nature-earth",
+            "coreIconName": "rune/nature-earth-pixelated",
+            "label": "Earth",
+            "variant": "pixelated",
+            "categories": [
+                "nature"
+            ],
+            "keywords": [
+                "nature",
+                "earth"
+            ],
+            "path": "pixelated/nature-earth.svg",
+            "sha256": "2defcb9f34eef67d4d7c9ebf57b5c01c57a47debe46484fc833836880e65760b"
+        },
+        {
+            "id": "rune/pixelated/nature-moon",
+            "coreIconName": "rune/nature-moon-pixelated",
+            "label": "Moon",
+            "variant": "pixelated",
+            "categories": [
+                "nature"
+            ],
+            "keywords": [
+                "nature",
+                "moon"
+            ],
+            "path": "pixelated/nature-moon.svg",
+            "sha256": "84f3b8748a4eb5d6280ed7499e0d3881d9d6479d6dbd20b3481870a71f2a6cce"
+        },
+        {
+            "id": "rune/pixelated/nature-sun",
+            "coreIconName": "rune/nature-sun-pixelated",
+            "label": "Sun",
+            "variant": "pixelated",
+            "categories": [
+                "nature"
+            ],
+            "keywords": [
+                "nature",
+                "sun"
+            ],
+            "path": "pixelated/nature-sun.svg",
+            "sha256": "91e0dd8d487983713e93311e688d94b4248e0585c708c29a850da2a50a44e315"
+        },
+        {
+            "id": "rune/pixelated/nature-sunrise",
+            "coreIconName": "rune/nature-sunrise-pixelated",
+            "label": "Sunrise",
+            "variant": "pixelated",
+            "categories": [
+                "nature"
+            ],
+            "keywords": [
+                "nature",
+                "sunrise"
+            ],
+            "path": "pixelated/nature-sunrise.svg",
+            "sha256": "b225ebfa1645282f97e74ad4d05c4c476a9db4a6ca8863bfeb152259e6328849"
+        },
+        {
+            "id": "rune/pixelated/nature-sunset",
+            "coreIconName": "rune/nature-sunset-pixelated",
+            "label": "Sunset",
+            "variant": "pixelated",
+            "categories": [
+                "nature"
+            ],
+            "keywords": [
+                "nature",
+                "sunset"
+            ],
+            "path": "pixelated/nature-sunset.svg",
+            "sha256": "6f7027f3e5d616f92b53350fc66dc7b9e946ae04fc5abbf9f2fdb8c42ec9b292"
+        },
+        {
+            "id": "rune/pixelated/nature-wind",
+            "coreIconName": "rune/nature-wind-pixelated",
+            "label": "Wind",
+            "variant": "pixelated",
+            "categories": [
+                "nature"
+            ],
+            "keywords": [
+                "nature",
+                "wind"
+            ],
+            "path": "pixelated/nature-wind.svg",
+            "sha256": "edcb2b2ad6ff0efaf53fe142534b4921919a7d65dc124bd30fcd6e2fc84739d3"
+        },
+        {
+            "id": "rune/pixelated/other-apple",
+            "coreIconName": "rune/other-apple-pixelated",
+            "label": "Apple",
+            "variant": "pixelated",
+            "categories": [
+                "other"
+            ],
+            "keywords": [
+                "other",
+                "apple"
+            ],
+            "path": "pixelated/other-apple.svg",
+            "sha256": "ee255c89083a0dc123c0f708830ee337b31eadd897dc8f949413e14bdb5a9aa5"
+        },
+        {
+            "id": "rune/pixelated/other-globe",
+            "coreIconName": "rune/other-globe-pixelated",
+            "label": "Globe",
+            "variant": "pixelated",
+            "categories": [
+                "other"
+            ],
+            "keywords": [
+                "other",
+                "globe"
+            ],
+            "path": "pixelated/other-globe.svg",
+            "sha256": "469ba571b3407476a5f3fee40cf5d3cbcbe381a950e1f500d467debbbf2a588c"
+        },
+        {
+            "id": "rune/pixelated/other-wifi-low",
+            "coreIconName": "rune/other-wifi-low-pixelated",
+            "label": "Wifi Low",
+            "variant": "pixelated",
+            "categories": [
+                "other"
+            ],
+            "keywords": [
+                "other",
+                "wifi",
+                "low"
+            ],
+            "path": "pixelated/other-wifi-low.svg",
+            "sha256": "22195f40e935671e46614f79b1a42a16ba5bd641e632554975027cbdb3fd64ba"
+        },
+        {
+            "id": "rune/pixelated/other-wifi",
+            "coreIconName": "rune/other-wifi-pixelated",
+            "label": "Wifi",
+            "variant": "pixelated",
+            "categories": [
+                "other"
+            ],
+            "keywords": [
+                "other",
+                "wifi"
+            ],
+            "path": "pixelated/other-wifi.svg",
+            "sha256": "2477a4866b72fd242a0ebd96c62e415375e047f150bbe4eecf6c5dbe9db7f7e5"
+        },
+        {
+            "id": "rune/pixelated/other-zap",
+            "coreIconName": "rune/other-zap-pixelated",
+            "label": "Zap",
+            "variant": "pixelated",
+            "categories": [
+                "other"
+            ],
+            "keywords": [
+                "other",
+                "zap"
+            ],
+            "path": "pixelated/other-zap.svg",
+            "sha256": "5a001b073dfc5ff14f3367c286f55d6f4c8fc4028fd7a23a60b3b8a80d87b555"
+        },
+        {
+            "id": "rune/pixelated/playback-camera",
+            "coreIconName": "rune/playback-camera-pixelated",
+            "label": "Camera",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "camera"
+            ],
+            "path": "pixelated/playback-camera.svg",
+            "sha256": "cf0d8032d977f90b551aab537f59c63ef722e087045559df9cfb5f0052c2e944"
+        },
+        {
+            "id": "rune/pixelated/playback-clapperboard",
+            "coreIconName": "rune/playback-clapperboard-pixelated",
+            "label": "Clapperboard",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "clapperboard"
+            ],
+            "path": "pixelated/playback-clapperboard.svg",
+            "sha256": "8763f89f6d4d9b360c90d7302214cab97acbf701edb1ab59ad2543f63597f161"
+        },
+        {
+            "id": "rune/pixelated/playback-film",
+            "coreIconName": "rune/playback-film-pixelated",
+            "label": "Film",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "film"
+            ],
+            "path": "pixelated/playback-film.svg",
+            "sha256": "1b884bf5391381a9a9467bb16b22dde1e314229cb683bc38136d66245d3eac78"
+        },
+        {
+            "id": "rune/pixelated/playback-image-plus",
+            "coreIconName": "rune/playback-image-plus-pixelated",
+            "label": "Image Plus",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "image",
+                "plus"
+            ],
+            "path": "pixelated/playback-image-plus.svg",
+            "sha256": "c3081c6b0bd19a2339756c96b676aa23492f70fe1a10e4f44aabf2dfe624004e"
+        },
+        {
+            "id": "rune/pixelated/playback-image",
+            "coreIconName": "rune/playback-image-pixelated",
+            "label": "Image",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "image"
+            ],
+            "path": "pixelated/playback-image.svg",
+            "sha256": "23233d9b8aba950b2107f068222f87e0e8f159179f9146bbdbbbba5c53c334c6"
+        },
+        {
+            "id": "rune/pixelated/playback-images",
+            "coreIconName": "rune/playback-images-pixelated",
+            "label": "Images",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "images"
+            ],
+            "path": "pixelated/playback-images.svg",
+            "sha256": "0e6dd3306b09368f71a1c199b87d84584a32361765ac4edee485767f4d14b61c"
+        },
+        {
+            "id": "rune/pixelated/playback-mic-off",
+            "coreIconName": "rune/playback-mic-off-pixelated",
+            "label": "Mic Off",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "mic",
+                "off"
+            ],
+            "path": "pixelated/playback-mic-off.svg",
+            "sha256": "ced196a4133ecc97e007a765f386562c3ea24000d5c19d8c8ccfa5cd2fa1c8b0"
+        },
+        {
+            "id": "rune/pixelated/playback-mic",
+            "coreIconName": "rune/playback-mic-pixelated",
+            "label": "Mic",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "mic"
+            ],
+            "path": "pixelated/playback-mic.svg",
+            "sha256": "0e529c6900ddf2dbb5982b0d2d3dd6f4027f535c6799522b41120ab315e69fd5"
+        },
+        {
+            "id": "rune/pixelated/playback-pause",
+            "coreIconName": "rune/playback-pause-pixelated",
+            "label": "Pause",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "pause"
+            ],
+            "path": "pixelated/playback-pause.svg",
+            "sha256": "292aa7d889b94edcf4ec7dfa6cb9daaab255bf9cd1b65058f746af0cc9e7827c"
+        },
+        {
+            "id": "rune/pixelated/playback-play",
+            "coreIconName": "rune/playback-play-pixelated",
+            "label": "Play",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "play"
+            ],
+            "path": "pixelated/playback-play.svg",
+            "sha256": "ad8090e8a26e9dd1e6d9a2ef16b1724f7c6cea3ab1c6d3c3c50d821a73fec69e"
+        },
+        {
+            "id": "rune/pixelated/playback-video",
+            "coreIconName": "rune/playback-video-pixelated",
+            "label": "Video",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "video"
+            ],
+            "path": "pixelated/playback-video.svg",
+            "sha256": "0f1e32c703df9d18da1941151ba2924747c63ead3129a0772e4f753a1a2c90f0"
+        },
+        {
+            "id": "rune/pixelated/playback-volume-1",
+            "coreIconName": "rune/playback-volume-1-pixelated",
+            "label": "Volume 1",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "volume",
+                "1"
+            ],
+            "path": "pixelated/playback-volume-1.svg",
+            "sha256": "f10658cdcef85a5116c0462278db4624afd0ce862b52749a5938f4e35034a89c"
+        },
+        {
+            "id": "rune/pixelated/playback-volume-2",
+            "coreIconName": "rune/playback-volume-2-pixelated",
+            "label": "Volume 2",
+            "variant": "pixelated",
+            "categories": [
+                "playback"
+            ],
+            "keywords": [
+                "playback",
+                "volume",
+                "2"
+            ],
+            "path": "pixelated/playback-volume-2.svg",
+            "sha256": "ae957f5cae2d09fa88295dd5fef068025971083bc13f88c5891f06aa154d06ea"
+        },
+        {
+            "id": "rune/pixelated/schedule-alarm-clock",
+            "coreIconName": "rune/schedule-alarm-clock-pixelated",
+            "label": "Alarm Clock",
+            "variant": "pixelated",
+            "categories": [
+                "schedule"
+            ],
+            "keywords": [
+                "schedule",
+                "alarm",
+                "clock"
+            ],
+            "path": "pixelated/schedule-alarm-clock.svg",
+            "sha256": "84af7cb37435cccf62a49eadaf11eef555592eebff3db017ae3ddde1ff350630"
+        },
+        {
+            "id": "rune/pixelated/schedule-calendar",
+            "coreIconName": "rune/schedule-calendar-pixelated",
+            "label": "Calendar",
+            "variant": "pixelated",
+            "categories": [
+                "schedule"
+            ],
+            "keywords": [
+                "schedule",
+                "calendar"
+            ],
+            "path": "pixelated/schedule-calendar.svg",
+            "sha256": "b87b8c2419d14108b18dd69384a13a27927fadc45e804e3eb8ed12c9c27566e8"
+        },
+        {
+            "id": "rune/pixelated/schedule-clock-alert",
+            "coreIconName": "rune/schedule-clock-alert-pixelated",
+            "label": "Clock Alert",
+            "variant": "pixelated",
+            "categories": [
+                "schedule"
+            ],
+            "keywords": [
+                "schedule",
+                "clock",
+                "alert"
+            ],
+            "path": "pixelated/schedule-clock-alert.svg",
+            "sha256": "6bde3f3629fac7eed026b6533a44ebbb0b94dadea252013051ed1e44d200a015"
+        },
+        {
+            "id": "rune/pixelated/schedule-clock",
+            "coreIconName": "rune/schedule-clock-pixelated",
+            "label": "Clock",
+            "variant": "pixelated",
+            "categories": [
+                "schedule"
+            ],
+            "keywords": [
+                "schedule",
+                "clock"
+            ],
+            "path": "pixelated/schedule-clock.svg",
+            "sha256": "29cf68ee3a1298abe4d3da5e64d2d69762a68993ae368031ce3c8316c0071595"
+        },
+        {
+            "id": "rune/pixelated/schedule-history",
+            "coreIconName": "rune/schedule-history-pixelated",
+            "label": "History",
+            "variant": "pixelated",
+            "categories": [
+                "schedule"
+            ],
+            "keywords": [
+                "schedule",
+                "history"
+            ],
+            "path": "pixelated/schedule-history.svg",
+            "sha256": "573db0a5603496be47245b70b7e0eab037a6ec624ff22c5b1ff78e68bf54f35e"
+        },
+        {
+            "id": "rune/pixelated/schedule-refresh-cw",
+            "coreIconName": "rune/schedule-refresh-cw-pixelated",
+            "label": "Refresh Cw",
+            "variant": "pixelated",
+            "categories": [
+                "schedule"
+            ],
+            "keywords": [
+                "schedule",
+                "refresh",
+                "cw"
+            ],
+            "path": "pixelated/schedule-refresh-cw.svg",
+            "sha256": "0ab040510d2bcff0296b6bbad4eae18a0150a39b581993a7ee449523ad5d8d13"
+        },
+        {
+            "id": "rune/pixelated/schedule-repeat",
+            "coreIconName": "rune/schedule-repeat-pixelated",
+            "label": "Repeat",
+            "variant": "pixelated",
+            "categories": [
+                "schedule"
+            ],
+            "keywords": [
+                "schedule",
+                "repeat"
+            ],
+            "path": "pixelated/schedule-repeat.svg",
+            "sha256": "381b7cca0c6cac5eb3dc258641fd6b0c669bd9cb62d6557ce7f35fe5d6e0b31b"
+        },
+        {
+            "id": "rune/pixelated/senses-ear",
+            "coreIconName": "rune/senses-ear-pixelated",
+            "label": "Ear",
+            "variant": "pixelated",
+            "categories": [
+                "senses"
+            ],
+            "keywords": [
+                "senses",
+                "ear"
+            ],
+            "path": "pixelated/senses-ear.svg",
+            "sha256": "868033d89451c7b0fb7cc456a5f25ab5c4bdc2e762ea4eefcfe7b851cbbf1a78"
+        },
+        {
+            "id": "rune/pixelated/senses-eye-closed",
+            "coreIconName": "rune/senses-eye-closed-pixelated",
+            "label": "Eye Closed",
+            "variant": "pixelated",
+            "categories": [
+                "senses"
+            ],
+            "keywords": [
+                "senses",
+                "eye",
+                "closed"
+            ],
+            "path": "pixelated/senses-eye-closed.svg",
+            "sha256": "3ecee13e204e211a71ac76a205e000b8abce5e4f228f2f15729d0c707af527fb"
+        },
+        {
+            "id": "rune/pixelated/senses-eye-off",
+            "coreIconName": "rune/senses-eye-off-pixelated",
+            "label": "Eye Off",
+            "variant": "pixelated",
+            "categories": [
+                "senses"
+            ],
+            "keywords": [
+                "senses",
+                "eye",
+                "off"
+            ],
+            "path": "pixelated/senses-eye-off.svg",
+            "sha256": "863c1f187cc5919842db38e86d093100f7f908687d93b6c1f1300b50646c360d"
+        },
+        {
+            "id": "rune/pixelated/senses-eye",
+            "coreIconName": "rune/senses-eye-pixelated",
+            "label": "Eye",
+            "variant": "pixelated",
+            "categories": [
+                "senses"
+            ],
+            "keywords": [
+                "senses",
+                "eye"
+            ],
+            "path": "pixelated/senses-eye.svg",
+            "sha256": "3ac5d02f0a0c4db00e22c6d9f424ad7a5ca9fb3403aed80e88ef2f56e4f0e950"
+        },
+        {
+            "id": "rune/pixelated/senses-hand",
+            "coreIconName": "rune/senses-hand-pixelated",
+            "label": "Hand",
+            "variant": "pixelated",
+            "categories": [
+                "senses"
+            ],
+            "keywords": [
+                "senses",
+                "hand"
+            ],
+            "path": "pixelated/senses-hand.svg",
+            "sha256": "d43990eb7117ca9fa106c7bc3ecae3b8a93df7ad442bf0ca827533e15ece5299"
+        },
+        {
+            "id": "rune/pixelated/senses-pointer",
+            "coreIconName": "rune/senses-pointer-pixelated",
+            "label": "Pointer",
+            "variant": "pixelated",
+            "categories": [
+                "senses"
+            ],
+            "keywords": [
+                "senses",
+                "pointer"
+            ],
+            "path": "pixelated/senses-pointer.svg",
+            "sha256": "bf394b8cf6d89c027b0857957a1d1303746e3af26235826b95e387366ac96f37"
+        },
+        {
+            "id": "rune/pixelated/senses-thumbs-down",
+            "coreIconName": "rune/senses-thumbs-down-pixelated",
+            "label": "Thumbs Down",
+            "variant": "pixelated",
+            "categories": [
+                "senses"
+            ],
+            "keywords": [
+                "senses",
+                "thumbs",
+                "down"
+            ],
+            "path": "pixelated/senses-thumbs-down.svg",
+            "sha256": "91e4ddd45ab6662a5e30787199be2d5c1aa63c0155557b12a209e7fdd6f51062"
+        },
+        {
+            "id": "rune/pixelated/senses-thumbs-up",
+            "coreIconName": "rune/senses-thumbs-up-pixelated",
+            "label": "Thumbs Up",
+            "variant": "pixelated",
+            "categories": [
+                "senses"
+            ],
+            "keywords": [
+                "senses",
+                "thumbs",
+                "up"
+            ],
+            "path": "pixelated/senses-thumbs-up.svg",
+            "sha256": "9a1ec3fa448f6fa51a4aa56436f3768cfe16449a7153f93d2178c266aa3d7063"
+        },
+        {
+            "id": "rune/pixelated/tools-bell-off",
+            "coreIconName": "rune/tools-bell-off-pixelated",
+            "label": "Bell Off",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "bell",
+                "off"
+            ],
+            "path": "pixelated/tools-bell-off.svg",
+            "sha256": "2dc831f327a8e7e95bdecfb72bad05aa594d3f9199b31c2a5e5dd24dfd767835"
+        },
+        {
+            "id": "rune/pixelated/tools-bookmark",
+            "coreIconName": "rune/tools-bookmark-pixelated",
+            "label": "Bookmark",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "bookmark"
+            ],
+            "path": "pixelated/tools-bookmark.svg",
+            "sha256": "c92c11f72b9fabb9cb76dd28ff6d8783e40050a92c0527cad10d9ed36137ddc0"
+        },
+        {
+            "id": "rune/pixelated/tools-flag-triangle-right",
+            "coreIconName": "rune/tools-flag-triangle-right-pixelated",
+            "label": "Flag Triangle Right",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "flag",
+                "triangle",
+                "right"
+            ],
+            "path": "pixelated/tools-flag-triangle-right.svg",
+            "sha256": "f3c3853d3b7cdd47f3c9963cb39ee74cacd46b6c43c5e799eb8ffe77d01b063a"
+        },
+        {
+            "id": "rune/pixelated/tools-flag",
+            "coreIconName": "rune/tools-flag-pixelated",
+            "label": "Flag",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "flag"
+            ],
+            "path": "pixelated/tools-flag.svg",
+            "sha256": "e2dd35c00ef37d398ec94eebe5cea1c68cc16fb3213e06e2cc9d960dbb3120ac"
+        },
+        {
+            "id": "rune/pixelated/tools-funnel",
+            "coreIconName": "rune/tools-funnel-pixelated",
+            "label": "Funnel",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "funnel"
+            ],
+            "path": "pixelated/tools-funnel.svg",
+            "sha256": "af2d0a00cf4dad7dd436ad85e88a3e8084319eb775c2919a29ba9649ee591fc5"
+        },
+        {
+            "id": "rune/pixelated/tools-heart",
+            "coreIconName": "rune/tools-heart-pixelated",
+            "label": "Heart",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "heart"
+            ],
+            "path": "pixelated/tools-heart.svg",
+            "sha256": "d390bbc24b79f75bfaf065e0bff4ad42f1f13ff449d9a68466c1157cf3c2575f"
+        },
+        {
+            "id": "rune/pixelated/tools-house",
+            "coreIconName": "rune/tools-house-pixelated",
+            "label": "House",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "house"
+            ],
+            "path": "pixelated/tools-house.svg",
+            "sha256": "ec68b10c564d9e0793253c82d9f985da50c8d24e6b797fe119c2fc571d6d7b03"
+        },
+        {
+            "id": "rune/pixelated/tools-list-filter",
+            "coreIconName": "rune/tools-list-filter-pixelated",
+            "label": "List Filter",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "list",
+                "filter"
+            ],
+            "path": "pixelated/tools-list-filter.svg",
+            "sha256": "b2bc5e39d8623fafaf10380022290363cab85a3332bd8bbb0e945b32dd9aa429"
+        },
+        {
+            "id": "rune/pixelated/tools-map-pin",
+            "coreIconName": "rune/tools-map-pin-pixelated",
+            "label": "Map Pin",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "map",
+                "pin"
+            ],
+            "path": "pixelated/tools-map-pin.svg",
+            "sha256": "a68d1cd080201ef334d25b0338498b5928b70c23520dfc44f5270490dd144ccc"
+        },
+        {
+            "id": "rune/pixelated/tools-map",
+            "coreIconName": "rune/tools-map-pixelated",
+            "label": "Map",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "map"
+            ],
+            "path": "pixelated/tools-map.svg",
+            "sha256": "486bbe88d93776b263c9f049267e3619005001c89fd9a9fea20bab1a51de258c"
+        },
+        {
+            "id": "rune/pixelated/tools-pencil",
+            "coreIconName": "rune/tools-pencil-pixelated",
+            "label": "Pencil",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "pencil"
+            ],
+            "path": "pixelated/tools-pencil.svg",
+            "sha256": "c9b613541ea2e5b65e462c85dc229aaf182a7ec000ee7ef01a2e702fcc3fa014"
+        },
+        {
+            "id": "rune/pixelated/tools-scissors",
+            "coreIconName": "rune/tools-scissors-pixelated",
+            "label": "Scissors",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "scissors"
+            ],
+            "path": "pixelated/tools-scissors.svg",
+            "sha256": "b03dc90f4e875cadf8a3ce436679986a34903f81bf8b7e44e03253f9dd8f4d81"
+        },
+        {
+            "id": "rune/pixelated/tools-search",
+            "coreIconName": "rune/tools-search-pixelated",
+            "label": "Search",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "search"
+            ],
+            "path": "pixelated/tools-search.svg",
+            "sha256": "2d0c72b1021aba245abe0150f88568e987530e9f0590d5040650c8c040087f31"
+        },
+        {
+            "id": "rune/pixelated/tools-settings-2",
+            "coreIconName": "rune/tools-settings-2-pixelated",
+            "label": "Settings 2",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "settings",
+                "2"
+            ],
+            "path": "pixelated/tools-settings-2.svg",
+            "sha256": "746f43137fe39d3873fafdb0f67cedb766b979d01812d8bd7bf4d94c38d16e5d"
+        },
+        {
+            "id": "rune/pixelated/tools-settings",
+            "coreIconName": "rune/tools-settings-pixelated",
+            "label": "Settings",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "settings"
+            ],
+            "path": "pixelated/tools-settings.svg",
+            "sha256": "8105ea1110ec2e4cb81c8ae5559eeaf78971339a12da2900910959c0602fde7b"
+        },
+        {
+            "id": "rune/pixelated/tools-share-2",
+            "coreIconName": "rune/tools-share-2-pixelated",
+            "label": "Share 2",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "share",
+                "2"
+            ],
+            "path": "pixelated/tools-share-2.svg",
+            "sha256": "53863426795a33dc6a84cd0f42d571c295da5d5046a5b6ac4a2a81a46e321f01"
+        },
+        {
+            "id": "rune/pixelated/tools-sparkles",
+            "coreIconName": "rune/tools-sparkles-pixelated",
+            "label": "Sparkles",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "sparkles"
+            ],
+            "path": "pixelated/tools-sparkles.svg",
+            "sha256": "c83de3f875d73d6b63daa72b462f384a4887dedd188a2a10ae964f29a35fdf6a"
+        },
+        {
+            "id": "rune/pixelated/tools-star",
+            "coreIconName": "rune/tools-star-pixelated",
+            "label": "Star",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "star"
+            ],
+            "path": "pixelated/tools-star.svg",
+            "sha256": "2e6658aea81720ac10626da1566799f895d75b541579baba9ea5ba496fa35d11"
+        },
+        {
+            "id": "rune/pixelated/tools-trash-2",
+            "coreIconName": "rune/tools-trash-2-pixelated",
+            "label": "Trash 2",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "trash",
+                "2"
+            ],
+            "path": "pixelated/tools-trash-2.svg",
+            "sha256": "649496057fd6104d1619ecc4cb1b740569ba01c7a177dbe3b18ccbf1f250ff70"
+        },
+        {
+            "id": "rune/pixelated/tools-trash",
+            "coreIconName": "rune/tools-trash-pixelated",
+            "label": "Trash",
+            "variant": "pixelated",
+            "categories": [
+                "tools"
+            ],
+            "keywords": [
+                "tools",
+                "trash"
+            ],
+            "path": "pixelated/tools-trash.svg",
+            "sha256": "f7c45aabfba46c2e679a6d58275ee229a60f326aa589432fdf814a91ded01e63"
+        }
+    ]
+}

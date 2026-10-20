@@ -8,7 +8,7 @@
 define( 'ABSPATH', __DIR__ . '/wordpress/' );
 define( 'ICON_LIBRARY_DIR', dirname( __DIR__ ) . '/' );
 define( 'ICON_LIBRARY_URL', 'https://example.test/wp-content/plugins/aculect-icon-library/' );
-define( 'ICON_LIBRARY_VERSION', '1.1.0' );
+define( 'ICON_LIBRARY_VERSION', '1.2.0' );
 
 $GLOBALS['icon_library_test_options']      = array();
 $GLOBALS['icon_library_test_capabilities'] = array();
@@ -25,9 +25,42 @@ $GLOBALS['icon_library_test_categories']   = array();
 $GLOBALS['icon_library_test_posts']       = array();
 $GLOBALS['icon_library_test_enqueued_styles'] = array();
 $GLOBALS['icon_library_test_wp_version']      = '7.1.2';
+$GLOBALS['icon_library_test_is_admin']         = false;
+$GLOBALS['icon_library_test_blog_id']         = 1;
+$GLOBALS['icon_library_test_cron']            = array();
+
+require_once __DIR__ . '/support/OptionDatabase.php';
+$GLOBALS['wpdb'] = new IconLibrary_Test_Option_Database();
+
+function wp_next_scheduled( $hook ) {
+	return $GLOBALS['icon_library_test_cron'][ $hook ] ?? false;
+}
+
+function wp_schedule_single_event( $timestamp, $hook ) {
+	$GLOBALS['icon_library_test_cron'][ $hook ] = $timestamp;
+	return true;
+}
+
+function wp_clear_scheduled_hook( $hook ) {
+	unset( $GLOBALS['icon_library_test_cron'][ $hook ] );
+	return 1;
+}
+
+function get_current_blog_id() {
+	return (int) $GLOBALS['icon_library_test_blog_id'];
+}
+
+function wp_raise_memory_limit( $context ) {
+	$GLOBALS['icon_library_test_memory_raises'][] = $context;
+	return '256M';
+}
 
 function get_bloginfo( $show = '' ) {
 	return 'version' === $show ? $GLOBALS['icon_library_test_wp_version'] : '';
+}
+
+function is_admin() {
+	return $GLOBALS['icon_library_test_is_admin'];
 }
 
 function wp_enqueue_style( $handle, $src, $deps = array(), $ver = false ) {
@@ -106,6 +139,11 @@ class WP_Error {
 class WP_Icons_Registry {
 	private static $instance;
 	private $icons = array();
+	protected $registered_icons = array();
+
+	private function __construct() {
+		$this->registered_icons =& $this->icons;
+	}
 
 	public static function get_instance() {
 		if ( ! self::$instance ) {
@@ -126,6 +164,26 @@ class WP_Icons_Registry {
 	public function get_registered_icon( $name ) {
 		return isset( $this->icons[ $name ] ) ? $this->icons[ $name ] : null;
 	}
+
+	public function unregister( $name ) {
+		unset( $this->icons[ $name ] );
+		return true;
+	}
+
+	public function get_registered_icons( $search = '' ) {
+		$icons = array_values( $this->icons );
+		return '' === $search ? $icons : array_values( array_filter( $icons, static function ( $icon ) use ( $search ) { return false !== stripos( $icon['name'] ?? '', $search ); } ) );
+	}
+}
+
+class WP_Icon_Collections_Registry {
+	public static function get_instance() {
+		return new self();
+	}
+
+	public function get_registered( $slug ) {
+		return $GLOBALS['icon_library_test_registered']['collections'][ $slug ] ?? null;
+	}
 }
 
 function __( $text ) {
@@ -142,6 +200,12 @@ function apply_filters( $hook, $value, ...$args ) {
 
 function add_action( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
 	$GLOBALS['icon_library_test_actions'][ $hook ][] = array( $callback, $priority, $accepted_args );
+}
+
+function do_action( $hook, ...$args ) {
+	foreach ( $GLOBALS['icon_library_test_actions'][ $hook ] ?? array() as $action ) {
+		call_user_func_array( $action[0], array_slice( $args, 0, $action[2] ) );
+	}
 }
 
 function wp_register_ability_category( $slug, $args ) {
@@ -170,6 +234,50 @@ function wp_cache_get( $key, $group = '' ) {
 function wp_cache_set( $key, $value, $group = '' ) {
 	$GLOBALS['icon_library_test_cache'][ $group . ':' . $key ] = $value;
 	return true;
+}
+
+function wp_cache_delete( $key, $group = '' ) {
+	if ( 'options' === $group ) {
+		unset( $GLOBALS['icon_library_test_cached_options'][ $key ] );
+	}
+	$cache_key = $group . ':' . $key;
+	if ( array_key_exists( $cache_key, $GLOBALS['icon_library_test_cache'] ) ) {
+		unset( $GLOBALS['icon_library_test_cache'][ $cache_key ] );
+		return true;
+	}
+	return false;
+}
+
+function maybe_serialize( $value ) {
+	return is_array( $value ) || is_object( $value ) ? serialize( $value ) : $value;
+}
+
+function maybe_unserialize( $value ) {
+	if ( ! is_string( $value ) ) { return $value; }
+	$unserialized = @unserialize( $value, array( 'allowed_classes' => false ) );
+	return false !== $unserialized || 'b:0;' === $value ? $unserialized : $value;
+}
+
+function wp_generate_uuid4() {
+	return sprintf( '%04x%04x-%04x-4%03x-%04x-%04x%04x%04x', mt_rand( 0, 65535 ), mt_rand( 0, 65535 ), mt_rand( 0, 65535 ), mt_rand( 0, 4095 ), mt_rand( 0, 16383 ) | 0x8000, mt_rand( 0, 65535 ), mt_rand( 0, 65535 ), mt_rand( 0, 65535 ) );
+}
+
+function wp_generate_password( $length = 12, $special_chars = true, $extra_special_chars = false ) {
+	unset( $special_chars, $extra_special_chars );
+	return substr( bin2hex( random_bytes( (int) ceil( $length / 2 ) ) ), 0, $length );
+}
+
+function wp_tempnam( $filename = '' ) {
+	unset( $filename );
+	return tempnam( sys_get_temp_dir(), 'icon-library-' );
+}
+
+function sanitize_file_name( $filename ) {
+	return preg_replace( '/[^A-Za-z0-9._-]/', '-', (string) $filename );
+}
+
+function untrailingslashit( $value ) {
+	return rtrim( (string) $value, '/\\' );
 }
 
 function is_wp_error( $value ) {
@@ -207,6 +315,9 @@ function wp_list_pluck( $list, $field ) {
 }
 
 function get_option( $name, $default = false ) {
+	if ( array_key_exists( $name, $GLOBALS['icon_library_test_cached_options'] ?? array() ) ) {
+		return $GLOBALS['icon_library_test_cached_options'][ $name ];
+	}
 	return array_key_exists( $name, $GLOBALS['icon_library_test_options'] ) ? $GLOBALS['icon_library_test_options'][ $name ] : $default;
 }
 
@@ -217,10 +328,18 @@ function update_option( $name, $value, $autoload = null ) {
 	return $changed;
 }
 
+function sanitize_option( $name, $value ) {
+	return apply_filters( "sanitize_option_{$name}", $value, $name );
+}
+
 function add_option( $name, $value, $deprecated = '', $autoload = true ) {
 	unset( $deprecated );
 	if ( array_key_exists( $name, $GLOBALS['icon_library_test_options'] ) ) {
 		return false;
+	}
+	// Core's SQL upserts after its cache/absence precheck; races are not exclusive.
+	if ( isset( $GLOBALS['icon_library_test_before_add_option'] ) ) {
+		call_user_func( $GLOBALS['icon_library_test_before_add_option'], $name, $value );
 	}
 	$GLOBALS['icon_library_test_options'][ $name ]  = $value;
 	$GLOBALS['icon_library_test_autoload'][ $name ] = $autoload;
@@ -251,6 +370,15 @@ function get_post( $post_id = null ) {
 	return isset( $GLOBALS['icon_library_test_posts'][ $post_id ] ) ? $GLOBALS['icon_library_test_posts'][ $post_id ] : null;
 }
 
+function clean_post_cache( $post_id ) {
+	$GLOBALS['icon_library_test_cleaned_posts'][] = (int) $post_id;
+}
+
+function wp_is_file_mod_allowed( $context ) {
+	unset( $context );
+	return ! empty( $GLOBALS['icon_library_test_file_mods'] );
+}
+
 function wp_update_post( $postarr, $wp_error = false ) {
 	unset( $wp_error );
 	$post_id = isset( $postarr['ID'] ) ? (int) $postarr['ID'] : 0;
@@ -271,6 +399,12 @@ if ( ! is_file( $core_dir . '/wp-includes/blocks.php' ) ) {
 require_once $core_dir . '/wp-includes/compat.php';
 require_once $core_dir . '/wp-includes/class-wp-block-parser.php';
 require_once $core_dir . '/wp-includes/blocks.php';
+function wp_allowed_protocols() { return array( 'http', 'https', 'mailto', 'tel' ); }
+require_once $core_dir . '/wp-includes/class-wp-token-map.php';
+foreach ( array( 'html5-named-character-references.php', 'class-wp-html-attribute-token.php', 'class-wp-html-span.php', 'class-wp-html-doctype-info.php', 'class-wp-html-text-replacement.php', 'class-wp-html-decoder.php', 'class-wp-html-tag-processor.php', 'class-wp-html-unsupported-exception.php', 'class-wp-html-active-formatting-elements.php', 'class-wp-html-open-elements.php', 'class-wp-html-token.php', 'class-wp-html-stack-event.php', 'class-wp-html-processor-state.php', 'class-wp-html-processor.php' ) as $html_api_file ) {
+	require_once $core_dir . '/wp-includes/html-api/' . $html_api_file;
+}
+require_once $core_dir . '/wp-includes/kses.php';
 
 function wp_json_encode( $value, $flags = 0, $depth = 512 ) {
 	return json_encode( $value, $flags, $depth );
@@ -305,6 +439,16 @@ function wp_register_icon_collection( $slug, $args ) {
 function wp_register_icon( $name, $args ) {
 	$GLOBALS['icon_library_test_registered']['icons'][ $name ] = $args;
 	WP_Icons_Registry::get_instance()->set_registered_icon( $name, $args );
+	return true;
+}
+
+function wp_unregister_icon( $name ) {
+	unset( $GLOBALS['icon_library_test_registered']['icons'][ $name ] );
+	return WP_Icons_Registry::get_instance()->unregister( $name );
+}
+
+function wp_unregister_icon_collection( $slug ) {
+	unset( $GLOBALS['icon_library_test_registered']['collections'][ $slug ] );
 	return true;
 }
 

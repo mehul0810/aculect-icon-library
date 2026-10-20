@@ -1,0 +1,3233 @@
+{
+    "schemaVersion": 2,
+    "slug": "iconoir",
+    "name": "Iconoir",
+    "description": "The compatible filled-path subset of Iconoir Solid. Regular and mixed-stroke icons are deferred.",
+    "version": "7.12.1",
+    "license": {
+        "name": "MIT",
+        "url": "https://github.com/iconoir-icons/iconoir/blob/d7dfa4d0341df0670bfed9fc24221c9d7ef2112e/LICENSE"
+    },
+    "source": {
+        "name": "iconoir-icons/iconoir",
+        "url": "https://github.com/iconoir-icons/iconoir",
+        "revision": "d7dfa4d0341df0670bfed9fc24221c9d7ef2112e"
+    },
+    "variants": [
+        {
+            "slug": "solid",
+            "label": "Solid",
+            "coreCompatible": true,
+            "defaultEnabled": false,
+            "iconCount": 210
+        }
+    ],
+    "categories": [
+        {
+            "slug": "general",
+            "label": "General",
+            "iconCount": 210
+        }
+    ],
+    "icons": [
+        {
+            "id": "iconoir/solid/adobe-after-effects",
+            "coreIconName": "iconoir/adobe-after-effects-solid",
+            "label": "Adobe After Effects",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "adobe",
+                "after",
+                "effects"
+            ],
+            "path": "solid/adobe-after-effects.svg",
+            "sha256": "bdce0b9edd8dc45b1846c24a477f35cbd14ade20873047d1e4a423e43a191daf"
+        },
+        {
+            "id": "iconoir/solid/adobe-illustrator",
+            "coreIconName": "iconoir/adobe-illustrator-solid",
+            "label": "Adobe Illustrator",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "adobe",
+                "illustrator"
+            ],
+            "path": "solid/adobe-illustrator.svg",
+            "sha256": "cd93c111b00216610b9f98d5c7cdbcdebd9889a2fcd36abfc57b78d68ed1442c"
+        },
+        {
+            "id": "iconoir/solid/adobe-indesign",
+            "coreIconName": "iconoir/adobe-indesign-solid",
+            "label": "Adobe Indesign",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "adobe",
+                "indesign"
+            ],
+            "path": "solid/adobe-indesign.svg",
+            "sha256": "c1bfa39c6c2a63f52c3f9db3776f47ab6622ffa234847651c3a56dda625fc32d"
+        },
+        {
+            "id": "iconoir/solid/adobe-lightroom",
+            "coreIconName": "iconoir/adobe-lightroom-solid",
+            "label": "Adobe Lightroom",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "adobe",
+                "lightroom"
+            ],
+            "path": "solid/adobe-lightroom.svg",
+            "sha256": "690835b15b76a4f73564da1ddfecb4000ac814cfec9fd9a71870b9ac1254c8ac"
+        },
+        {
+            "id": "iconoir/solid/adobe-photoshop",
+            "coreIconName": "iconoir/adobe-photoshop-solid",
+            "label": "Adobe Photoshop",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "adobe",
+                "photoshop"
+            ],
+            "path": "solid/adobe-photoshop.svg",
+            "sha256": "cb68c9625947252a49540f6a14aa86cfe5e87ff2857831fbeb447e3261a16c19"
+        },
+        {
+            "id": "iconoir/solid/adobe-xd",
+            "coreIconName": "iconoir/adobe-xd-solid",
+            "label": "Adobe Xd",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "adobe",
+                "xd"
+            ],
+            "path": "solid/adobe-xd.svg",
+            "sha256": "8e71c40dfcfbabe9b0b4d1aa3e4d56ef64f5a4fb96c012007c9c280bb8185847"
+        },
+        {
+            "id": "iconoir/solid/alarm",
+            "coreIconName": "iconoir/alarm-solid",
+            "label": "Alarm",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "alarm"
+            ],
+            "path": "solid/alarm.svg",
+            "sha256": "b35ff623ebf000543e7a4ce7bf6c536f4fe756e2420065e907e39468e997fa4e"
+        },
+        {
+            "id": "iconoir/solid/app-notification",
+            "coreIconName": "iconoir/app-notification-solid",
+            "label": "App Notification",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "app",
+                "notification"
+            ],
+            "path": "solid/app-notification.svg",
+            "sha256": "4f719582a7589c7ed4f5ea3fd7796addeabfc62a74b140fd599cd988fe52331e"
+        },
+        {
+            "id": "iconoir/solid/app-store",
+            "coreIconName": "iconoir/app-store-solid",
+            "label": "App Store",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "app",
+                "store"
+            ],
+            "path": "solid/app-store.svg",
+            "sha256": "f0f4f0686f3a1492b015265797565c8e45fc0cca801f28f5308ca4f22c9afb05"
+        },
+        {
+            "id": "iconoir/solid/arrow-down-circle",
+            "coreIconName": "iconoir/arrow-down-circle-solid",
+            "label": "Arrow Down Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "down",
+                "circle"
+            ],
+            "path": "solid/arrow-down-circle.svg",
+            "sha256": "78d869ccb91d17c15d15826e51b77e39cfa9c9fa20fae9ba96f395a0113cee6b"
+        },
+        {
+            "id": "iconoir/solid/arrow-down-left-circle",
+            "coreIconName": "iconoir/arrow-down-left-circle-solid",
+            "label": "Arrow Down Left Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "down",
+                "left",
+                "circle"
+            ],
+            "path": "solid/arrow-down-left-circle.svg",
+            "sha256": "cad2fc2422fc5cc3f7649b3192d694decd9db5e713d241ec6b5e2625457f20fd"
+        },
+        {
+            "id": "iconoir/solid/arrow-down-left-square",
+            "coreIconName": "iconoir/arrow-down-left-square-solid",
+            "label": "Arrow Down Left Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "down",
+                "left",
+                "square"
+            ],
+            "path": "solid/arrow-down-left-square.svg",
+            "sha256": "a783d7529b77eb530f5b05eb4776872210069e48e1dfff0594db9ee5b5661fc2"
+        },
+        {
+            "id": "iconoir/solid/arrow-down-right-circle",
+            "coreIconName": "iconoir/arrow-down-right-circle-solid",
+            "label": "Arrow Down Right Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "down",
+                "right",
+                "circle"
+            ],
+            "path": "solid/arrow-down-right-circle.svg",
+            "sha256": "411eaed3fd4d825b0c07ae569fdae930922f160255ba9982383d7f5bb411c655"
+        },
+        {
+            "id": "iconoir/solid/arrow-down-right-square",
+            "coreIconName": "iconoir/arrow-down-right-square-solid",
+            "label": "Arrow Down Right Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "down",
+                "right",
+                "square"
+            ],
+            "path": "solid/arrow-down-right-square.svg",
+            "sha256": "d49ab5d55509b6dccb823752864ea7c566f71ff22df38e2c4d1e611bb60386a8"
+        },
+        {
+            "id": "iconoir/solid/arrow-left-circle",
+            "coreIconName": "iconoir/arrow-left-circle-solid",
+            "label": "Arrow Left Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "left",
+                "circle"
+            ],
+            "path": "solid/arrow-left-circle.svg",
+            "sha256": "4fbac5ee051d5c417200d62673566986b44a7e94b9eb44317e748e6a9793a8f4"
+        },
+        {
+            "id": "iconoir/solid/arrow-left-tag",
+            "coreIconName": "iconoir/arrow-left-tag-solid",
+            "label": "Arrow Left Tag",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "left",
+                "tag"
+            ],
+            "path": "solid/arrow-left-tag.svg",
+            "sha256": "41f2550cc50293c2f6add654cb7717dcaccb3602d7d40f673f33f9d80062fb28"
+        },
+        {
+            "id": "iconoir/solid/arrow-right-circle",
+            "coreIconName": "iconoir/arrow-right-circle-solid",
+            "label": "Arrow Right Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "right",
+                "circle"
+            ],
+            "path": "solid/arrow-right-circle.svg",
+            "sha256": "a68f7068f5d8f8342fb41b05a2b415cd707851aff277780a37162a931483fcb8"
+        },
+        {
+            "id": "iconoir/solid/arrow-right-tag",
+            "coreIconName": "iconoir/arrow-right-tag-solid",
+            "label": "Arrow Right Tag",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "right",
+                "tag"
+            ],
+            "path": "solid/arrow-right-tag.svg",
+            "sha256": "bd2db179a726957ed1a57fd0519ba38c047b60fb2dbea46c4a2cb04cfe42b41a"
+        },
+        {
+            "id": "iconoir/solid/arrow-up-circle",
+            "coreIconName": "iconoir/arrow-up-circle-solid",
+            "label": "Arrow Up Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "up",
+                "circle"
+            ],
+            "path": "solid/arrow-up-circle.svg",
+            "sha256": "2f9eb47137d9526344da256b9bb58c2cfa6bfe163bde1e2a679a518d467cf7a6"
+        },
+        {
+            "id": "iconoir/solid/arrow-up-left-circle",
+            "coreIconName": "iconoir/arrow-up-left-circle-solid",
+            "label": "Arrow Up Left Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "up",
+                "left",
+                "circle"
+            ],
+            "path": "solid/arrow-up-left-circle.svg",
+            "sha256": "28c9bf3306b09d083125a44463351699d62f84e2649db0bcd764650fedb9748f"
+        },
+        {
+            "id": "iconoir/solid/arrow-up-left-square",
+            "coreIconName": "iconoir/arrow-up-left-square-solid",
+            "label": "Arrow Up Left Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "up",
+                "left",
+                "square"
+            ],
+            "path": "solid/arrow-up-left-square.svg",
+            "sha256": "af74167de1b1b3a2a8943d3f43c685ac22f4d418e0cf74fcc9335c73e30c9d1e"
+        },
+        {
+            "id": "iconoir/solid/arrow-up-right-circle",
+            "coreIconName": "iconoir/arrow-up-right-circle-solid",
+            "label": "Arrow Up Right Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "up",
+                "right",
+                "circle"
+            ],
+            "path": "solid/arrow-up-right-circle.svg",
+            "sha256": "c3692e4d3c9bf2b8f1e1069fd5f515173179892a30042c0d2b1ccdac9c6761da"
+        },
+        {
+            "id": "iconoir/solid/arrow-up-right-square",
+            "coreIconName": "iconoir/arrow-up-right-square-solid",
+            "label": "Arrow Up Right Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "arrow",
+                "up",
+                "right",
+                "square"
+            ],
+            "path": "solid/arrow-up-right-square.svg",
+            "sha256": "43f54924ad0d227158467ca64d3a751e411e9f46cc64e01673a97e12470573d2"
+        },
+        {
+            "id": "iconoir/solid/bell-notification",
+            "coreIconName": "iconoir/bell-notification-solid",
+            "label": "Bell Notification",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "bell",
+                "notification"
+            ],
+            "path": "solid/bell-notification.svg",
+            "sha256": "0246bc7f5dd552bd4bc13d41dd68c91018a9fc0f6e7a6d77cff856a9ea95eb14"
+        },
+        {
+            "id": "iconoir/solid/bitcoin-circle",
+            "coreIconName": "iconoir/bitcoin-circle-solid",
+            "label": "Bitcoin Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "bitcoin",
+                "circle"
+            ],
+            "path": "solid/bitcoin-circle.svg",
+            "sha256": "b603c8454360f9283b3fabfeee0bfd7f054652352e865305070c4c1c81b34556"
+        },
+        {
+            "id": "iconoir/solid/bluetooth-tag",
+            "coreIconName": "iconoir/bluetooth-tag-solid",
+            "label": "Bluetooth Tag",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "bluetooth",
+                "tag"
+            ],
+            "path": "solid/bluetooth-tag.svg",
+            "sha256": "5216825ea2cf057b9b63cb3b7149b079018e2a0f386f27dc50666147060ff772"
+        },
+        {
+            "id": "iconoir/solid/bold-square",
+            "coreIconName": "iconoir/bold-square-solid",
+            "label": "Bold Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "bold",
+                "square"
+            ],
+            "path": "solid/bold-square.svg",
+            "sha256": "7db8e9659a28907a22ff49ffb5f0e0a79bcbb6df512ff4d1336a049698f5d8af"
+        },
+        {
+            "id": "iconoir/solid/book",
+            "coreIconName": "iconoir/book-solid",
+            "label": "Book",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "book"
+            ],
+            "path": "solid/book.svg",
+            "sha256": "137f946963197253089067d05a541a68553084325cec7e979312fb74c66f85f0"
+        },
+        {
+            "id": "iconoir/solid/bookmark-circle",
+            "coreIconName": "iconoir/bookmark-circle-solid",
+            "label": "Bookmark Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "bookmark",
+                "circle"
+            ],
+            "path": "solid/bookmark-circle.svg",
+            "sha256": "60bf313f147f9dc0a0616defbfe10ab65068cc0c360561f0e3928750b1c347cd"
+        },
+        {
+            "id": "iconoir/solid/bubble-search",
+            "coreIconName": "iconoir/bubble-search-solid",
+            "label": "Bubble Search",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "bubble",
+                "search"
+            ],
+            "path": "solid/bubble-search.svg",
+            "sha256": "a700aed7ef7c1303cdac64a9d7fe1902f8ba7b280afee136eda4381cc5b883b4"
+        },
+        {
+            "id": "iconoir/solid/bubble-xmark",
+            "coreIconName": "iconoir/bubble-xmark-solid",
+            "label": "Bubble Xmark",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "bubble",
+                "xmark"
+            ],
+            "path": "solid/bubble-xmark.svg",
+            "sha256": "e8ce9bf028b0eb6d48ea50e7ec6d4a07a558ab3b6613ee1a6626a344c0634190"
+        },
+        {
+            "id": "iconoir/solid/bug",
+            "coreIconName": "iconoir/bug-solid",
+            "label": "Bug",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "bug"
+            ],
+            "path": "solid/bug.svg",
+            "sha256": "0d94ef490eb80b8ea4037b3481f4b4e5a909fa8e7473b8eabf22f5de1748eeb7"
+        },
+        {
+            "id": "iconoir/solid/cable-tag",
+            "coreIconName": "iconoir/cable-tag-solid",
+            "label": "Cable Tag",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "cable",
+                "tag"
+            ],
+            "path": "solid/cable-tag.svg",
+            "sha256": "48a6d4fe5cbdaf748cb5e6166efd1410b5d89a89cc712ddce1df66b13848ca41"
+        },
+        {
+            "id": "iconoir/solid/calendar-arrow-down",
+            "coreIconName": "iconoir/calendar-arrow-down-solid",
+            "label": "Calendar Arrow Down",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "calendar",
+                "arrow",
+                "down"
+            ],
+            "path": "solid/calendar-arrow-down.svg",
+            "sha256": "679566067fd6b307f4c54891e37ff599b866636018fc13ea44285c6713861108"
+        },
+        {
+            "id": "iconoir/solid/calendar-arrow-up",
+            "coreIconName": "iconoir/calendar-arrow-up-solid",
+            "label": "Calendar Arrow Up",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "calendar",
+                "arrow",
+                "up"
+            ],
+            "path": "solid/calendar-arrow-up.svg",
+            "sha256": "241243bb94bc5c2ee3a7a7277b7efaa2d237e41e1e6a4c092bffe4710f978e59"
+        },
+        {
+            "id": "iconoir/solid/calendar-check",
+            "coreIconName": "iconoir/calendar-check-solid",
+            "label": "Calendar Check",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "calendar",
+                "check"
+            ],
+            "path": "solid/calendar-check.svg",
+            "sha256": "ef80763b3857fff375e4ef5918e19747c7d9837ecd2d538aeef1d6772f7673e6"
+        },
+        {
+            "id": "iconoir/solid/calendar-minus",
+            "coreIconName": "iconoir/calendar-minus-solid",
+            "label": "Calendar Minus",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "calendar",
+                "minus"
+            ],
+            "path": "solid/calendar-minus.svg",
+            "sha256": "e4b43c3d6377a3ce56ef5227159d509a007d0d2c40596cf803198f3f1ec2b1b0"
+        },
+        {
+            "id": "iconoir/solid/calendar-plus",
+            "coreIconName": "iconoir/calendar-plus-solid",
+            "label": "Calendar Plus",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "calendar",
+                "plus"
+            ],
+            "path": "solid/calendar-plus.svg",
+            "sha256": "31aff6c9e6ef78dc8a28e45c771f8f2dfea54b1062080c412e24a796e6c78715"
+        },
+        {
+            "id": "iconoir/solid/calendar-rotate",
+            "coreIconName": "iconoir/calendar-rotate-solid",
+            "label": "Calendar Rotate",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "calendar",
+                "rotate"
+            ],
+            "path": "solid/calendar-rotate.svg",
+            "sha256": "7484ea1cbd461768a0367385719a7e5a795de5ba33ee46df83221bbb22ba5a64"
+        },
+        {
+            "id": "iconoir/solid/calendar-xmark",
+            "coreIconName": "iconoir/calendar-xmark-solid",
+            "label": "Calendar Xmark",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "calendar",
+                "xmark"
+            ],
+            "path": "solid/calendar-xmark.svg",
+            "sha256": "2de2d1f56cf0c4641bcdce3130270624daef4ac2fed91903178c02c763a499a8"
+        },
+        {
+            "id": "iconoir/solid/camera",
+            "coreIconName": "iconoir/camera-solid",
+            "label": "Camera",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "camera"
+            ],
+            "path": "solid/camera.svg",
+            "sha256": "e75edf7edc64751818af1b12291db4b6513557525e225f5c61969645e74d5d8b"
+        },
+        {
+            "id": "iconoir/solid/cash",
+            "coreIconName": "iconoir/cash-solid",
+            "label": "Cash",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "cash"
+            ],
+            "path": "solid/cash.svg",
+            "sha256": "d4e176b2b69f3cc950e62eefcfbb86fb1a8dc3f6d7ff67b54c6997925fe4a8c7"
+        },
+        {
+            "id": "iconoir/solid/chat-bubble-check",
+            "coreIconName": "iconoir/chat-bubble-check-solid",
+            "label": "Chat Bubble Check",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "chat",
+                "bubble",
+                "check"
+            ],
+            "path": "solid/chat-bubble-check.svg",
+            "sha256": "17f0b8021b335245ae5a5b993267dc35d1356a430873d6774988e95c87e5a529"
+        },
+        {
+            "id": "iconoir/solid/chat-bubble-empty",
+            "coreIconName": "iconoir/chat-bubble-empty-solid",
+            "label": "Chat Bubble Empty",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "chat",
+                "bubble",
+                "empty"
+            ],
+            "path": "solid/chat-bubble-empty.svg",
+            "sha256": "db1c881cda5f24e86f5e751eb39f71027bf460f5d135aa31197d91a2efd76bf5"
+        },
+        {
+            "id": "iconoir/solid/chat-bubble-question",
+            "coreIconName": "iconoir/chat-bubble-question-solid",
+            "label": "Chat Bubble Question",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "chat",
+                "bubble",
+                "question"
+            ],
+            "path": "solid/chat-bubble-question.svg",
+            "sha256": "2db8158526d8a5b4971057e95f568fc80dafc58403ce1875820aa8622e5d77e2"
+        },
+        {
+            "id": "iconoir/solid/chat-bubble-translate",
+            "coreIconName": "iconoir/chat-bubble-translate-solid",
+            "label": "Chat Bubble Translate",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "chat",
+                "bubble",
+                "translate"
+            ],
+            "path": "solid/chat-bubble-translate.svg",
+            "sha256": "18ff5d62c5f788b14b2fedba1cf77bd0d56dbe80e203540a8b2cd5d3b0a259cb"
+        },
+        {
+            "id": "iconoir/solid/chat-bubble-warning",
+            "coreIconName": "iconoir/chat-bubble-warning-solid",
+            "label": "Chat Bubble Warning",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "chat",
+                "bubble",
+                "warning"
+            ],
+            "path": "solid/chat-bubble-warning.svg",
+            "sha256": "bf1f11906d96dc1e84a154fe209d36da66be3c8a22df441f425e19c6220ad54b"
+        },
+        {
+            "id": "iconoir/solid/chat-bubble-xmark",
+            "coreIconName": "iconoir/chat-bubble-xmark-solid",
+            "label": "Chat Bubble Xmark",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "chat",
+                "bubble",
+                "xmark"
+            ],
+            "path": "solid/chat-bubble-xmark.svg",
+            "sha256": "d5ef75094f4da03240e6b0aafc23455f2bc0180f6f70621b3c5a503ad7983e79"
+        },
+        {
+            "id": "iconoir/solid/chat-bubble",
+            "coreIconName": "iconoir/chat-bubble-solid",
+            "label": "Chat Bubble",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "chat",
+                "bubble"
+            ],
+            "path": "solid/chat-bubble.svg",
+            "sha256": "e6573acf60592dfe7750a37f96ddfd2eaa2f7047267cb73aab3f0bcd87d6a9b5"
+        },
+        {
+            "id": "iconoir/solid/chat-lines",
+            "coreIconName": "iconoir/chat-lines-solid",
+            "label": "Chat Lines",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "chat",
+                "lines"
+            ],
+            "path": "solid/chat-lines.svg",
+            "sha256": "4c840b32405fcfca8750bd80bfc53e59c488f08e7a2f20f9034f404bfafd4e55"
+        },
+        {
+            "id": "iconoir/solid/chat-minus-in",
+            "coreIconName": "iconoir/chat-minus-in-solid",
+            "label": "Chat Minus In",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "chat",
+                "minus",
+                "in"
+            ],
+            "path": "solid/chat-minus-in.svg",
+            "sha256": "570050a3ec30e94d6bba041ae0db760cc566050aed883f757970b19e369a104f"
+        },
+        {
+            "id": "iconoir/solid/chat-plus-in",
+            "coreIconName": "iconoir/chat-plus-in-solid",
+            "label": "Chat Plus In",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "chat",
+                "plus",
+                "in"
+            ],
+            "path": "solid/chat-plus-in.svg",
+            "sha256": "a5f03b1f2bcd8aa8c316458cbc8bbe782b4d023ac954e4eb4be07b85d15b23e8"
+        },
+        {
+            "id": "iconoir/solid/check-circle",
+            "coreIconName": "iconoir/check-circle-solid",
+            "label": "Check Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "check",
+                "circle"
+            ],
+            "path": "solid/check-circle.svg",
+            "sha256": "8ec3928c07f4e41fc536a9bdd8d58b02110cbbedff38d09cc1c38ce9e023690b"
+        },
+        {
+            "id": "iconoir/solid/check-square",
+            "coreIconName": "iconoir/check-square-solid",
+            "label": "Check Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "check",
+                "square"
+            ],
+            "path": "solid/check-square.svg",
+            "sha256": "f6c1821b4d9a0ae24e30d2dc3dd30700f21f0a3424c94748e02d865e9bfca980"
+        },
+        {
+            "id": "iconoir/solid/clock",
+            "coreIconName": "iconoir/clock-solid",
+            "label": "Clock",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "clock"
+            ],
+            "path": "solid/clock.svg",
+            "sha256": "4906c78a31d67e027a476d409e9a8d005d46eeb9d87fc92684e6cde0d5d738d8"
+        },
+        {
+            "id": "iconoir/solid/closed-captions-tag",
+            "coreIconName": "iconoir/closed-captions-tag-solid",
+            "label": "Closed Captions Tag",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "closed",
+                "captions",
+                "tag"
+            ],
+            "path": "solid/closed-captions-tag.svg",
+            "sha256": "58758edf0cb853a1647dbf754d0a76ef4adeadb5bbc52c01cc5080a0b288c187"
+        },
+        {
+            "id": "iconoir/solid/cloud-square",
+            "coreIconName": "iconoir/cloud-square-solid",
+            "label": "Cloud Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "cloud",
+                "square"
+            ],
+            "path": "solid/cloud-square.svg",
+            "sha256": "a8a9ab2971d88db4f47811811229aa3f8582f33cec13793104a5c83c5dd04a26"
+        },
+        {
+            "id": "iconoir/solid/compass",
+            "coreIconName": "iconoir/compass-solid",
+            "label": "Compass",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "compass"
+            ],
+            "path": "solid/compass.svg",
+            "sha256": "36644c8de6ee932d7c099b24ee85579489566a611d7cd687d41e602a46c2053d"
+        },
+        {
+            "id": "iconoir/solid/cooling-square",
+            "coreIconName": "iconoir/cooling-square-solid",
+            "label": "Cooling Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "cooling",
+                "square"
+            ],
+            "path": "solid/cooling-square.svg",
+            "sha256": "fe8a11df4a42a4734067e853d761fcdc26712938c24ea3970c79a3b7a2ea3a27"
+        },
+        {
+            "id": "iconoir/solid/credit-card",
+            "coreIconName": "iconoir/credit-card-solid",
+            "label": "Credit Card",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "credit",
+                "card"
+            ],
+            "path": "solid/credit-card.svg",
+            "sha256": "e8683365f8c96a6970c516e66aaa4f9ca3d492fcb01d97915d64ea321197f5aa"
+        },
+        {
+            "id": "iconoir/solid/cube-dots",
+            "coreIconName": "iconoir/cube-dots-solid",
+            "label": "Cube Dots",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "cube",
+                "dots"
+            ],
+            "path": "solid/cube-dots.svg",
+            "sha256": "df5385eaa76f40cc35466cbec9becf2777cdf2f6b2696083b1e397ff2607df49"
+        },
+        {
+            "id": "iconoir/solid/cube-scan",
+            "coreIconName": "iconoir/cube-scan-solid",
+            "label": "Cube Scan",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "cube",
+                "scan"
+            ],
+            "path": "solid/cube-scan.svg",
+            "sha256": "9f9363838688dad3ecc5c98e93d28c7f5b74ae4ca88c6293e352c14ea3919f1f"
+        },
+        {
+            "id": "iconoir/solid/database-check",
+            "coreIconName": "iconoir/database-check-solid",
+            "label": "Database Check",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "database",
+                "check"
+            ],
+            "path": "solid/database-check.svg",
+            "sha256": "8554be4d6cfd1bad53d8f61166d28c92dfd582b75e4b0592e55562b9eea7f024"
+        },
+        {
+            "id": "iconoir/solid/database-tag",
+            "coreIconName": "iconoir/database-tag-solid",
+            "label": "Database Tag",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "database",
+                "tag"
+            ],
+            "path": "solid/database-tag.svg",
+            "sha256": "1d84295dacc7a4029cafc8a36e833e6e865789f775f10cae673e798151c8a64e"
+        },
+        {
+            "id": "iconoir/solid/database",
+            "coreIconName": "iconoir/database-solid",
+            "label": "Database",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "database"
+            ],
+            "path": "solid/database.svg",
+            "sha256": "21b59a5b1e63227c823fb1bfae2a79eadc4799db83f66b9b5ecba396265c8b77"
+        },
+        {
+            "id": "iconoir/solid/diameter",
+            "coreIconName": "iconoir/diameter-solid",
+            "label": "Diameter",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "diameter"
+            ],
+            "path": "solid/diameter.svg",
+            "sha256": "675d2b027f23b050cc8f46c100bd28718de909484d77fb0b45f04d38aacaca5a"
+        },
+        {
+            "id": "iconoir/solid/divide-three",
+            "coreIconName": "iconoir/divide-three-solid",
+            "label": "Divide Three",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "divide",
+                "three"
+            ],
+            "path": "solid/divide-three.svg",
+            "sha256": "92f56632fca6a05273a89e1f362d3490bc52340a5b5e57704f4eba02e54f687f"
+        },
+        {
+            "id": "iconoir/solid/divide",
+            "coreIconName": "iconoir/divide-solid",
+            "label": "Divide",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "divide"
+            ],
+            "path": "solid/divide.svg",
+            "sha256": "166d566571073c85d2b6d2d1bb579a9010cf7335b85d8cd3c1fcdcda359e7303"
+        },
+        {
+            "id": "iconoir/solid/dogecoin-circle",
+            "coreIconName": "iconoir/dogecoin-circle-solid",
+            "label": "Dogecoin Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "dogecoin",
+                "circle"
+            ],
+            "path": "solid/dogecoin-circle.svg",
+            "sha256": "40cd4fce3a2d00f1eab8ca04aa7f25a25442e05a4509be0800a1e8b8456b3e17"
+        },
+        {
+            "id": "iconoir/solid/dollar-circle",
+            "coreIconName": "iconoir/dollar-circle-solid",
+            "label": "Dollar Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "dollar",
+                "circle"
+            ],
+            "path": "solid/dollar-circle.svg",
+            "sha256": "7f59d23f0ba57c837034fc8fb74fbcd4fc73ef9466107eae3f976685f5fe14c3"
+        },
+        {
+            "id": "iconoir/solid/download-circle",
+            "coreIconName": "iconoir/download-circle-solid",
+            "label": "Download Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "download",
+                "circle"
+            ],
+            "path": "solid/download-circle.svg",
+            "sha256": "b5e043595fc044f2bc62da6aa3685fb3142ff4343aa835db738d228bdc1e9ecd"
+        },
+        {
+            "id": "iconoir/solid/download-square",
+            "coreIconName": "iconoir/download-square-solid",
+            "label": "Download Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "download",
+                "square"
+            ],
+            "path": "solid/download-square.svg",
+            "sha256": "0fd196535459ecd48c9a03ae9e4b0a94decd70e7b942b773214a5ed8c08b955e"
+        },
+        {
+            "id": "iconoir/solid/drag",
+            "coreIconName": "iconoir/drag-solid",
+            "label": "Drag",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "drag"
+            ],
+            "path": "solid/drag.svg",
+            "sha256": "7446cad8a57dedd12706e4d020c8407091dea0ee71de26bc0e2e1a03abba5587"
+        },
+        {
+            "id": "iconoir/solid/droplet-snow-flake-in",
+            "coreIconName": "iconoir/droplet-snow-flake-in-solid",
+            "label": "Droplet Snow Flake In",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "droplet",
+                "snow",
+                "flake",
+                "in"
+            ],
+            "path": "solid/droplet-snow-flake-in.svg",
+            "sha256": "476c46fc46598ab070f2ee0081a82a95496e6c2a6e82c912ee08d23573143866"
+        },
+        {
+            "id": "iconoir/solid/ethereum-circle",
+            "coreIconName": "iconoir/ethereum-circle-solid",
+            "label": "Ethereum Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "ethereum",
+                "circle"
+            ],
+            "path": "solid/ethereum-circle.svg",
+            "sha256": "b0a3add016acdcf26a91c553272fcd8925dca2d52d2887917bb1d6e12dc39411"
+        },
+        {
+            "id": "iconoir/solid/euro-square",
+            "coreIconName": "iconoir/euro-square-solid",
+            "label": "Euro Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "euro",
+                "square"
+            ],
+            "path": "solid/euro-square.svg",
+            "sha256": "7e96ab26a5565b6995b964bc27c64d7ef566185ae95c154e26dfccd48f9a0c03"
+        },
+        {
+            "id": "iconoir/solid/facetime",
+            "coreIconName": "iconoir/facetime-solid",
+            "label": "Facetime",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "facetime"
+            ],
+            "path": "solid/facetime.svg",
+            "sha256": "f964126a34dbad7373a6e079c55fa1ead7c88254d94f3d3d6158afefaacd64df"
+        },
+        {
+            "id": "iconoir/solid/fast-arrow-down-square",
+            "coreIconName": "iconoir/fast-arrow-down-square-solid",
+            "label": "Fast Arrow Down Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "fast",
+                "arrow",
+                "down",
+                "square"
+            ],
+            "path": "solid/fast-arrow-down-square.svg",
+            "sha256": "0eddc0cd536d578c9f72ada9d2839e1b96445384ab0f373d987c03c631cf7952"
+        },
+        {
+            "id": "iconoir/solid/fast-arrow-left-square",
+            "coreIconName": "iconoir/fast-arrow-left-square-solid",
+            "label": "Fast Arrow Left Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "fast",
+                "arrow",
+                "left",
+                "square"
+            ],
+            "path": "solid/fast-arrow-left-square.svg",
+            "sha256": "4574d15ce3fbfe83380a1586a04ffc3859a779692bfbd1e99d7c6af80e05bb31"
+        },
+        {
+            "id": "iconoir/solid/fast-arrow-right-square",
+            "coreIconName": "iconoir/fast-arrow-right-square-solid",
+            "label": "Fast Arrow Right Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "fast",
+                "arrow",
+                "right",
+                "square"
+            ],
+            "path": "solid/fast-arrow-right-square.svg",
+            "sha256": "f39746fad4a2596e3b6eae55a0604fa49e7e69eae57b1082359678685866b89a"
+        },
+        {
+            "id": "iconoir/solid/fast-arrow-up-square",
+            "coreIconName": "iconoir/fast-arrow-up-square-solid",
+            "label": "Fast Arrow Up Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "fast",
+                "arrow",
+                "up",
+                "square"
+            ],
+            "path": "solid/fast-arrow-up-square.svg",
+            "sha256": "3dc5e86195aaa616b51c5356290eb7e1c5b7010bdc050fc1284f638530f86996"
+        },
+        {
+            "id": "iconoir/solid/filter-list-circle",
+            "coreIconName": "iconoir/filter-list-circle-solid",
+            "label": "Filter List Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "filter",
+                "list",
+                "circle"
+            ],
+            "path": "solid/filter-list-circle.svg",
+            "sha256": "ac258cf14a4c420cf7c3b7f820f61f60d6c5e467c6231ad89470c59c3a97361a"
+        },
+        {
+            "id": "iconoir/solid/flash",
+            "coreIconName": "iconoir/flash-solid",
+            "label": "Flash",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "flash"
+            ],
+            "path": "solid/flash.svg",
+            "sha256": "3b16f8b3fdcf9efadeec04d757a45e89be8d3dc507285fd702734ccf3dbce6a3"
+        },
+        {
+            "id": "iconoir/solid/flask",
+            "coreIconName": "iconoir/flask-solid",
+            "label": "Flask",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "flask"
+            ],
+            "path": "solid/flask.svg",
+            "sha256": "51f315d359294d064a4397cb79f7b9b99c47e3e6e8594940fb36221850f7aa5f"
+        },
+        {
+            "id": "iconoir/solid/fx-tag",
+            "coreIconName": "iconoir/fx-tag-solid",
+            "label": "Fx Tag",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "fx",
+                "tag"
+            ],
+            "path": "solid/fx-tag.svg",
+            "sha256": "4837ea3a3dbed1dcad8bd2a6c9d10aa48abf4558908cb59a711ee68a58d642e0"
+        },
+        {
+            "id": "iconoir/solid/google-circle",
+            "coreIconName": "iconoir/google-circle-solid",
+            "label": "Google Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "google",
+                "circle"
+            ],
+            "path": "solid/google-circle.svg",
+            "sha256": "a3bb9d558b817e00f1e0890caee7e9e8629a75bda914aa233d9e40a938d8c667"
+        },
+        {
+            "id": "iconoir/solid/graduation-cap",
+            "coreIconName": "iconoir/graduation-cap-solid",
+            "label": "Graduation Cap",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "graduation",
+                "cap"
+            ],
+            "path": "solid/graduation-cap.svg",
+            "sha256": "cdb1501af0e13a59a1ce4833d2f21763ce0210ef7d881204d118e7cf76310776"
+        },
+        {
+            "id": "iconoir/solid/hd-display",
+            "coreIconName": "iconoir/hd-display-solid",
+            "label": "Hd Display",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "hd",
+                "display"
+            ],
+            "path": "solid/hd-display.svg",
+            "sha256": "54f19c873c0b37b98738cd08cff77fa3461471fac856bc075e92f0b68cfff739"
+        },
+        {
+            "id": "iconoir/solid/heart",
+            "coreIconName": "iconoir/heart-solid",
+            "label": "Heart",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "heart"
+            ],
+            "path": "solid/heart.svg",
+            "sha256": "06b3c07698a07e9b216a23252b3fb6086178bd57eb1729200991b0c34cdf24e4"
+        },
+        {
+            "id": "iconoir/solid/heating-square",
+            "coreIconName": "iconoir/heating-square-solid",
+            "label": "Heating Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "heating",
+                "square"
+            ],
+            "path": "solid/heating-square.svg",
+            "sha256": "51393b8923b1bf94f70d0e233c170940d7c7d00f711d5cf6ed04023a1336e698"
+        },
+        {
+            "id": "iconoir/solid/help-circle",
+            "coreIconName": "iconoir/help-circle-solid",
+            "label": "Help Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "help",
+                "circle"
+            ],
+            "path": "solid/help-circle.svg",
+            "sha256": "610df66218178f845d23563785d21e1964a2039d1f0114d06ab0cbe2968ab4ca"
+        },
+        {
+            "id": "iconoir/solid/help-square",
+            "coreIconName": "iconoir/help-square-solid",
+            "label": "Help Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "help",
+                "square"
+            ],
+            "path": "solid/help-square.svg",
+            "sha256": "e1c6fde908eb32426b696b0cd9acfa0495a1704f6ad25193b9c7e0a3482c3573"
+        },
+        {
+            "id": "iconoir/solid/hospital-circle",
+            "coreIconName": "iconoir/hospital-circle-solid",
+            "label": "Hospital Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "hospital",
+                "circle"
+            ],
+            "path": "solid/hospital-circle.svg",
+            "sha256": "f41fc511aee26b8f065c3b57535f1b59201904b0abaf6736586ee8997fcc02ef"
+        },
+        {
+            "id": "iconoir/solid/ice-cream",
+            "coreIconName": "iconoir/ice-cream-solid",
+            "label": "Ice Cream",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "ice",
+                "cream"
+            ],
+            "path": "solid/ice-cream.svg",
+            "sha256": "2a92ef12dbc586164ea3d7038236c9b221fd9ffa37ffcde34cff9e8a7023eca7"
+        },
+        {
+            "id": "iconoir/solid/info-circle",
+            "coreIconName": "iconoir/info-circle-solid",
+            "label": "Info Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "info",
+                "circle"
+            ],
+            "path": "solid/info-circle.svg",
+            "sha256": "4b17c991e76d6b647f0cfd5bc298d980d4b8d1f322d2552352c525c36fe1c156"
+        },
+        {
+            "id": "iconoir/solid/italic-square",
+            "coreIconName": "iconoir/italic-square-solid",
+            "label": "Italic Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "italic",
+                "square"
+            ],
+            "path": "solid/italic-square.svg",
+            "sha256": "c81a184d0e7577d6f2f86ba3f4266cc939fd5dd553aabdb1389aba8ae81adab6"
+        },
+        {
+            "id": "iconoir/solid/keyframe-align-center",
+            "coreIconName": "iconoir/keyframe-align-center-solid",
+            "label": "Keyframe Align Center",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "keyframe",
+                "align",
+                "center"
+            ],
+            "path": "solid/keyframe-align-center.svg",
+            "sha256": "3fc7928034fcfe391b7f370b82e26c852610a99705a57c3ba7d760fd47a7cbe8"
+        },
+        {
+            "id": "iconoir/solid/keyframe-align-horizontal",
+            "coreIconName": "iconoir/keyframe-align-horizontal-solid",
+            "label": "Keyframe Align Horizontal",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "keyframe",
+                "align",
+                "horizontal"
+            ],
+            "path": "solid/keyframe-align-horizontal.svg",
+            "sha256": "b01ec7a82aa1856fd0499264eacd97b05e7d16e584b13fd9d6524e609918af05"
+        },
+        {
+            "id": "iconoir/solid/keyframe-align-vertical",
+            "coreIconName": "iconoir/keyframe-align-vertical-solid",
+            "label": "Keyframe Align Vertical",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "keyframe",
+                "align",
+                "vertical"
+            ],
+            "path": "solid/keyframe-align-vertical.svg",
+            "sha256": "82ff4b41a1cb5c4b74a9ecf8dcb7606ba48936963af89cf02d2f693a52adb04e"
+        },
+        {
+            "id": "iconoir/solid/keyframe-minus-in",
+            "coreIconName": "iconoir/keyframe-minus-in-solid",
+            "label": "Keyframe Minus In",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "keyframe",
+                "minus",
+                "in"
+            ],
+            "path": "solid/keyframe-minus-in.svg",
+            "sha256": "e94d4117ac4bd653f0a3f7797e274f507913940759818ded0cc01d085c4b457d"
+        },
+        {
+            "id": "iconoir/solid/keyframe-minus",
+            "coreIconName": "iconoir/keyframe-minus-solid",
+            "label": "Keyframe Minus",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "keyframe",
+                "minus"
+            ],
+            "path": "solid/keyframe-minus.svg",
+            "sha256": "c7a3e8e4001911515e459d6e2ca029ce8dd5cf7c0aa1228ed0efea059b55ff7c"
+        },
+        {
+            "id": "iconoir/solid/keyframe-plus-in",
+            "coreIconName": "iconoir/keyframe-plus-in-solid",
+            "label": "Keyframe Plus In",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "keyframe",
+                "plus",
+                "in"
+            ],
+            "path": "solid/keyframe-plus-in.svg",
+            "sha256": "dbfc2e016f3d91fa078af735e94866ff8ee32f31eff4541717079d2ade4f84bc"
+        },
+        {
+            "id": "iconoir/solid/keyframe-plus",
+            "coreIconName": "iconoir/keyframe-plus-solid",
+            "label": "Keyframe Plus",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "keyframe",
+                "plus"
+            ],
+            "path": "solid/keyframe-plus.svg",
+            "sha256": "8760ac302c15b8ca655e49430a52765a284c36e6b1454ecbe8876f134f9cec42"
+        },
+        {
+            "id": "iconoir/solid/keyframe-position",
+            "coreIconName": "iconoir/keyframe-position-solid",
+            "label": "Keyframe Position",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "keyframe",
+                "position"
+            ],
+            "path": "solid/keyframe-position.svg",
+            "sha256": "744c5110cb93e5a1c365dd02002be37692fe879e226e45387f689713e1c3e0b3"
+        },
+        {
+            "id": "iconoir/solid/keyframe",
+            "coreIconName": "iconoir/keyframe-solid",
+            "label": "Keyframe",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "keyframe"
+            ],
+            "path": "solid/keyframe.svg",
+            "sha256": "ce2e9ebb7ba4001263e900320a64782c2ef67877f14a6bafe1ec2520dda32b61"
+        },
+        {
+            "id": "iconoir/solid/keyframes-couple",
+            "coreIconName": "iconoir/keyframes-couple-solid",
+            "label": "Keyframes Couple",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "keyframes",
+                "couple"
+            ],
+            "path": "solid/keyframes-couple.svg",
+            "sha256": "21371dae2dd58f06d62133dccfad4ab5fce7a252563574fca26d2dbeda21fad5"
+        },
+        {
+            "id": "iconoir/solid/litecoin-circle",
+            "coreIconName": "iconoir/litecoin-circle-solid",
+            "label": "Litecoin Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "litecoin",
+                "circle"
+            ],
+            "path": "solid/litecoin-circle.svg",
+            "sha256": "c7c4c2b1ce11ccf15f58d90cb779c27fe423d475aed9403b770643d5991f8303"
+        },
+        {
+            "id": "iconoir/solid/long-arrow-down-left",
+            "coreIconName": "iconoir/long-arrow-down-left-solid",
+            "label": "Long Arrow Down Left",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "long",
+                "arrow",
+                "down",
+                "left"
+            ],
+            "path": "solid/long-arrow-down-left.svg",
+            "sha256": "cdd6bdf36a7599695dae538ee5c4d8af3b827cfc2673a59540e6939f9c3a78d2"
+        },
+        {
+            "id": "iconoir/solid/long-arrow-down-right",
+            "coreIconName": "iconoir/long-arrow-down-right-solid",
+            "label": "Long Arrow Down Right",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "long",
+                "arrow",
+                "down",
+                "right"
+            ],
+            "path": "solid/long-arrow-down-right.svg",
+            "sha256": "2ce10215a1270198f5aef1895501558d9353568cd6f1f7f2ebeeb13461fb83c9"
+        },
+        {
+            "id": "iconoir/solid/long-arrow-left-down",
+            "coreIconName": "iconoir/long-arrow-left-down-solid",
+            "label": "Long Arrow Left Down",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "long",
+                "arrow",
+                "left",
+                "down"
+            ],
+            "path": "solid/long-arrow-left-down.svg",
+            "sha256": "2fa05aaa5ef38c82859954585a3ee091c763db6f7706a80fce095020ca817731"
+        },
+        {
+            "id": "iconoir/solid/long-arrow-left-up",
+            "coreIconName": "iconoir/long-arrow-left-up-solid",
+            "label": "Long Arrow Left Up",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "long",
+                "arrow",
+                "left",
+                "up"
+            ],
+            "path": "solid/long-arrow-left-up.svg",
+            "sha256": "df4b7b1fe8e77b179cd8bb5ca0643053eab67027ef3c2e5f13b59ddddbf5ad50"
+        },
+        {
+            "id": "iconoir/solid/long-arrow-right-down",
+            "coreIconName": "iconoir/long-arrow-right-down-solid",
+            "label": "Long Arrow Right Down",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "long",
+                "arrow",
+                "right",
+                "down"
+            ],
+            "path": "solid/long-arrow-right-down.svg",
+            "sha256": "3dffbf4007c7bd0ca600d99f18cb9aaa0a0a32a2e0d19d69cbd510f52ab46e5e"
+        },
+        {
+            "id": "iconoir/solid/long-arrow-right-up",
+            "coreIconName": "iconoir/long-arrow-right-up-solid",
+            "label": "Long Arrow Right Up",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "long",
+                "arrow",
+                "right",
+                "up"
+            ],
+            "path": "solid/long-arrow-right-up.svg",
+            "sha256": "f35c8c0b4d66d2736f40308c37195f090fbdf34a11ed0909e15a1b1577dd25f5"
+        },
+        {
+            "id": "iconoir/solid/long-arrow-up-left",
+            "coreIconName": "iconoir/long-arrow-up-left-solid",
+            "label": "Long Arrow Up Left",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "long",
+                "arrow",
+                "up",
+                "left"
+            ],
+            "path": "solid/long-arrow-up-left.svg",
+            "sha256": "d8607d253e80457e395b4e4d73101e1df77063b649e88fc24838a01884720d0b"
+        },
+        {
+            "id": "iconoir/solid/long-arrow-up-right",
+            "coreIconName": "iconoir/long-arrow-up-right-solid",
+            "label": "Long Arrow Up Right",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "long",
+                "arrow",
+                "up",
+                "right"
+            ],
+            "path": "solid/long-arrow-up-right.svg",
+            "sha256": "937704908d19ab24395eb2aeb48c8280e74cef3a164a8637254689de463109c4"
+        },
+        {
+            "id": "iconoir/solid/magnet",
+            "coreIconName": "iconoir/magnet-solid",
+            "label": "Magnet",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "magnet"
+            ],
+            "path": "solid/magnet.svg",
+            "sha256": "5c10c850ae3073f0cde03b26e4c421f4a5bcf2d001ede8663bed777e4f2d43d9"
+        },
+        {
+            "id": "iconoir/solid/mail-in",
+            "coreIconName": "iconoir/mail-in-solid",
+            "label": "Mail In",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "mail",
+                "in"
+            ],
+            "path": "solid/mail-in.svg",
+            "sha256": "f9a859172a882211d9fa8887fe8c2a1a32f79bb4bc90147422d8ce1f34ae2143"
+        },
+        {
+            "id": "iconoir/solid/mail-open",
+            "coreIconName": "iconoir/mail-open-solid",
+            "label": "Mail Open",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "mail",
+                "open"
+            ],
+            "path": "solid/mail-open.svg",
+            "sha256": "7382487e0bbc2d4a0f38827ece5afbb9390536b8b53f9406e0525218e01e5871"
+        },
+        {
+            "id": "iconoir/solid/mail",
+            "coreIconName": "iconoir/mail-solid",
+            "label": "Mail",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "mail"
+            ],
+            "path": "solid/mail.svg",
+            "sha256": "41bb0fb33dac302bf5a26be088dd59b4cb1d56e0997baac2be7ace775a493631"
+        },
+        {
+            "id": "iconoir/solid/medal-1st",
+            "coreIconName": "iconoir/medal-1st-solid",
+            "label": "Medal 1st",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "medal",
+                "1st"
+            ],
+            "path": "solid/medal-1st.svg",
+            "sha256": "18b434b026b023de5cdc5cf8baa941915c11f3e471a11669f74ea6aab937dbbf"
+        },
+        {
+            "id": "iconoir/solid/medal",
+            "coreIconName": "iconoir/medal-solid",
+            "label": "Medal",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "medal"
+            ],
+            "path": "solid/medal.svg",
+            "sha256": "e3067bab0a20c9e840e64c4036a932d908b04c0c176d728d971c481c1a2547a8"
+        },
+        {
+            "id": "iconoir/solid/message-alert",
+            "coreIconName": "iconoir/message-alert-solid",
+            "label": "Message Alert",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "message",
+                "alert"
+            ],
+            "path": "solid/message-alert.svg",
+            "sha256": "6bc01d2d60279943f069b3e63bc8943dfc1de22b0fd04fd566d30641a02d67ba"
+        },
+        {
+            "id": "iconoir/solid/message-text",
+            "coreIconName": "iconoir/message-text-solid",
+            "label": "Message Text",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "message",
+                "text"
+            ],
+            "path": "solid/message-text.svg",
+            "sha256": "3333f582c1a08f14ec92ccec14f9da617ec4a6281fd65ecd107c7af4782da61e"
+        },
+        {
+            "id": "iconoir/solid/message",
+            "coreIconName": "iconoir/message-solid",
+            "label": "Message",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "message"
+            ],
+            "path": "solid/message.svg",
+            "sha256": "c0228af1b700982b2768fa2cafe8a9d4104eb91d38ab0513f27775cbc482a92e"
+        },
+        {
+            "id": "iconoir/solid/microphone-mute",
+            "coreIconName": "iconoir/microphone-mute-solid",
+            "label": "Microphone Mute",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "microphone",
+                "mute"
+            ],
+            "path": "solid/microphone-mute.svg",
+            "sha256": "7712f6060ad2869c9fb39e67b021ab5a87ed5cee555b5c04be7cba25fdcfe824"
+        },
+        {
+            "id": "iconoir/solid/microscope",
+            "coreIconName": "iconoir/microscope-solid",
+            "label": "Microscope",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "microscope"
+            ],
+            "path": "solid/microscope.svg",
+            "sha256": "ad44c3400b738f9efec1a5ce68051a5a030de32a5bec5e1a704d86b94abf72cf"
+        },
+        {
+            "id": "iconoir/solid/minus-circle",
+            "coreIconName": "iconoir/minus-circle-solid",
+            "label": "Minus Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "minus",
+                "circle"
+            ],
+            "path": "solid/minus-circle.svg",
+            "sha256": "904b3f1bf1bda0dabf2f199f61ebad263e605e43224f1c6e04f3e7806ff5e8b9"
+        },
+        {
+            "id": "iconoir/solid/minus-square",
+            "coreIconName": "iconoir/minus-square-solid",
+            "label": "Minus Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "minus",
+                "square"
+            ],
+            "path": "solid/minus-square.svg",
+            "sha256": "4d5049794d8f99678ca31b0697c155acad730a9f82d1fe45dbfa8adcb2727282"
+        },
+        {
+            "id": "iconoir/solid/money-square",
+            "coreIconName": "iconoir/money-square-solid",
+            "label": "Money Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "money",
+                "square"
+            ],
+            "path": "solid/money-square.svg",
+            "sha256": "0608f1767470520103b34aa3d4eb6300f72f4e3d02d8aea2338cec7f09e10769"
+        },
+        {
+            "id": "iconoir/solid/multi-bubble",
+            "coreIconName": "iconoir/multi-bubble-solid",
+            "label": "Multi Bubble",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "multi",
+                "bubble"
+            ],
+            "path": "solid/multi-bubble.svg",
+            "sha256": "cac9b3af2493b601a7b5de28910d849c7efc5f0538cfeb5106bb076ac5aa3d2c"
+        },
+        {
+            "id": "iconoir/solid/nav-arrow-down",
+            "coreIconName": "iconoir/nav-arrow-down-solid",
+            "label": "Nav Arrow Down",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "nav",
+                "arrow",
+                "down"
+            ],
+            "path": "solid/nav-arrow-down.svg",
+            "sha256": "77fa153d0c8a96af3c704290cef0361749579ca900ed1fe80dde46cdd8ea1956"
+        },
+        {
+            "id": "iconoir/solid/nav-arrow-left",
+            "coreIconName": "iconoir/nav-arrow-left-solid",
+            "label": "Nav Arrow Left",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "nav",
+                "arrow",
+                "left"
+            ],
+            "path": "solid/nav-arrow-left.svg",
+            "sha256": "5d93c4f756d00b42f3f547fd1c9eaea88c699cbfc6d72cdefe9346addb0bd322"
+        },
+        {
+            "id": "iconoir/solid/nav-arrow-right",
+            "coreIconName": "iconoir/nav-arrow-right-solid",
+            "label": "Nav Arrow Right",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "nav",
+                "arrow",
+                "right"
+            ],
+            "path": "solid/nav-arrow-right.svg",
+            "sha256": "bedfb90939e27662c6062426a3990402d40c9dc4b726a192f5cfe92d0ea22f1b"
+        },
+        {
+            "id": "iconoir/solid/nav-arrow-up",
+            "coreIconName": "iconoir/nav-arrow-up-solid",
+            "label": "Nav Arrow Up",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "nav",
+                "arrow",
+                "up"
+            ],
+            "path": "solid/nav-arrow-up.svg",
+            "sha256": "fd75cca7147cf71dec73a2d20b54fda545f81cce00eeefccf662c9ee0607e896"
+        },
+        {
+            "id": "iconoir/solid/number-0-square",
+            "coreIconName": "iconoir/number-0-square-solid",
+            "label": "Number 0 Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "number",
+                "0",
+                "square"
+            ],
+            "path": "solid/number-0-square.svg",
+            "sha256": "bfe9fa95ce3431603cba73334be2ad796e16ccc62eeebd7161903650056d282b"
+        },
+        {
+            "id": "iconoir/solid/number-1-square",
+            "coreIconName": "iconoir/number-1-square-solid",
+            "label": "Number 1 Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "number",
+                "1",
+                "square"
+            ],
+            "path": "solid/number-1-square.svg",
+            "sha256": "f14fe981ae7db7663e3f0f7cbe1c38d0d9ce358a5184e1532baa49aa371478af"
+        },
+        {
+            "id": "iconoir/solid/number-2-square",
+            "coreIconName": "iconoir/number-2-square-solid",
+            "label": "Number 2 Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "number",
+                "2",
+                "square"
+            ],
+            "path": "solid/number-2-square.svg",
+            "sha256": "e7cca09126c84f4c1c24b0f4ed4b818ab5a47a98da1aa12c4a9b1bb48bfdb372"
+        },
+        {
+            "id": "iconoir/solid/number-3-square",
+            "coreIconName": "iconoir/number-3-square-solid",
+            "label": "Number 3 Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "number",
+                "3",
+                "square"
+            ],
+            "path": "solid/number-3-square.svg",
+            "sha256": "5fd7f70fd02f376383ab5e6262bd336054b1a8d09d462bf5e1701d4483934327"
+        },
+        {
+            "id": "iconoir/solid/number-4-square",
+            "coreIconName": "iconoir/number-4-square-solid",
+            "label": "Number 4 Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "number",
+                "4",
+                "square"
+            ],
+            "path": "solid/number-4-square.svg",
+            "sha256": "265ff5b8ac3a2ce775e221b0236c12d078e2b5eebaec30376cd635299980c5d2"
+        },
+        {
+            "id": "iconoir/solid/number-5-square",
+            "coreIconName": "iconoir/number-5-square-solid",
+            "label": "Number 5 Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "number",
+                "5",
+                "square"
+            ],
+            "path": "solid/number-5-square.svg",
+            "sha256": "2b1b5e00e835e958849a08d18b7cfe70edb31df3771a065bf5c7d1c2e8921fa0"
+        },
+        {
+            "id": "iconoir/solid/number-6-square",
+            "coreIconName": "iconoir/number-6-square-solid",
+            "label": "Number 6 Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "number",
+                "6",
+                "square"
+            ],
+            "path": "solid/number-6-square.svg",
+            "sha256": "04636c1750fe660222e24b418b611326d0d20749f542f11b5041697fa297ebc3"
+        },
+        {
+            "id": "iconoir/solid/number-7-square",
+            "coreIconName": "iconoir/number-7-square-solid",
+            "label": "Number 7 Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "number",
+                "7",
+                "square"
+            ],
+            "path": "solid/number-7-square.svg",
+            "sha256": "0568577377b9d4dcc645a406b52addbb7465475b35c1bfee036c3aed912eea50"
+        },
+        {
+            "id": "iconoir/solid/number-8-square",
+            "coreIconName": "iconoir/number-8-square-solid",
+            "label": "Number 8 Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "number",
+                "8",
+                "square"
+            ],
+            "path": "solid/number-8-square.svg",
+            "sha256": "143855cf5ef3f05f0e45743477df7d5f1a599ce607b45e4ea5cbf4ba28a99237"
+        },
+        {
+            "id": "iconoir/solid/number-9-square",
+            "coreIconName": "iconoir/number-9-square-solid",
+            "label": "Number 9 Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "number",
+                "9",
+                "square"
+            ],
+            "path": "solid/number-9-square.svg",
+            "sha256": "da99c24a4dacdcefdbf8f3d85ef385cc236e2c5fabfa064d61d0528599c12445"
+        },
+        {
+            "id": "iconoir/solid/page-down",
+            "coreIconName": "iconoir/page-down-solid",
+            "label": "Page Down",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "page",
+                "down"
+            ],
+            "path": "solid/page-down.svg",
+            "sha256": "2017a66da606d203113f372e71f9a1911349d1ddd953d38072f024a01c03b316"
+        },
+        {
+            "id": "iconoir/solid/page-left",
+            "coreIconName": "iconoir/page-left-solid",
+            "label": "Page Left",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "page",
+                "left"
+            ],
+            "path": "solid/page-left.svg",
+            "sha256": "3d72916eb27935260f9fed168663ad6cfc5592724604dcecb5c1a3192e38694f"
+        },
+        {
+            "id": "iconoir/solid/page-right",
+            "coreIconName": "iconoir/page-right-solid",
+            "label": "Page Right",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "page",
+                "right"
+            ],
+            "path": "solid/page-right.svg",
+            "sha256": "fdd523e0ef61ac03e37c65e2990e15de1097e21725aeb09011462e233bdb2e99"
+        },
+        {
+            "id": "iconoir/solid/page-up",
+            "coreIconName": "iconoir/page-up-solid",
+            "label": "Page Up",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "page",
+                "up"
+            ],
+            "path": "solid/page-up.svg",
+            "sha256": "3c3aaf2d88257b3335326f5e36a1a72b0b59f3f14685ceb1d5ec5464b8abf92b"
+        },
+        {
+            "id": "iconoir/solid/path-arrow",
+            "coreIconName": "iconoir/path-arrow-solid",
+            "label": "Path Arrow",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "path",
+                "arrow"
+            ],
+            "path": "solid/path-arrow.svg",
+            "sha256": "69eeac0ccdecb39b79b266183a9d3df2e41b1e40560ae5981082efa062395f9f"
+        },
+        {
+            "id": "iconoir/solid/peerlist",
+            "coreIconName": "iconoir/peerlist-solid",
+            "label": "Peerlist",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "peerlist"
+            ],
+            "path": "solid/peerlist.svg",
+            "sha256": "28ef1049941ac8ebc523d6b7c79dce83c1c656303858ce35e4fb617823b4ab83"
+        },
+        {
+            "id": "iconoir/solid/percentage-circle",
+            "coreIconName": "iconoir/percentage-circle-solid",
+            "label": "Percentage Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "percentage",
+                "circle"
+            ],
+            "path": "solid/percentage-circle.svg",
+            "sha256": "48088c659c7f6d5eedf5ab769bbd3323dde86fdc64c3d769f5c34c9b4fc3eb1d"
+        },
+        {
+            "id": "iconoir/solid/percentage-square",
+            "coreIconName": "iconoir/percentage-square-solid",
+            "label": "Percentage Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "percentage",
+                "square"
+            ],
+            "path": "solid/percentage-square.svg",
+            "sha256": "6457e4531f8499f36a0fa44e6aac952282af43f96b4824deaf533a6b553f2091"
+        },
+        {
+            "id": "iconoir/solid/phone-income",
+            "coreIconName": "iconoir/phone-income-solid",
+            "label": "Phone Income",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "phone",
+                "income"
+            ],
+            "path": "solid/phone-income.svg",
+            "sha256": "dd5ddb0752911076245ea4b5b44ecc180e720d9bdbd531e2c39139a087da1b9f"
+        },
+        {
+            "id": "iconoir/solid/phone-minus",
+            "coreIconName": "iconoir/phone-minus-solid",
+            "label": "Phone Minus",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "phone",
+                "minus"
+            ],
+            "path": "solid/phone-minus.svg",
+            "sha256": "aa664ba2069950ef1a2e24688b197b2e92e9c224cdfac013f01e9b68418226ac"
+        },
+        {
+            "id": "iconoir/solid/phone-outcome",
+            "coreIconName": "iconoir/phone-outcome-solid",
+            "label": "Phone Outcome",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "phone",
+                "outcome"
+            ],
+            "path": "solid/phone-outcome.svg",
+            "sha256": "70492a1d9be2bbc2951623fdf575310da0a7bf4e883037595f5b7170b2cb2472"
+        },
+        {
+            "id": "iconoir/solid/phone-paused",
+            "coreIconName": "iconoir/phone-paused-solid",
+            "label": "Phone Paused",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "phone",
+                "paused"
+            ],
+            "path": "solid/phone-paused.svg",
+            "sha256": "4fabfb9d9c28edf1b99d4fef2360e835b8248308e2eb99200860201cdfdab78e"
+        },
+        {
+            "id": "iconoir/solid/phone-plus",
+            "coreIconName": "iconoir/phone-plus-solid",
+            "label": "Phone Plus",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "phone",
+                "plus"
+            ],
+            "path": "solid/phone-plus.svg",
+            "sha256": "a6cbefb662b1eec155dd16476759a27c6ce0e66dfe33af76b85b5e5295b6b73b"
+        },
+        {
+            "id": "iconoir/solid/phone",
+            "coreIconName": "iconoir/phone-solid",
+            "label": "Phone",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "phone"
+            ],
+            "path": "solid/phone.svg",
+            "sha256": "beff70a15f7c248962ec27f4a152718ebcb95909d2b3934dfb48f5ff5ede510b"
+        },
+        {
+            "id": "iconoir/solid/plus-circle",
+            "coreIconName": "iconoir/plus-circle-solid",
+            "label": "Plus Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "plus",
+                "circle"
+            ],
+            "path": "solid/plus-circle.svg",
+            "sha256": "bca94a0a98e0b5713299038b0ff6344ed21b6751cfec8fce307733c8972b94e2"
+        },
+        {
+            "id": "iconoir/solid/plus-square",
+            "coreIconName": "iconoir/plus-square-solid",
+            "label": "Plus Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "plus",
+                "square"
+            ],
+            "path": "solid/plus-square.svg",
+            "sha256": "6fa1c7e601bf37dc9686d0c067f764b71d3d9835d5cb6b98eca3118508f0acd4"
+        },
+        {
+            "id": "iconoir/solid/pocket",
+            "coreIconName": "iconoir/pocket-solid",
+            "label": "Pocket",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "pocket"
+            ],
+            "path": "solid/pocket.svg",
+            "sha256": "67049097b1f63afc3feea4039669dc5fce6b13b86ceaceccfadc73b1e7eddce8"
+        },
+        {
+            "id": "iconoir/solid/post",
+            "coreIconName": "iconoir/post-solid",
+            "label": "Post",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "post"
+            ],
+            "path": "solid/post.svg",
+            "sha256": "c882575660beb9a49edb7fc1448a7782cf32f0abd72ee5bac90fb1c375dfcc26"
+        },
+        {
+            "id": "iconoir/solid/presentation",
+            "coreIconName": "iconoir/presentation-solid",
+            "label": "Presentation",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "presentation"
+            ],
+            "path": "solid/presentation.svg",
+            "sha256": "8b3b24c239ffa78e8bf894669b893ec2d72d08570cb3f6afc3a75aedbf2478c0"
+        },
+        {
+            "id": "iconoir/solid/quote-message",
+            "coreIconName": "iconoir/quote-message-solid",
+            "label": "Quote Message",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "quote",
+                "message"
+            ],
+            "path": "solid/quote-message.svg",
+            "sha256": "76ce182f8c2c3261dbe24f018b1e19b632cdf6a2f1d26e11c12f8deb8b37453b"
+        },
+        {
+            "id": "iconoir/solid/quote",
+            "coreIconName": "iconoir/quote-solid",
+            "label": "Quote",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "quote"
+            ],
+            "path": "solid/quote.svg",
+            "sha256": "c68820cd7b881fad795506ea6f9a9545c82b770b1bacb420790fa58acc6efb7e"
+        },
+        {
+            "id": "iconoir/solid/radius",
+            "coreIconName": "iconoir/radius-solid",
+            "label": "Radius",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "radius"
+            ],
+            "path": "solid/radius.svg",
+            "sha256": "b3eee08f37a56c5a172f1d5246226f050abe7c5217b5d055fbc388b306781a20"
+        },
+        {
+            "id": "iconoir/solid/redo-circle",
+            "coreIconName": "iconoir/redo-circle-solid",
+            "label": "Redo Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "redo",
+                "circle"
+            ],
+            "path": "solid/redo-circle.svg",
+            "sha256": "e3ba21c211e5db05c93cd25fd66d9da9976d59a5a033df0689c925a56b8f07b8"
+        },
+        {
+            "id": "iconoir/solid/refresh-circle",
+            "coreIconName": "iconoir/refresh-circle-solid",
+            "label": "Refresh Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "refresh",
+                "circle"
+            ],
+            "path": "solid/refresh-circle.svg",
+            "sha256": "de6990a5be72515bca12d8a859e25e74d98069a33dba1744c0ed4dd9e83b6ffd"
+        },
+        {
+            "id": "iconoir/solid/round-flask",
+            "coreIconName": "iconoir/round-flask-solid",
+            "label": "Round Flask",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "round",
+                "flask"
+            ],
+            "path": "solid/round-flask.svg",
+            "sha256": "0a2a3278e85ca0cfa4b4b45bd64e79f8c3c100f680e1af2807e0427707bbd894"
+        },
+        {
+            "id": "iconoir/solid/rss-feed-tag",
+            "coreIconName": "iconoir/rss-feed-tag-solid",
+            "label": "Rss Feed Tag",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "rss",
+                "feed",
+                "tag"
+            ],
+            "path": "solid/rss-feed-tag.svg",
+            "sha256": "e187f8ffbf373a885ad7caccde3bfc1b5c4fa62f303baf85349ea150e342aa62"
+        },
+        {
+            "id": "iconoir/solid/send-mail",
+            "coreIconName": "iconoir/send-mail-solid",
+            "label": "Send Mail",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "send",
+                "mail"
+            ],
+            "path": "solid/send-mail.svg",
+            "sha256": "74f58b7fa46524411cfacb6129c8e81af7947c5ec32c93a1d40380127e34cd30"
+        },
+        {
+            "id": "iconoir/solid/send",
+            "coreIconName": "iconoir/send-solid",
+            "label": "Send",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "send"
+            ],
+            "path": "solid/send.svg",
+            "sha256": "8127c97763acdb86b6be2278ec0548154449bcd55ce281a76671f3c0f17bd6ff"
+        },
+        {
+            "id": "iconoir/solid/server-connection",
+            "coreIconName": "iconoir/server-connection-solid",
+            "label": "Server Connection",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "server",
+                "connection"
+            ],
+            "path": "solid/server-connection.svg",
+            "sha256": "bb0640bad089761a0aa332275f135e5f8ae5397484af444881ec9097e42538f8"
+        },
+        {
+            "id": "iconoir/solid/server",
+            "coreIconName": "iconoir/server-solid",
+            "label": "Server",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "server"
+            ],
+            "path": "solid/server.svg",
+            "sha256": "b4f1a4219760d132dbff6689f4d4e0ca7af6c9bb8d088f8decced14885c0ccb7"
+        },
+        {
+            "id": "iconoir/solid/shortcut-square",
+            "coreIconName": "iconoir/shortcut-square-solid",
+            "label": "Shortcut Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "shortcut",
+                "square"
+            ],
+            "path": "solid/shortcut-square.svg",
+            "sha256": "e064883922384cb591f5b6deb7dfd06aeb2327f94c1a0c7f70671bdd7dce1a0a"
+        },
+        {
+            "id": "iconoir/solid/snapchat",
+            "coreIconName": "iconoir/snapchat-solid",
+            "label": "Snapchat",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "snapchat"
+            ],
+            "path": "solid/snapchat.svg",
+            "sha256": "c5b78e3eb2970b541a0a149c0bf545f42a07f062cac70af7a5bd301d92d58050"
+        },
+        {
+            "id": "iconoir/solid/sound-high",
+            "coreIconName": "iconoir/sound-high-solid",
+            "label": "Sound High",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "sound",
+                "high"
+            ],
+            "path": "solid/sound-high.svg",
+            "sha256": "2ff8dc604127eab393f9c52ab8ac18c6e2e6a00268f1874be6639dfa9fe71ae9"
+        },
+        {
+            "id": "iconoir/solid/sound-low",
+            "coreIconName": "iconoir/sound-low-solid",
+            "label": "Sound Low",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "sound",
+                "low"
+            ],
+            "path": "solid/sound-low.svg",
+            "sha256": "f2974c3c26a5f17516a441b32820f17dfed8dbf34f19e914513022f9849de2c0"
+        },
+        {
+            "id": "iconoir/solid/sound-min",
+            "coreIconName": "iconoir/sound-min-solid",
+            "label": "Sound Min",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "sound",
+                "min"
+            ],
+            "path": "solid/sound-min.svg",
+            "sha256": "098c6ca352301496d6166d36403aec62ae6b99efe51b2a5ec0bf3f9153ce0334"
+        },
+        {
+            "id": "iconoir/solid/stats-down-square",
+            "coreIconName": "iconoir/stats-down-square-solid",
+            "label": "Stats Down Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "stats",
+                "down",
+                "square"
+            ],
+            "path": "solid/stats-down-square.svg",
+            "sha256": "dd7701ff6a4f16a6310b050c7f68b62b6d4bcea969b367b6b3de4be88142f805"
+        },
+        {
+            "id": "iconoir/solid/stats-up-square",
+            "coreIconName": "iconoir/stats-up-square-solid",
+            "label": "Stats Up Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "stats",
+                "up",
+                "square"
+            ],
+            "path": "solid/stats-up-square.svg",
+            "sha256": "741ae760e5063af97c0e2d00151221e5bb12a8cb3eab2b088dcfd82393d11e89"
+        },
+        {
+            "id": "iconoir/solid/test-tube",
+            "coreIconName": "iconoir/test-tube-solid",
+            "label": "Test Tube",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "test",
+                "tube"
+            ],
+            "path": "solid/test-tube.svg",
+            "sha256": "b041e0c1dbda7ac55d6585b43695958da4f848008270e22c1f9f40b359c93b73"
+        },
+        {
+            "id": "iconoir/solid/text-square",
+            "coreIconName": "iconoir/text-square-solid",
+            "label": "Text Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "text",
+                "square"
+            ],
+            "path": "solid/text-square.svg",
+            "sha256": "e8c0efab1b2317f0f19a5c2c1284091d6a7b7e60f3c3f0f7f0de10d5c969ee45"
+        },
+        {
+            "id": "iconoir/solid/tiktok",
+            "coreIconName": "iconoir/tiktok-solid",
+            "label": "Tiktok",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "tiktok"
+            ],
+            "path": "solid/tiktok.svg",
+            "sha256": "ca3f789e1fe99a7b337efbb69db8471552996d6bc92fd27c4a244c2275a2d8cb"
+        },
+        {
+            "id": "iconoir/solid/timer",
+            "coreIconName": "iconoir/timer-solid",
+            "label": "Timer",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "timer"
+            ],
+            "path": "solid/timer.svg",
+            "sha256": "104925e867973ebd1a93e48fe6080c49919d2f65aa7b2b5872815216bb57cb18"
+        },
+        {
+            "id": "iconoir/solid/transition-down",
+            "coreIconName": "iconoir/transition-down-solid",
+            "label": "Transition Down",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "transition",
+                "down"
+            ],
+            "path": "solid/transition-down.svg",
+            "sha256": "d361bbeff7ed02355cc4a6102f166c83c2de7fcb7701e601a12fd0abdb03c3dd"
+        },
+        {
+            "id": "iconoir/solid/transition-left",
+            "coreIconName": "iconoir/transition-left-solid",
+            "label": "Transition Left",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "transition",
+                "left"
+            ],
+            "path": "solid/transition-left.svg",
+            "sha256": "f6371c53f73ccf47d3d29bf8260e1d1f346c2267ee2f55590bc61ca2c9933dba"
+        },
+        {
+            "id": "iconoir/solid/transition-right",
+            "coreIconName": "iconoir/transition-right-solid",
+            "label": "Transition Right",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "transition",
+                "right"
+            ],
+            "path": "solid/transition-right.svg",
+            "sha256": "8c6319511220214dc13bc53a39c9e2d163a8e3adb0f63a1eae19c496332fb449"
+        },
+        {
+            "id": "iconoir/solid/transition-up",
+            "coreIconName": "iconoir/transition-up-solid",
+            "label": "Transition Up",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "transition",
+                "up"
+            ],
+            "path": "solid/transition-up.svg",
+            "sha256": "96daa42d7e10d16666bc163aeb5f6003139edf3ea51b9bf6c20e743525df01e4"
+        },
+        {
+            "id": "iconoir/solid/underline-square",
+            "coreIconName": "iconoir/underline-square-solid",
+            "label": "Underline Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "underline",
+                "square"
+            ],
+            "path": "solid/underline-square.svg",
+            "sha256": "d6fe2d58684710f76c318a4a69526ad88074a4d6d1c9c8f78ce937ca7c9a2a61"
+        },
+        {
+            "id": "iconoir/solid/undo-circle",
+            "coreIconName": "iconoir/undo-circle-solid",
+            "label": "Undo Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "undo",
+                "circle"
+            ],
+            "path": "solid/undo-circle.svg",
+            "sha256": "3f02a928170c48df6cc7d183cc8dd78cff2d0875fd43c04edb6ee3dd75a016fc"
+        },
+        {
+            "id": "iconoir/solid/upload-square",
+            "coreIconName": "iconoir/upload-square-solid",
+            "label": "Upload Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "upload",
+                "square"
+            ],
+            "path": "solid/upload-square.svg",
+            "sha256": "88d498aad722f8c417e24c11a69c5126916a89d6ff0e1352c34a6a35aecdff21"
+        },
+        {
+            "id": "iconoir/solid/vials",
+            "coreIconName": "iconoir/vials-solid",
+            "label": "Vials",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "vials"
+            ],
+            "path": "solid/vials.svg",
+            "sha256": "5a374d57452255395daf442351be715fda39f0e7a11ce02b629d144da2c130c1"
+        },
+        {
+            "id": "iconoir/solid/wallet",
+            "coreIconName": "iconoir/wallet-solid",
+            "label": "Wallet",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "wallet"
+            ],
+            "path": "solid/wallet.svg",
+            "sha256": "0e12d1de09a1ede07252c5d41d6dca54f98f5e38c6fd4d54d8a9d00458a9be6b"
+        },
+        {
+            "id": "iconoir/solid/warning-circle",
+            "coreIconName": "iconoir/warning-circle-solid",
+            "label": "Warning Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "warning",
+                "circle"
+            ],
+            "path": "solid/warning-circle.svg",
+            "sha256": "dd728f4e012231b07813fbd3e3fdb693461d3629107bb5b6be9e6f6b18969966"
+        },
+        {
+            "id": "iconoir/solid/warning-square",
+            "coreIconName": "iconoir/warning-square-solid",
+            "label": "Warning Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "warning",
+                "square"
+            ],
+            "path": "solid/warning-square.svg",
+            "sha256": "d9e46d342464cc1f3a2e178d53e34c159361d12bd626ade67199680c512442ac"
+        },
+        {
+            "id": "iconoir/solid/warning-triangle",
+            "coreIconName": "iconoir/warning-triangle-solid",
+            "label": "Warning Triangle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "warning",
+                "triangle"
+            ],
+            "path": "solid/warning-triangle.svg",
+            "sha256": "0c09d1555e8315809d389118dcade76f3c3c54d80db341e58da379443561dbb4"
+        },
+        {
+            "id": "iconoir/solid/web-window-energy-consumption",
+            "coreIconName": "iconoir/web-window-energy-consumption-solid",
+            "label": "Web Window Energy Consumption",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "web",
+                "window",
+                "energy",
+                "consumption"
+            ],
+            "path": "solid/web-window-energy-consumption.svg",
+            "sha256": "6c27bb54ba56a10f19fbe99b07bfa361e23945be4150cec1212952bcb54d875d"
+        },
+        {
+            "id": "iconoir/solid/web-window-xmark",
+            "coreIconName": "iconoir/web-window-xmark-solid",
+            "label": "Web Window Xmark",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "web",
+                "window",
+                "xmark"
+            ],
+            "path": "solid/web-window-xmark.svg",
+            "sha256": "6498f2f94e2189230cfb3ebc7502046b3e7e01b171045f6db897328ab05b3407"
+        },
+        {
+            "id": "iconoir/solid/web-window",
+            "coreIconName": "iconoir/web-window-solid",
+            "label": "Web Window",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "web",
+                "window"
+            ],
+            "path": "solid/web-window.svg",
+            "sha256": "dd0d628273a3d456e5199772405d13b23e29c2d8d0ece3142eca15a8b071fac6"
+        },
+        {
+            "id": "iconoir/solid/whatsapp",
+            "coreIconName": "iconoir/whatsapp-solid",
+            "label": "Whatsapp",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "whatsapp"
+            ],
+            "path": "solid/whatsapp.svg",
+            "sha256": "adaa18511d738a3064485b733bbfc50a3c0e4e2479d666fd401018d33a94354f"
+        },
+        {
+            "id": "iconoir/solid/wifi-signal-none",
+            "coreIconName": "iconoir/wifi-signal-none-solid",
+            "label": "Wifi Signal None",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "wifi",
+                "signal",
+                "none"
+            ],
+            "path": "solid/wifi-signal-none.svg",
+            "sha256": "8c593e0a7136ccf96233efb5170b17e1ac3b1f01411f25bc125190c90a345566"
+        },
+        {
+            "id": "iconoir/solid/wifi-tag",
+            "coreIconName": "iconoir/wifi-tag-solid",
+            "label": "Wifi Tag",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "wifi",
+                "tag"
+            ],
+            "path": "solid/wifi-tag.svg",
+            "sha256": "f6e2f90ed1758f92f3bebdfc85fee791d39d7a23a19ec39600e48257736a2a13"
+        },
+        {
+            "id": "iconoir/solid/wifi-warning",
+            "coreIconName": "iconoir/wifi-warning-solid",
+            "label": "Wifi Warning",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "wifi",
+                "warning"
+            ],
+            "path": "solid/wifi-warning.svg",
+            "sha256": "9abc4171485ff5cc34f86453d5b28a199c94cae8acf41c41d8babe5965b16b5d"
+        },
+        {
+            "id": "iconoir/solid/window-tabs",
+            "coreIconName": "iconoir/window-tabs-solid",
+            "label": "Window Tabs",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "window",
+                "tabs"
+            ],
+            "path": "solid/window-tabs.svg",
+            "sha256": "f501619957781a9b5ad5edce2961be1c8933337e0ed60cd3be4e8a6db109eb28"
+        },
+        {
+            "id": "iconoir/solid/wolf",
+            "coreIconName": "iconoir/wolf-solid",
+            "label": "Wolf",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "wolf"
+            ],
+            "path": "solid/wolf.svg",
+            "sha256": "122d69b42938b6115674a3106501da369fa22895d9a617727f83eaf2ed232225"
+        },
+        {
+            "id": "iconoir/solid/xmark-circle",
+            "coreIconName": "iconoir/xmark-circle-solid",
+            "label": "Xmark Circle",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "xmark",
+                "circle"
+            ],
+            "path": "solid/xmark-circle.svg",
+            "sha256": "f75a8c4522ce5d487598b6311475a81e4ca5a8a589fbb617e21f09e3155e081e"
+        },
+        {
+            "id": "iconoir/solid/xmark-square",
+            "coreIconName": "iconoir/xmark-square-solid",
+            "label": "Xmark Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "xmark",
+                "square"
+            ],
+            "path": "solid/xmark-square.svg",
+            "sha256": "030f6628077f3a5d6117c9f407b693b28cc082853fddb5496cf476d1d20f34a7"
+        },
+        {
+            "id": "iconoir/solid/yen-square",
+            "coreIconName": "iconoir/yen-square-solid",
+            "label": "Yen Square",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "yen",
+                "square"
+            ],
+            "path": "solid/yen-square.svg",
+            "sha256": "1bd2c56663ac1398b041851cf9bc578c0f5d6a399fcdd51bd7f87e6d57495d5a"
+        },
+        {
+            "id": "iconoir/solid/youtube",
+            "coreIconName": "iconoir/youtube-solid",
+            "label": "Youtube",
+            "variant": "solid",
+            "categories": [
+                "general"
+            ],
+            "keywords": [
+                "youtube"
+            ],
+            "path": "solid/youtube.svg",
+            "sha256": "43b5cebc8d7890a7fda34aee3eef791352b9c96a69e953459443163a62adf722"
+        }
+    ]
+}

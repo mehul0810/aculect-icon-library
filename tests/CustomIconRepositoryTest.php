@@ -11,10 +11,13 @@ class CustomIconRepositoryTest extends TestCase {
 	protected function setUp(): void {
 		$GLOBALS['icon_library_test_options']  = array();
 		$GLOBALS['icon_library_test_autoload'] = array();
+		$GLOBALS['wpdb'] = new IconLibrary_Test_Option_Database();
+		$GLOBALS['icon_library_test_cached_options'] = array();
 		$this->repository                      = new CustomIconRepository( new SvgSanitizer() );
 	}
 
 	protected function tearDown(): void {
+		$GLOBALS['icon_library_test_cached_options'] = array();
 		$directory = $GLOBALS['icon_library_test_upload_dir'] . '/icon-library/custom-icons';
 		foreach ( glob( $directory . '/*.svg' ) ?: array() as $file ) {
 			unlink( $file );
@@ -81,18 +84,147 @@ class CustomIconRepositoryTest extends TestCase {
 		$this->assertFileDoesNotExist( $path );
 	}
 
-	public function test_create_replaces_a_legacy_archived_icon_with_the_same_name() {
+	public function test_create_preserves_archived_artwork_and_requires_a_new_name() {
 		$this->repository->create( 'reusable', 'Old label', '<svg><path d="M0 0h1v1z"/></svg>' );
 		$icons                         = $this->repository->get_icons();
 		$icons['reusable']['archived'] = true;
 		update_option( CustomIconRepository::OPTION_ICONS, $icons, false );
+		$original_path = $this->repository->get_file_path( 'reusable.svg' );
+		$original_svg  = file_get_contents( $original_path );
 
 		$result = $this->repository->create( 'reusable', 'New label', '<svg><path d="M0 0h2v2z"/></svg>' );
 
-		$this->assertIsArray( $result );
-		$this->assertSame( 'New label', $result['label'] );
-		$this->assertArrayNotHasKey( 'archived', $result );
-		$this->assertStringContainsString( 'h2v2z', $this->repository->get_svg_content( 'reusable.svg' ) );
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'icon_library_custom_duplicate', $result->get_error_code() );
+		$this->assertSame( $icons, $this->repository->get_icons() );
+		$this->assertSame( $original_svg, file_get_contents( $original_path ) );
+		$this->assertIsArray( $this->repository->create( 'new-name', 'New label', '<svg><path d="M0 0h2v2z"/></svg>' ) );
+	}
+
+	public function test_create_reads_authoritative_metadata_after_cached_absence_and_another_create() {
+		$other = new CustomIconRepository( new SvgSanitizer() );
+		$sanitizer = $this->getMockBuilder( SvgSanitizer::class )->onlyMethods( array( 'sanitize_custom' ) )->getMock();
+		$sanitizer->method( 'sanitize_custom' )->willReturnCallback( function ( $svg ) use ( $other ) {
+			$this->assertIsArray( $other->create( 'other', 'Other', $svg ) );
+			$GLOBALS['icon_library_test_cached_options'][ CustomIconRepository::OPTION_ICONS ] = array();
+			return ( new SvgSanitizer() )->sanitize_custom( $svg );
+		} );
+		$repository = new CustomIconRepository( $sanitizer );
+		$this->assertIsArray( $repository->create( 'current', 'Current', '<svg><path d="M0 0h1v1z"/></svg>' ) );
+		$this->assertSame( array( 'other', 'current' ), array_keys( $repository->get_icons() ) );
+	}
+
+	public function test_create_does_not_resurrect_deleted_or_undo_renamed_cached_rows() {
+		$this->repository->create( 'deleted', 'Delete me', '<svg><path d="M0 0h1v1z"/></svg>' );
+		$this->repository->create( 'renamed', 'Before', '<svg><path d="M0 0h1v1z"/></svg>' );
+		$stale = $this->repository->get_icons();
+		$sanitizer = $this->getMockBuilder( SvgSanitizer::class )->onlyMethods( array( 'sanitize_custom' ) )->getMock();
+		$sanitizer->method( 'sanitize_custom' )->willReturnCallback( function ( $svg ) use ( $stale ) {
+			$this->assertTrue( $this->repository->delete( 'deleted' ) );
+			$this->assertIsArray( $this->repository->update_label( 'renamed', 'After' ) );
+			$GLOBALS['icon_library_test_cached_options'][ CustomIconRepository::OPTION_ICONS ] = $stale;
+			return ( new SvgSanitizer() )->sanitize_custom( $svg );
+		} );
+		$repository = new CustomIconRepository( $sanitizer );
+		$this->assertIsArray( $repository->create( 'current', 'Current', '<svg><path d="M0 0h1v1z"/></svg>' ) );
+		$this->assertArrayNotHasKey( 'deleted', $repository->get_icons() );
+		$this->assertSame( 'After', $repository->get_icons()['renamed']['label'] );
+	}
+
+	public function test_failed_commit_preserves_existing_icon_and_retains_recoverable_bytes() {
+		$this->repository->create( 'existing', 'Existing', '<svg><path d="M0 0h1v1z"/></svg>' );
+		$existing = $this->repository->get_icons();
+		$GLOBALS['wpdb']->fail_commit = true;
+		$result = $this->repository->create( 'failed', 'Failed', '<svg><path d="M0 0h2v2z"/></svg>' );
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( $existing, $this->repository->get_icons() );
+		$this->assertCount( 2, glob( $GLOBALS['icon_library_test_upload_dir'] . '/icon-library/custom-icons/*.svg' ) );
+		$result = $this->repository->delete( 'existing' );
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertFileExists( $this->repository->get_file_path( 'existing.svg' ) );
+		$GLOBALS['wpdb']->fail_commit = false;
+	}
+
+	public function test_lost_commit_acknowledgement_never_deletes_published_artwork() {
+		$GLOBALS['wpdb']->fail_commit_applied = true;
+		$result = $this->repository->create( 'applied', 'Applied', '<svg><path d="M0 0h2v2z"/></svg>' );
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertArrayHasKey( 'applied', $this->repository->get_icons() );
+		$this->assertFileExists( $this->repository->get_file_path( 'applied.svg' ) );
+	}
+
+	public function test_unsupported_storage_reports_actionable_error_without_writes() {
+		$GLOBALS['wpdb']->engine = 'MyISAM';
+		$result = $this->repository->create( 'test', 'Test', '<svg><path d="M0 0h1v1z"/></svg>' );
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'icon_library_custom_storage_unavailable', $result->get_error_code() );
+		$this->assertSame( 503, $result->get_error_data()['status'] );
+		$this->assertSame( array(), $this->repository->get_icons() );
+	}
+
+	public function test_failed_select_during_acquire_read_or_write_preserves_existing_metadata() {
+		$this->assertIsArray( $this->repository->create( 'existing', 'Existing', '<svg><path d="M0 0h1v1z"/></svg>' ) );
+		$original = $this->repository->get_icons();
+		foreach ( array( 1, 2, 3 ) as $failed_read ) {
+			$GLOBALS['wpdb'] = new IconLibrary_Test_Option_Database();
+			$GLOBALS['wpdb']->fail_reads = array( $failed_read );
+			$result = $this->repository->create( 'new', 'New', '<svg><path d="M0 0h2v2z"/></svg>' );
+			$this->assertInstanceOf( WP_Error::class, $result, 'Failed read ' . $failed_read );
+			$this->assertSame( $original, $this->repository->get_icons() );
+			$this->assertFileExists( $this->repository->get_file_path( $original['existing']['path'] ) );
+			$this->assertFalse( $GLOBALS['wpdb']->active );
+		}
+	}
+
+	public function test_vetoed_label_change_reports_failure_without_claiming_new_label() {
+		$this->repository->create( 'existing', 'Before', '<svg><path d="M0 0h1v1z"/></svg>' );
+		$filter = 'pre_update_option_' . CustomIconRepository::OPTION_ICONS;
+		$GLOBALS['icon_library_test_filters'][ $filter ][] = static function ( $value, $old ) { return $old; };
+		try {
+			$result = $this->repository->update_label( 'existing', 'After' );
+			$this->assertInstanceOf( WP_Error::class, $result );
+			$this->assertSame( 'Before', $this->repository->get_icons()['existing']['label'] );
+		} finally {
+			unset( $GLOBALS['icon_library_test_filters'][ $filter ] );
+		}
+	}
+
+	public function test_filtered_create_cannot_report_artwork_published_when_metadata_is_vetoed() {
+		$filter = 'pre_update_option_' . CustomIconRepository::OPTION_ICONS;
+		$GLOBALS['icon_library_test_filters'][ $filter ][] = static function () { return array(); };
+		try {
+			$result = $this->repository->create( 'vetoed', 'Vetoed', '<svg><path d="M0 0h1v1z"/></svg>' );
+			$this->assertInstanceOf( WP_Error::class, $result );
+			$this->assertSame( array(), $this->repository->get_icons() );
+		} finally {
+			unset( $GLOBALS['icon_library_test_filters'][ $filter ] );
+		}
+	}
+
+	public function test_distinct_uuid_like_names_keep_their_artwork_in_core_listing_and_delete() {
+		$first = $this->repository->create( 'first', 'First', '<svg><path d="M0 0h1v1z"/></svg>' );
+		$this->assertSame( '_', $first['path'][0] );
+		$first_svg = $this->repository->get_svg_content( $first['path'] );
+		// Model an existing UUID filename produced before storage names were disjoint.
+		$old_path = substr( $first['path'], 1 );
+		$directory = dirname( $this->repository->get_file_path( $first['path'] ) );
+		$this->assertTrue( rename( $directory . '/' . $first['path'], $directory . '/' . $old_path ) );
+		$icons = $this->repository->get_icons();
+		$icons['first']['path'] = $old_path;
+		update_option( CustomIconRepository::OPTION_ICONS, $icons, false );
+		$second_name = basename( $old_path, '.svg' );
+		$second = $this->repository->create( $second_name, 'Second', '<svg><path d="M0 0h2v2z"/></svg>' );
+		$this->assertIsArray( $second );
+		$this->assertNotSame( $first['id'], $second['id'] );
+		$this->assertSame( $first_svg, $this->repository->get_svg_content( $old_path ) );
+		$this->assertStringContainsString( 'h2v2z', $this->repository->get_svg_content( $second['path'] ) );
+		$listing = new \IconLibrary\CustomIconListing( $this->repository );
+		$page = $listing->get_page( '', 1, 'label', 1, 20 );
+		$this->assertSame( $first_svg, $page['items'][0]['svg'] );
+		$this->assertStringContainsString( 'h2v2z', $page['items'][1]['svg'] );
+		$this->assertArrayNotHasKey( 'path', $page['items'][0] );
+		$this->assertTrue( $this->repository->delete( $second_name ) );
+		$this->assertSame( $first_svg, $this->repository->get_svg_content( $old_path ) );
 	}
 
 	public function test_svg_validation_errors_are_client_errors() {

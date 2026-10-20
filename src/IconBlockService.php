@@ -132,6 +132,7 @@ class IconBlockService {
 		return array(
 			'post_id'      => (int) $post->ID,
 			'modified_gmt' => $modified_gmt,
+			'content_hash' => hash( 'sha256', $post->post_content ),
 			'items'        => $items,
 			'count'        => count( $items ),
 		);
@@ -379,7 +380,7 @@ class IconBlockService {
 		if ( ! is_object( $post ) || ! isset( $post->ID, $post->post_content ) || ! is_string( $post->post_content ) ) {
 			return $this->error( 'icon_library_ability_post_not_found', __( 'The requested post could not be found.', 'aculect-icon-library' ), 404 );
 		}
-		return $post;
+		return clone $post;
 	}
 
 	/**
@@ -414,17 +415,7 @@ class IconBlockService {
 		if ( ! is_string( $content ) ) {
 			return $this->error( 'icon_library_ability_serialize_failed', __( 'The edited blocks could not be serialized.', 'aculect-icon-library' ), 500 );
 		}
-		$updated = wp_update_post(
-			array(
-				'ID'           => (int) $post->ID,
-				'post_content' => function_exists( 'wp_slash' ) ? wp_slash( $content ) : $content,
-			),
-			true
-		);
-		if ( is_wp_error( $updated ) || ! $updated ) {
-			return is_wp_error( $updated ) ? $updated : $this->error( 'icon_library_ability_update_failed', __( 'The post could not be updated.', 'aculect-icon-library' ), 500 );
-		}
-		return true;
+		return ( new PostContentWriter() )->save( $post, $content );
 	}
 
 	/**
@@ -788,6 +779,12 @@ class IconBlockService {
 	 * @return true|WP_Error
 	 */
 	private function check_expected_modified( $post, $input ) {
+		if ( is_array( $input ) && array_key_exists( 'expected_content_hash', $input ) ) {
+			$expected_hash = $input['expected_content_hash'];
+			if ( ! is_string( $expected_hash ) || ! hash_equals( hash( 'sha256', $post->post_content ), $expected_hash ) ) {
+				return $this->error( 'icon_library_ability_stale_post', __( 'The post changed after it was read. Refresh the block list and try again.', 'aculect-icon-library' ), 409 );
+			}
+		}
 		if ( ! is_array( $input ) || ! array_key_exists( 'expected_modified_gmt', $input ) ) {
 			return true;
 		}

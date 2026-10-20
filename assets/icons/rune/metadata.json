@@ -1,0 +1,108 @@
+{
+    "schemaVersion": 2,
+    "slug": "rune",
+    "name": "Rune Icons",
+    "description": "The pixelated variant of Rune Icons, preserving original path colors.",
+    "version": "commit-f649e467d1bc",
+    "license": {
+        "name": "Apache-2.0",
+        "url": "https://github.com/Nexvyn/runeicons/blob/f649e467d1bc9f272aae3f8daa329d4c924e7340/LICENSE"
+    },
+    "source": {
+        "name": "Nexvyn/runeicons",
+        "url": "https://github.com/Nexvyn/runeicons",
+        "revision": "f649e467d1bc9f272aae3f8daa329d4c924e7340"
+    },
+    "variants": [
+        {
+            "slug": "pixelated",
+            "label": "Pixelated",
+            "coreCompatible": true,
+            "defaultEnabled": true,
+            "iconCount": 215
+        }
+    ],
+    "categories": [
+        {
+            "slug": "arrows",
+            "label": "Arrows",
+            "iconCount": 24
+        },
+        {
+            "slug": "code",
+            "label": "Code",
+            "iconCount": 15
+        },
+        {
+            "slug": "documents",
+            "label": "Documents",
+            "iconCount": 25
+        },
+        {
+            "slug": "gadgets",
+            "label": "Gadgets",
+            "iconCount": 8
+        },
+        {
+            "slug": "identity",
+            "label": "Identity",
+            "iconCount": 13
+        },
+        {
+            "slug": "indicators",
+            "label": "Indicators",
+            "iconCount": 18
+        },
+        {
+            "slug": "layouts",
+            "label": "Layouts",
+            "iconCount": 14
+        },
+        {
+            "slug": "messaging",
+            "label": "Messaging",
+            "iconCount": 12
+        },
+        {
+            "slug": "metrics",
+            "label": "Metrics",
+            "iconCount": 8
+        },
+        {
+            "slug": "money",
+            "label": "Money",
+            "iconCount": 14
+        },
+        {
+            "slug": "nature",
+            "label": "Nature",
+            "iconCount": 11
+        },
+        {
+            "slug": "other",
+            "label": "Other",
+            "iconCount": 5
+        },
+        {
+            "slug": "playback",
+            "label": "Playback",
+            "iconCount": 13
+        },
+        {
+            "slug": "schedule",
+            "label": "Schedule",
+            "iconCount": 7
+        },
+        {
+            "slug": "senses",
+            "label": "Senses",
+            "iconCount": 8
+        },
+        {
+            "slug": "tools",
+            "label": "Tools",
+            "iconCount": 20
+        }
+    ],
+    "iconCount": 215
+}

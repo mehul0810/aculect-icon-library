@@ -4,7 +4,7 @@ Tags: icons, icon library, svg icons, icon block, custom icons
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,26 +13,33 @@ Easily add support for popular icon libraries and custom SVG icons to the native
 == Description ==
 
 Aculect Icon Library is a WordPress plugin that adds Heroicons, Bootstrap Icons,
-Font Awesome Free, Tabler Icons, Radix Icons, and custom SVG icons to the native
-WordPress Icon block. Manage libraries from Appearance > Icons, enable the
-styles you need, and select icons in the WordPress block editor.
+Font Awesome Free, Tabler Icons, Radix Icons, Rune Icons, Google Material Icons,
+a compatible Iconoir Solid subset, Phosphor Icons, Ionicons, and custom SVG icons to the native WordPress
+Icon block. Choose bundled libraries from Appearance > Icons > Install Library, enable the styles you need in Library,
+and select icons in the WordPress block editor.
 
-Manage everything from Appearance > Icons. No icon libraries are installed by
-default: open Install Library to browse the included libraries and install
-the ones you want to use.
+Choose bundled libraries from Appearance > Icons > Install Library and enable them in Library. The 1.2.0 package includes all ten supported icon families and their
+license and exclusion notices. Existing sites retain their bundled libraries,
+preferences and saved icon names through an ordinary plugin update. No bridge
+package or separate preservation stage is required. Remote discovery, preview,
+and downloaded-library installation are not part of this release.
 
-= Included icon libraries =
+= Bundled icon libraries =
 
 * Heroicons: Outline and Solid.
 * Bootstrap Icons: Default and Filled.
 * Font Awesome Free: Solid, Regular, and Brands.
 * Tabler Icons: Filled.
 * Radix Icons: Default.
+* Google Material Icons: Filled 24px, Core-compatible subset (1,038 icons).
+* Iconoir: Solid, compatible filled-path subset (210 icons).
+* Phosphor Icons: Regular and Fill (2,487 icons).
+* Ionicons: compatible Filled, Sharp, Outline, and Brands subset (679 icons).
+* Rune Icons: Pixelated (215 icons).
 
-Preview icons before installing a library. Search and filter by library,
-variant, and category where available, and load more results as you browse.
-Enable or disable individual variants and uninstall libraries you no longer
-need.
+Preview bundled icons by library, variant, and category before choosing a library. Search and filter selected bundled icons where
+available, and load more results as you browse. Enable or disable individual
+variants as needed.
 
 = Upload and manage custom SVG icons =
 
@@ -65,9 +72,8 @@ Requires WordPress 7.1 or later and PHP 7.4 or later.
 
 1. Upload the plugin to the `wp-content/plugins/aculect-icon-library` directory.
 2. Activate Aculect Icon Library in WordPress.
-3. Open Appearance > Icons > Install Library to choose a library.
-4. Install the library and enable the variants you want to use.
-5. Open a post or page in the block editor, insert the Icon block, and select
+3. Open Appearance > Icons > Install Library and choose a bundled library. Then enable it in Library.
+4. Open a post or page in the block editor, insert the Icon block, and select
    an icon from the enabled library. Adjust its sizing and styling, then save.
 
 == Frequently Asked Questions ==
@@ -78,12 +84,16 @@ Heroicons includes Outline and Solid. Bootstrap Icons includes Default and
 Filled. Font Awesome Free includes Solid, Regular, and Brands; Pro-only styles
 are not included. Tabler Icons includes 1,012 Filled icons after excluding its
 Brand category and selected trademark or character references. Radix Icons
-includes its non-logo 15-pixel icon collection. No libraries are installed by
-default.
+includes its non-logo 15-pixel icon collection. Google Material Icons includes
+a Core-compatible Filled 24px subset. Iconoir includes 210 compatible Solid
+icons; Regular and mixed-stroke icons are deferred. Rune Icons includes 215
+pixelated icons. Phosphor Icons includes Regular and Fill. Ionicons includes
+compatible Filled, Sharp, Outline, and Brands icons; unsupported assets are
+recorded in the bundled exclusion report. Libraries are disabled by default.
 
 = How do I add an icon to a WordPress post or page? =
 
-Install a library from Appearance > Icons > Install Library, then insert the
+Enable a bundled library or variant from Appearance > Icons, then insert the
 native Icon block in the block editor. Choose an icon from an enabled library
 and use the block's sizing and styling controls.
 
@@ -113,7 +123,7 @@ No external service connection is required to browse or use them.
 Yes. Open a library's detail screen to enable or disable its variants, such as
 Solid or Outline. Disabled variants stop appearing for new selections.
 
-= What happens when I disable or uninstall a bundled library? =
+= What happens when I disable a bundled library or variant? =
 
 Its icons stop appearing for new selections. Existing saved Icon blocks can
 still resolve those icons while Aculect Icon Library remains active and its
@@ -149,8 +159,8 @@ icon widget.
 
 == Screenshots ==
 
-1. View installed icon libraries and their active variants from Appearance > Icons.
-2. Browse available bundled libraries in the Install Library tab.
+1. View bundled icon libraries and their active variants from Appearance > Icons.
+2. Search and filter bundled icons by library, variant, and category.
 3. Upload custom SVG icons, search uploaded icons, rename labels, and delete icons.
 
 == Source code ==
@@ -171,8 +181,27 @@ Bundled libraries remain under their upstream terms:
 * Font Awesome Free: https://fontawesome.com/license/free (Font Awesome Free license).
 * Tabler Icons: https://github.com/tabler/tabler-icons (MIT license).
 * Radix Icons: https://github.com/radix-ui/icons (MIT license).
+* Rune Icons, pixelated variant only: https://github.com/Nexvyn/runeicons (Apache-2.0; bundled license and SVG modification notices).
+* Google Material Icons, compatible filled 24px subset: https://github.com/google/material-design-icons (Apache-2.0; bundled license and modification notices).
+* Iconoir, compatible Solid subset: https://github.com/iconoir-icons/iconoir (MIT license; bundled license and exclusions).
+* Phosphor Icons, Regular and Fill: https://github.com/phosphor-icons/core (MIT license; bundled license and exclusions).
+* Ionicons, compatible style subset: https://github.com/ionic-team/ionicons (MIT license; bundled license and exclusions; brand marks remain their owners' trademarks).
 
 == Changelog ==
+
+= 1.2.0 =
+
+* Added support for [Phosphor Icons](https://phosphoricons.com/) (Regular and Fill).
+* Added support for [Ionicons](https://ionic.io/ionicons) (compatible Filled, Sharp, Outline, and Brands subset).
+* Added support for [Iconoir](https://iconoir.com/) (compatible Solid subset).
+* Added support for [Rune Icons](https://github.com/Nexvyn/runeicons) (Pixelated).
+* Added support for [Google Material Icons](https://github.com/google/material-design-icons) (compatible Filled 24px subset).
+* Add Install Library to choose from ten bundled icon families, then enable their styles in Library. Removing a library preserves saved icons.
+* Reduce icon picker loading and load custom icon previews one page at a time.
+* Protect library settings and custom icons during concurrent changes, and prevent uploads from replacing archived artwork.
+* Prevent automated post edits from overwriting newer changes.
+* Improve keyboard focus during icon picker pagination and upload retries, and close upload dialogs when switching tabs.
+* Show clearer upload and listing errors and retain existing results when a refresh fails.
 
 = 1.1.0 =
 

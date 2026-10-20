@@ -8,6 +8,58 @@ use IconLibrary\Plugin;
 use PHPUnit\Framework\TestCase;
 
 class CoreIconRegistrarTest extends TestCase {
+	public function test_stroke_workaround_style_loads_only_for_rendered_marked_core_icons() {
+		$registrar = new CoreIconRegistrar( $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock() );
+		$GLOBALS['icon_library_test_enqueued_styles'] = array();
+
+		$other_block = array( 'blockName' => 'core/paragraph' );
+		$this->assertSame( '<p>Text</p>', $registrar->enqueue_styles_for_rendered_icon( '<p>Text</p>', $other_block, null ) );
+		$this->assertSame( array(), $GLOBALS['icon_library_test_enqueued_styles'] );
+
+		$icon_block = array( 'blockName' => 'core/icon' );
+		$this->assertSame( '<svg><path /></svg>', $registrar->enqueue_styles_for_rendered_icon( '<svg><path /></svg>', $icon_block, null ) );
+		$this->assertSame( array(), $GLOBALS['icon_library_test_enqueued_styles'] );
+
+		$icon_html  = '<svg class="icon-library-stroked"><path /></svg>';
+		$this->assertSame( $icon_html, $registrar->enqueue_styles_for_rendered_icon( $icon_html, $icon_block, null ) );
+		$this->assertSame(
+			array( ICON_LIBRARY_URL . 'assets/icons.css', array(), ICON_LIBRARY_VERSION ),
+			$GLOBALS['icon_library_test_enqueued_styles']['icon-library-icons']
+		);
+	}
+
+	public function test_icon_styles_are_available_in_editor_iframe_content_but_not_frontend_assets() {
+		$registrar = new CoreIconRegistrar( $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock() );
+		$GLOBALS['icon_library_test_enqueued_styles'] = array();
+
+		$GLOBALS['icon_library_test_is_admin'] = false;
+		$registrar->enqueue_editor_content_styles();
+		$this->assertSame( array(), $GLOBALS['icon_library_test_enqueued_styles'] );
+
+		$GLOBALS['icon_library_test_is_admin'] = true;
+		$registrar->enqueue_editor_content_styles();
+		$this->assertSame(
+			array( ICON_LIBRARY_URL . 'assets/icons.css', array(), ICON_LIBRARY_VERSION ),
+			$GLOBALS['icon_library_test_enqueued_styles']['icon-library-icons']
+		);
+		$GLOBALS['icon_library_test_is_admin'] = false;
+	}
+
+	public function test_owned_registration_cannot_hide_an_external_namespace_replacement() {
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_svg_path' ) )->getMock();
+		$registry->method( 'get_svg_path' )->willReturn( __FILE__ );
+		$registrar = new CoreIconRegistrar( $registry );
+		$method = new ReflectionMethod( CoreIconRegistrar::class, 'register_icon' );
+		if ( PHP_VERSION_ID < 80100 ) { $method->setAccessible( true ); }
+		$method->invoke( $registrar, 'ownership-proof', array( 'coreIconName' => 'ownership-proof/one', 'label' => 'One', 'path' => 'one.svg' ) );
+		$icon = WP_Icons_Registry::get_instance()->get_registered_icon( 'ownership-proof/one' );
+		$this->assertTrue( $registrar->owns_registered_icon( 'ownership-proof/one', $icon ) );
+		$icon['file_path'] = '/external/one.svg';
+		$this->assertFalse( $registrar->owns_registered_icon( 'ownership-proof/one', $icon ) );
+		$this->assertFalse( $registrar->owns_registered_icon( 'external/one', $icon ) );
+		wp_unregister_icon( 'ownership-proof/one' );
+	}
+
 	public function test_mobile_picker_compat_style_is_scoped_to_wordpress_71() {
 		$registry  = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
 		$registrar = new CoreIconRegistrar( $registry );
@@ -155,6 +207,60 @@ class CoreIconRegistrarTest extends TestCase {
 		);
 		$result    = $registrar->filter_core_discovery_response( $response, null, new WP_REST_Request( 'GET', '/wp/v2/icon-collections' ) );
 		$this->assertSame( array( 'core', 'test-solid', 'test-mini' ), array_column( $result->get_data(), 'slug' ) );
+	}
+
+	public function test_empty_icon_discovery_does_not_read_any_manifest() {
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_enabled_collection_slugs', 'get_manifest' ) )->getMock();
+		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'radix', 'tabler' ) );
+		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array() );
+		$registry->expects( $this->never() )->method( 'get_manifest' );
+		$response = new WP_REST_Response( array() );
+		$result   = ( new CoreIconRegistrar( $registry ) )->filter_core_discovery_response( $response, null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) );
+		$this->assertSame( array(), $result->get_data() );
+	}
+
+	public function test_disabled_family_uses_namespace_filter_without_manifest_read() {
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_enabled_collection_slugs', 'get_manifest' ) )->getMock();
+		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'radix', 'tabler' ) );
+		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array( 'radix' ) );
+		$registry->expects( $this->never() )->method( 'get_manifest' );
+		$response = new WP_REST_Response( array( array( 'name' => 'tabler/arrow', 'collection' => 'tabler' ) ) );
+		$result   = ( new CoreIconRegistrar( $registry ) )->filter_core_discovery_response( $response, null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) );
+		$this->assertSame( array(), $result->get_data() );
+	}
+
+	public function test_scoped_icon_discovery_reads_only_matching_family_manifest() {
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_enabled_collection_slugs', 'get_manifest', 'get_enabled_variants' ) )->getMock();
+		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'radix', 'tabler' ) );
+		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array( 'radix', 'tabler' ) );
+		$registry->expects( $this->once() )->method( 'get_manifest' )->with( 'radix' )->willReturn( array( 'icons' => array() ) );
+		$registry->method( 'get_enabled_variants' )->willReturn( array() );
+		$response = new WP_REST_Response( array( array( 'name' => 'radix/arrow-left', 'collection' => 'radix' ) ) );
+		$result   = ( new CoreIconRegistrar( $registry ) )->filter_core_discovery_response( $response, null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) );
+		$this->assertCount( 1, $result->get_data() );
+	}
+
+	public function test_used_style_variants_are_cached_once_per_family() {
+		$registry  = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
+		$registrar = new CoreIconRegistrar( $registry );
+		$method    = new ReflectionMethod( CoreIconRegistrar::class, 'register_style_collections' );
+		if ( PHP_VERSION_ID < 80100 ) {
+			$method->setAccessible( true );
+		}
+		$manifest = array(
+			'name'     => 'Fixture',
+			'variants' => array( array( 'slug' => 'solid', 'label' => 'Solid' ) ),
+			'icons'    => array( array( 'variant' => 'solid' ) ),
+		);
+		$method->invoke( $registrar, 'fixture', $manifest, array( 'solid' ) );
+		$method->invoke( $registrar, 'fixture', $manifest, array( 'solid' ) );
+		$property = new ReflectionProperty( CoreIconRegistrar::class, 'style_used_variants' );
+		if ( PHP_VERSION_ID < 80100 ) {
+			$property->setAccessible( true );
+		}
+		$this->assertSame( array( 'fixture' => array( 'solid' ) ), $property->getValue( $registrar ) );
+		$registrar->reset_for_blog_switch();
+		$this->assertSame( array(), $property->getValue( $registrar ) );
 	}
 
 	public function test_disabled_collection_registers_nothing_until_rendered() {
