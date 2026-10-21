@@ -255,12 +255,12 @@ class CoreIconRegistrar {
 	 * Enqueues the presentation rules required by Core-sanitized stroked icons.
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style(
-			'icon-library-icons',
-			ICON_LIBRARY_URL . 'assets/icons.css',
-			array(),
-			ICON_LIBRARY_VERSION
-		);
+		// This small critical rule must cover even opaque cached SVG output.
+		// Inline it once per style registry, avoiding a site-wide asset request.
+		if ( wp_register_style( 'icon-library-icons', false, array(), ICON_LIBRARY_VERSION ) ) {
+			wp_add_inline_style( 'icon-library-icons', file_get_contents( ICON_LIBRARY_DIR . 'assets/icons.css' ) );
+		}
+		wp_enqueue_style( 'icon-library-icons' );
 	}
 
 	/** Enqueues the stroke workaround only when a rendered Core Icon needs it.

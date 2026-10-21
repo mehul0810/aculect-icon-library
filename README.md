@@ -353,9 +353,10 @@ WordPress 7.1 currently strips the stroke
 attributes required by Heroicons Outline. When an incompatible variant is
 rendered, Aculect Icon Library adds a fixed root marker before Core sanitizes the markup
 and restores the known stroke presentation with a marker-scoped stylesheet in
-the editor and early on every frontend request. The single local 509-byte CSS
-file also covers cached and template-driven icons that bypass discovery; its
-enqueue performs no catalog lookup. Solid, custom, and unmarked SVGs keep their
+the editor and early on every frontend request. The existing 509-byte critical
+CSS is emitted once inline, adding no stylesheet request and covering cached
+and template-driven icons that bypass discovery. Its enqueue performs no
+catalog lookup. Solid, custom, and unmarked SVGs keep their
 own presentation. This keeps Core's
 sanitizer intact while the workaround is validated.
 

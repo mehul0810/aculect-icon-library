@@ -22,6 +22,10 @@ require ABSPATH . WPINC . '/class-wp-dependency.php';
 require ABSPATH . WPINC . '/class-wp-dependencies.php';
 require ABSPATH . WPINC . '/class-wp-styles.php';
 require ABSPATH . WPINC . '/functions.wp-styles.php';
+require ABSPATH . WPINC . '/class-wp-token-map.php';
+foreach ( array( 'html5-named-character-references.php', 'class-wp-html-attribute-token.php', 'class-wp-html-span.php', 'class-wp-html-doctype-info.php', 'class-wp-html-text-replacement.php', 'class-wp-html-decoder.php', 'class-wp-html-tag-processor.php' ) as $file ) {
+	require ABSPATH . WPINC . '/html-api/' . $file;
+}
 
 function is_admin() { return false; }
 function get_option( $name, $default = false ) { return 'blog_charset' === $name ? 'UTF-8' : $default; }
@@ -39,6 +43,7 @@ spl_autoload_register(
 ( new IconLibrary\Plugin() )->register();
 
 // Themes enqueue and print head styles before emitting saved/cached content.
+do_action( 'wp_enqueue_scripts' );
 do_action( 'wp_enqueue_scripts' );
 ob_start();
 wp_print_styles();
