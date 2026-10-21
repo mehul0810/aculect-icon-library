@@ -362,6 +362,7 @@ function wp_mkdir_p( $directory ) {
 }
 
 function wp_delete_file( $file ) {
+	$file = apply_filters( 'wp_delete_file', $file );
 	return file_exists( $file ) ? unlink( $file ) : true;
 }
 

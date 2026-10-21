@@ -233,6 +233,11 @@ The plugin validates the file against the WordPress 7.1 icon geometry contract
 before storing the sanitized SVG locally under the uploads directory. This does
 not enable SVG uploads in the Media Library and makes no remote requests.
 
+If saving metadata definitely fails, the plugin removes only that attempt's
+unpublished SVG. An uncertain commit retains the artwork and asks you to refresh
+the icon list. If cleanup also fails, the error reports retained bytes and asks
+the administrator to check uploads before retrying.
+
 Imports normalize unused `id` attributes, root export metadata, empty titles,
 comments, and plain groups. Simple single-class CSS rules for hexadecimal fills,
 `none`, `currentColor`, and fill rules are converted into path/polygon attributes
