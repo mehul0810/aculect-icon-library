@@ -47,6 +47,9 @@ class Plugin {
 		add_filter( 'rest_pre_dispatch', array( $core_registrar, 'prepare_core_icon_request' ), 10, 3 );
 		add_filter( 'rest_pre_echo_response', array( $core_registrar, 'release_bulk_response_state' ), PHP_INT_MAX, 3 );
 		add_action( 'wp', array( $core_registrar, 'register_queried_post_icons' ) );
+		// The 509-byte marker-only stylesheet must precede even cached/template
+		// output that bypasses icon discovery. This hook does no catalog work.
+		add_action( 'wp_enqueue_scripts', array( $core_registrar, 'enqueue_styles' ) );
 		add_filter( 'render_block_data', array( $core_registrar, 'register_icon_block' ) );
 		add_action( 'enqueue_block_assets', array( $core_registrar, 'enqueue_editor_content_styles' ) );
 		add_action( 'enqueue_block_editor_assets', array( $core_registrar, 'enqueue_styles' ) );
