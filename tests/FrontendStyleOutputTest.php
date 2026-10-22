@@ -18,6 +18,7 @@ class FrontendStyleOutputTest extends TestCase {
 		$this->assertStringContainsString( 'fill: none !important;', $result['head'] );
 		$this->assertSame( $result['original_body'], $result['body'], 'Cached markup and unrelated attributes must remain intact.' );
 		$this->assertSame( '', $result['late_styles'], 'Repeated rendering must not duplicate the already emitted stylesheet.' );
+		$this->assertSame( ! in_array( $case, array( 'cached', 'template' ), true ), $result['render_callback_used'] );
 	}
 
 	public function frontend_cases() {
@@ -27,6 +28,8 @@ class FrontendStyleOutputTest extends TestCase {
 			'cached template' => array( 'template' ),
 			'repeated icons'  => array( 'repeated' ),
 			'solid control'   => array( 'solid' ),
+			'custom control'  => array( 'custom' ),
+			'editor iframe'   => array( 'editor' ),
 			'no icon control' => array( 'none' ),
 		);
 	}

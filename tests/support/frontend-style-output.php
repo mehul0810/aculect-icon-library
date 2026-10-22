@@ -27,7 +27,7 @@ foreach ( array( 'html5-named-character-references.php', 'class-wp-html-attribut
 	require ABSPATH . WPINC . '/html-api/' . $file;
 }
 
-function is_admin() { return false; }
+function is_admin() { return ! empty( $GLOBALS['icon_style_test_admin'] ); }
 function get_option( $name, $default = false ) { return 'blog_charset' === $name ? 'UTF-8' : $default; }
 function is_utf8_charset( $charset = null ) { return null === $charset || 'utf-8' === strtolower( $charset ); }
 function wp_allowed_protocols() { return array( 'http', 'https' ); }
@@ -42,9 +42,20 @@ spl_autoload_register(
 );
 ( new IconLibrary\Plugin() )->register();
 
-// Themes enqueue and print head styles before emitting saved/cached content.
-do_action( 'wp_enqueue_scripts' );
-do_action( 'wp_enqueue_scripts' );
+// The iframe has its own style registry; frontend and editor requests must both
+// receive the rules even after another registry has already printed them.
+$editor = 'editor' === $argv[1];
+if ( $editor ) {
+	do_action( 'wp_enqueue_scripts' );
+	ob_start();
+	wp_print_styles();
+	ob_end_clean();
+	$GLOBALS['wp_styles'] = new WP_Styles();
+	$GLOBALS['icon_style_test_admin'] = true;
+}
+$hook = $editor ? 'enqueue_block_assets' : 'wp_enqueue_scripts';
+do_action( $hook );
+do_action( $hook );
 ob_start();
 wp_print_styles();
 $head = ob_get_clean();
@@ -56,14 +67,18 @@ $cases   = array(
 	'template' => '<footer><link rel="stylesheet" id="unrelated-css" href="/theme.css">' . $outline . '</footer>',
 	'repeated' => $outline . $outline,
 	'solid'    => '<svg viewBox="0 0 24 24"><path d="M0 0h1v1z" /></svg>',
+	'custom'   => '<svg viewBox="0 0 24 24"><path fill="#dd5500" d="M0 0h1v1z" /></svg>',
+	'editor'   => $outline,
 	'none'     => '<p>No plugin icons.</p>',
 );
 $original = $cases[ $argv[1] ];
-$body     = apply_filters( 'render_block', $original, array( 'blockName' => 'core/icon' ), null );
-// Some fragment caches bypass render_block completely on subsequent hits.
+$cached   = in_array( $argv[1], array( 'cached', 'template' ), true );
+// A cached fragment/template can bypass every block rendering callback. Do not
+// accidentally make that case pass by invoking the late render_block fallback.
+$body     = $cached ? $original : apply_filters( 'render_block', $original, array( 'blockName' => 'core/icon' ), null );
 $body    .= 'repeated' === $argv[1] ? $original : '';
 $original .= 'repeated' === $argv[1] ? $original : '';
 ob_start();
 wp_print_styles();
 $late = ob_get_clean();
-echo json_encode( array( 'head' => $head, 'body' => $body, 'original_body' => $original, 'late_styles' => $late ) );
+echo json_encode( array( 'head' => $head, 'body' => $body, 'original_body' => $original, 'late_styles' => $late, 'render_callback_used' => ! $cached ) );
