@@ -18,7 +18,7 @@ collections, using the same WordPress editing workflow.
 - **Connect compatible tools.** WordPress Abilities let authorized automation
   clients discover icons and edit Icon blocks.
 
-This branch prepares **1.2.0**. For published packages, see
+This branch prepares **1.2.1**. For published packages, see
 [GitHub Releases](https://github.com/mehul0810/aculect-icon-library/releases).
 
 [Get started](#requirements-and-quick-start) | [Included libraries](#bundled-libraries) |
