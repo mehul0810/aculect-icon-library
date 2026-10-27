@@ -3,6 +3,89 @@
 	var pendingFocusKey = 'iconLibraryPendingFocus';
 	var navigationId = 0;
 	var navigationController = null;
+	var viewCache = new Map();
+	var listCache = new Map();
+	var cacheEpoch = 0;
+	var pendingMutations = 0;
+	var cacheLifetime = 30000;
+	var cacheLimit = 6;
+
+	function invalidateViews() {
+		viewCache.clear();
+		listCache.clear();
+		cacheEpoch++;
+	}
+
+	function clearSuccessNotices( container ) {
+		container.querySelectorAll( '.icon-library-notice.notice-success' ).forEach( function ( notice ) { notice.remove(); } );
+	}
+
+	function beginMutation() {
+		invalidateViews();
+		pendingMutations++;
+		var admin = document.querySelector( '.icon-library-admin' );
+		if ( admin ) {
+			clearSuccessNotices( admin );
+		}
+	}
+
+	function finishMutation() {
+		pendingMutations--;
+		invalidateViews();
+	}
+
+	function recall( cache, key ) {
+		var entry = cache.get( key );
+		if ( pendingMutations || ! entry || Date.now() - entry.time >= cacheLifetime ) {
+			cache.delete( key );
+			return null;
+		}
+		return entry.value;
+	}
+
+	function remember( cache, key, value, epoch ) {
+		// Bound both the number and size of entries; never retain whole SVG catalogs.
+		if ( pendingMutations || epoch !== cacheEpoch || JSON.stringify( value ).length > 262144 ) {
+			return;
+		}
+		cache.delete( key );
+		if ( cache.size >= cacheLimit ) {
+			cache.delete( cache.keys().next().value );
+		}
+		cache.set( key, { value: value, time: Date.now() } );
+	}
+
+	function viewUrl( url ) {
+		var clean = new URL( url, window.location.href );
+		if ( '1' === clean.searchParams.get( 'icon-library-updated' ) ) {
+			clean.searchParams.delete( 'icon-library-updated' );
+		}
+		clean.searchParams.sort();
+		return clean.toString();
+	}
+
+	function rememberView( url, admin, title, epoch ) {
+		// Errors must remain live responses. Success is displayed once, never replayed.
+		if ( admin.querySelector( '.notice-error' ) ) {
+			return;
+		}
+		var snapshot = admin.cloneNode( true );
+		clearSuccessNotices( snapshot );
+		var status = snapshot.querySelector( '.icon-library-status' );
+		if ( status ) {
+			status.textContent = '';
+		}
+		remember( viewCache, viewUrl( url ), { html: snapshot.innerHTML, title: title }, epoch );
+	}
+
+	// Cache only within this open screen, and refresh after work in another window/tab.
+	window.addEventListener( 'blur', invalidateViews );
+	window.addEventListener( 'pagehide', invalidateViews );
+	document.addEventListener( 'visibilitychange', function () {
+		if ( document.hidden ) {
+			invalidateViews();
+		}
+	} );
 
 	window.requestAnimationFrame( function () {
 		var admin = document.querySelector( '.icon-library-admin' );
@@ -11,6 +94,10 @@
 			admin.classList.add( 'has-js' );
 			admin.classList.remove( 'is-loading' );
 			focusPendingTarget( admin );
+			rememberView( window.location.href, admin, document.title, cacheEpoch );
+			if ( '1' === new URL( window.location.href ).searchParams.get( 'icon-library-updated' ) ) {
+				window.history.replaceState( window.history.state, '', viewUrl( window.location.href ) );
+			}
 		}
 	} );
 
@@ -152,6 +239,38 @@
 	}
 
 	apiFetch.use( apiFetch.createNonceMiddleware( config.nonce ) );
+	function cacheIconRequests( options, next ) {
+		var path = options.path || '';
+		var custom = path === config.customPath || 0 === path.indexOf( config.customPath + '?' ) || 0 === path.indexOf( config.customPath + '/' );
+		var collection = 0 === path.indexOf( config.restPath );
+		var mutation = ( custom || collection ) && [ 'GET', 'HEAD' ].indexOf( ( options.method || 'GET' ).toUpperCase() ) === -1;
+		if ( mutation ) {
+			beginMutation();
+			return next( options ).then( function ( result ) {
+				finishMutation();
+				return result;
+			}, function ( error ) {
+				finishMutation();
+				throw error;
+			} );
+		}
+		if ( ! custom || false === options.parse || 'GET' !== ( options.method || 'GET' ).toUpperCase() ) {
+			return next( options );
+		}
+		var cached = recall( listCache, path );
+		if ( cached ) {
+			return Promise.resolve( cached );
+		}
+		var epoch = cacheEpoch;
+		return next( options ).then( function ( result ) {
+			remember( listCache, path, result, epoch );
+			return result;
+		}, function ( error ) {
+			invalidateViews();
+			throw error;
+		} );
+	}
+	apiFetch.use( cacheIconRequests );
 	ensureCustomDataViews();
 
 	document.addEventListener( 'submit', function ( event ) {
@@ -184,9 +303,7 @@
 			path: config.restPath + encodeURIComponent( collection ) + ( variant ? '/variants/' + encodeURIComponent( variant ) : '' ) + '/' + state,
 			method: 'POST',
 		} ).then( function () {
-			var url = new URL( window.location.href );
-			url.searchParams.set( 'icon-library-updated', '1' );
-			navigateTo( url.toString(), true, '.icon-library-panel h2' );
+			reloadWithSuccess( '.icon-library-panel h2' );
 		} ).catch( function ( error ) {
 			button.disabled = false;
 			form.removeAttribute( 'aria-busy' );
@@ -302,77 +419,92 @@
 
 	function reloadWithSuccess( focusSelector ) {
 		var url = new URL( window.location.href );
+		url.searchParams.delete( 'icon-library-upload-error' );
 		url.searchParams.set( 'icon-library-updated', '1' );
 		navigateTo( url.toString(), true, focusSelector || '.icon-library-panel h2' );
 	}
 
-		// Treat navigation as a single-flight state machine: abort the previous request,
-		// ignore stale responses, replace only the plugin shell, and fall back to a full load.
-		function navigateTo( url, addToHistory, moveFocus ) {
+	// Treat navigation as a single-flight state machine, including cache hits.
+	function navigateTo( url, addToHistory, moveFocus ) {
 		var admin = document.querySelector( '.icon-library-admin' );
-			var focusSelector = 'string' === typeof moveFocus ? moveFocus : '.icon-library-panel h2, .icon-library-empty-state p';
-			var requestId = ++navigationId;
-			if ( navigationController ) {
-				navigationController.abort();
-			}
-			navigationController = window.AbortController ? new window.AbortController() : null;
+		var focusSelector = 'string' === typeof moveFocus ? moveFocus : '.icon-library-panel h2, .icon-library-empty-state p';
+		var requestId = ++navigationId;
+		var epoch = cacheEpoch;
+		var destination = new URL( url, window.location.href );
+		var feedback = destination.searchParams.has( 'icon-library-updated' ) || destination.searchParams.has( 'icon-library-upload-error' );
+		var cached = feedback ? null : recall( viewCache, viewUrl( url ) );
+		if ( navigationController ) {
+			navigationController.abort();
+		}
+		navigationController = window.AbortController ? new window.AbortController() : null;
 
 		if ( focusSelector ) {
 			storePendingFocus( focusSelector );
 		}
 
-			if ( ! admin ) {
+		if ( ! admin ) {
 			return;
 		}
 
 		admin.classList.add( 'is-navigating' );
 		admin.setAttribute( 'aria-busy', 'true' );
 
-			window.fetch( url, { credentials: 'same-origin', signal: navigationController ? navigationController.signal : undefined } ).then( function ( response ) {
+		var request = cached ? Promise.resolve( cached ) : fetchView( url, navigationController ? navigationController.signal : undefined ).then( function ( page ) {
+			if ( requestId === navigationId ) {
+				rememberView( url, page.admin, page.title, epoch );
+			}
+			return { html: page.admin.innerHTML, title: page.title };
+		} );
+		request.then( function ( view ) {
+			if ( requestId !== navigationId ) {
+				return;
+			}
+			if ( epoch !== cacheEpoch ) {
+				navigateTo( url, addToHistory, moveFocus );
+				return;
+			}
+			renderView( admin, view, url, addToHistory, requestId );
+		} ).catch( function ( error ) {
+			if ( requestId === navigationId && error.name !== 'AbortError' ) {
+				invalidateViews();
+				window.location.assign( url );
+			}
+		} );
+	}
+
+	function fetchView( url, signal ) {
+		return window.fetch( url, { credentials: 'same-origin', signal: signal } ).then( function ( response ) {
 			if ( ! response.ok ) {
 				throw new Error( 'Navigation request failed.' );
 			}
-
 			return response.text();
-			} ).then( function ( html ) {
-				if ( requestId !== navigationId ) {
-					return;
-				}
+		} ).then( function ( html ) {
 			var page = new window.DOMParser().parseFromString( html, 'text/html' );
-			var nextAdmin = page.querySelector( '.icon-library-admin' );
-
-			if ( ! nextAdmin ) {
+			var admin = page.querySelector( '.icon-library-admin' );
+			if ( ! admin ) {
 				throw new Error( 'Navigation response was incomplete.' );
 			}
+			return { admin: admin, title: page.title };
+		} );
+	}
 
-			if ( 'function' === typeof window.iconLibraryUnmountCustomDataViews ) {
-				window.iconLibraryUnmountCustomDataViews();
+	function renderView( admin, view, url, addToHistory, requestId ) {
+		if ( 'function' === typeof window.iconLibraryUnmountCustomDataViews ) {
+			window.iconLibraryUnmountCustomDataViews();
+		}
+		admin.innerHTML = view.html;
+		document.title = view.title;
+		if ( addToHistory ) {
+			window.history.pushState( {}, '', viewUrl( url ) );
+		}
+		window.requestAnimationFrame( function () {
+			if ( requestId !== navigationId ) {
+				return;
 			}
-			admin.innerHTML = nextAdmin.innerHTML;
-			document.title = page.title;
-			var nextStatus = admin.querySelector( '.icon-library-status' );
-			if ( nextStatus && '1' === new URL( url, window.location.href ).searchParams.get( 'icon-library-updated' ) ) {
-				nextStatus.textContent = config.i18n.updated;
-			}
-
-			if ( addToHistory ) {
-				window.history.pushState( {}, '', url );
-			}
-
-				window.requestAnimationFrame( function () {
-					if ( requestId !== navigationId ) {
-						return;
-					}
-				admin.classList.remove( 'is-navigating' );
-				admin.removeAttribute( 'aria-busy' );
-				ensureCustomDataViews();
-
-				focusPendingTarget( admin );
-			} );
-			} ).catch( function ( error ) {
-				if ( requestId === navigationId && error.name !== 'AbortError' ) {
-					window.location.assign( url );
-				}
+			admin.classList.remove( 'is-navigating' );
+			admin.removeAttribute( 'aria-busy' );
+			ensureCustomDataViews();
+			focusPendingTarget( admin );
 		} );
 	}
 
@@ -391,6 +523,13 @@
 		}
 		if ( 'function' === typeof window.iconLibraryMountCustomDataViews ) {
 			window.iconLibraryMountCustomDataViews();
+			return;
+		}
+		loadCustomDataViews();
+	}
+
+	function loadCustomDataViews() {
+		if ( ! config || ! config.dataViewsUrl || 'function' === typeof window.iconLibraryMountCustomDataViews ) {
 			return;
 		}
 		if ( config.dataViewsEnqueued ) {
