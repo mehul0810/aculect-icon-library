@@ -199,7 +199,24 @@ class CustomIconRepository {
 				'bytes'        => strlen( $sanitized ),
 			);
 
-			if ( ! $this->lock->write( self::OPTION_ICONS, $icons ) || ! $this->lock->commit() ) {
+			if ( ! $this->lock->write( self::OPTION_ICONS, $icons ) ) {
+				// No COMMIT was attempted. Only this attempt's unique file is unpublished.
+				wp_delete_file( $path );
+				clearstatcache( true, $path );
+				if ( file_exists( $path ) ) {
+					return new WP_Error(
+						'icon_library_custom_cleanup_failed',
+						__( 'The icon metadata could not be saved and its unpublished SVG could not be removed. Ask your site administrator to check the uploads directory before retrying.', 'aculect-icon-library' ),
+						array(
+							'status'         => 500,
+							'retained_bytes' => strlen( $sanitized ),
+						)
+					);
+				}
+				return new WP_Error( 'icon_library_custom_metadata_failed', __( 'The icon metadata could not be saved. No icon was added. Try again.', 'aculect-icon-library' ), array( 'status' => 500 ) );
+			}
+
+			if ( ! $this->lock->commit() ) {
 				// A lost COMMIT acknowledgement can still mean the metadata was saved.
 				// Retain immutable bytes rather than delete potentially published artwork.
 				return new WP_Error( 'icon_library_custom_metadata_failed', __( 'The icon change could not be confirmed. Refresh the icon list before retrying.', 'aculect-icon-library' ), array( 'status' => 500 ) );

@@ -151,6 +151,106 @@ class CustomIconRepositoryTest extends TestCase {
 		$this->assertInstanceOf( WP_Error::class, $result );
 		$this->assertArrayHasKey( 'applied', $this->repository->get_icons() );
 		$this->assertFileExists( $this->repository->get_file_path( 'applied.svg' ) );
+		$icons = $this->repository->get_icons();
+		$path = $this->repository->get_file_path( $icons['applied']['path'] );
+		$artwork = file_get_contents( $path );
+		$GLOBALS['wpdb']->fail_commit_applied = false;
+		$retry = $this->repository->create( 'applied', 'Retry', '<svg><path d="M0 0h3v3z"/></svg>' );
+		$this->assertInstanceOf( WP_Error::class, $retry );
+		$this->assertSame( 'icon_library_custom_duplicate', $retry->get_error_code() );
+		$this->assertSame( $icons, $this->repository->get_icons() );
+		$this->assertSame( $artwork, file_get_contents( $path ) );
+		$this->assertFalse( $GLOBALS['wpdb']->active );
+		$this->assertArrayNotHasKey( CustomIconRepository::OPTION_LOCK, $GLOBALS['icon_library_test_options'] );
+	}
+
+	public function test_failed_creation_at_byte_budget_can_retry_without_leaking_files_or_exceeding_limit() {
+		$svg = '<svg><path d="M0 0h2v2z"/></svg>';
+		$bytes = strlen( ( new SvgSanitizer() )->sanitize_custom( $svg ) );
+		$this->assertIsArray( $this->repository->create( 'existing', 'Existing', $svg ) );
+		$icons = $this->repository->get_icons();
+		$path = $this->repository->get_file_path( $icons['existing']['path'] );
+		// Model retained legacy artwork at the byte ceiling without a 32 MiB fixture.
+		$icons['existing']['bytes'] = CustomIconRepository::MAX_BYTES - $bytes;
+		update_option( CustomIconRepository::OPTION_ICONS, $icons, false );
+		$GLOBALS['wpdb']->fail_option = CustomIconRepository::OPTION_ICONS;
+		$result = $this->repository->create( 'last', 'Last', $svg );
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'icon_library_custom_metadata_failed', $result->get_error_code() );
+		$this->assertSame( $icons, $this->repository->get_icons() );
+		$this->assertSame( array( $path ), glob( dirname( $path ) . '/*.svg' ) );
+		$GLOBALS['wpdb']->fail_option = '';
+		$this->assertIsArray( $this->repository->create( 'last', 'Last', $svg ) );
+		$this->assertSame( CustomIconRepository::MAX_BYTES, array_sum( array_column( $this->repository->get_icons(), 'bytes' ) ) );
+		$files = glob( dirname( $path ) . '/*.svg' );
+		$this->assertCount( 2, $files );
+		$result = $this->repository->create( 'overflow', 'Overflow', $svg );
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'icon_library_custom_limit', $result->get_error_code() );
+		$this->assertSame( $files, glob( dirname( $path ) . '/*.svg' ) );
+		$this->assertFalse( $GLOBALS['wpdb']->active );
+	}
+
+	public function test_failed_create_preserves_an_icon_committed_after_its_initial_read() {
+		$other = new CustomIconRepository( new SvgSanitizer() );
+		$sanitizer = $this->getMockBuilder( SvgSanitizer::class )->onlyMethods( array( 'sanitize_custom' ) )->getMock();
+		$sanitizer->method( 'sanitize_custom' )->willReturnCallback( function ( $svg ) use ( $other ) {
+			$this->assertIsArray( $other->create( 'concurrent', 'Concurrent', $svg ) );
+			$GLOBALS['wpdb']->fail_option = CustomIconRepository::OPTION_ICONS;
+			return ( new SvgSanitizer() )->sanitize_custom( $svg );
+		} );
+		$result = ( new CustomIconRepository( $sanitizer ) )->create( 'failed', 'Failed', '<svg><path d="M0 0h2v2z"/></svg>' );
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'icon_library_custom_metadata_failed', $result->get_error_code() );
+		$icons = $other->get_icons();
+		$this->assertSame( array( 'concurrent' ), array_keys( $icons ) );
+		$path = $other->get_file_path( $icons['concurrent']['path'] );
+		$this->assertFileExists( $path );
+		$this->assertSame( array( $path ), glob( dirname( $path ) . '/*.svg' ) );
+		$this->assertFalse( $GLOBALS['wpdb']->active );
+	}
+
+	public function test_repeated_metadata_write_failures_do_not_accumulate_unpublished_files() {
+		$this->assertIsArray( $this->repository->create( 'existing', 'Existing', '<svg><path d="M0 0h1v1z"/></svg>' ) );
+		$icons     = $this->repository->get_icons();
+		$path      = $this->repository->get_file_path( $icons['existing']['path'] );
+		$artwork   = file_get_contents( $path );
+		$directory = dirname( $path );
+		$GLOBALS['wpdb']->fail_option = CustomIconRepository::OPTION_ICONS;
+		$GLOBALS['wpdb']->queries     = array();
+		foreach ( array( 'first', 'second', 'third' ) as $name ) {
+			$result = $this->repository->create( $name, 'Unpublished', '<svg><path d="M0 0h2v2z"/></svg>' );
+			$this->assertInstanceOf( WP_Error::class, $result );
+			$this->assertSame( $icons, $this->repository->get_icons() );
+			$this->assertSame( array( $path ), glob( $directory . '/*.svg' ) );
+			$this->assertSame( strlen( $artwork ), array_sum( array_map( 'filesize', glob( $directory . '/*.svg' ) ) ) );
+			$this->assertSame( $artwork, file_get_contents( $path ) );
+			$this->assertFalse( $GLOBALS['wpdb']->active );
+			$this->assertArrayNotHasKey( CustomIconRepository::OPTION_LOCK, $GLOBALS['icon_library_test_options'] );
+		}
+		$this->assertNotContains( 'COMMIT', array_column( $GLOBALS['wpdb']->queries, 0 ) );
+		$GLOBALS['wpdb']->fail_option = '';
+		$this->assertIsArray( $this->repository->create( 'first', 'Retry', '<svg><path d="M0 0h2v2z"/></svg>' ) );
+		$this->assertCount( 2, glob( $directory . '/*.svg' ) );
+	}
+
+	public function test_unpublished_file_cleanup_failure_reports_retained_bytes_and_releases_lock() {
+		$GLOBALS['wpdb']->fail_option = CustomIconRepository::OPTION_ICONS;
+		$GLOBALS['icon_library_test_filters']['wp_delete_file'][] = static function () { return ''; };
+		try {
+			$result = $this->repository->create( 'retained-failure', 'Retained failure', '<svg><path d="M0 0h2v2z"/></svg>' );
+			$files  = glob( $GLOBALS['icon_library_test_upload_dir'] . '/icon-library/custom-icons/*.svg' );
+			$this->assertInstanceOf( WP_Error::class, $result );
+			$this->assertSame( 'icon_library_custom_cleanup_failed', $result->get_error_code() );
+			$this->assertSame( 500, $result->get_error_data()['status'] );
+			$this->assertCount( 1, $files );
+			$this->assertSame( filesize( $files[0] ), $result->get_error_data()['retained_bytes'] );
+			$this->assertSame( array(), $this->repository->get_icons() );
+			$this->assertFalse( $GLOBALS['wpdb']->active );
+			$this->assertArrayNotHasKey( CustomIconRepository::OPTION_LOCK, $GLOBALS['icon_library_test_options'] );
+		} finally {
+			unset( $GLOBALS['icon_library_test_filters']['wp_delete_file'] );
+		}
 	}
 
 	public function test_unsupported_storage_reports_actionable_error_without_writes() {
@@ -196,6 +296,8 @@ class CustomIconRepositoryTest extends TestCase {
 			$result = $this->repository->create( 'vetoed', 'Vetoed', '<svg><path d="M0 0h1v1z"/></svg>' );
 			$this->assertInstanceOf( WP_Error::class, $result );
 			$this->assertSame( array(), $this->repository->get_icons() );
+			$this->assertSame( array(), glob( $GLOBALS['icon_library_test_upload_dir'] . '/icon-library/custom-icons/*.svg' ) );
+			$this->assertFalse( $GLOBALS['wpdb']->active );
 		} finally {
 			unset( $GLOBALS['icon_library_test_filters'][ $filter ] );
 		}

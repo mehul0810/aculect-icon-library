@@ -23,7 +23,7 @@ class CoreIconRegistrarTest extends TestCase {
 		$icon_html  = '<svg class="icon-library-stroked"><path /></svg>';
 		$this->assertSame( $icon_html, $registrar->enqueue_styles_for_rendered_icon( $icon_html, $icon_block, null ) );
 		$this->assertSame(
-			array( ICON_LIBRARY_URL . 'assets/icons.css', array(), ICON_LIBRARY_VERSION ),
+			array( false, array(), ICON_LIBRARY_VERSION ),
 			$GLOBALS['icon_library_test_enqueued_styles']['icon-library-icons']
 		);
 	}
@@ -39,10 +39,23 @@ class CoreIconRegistrarTest extends TestCase {
 		$GLOBALS['icon_library_test_is_admin'] = true;
 		$registrar->enqueue_editor_content_styles();
 		$this->assertSame(
-			array( ICON_LIBRARY_URL . 'assets/icons.css', array(), ICON_LIBRARY_VERSION ),
+			array( false, array(), ICON_LIBRARY_VERSION ),
 			$GLOBALS['icon_library_test_enqueued_styles']['icon-library-icons']
 		);
 		$GLOBALS['icon_library_test_is_admin'] = false;
+	}
+
+	public function test_critical_stroke_rules_are_bounded_and_added_once_per_style_registry() {
+		$registrar = new CoreIconRegistrar( $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock() );
+		$GLOBALS['icon_library_test_registered_styles'] = array();
+		$GLOBALS['icon_library_test_inline_styles'] = array();
+		$registrar->enqueue_styles();
+		$registrar->enqueue_styles();
+		$styles = $GLOBALS['icon_library_test_inline_styles']['icon-library-icons'];
+		$this->assertCount( 1, $styles );
+		$this->assertSame( file_get_contents( ICON_LIBRARY_DIR . 'assets/icons.css' ), $styles[0] );
+		$this->assertLessThanOrEqual( 1024, strlen( $styles[0] ) );
+		$this->assertFalse( $GLOBALS['icon_library_test_registered_styles']['icon-library-icons'][0] );
 	}
 
 	public function test_owned_registration_cannot_hide_an_external_namespace_replacement() {
