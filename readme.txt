@@ -4,7 +4,7 @@ Tags: icons, icon library, svg icons, icon block, custom icons
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ a compatible Iconoir Solid subset, Phosphor Icons, Ionicons, and custom SVG icon
 Icon block. Choose bundled libraries from Appearance > Icons > Install Library, enable the styles you need in Library,
 and select icons in the WordPress block editor.
 
-Choose bundled libraries from Appearance > Icons > Install Library and enable them in Library. The 1.2.0 package includes all ten supported icon families and their
+Choose bundled libraries from Appearance > Icons > Install Library and enable them in Library. The package includes all ten supported icon families and their
 license and exclusion notices. Existing sites retain their bundled libraries,
 preferences and saved icon names through an ordinary plugin update. No bridge
 package or separate preservation stage is required. Remote discovery, preview,
@@ -188,6 +188,14 @@ Bundled libraries remain under their upstream terms:
 * Ionicons, compatible style subset: https://github.com/ionic-team/ionicons (MIT license; bundled license and exclusions; brand marks remain their owners' trademarks).
 
 == Changelog ==
+
+= 1.2.1 =
+
+* Improve repeated switches between Library, Install Library, and Upload, and prevent duplicate success notifications.
+* Keep saved outline icons styled when pages use cached or template-rendered content.
+* Remove unpublished SVG files after a definite upload metadata failure while preserving artwork when the save outcome is uncertain.
+* Restore the uploaded-icon list after deleting the last icon on a page.
+* Show actionable upload failure guidance when JavaScript is unavailable.
 
 = 1.2.0 =
 

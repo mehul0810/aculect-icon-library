@@ -129,6 +129,11 @@ function CustomIconsDataView() {
 		apiFetch( { path: `${ config.customPath }?${ queryKey }`, signal: controller.signal } )
 			.then( ( response ) => {
 				if ( active ) {
+						const lastPage = Math.max( 1, Math.ceil( response.total / ( view.perPage || 20 ) ) );
+						if ( view.page > lastPage ) {
+							setView( ( currentView ) => ( { ...currentView, page: lastPage } ) );
+							return;
+						}
 					setData( response.items );
 					setTotal( response.total );
 					setHideData( false );

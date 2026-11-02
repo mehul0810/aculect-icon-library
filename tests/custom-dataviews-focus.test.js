@@ -5,7 +5,7 @@ const path = require( 'node:path' );
 const vm = require( 'node:vm' );
 const babel = require( '@babel/core' );
 
-test( 'a successful Upload list Retry keeps keyboard focus on the stable heading', async () => {
+function createHarness() {
 	const requests = [];
 	const heading = {
 		attributes: {},
@@ -96,7 +96,11 @@ test( 'a successful Upload list Retry keeps keyboard focus on the stable heading
 		return find( node.children, predicate );
 	}
 	const tick = () => new Promise( ( resolve ) => setImmediate( resolve ) );
+	return { render, requests, find, heading, tick };
+}
 
+test( 'a successful Upload list Retry keeps keyboard focus on the stable heading', async () => {
+	const { render, requests, find, heading, tick } = createHarness();
 	render();
 	requests[ 0 ].reject( Error( 'Service unavailable' ) );
 	await tick();
@@ -115,4 +119,85 @@ test( 'a successful Upload list Retry keeps keyboard focus on the stable heading
 	assert.equal( find( loaded, ( node ) => node.type === 'button' && node.children[ 0 ] === 'Retry' ), null );
 	assert.ok( find( loaded, ( node ) => node.type === 'dataviews' ) );
 	assert.equal( heading.focused, true );
+} );
+
+test( 'deleting the final row on page two fetches page one and preserves the query', async () => {
+	const { render, requests, find, tick } = createHarness();
+	const dataView = () => find( render(), ( node ) => node.type === 'dataviews' );
+	const initial = dataView();
+	initial.props.onChangeView( { ...initial.props.view, page: 2, search: 'badge', sort: { field: 'label', direction: 'desc' } } );
+	dataView();
+	requests[ 1 ].resolve( { items: [ { name: 'last', label: 'Last' } ], total: 21 } );
+	await tick();
+	const lastPage = dataView();
+	// Invoke the same completion callback used by the successful delete modal.
+	lastPage.props.actions.find( ( action ) => action.id === 'delete' ).RenderModal( {} ).props.onDone();
+	dataView();
+	requests[ 2 ].resolve( { items: [], total: 20 } );
+	await tick();
+	const recovering = dataView();
+	assert.equal( recovering.props.view.page, 1 );
+	assert.equal( recovering.props.view.search, 'badge' );
+	assert.equal( recovering.props.view.sort.direction, 'desc' );
+	assert.match( requests[ 3 ].options.path, /page=1&per_page=20&search=badge&orderby=label&order=desc/ );
+	requests[ 3 ].resolve( { items: [ { name: 'retained', label: 'Retained' } ], total: 20 } );
+	await tick();
+	assert.equal( dataView().props.data[ 0 ].name, 'retained' );
+} );
+
+test( 'deleting the only icon keeps page one and renders a genuine empty result', async () => {
+	const { render, requests, find, tick } = createHarness();
+	const dataView = () => find( render(), ( node ) => node.type === 'dataviews' );
+	dataView();
+	requests[ 0 ].resolve( { items: [ { name: 'only', label: 'Only' } ], total: 1 } );
+	await tick();
+	dataView().props.actions.find( ( action ) => action.id === 'delete' ).RenderModal( {} ).props.onDone();
+	dataView();
+	requests[ 1 ].resolve( { items: [], total: 0 } );
+	await tick();
+	const empty = dataView();
+	assert.equal( empty.props.view.page, 1 );
+	assert.equal( empty.props.data.length, 0 );
+	assert.equal( empty.props.paginationInfo.totalItems, 0 );
+	assert.equal( requests.length, 2 );
+} );
+
+test( 'concurrent deletions recover to the last valid page using the selected page size', async () => {
+	const { render, requests, find, tick } = createHarness();
+	const dataView = () => find( render(), ( node ) => node.type === 'dataviews' );
+	const initial = dataView();
+	initial.props.onChangeView( { ...initial.props.view, page: 5, perPage: 10 } );
+	dataView();
+	requests[ 1 ].resolve( { items: [], total: 11 } );
+	await tick();
+	assert.equal( dataView().props.view.page, 2 );
+	assert.match( requests[ 2 ].options.path, /page=2&per_page=10/ );
+	// More removals can invalidate the recovery request itself.
+	requests[ 2 ].resolve( { items: [], total: 0 } );
+	await tick();
+	assert.equal( dataView().props.view.page, 1 );
+	requests[ 3 ].resolve( { items: [], total: 0 } );
+	await tick();
+	assert.equal( dataView().props.data.length, 0 );
+	assert.equal( requests.length, 4 );
+} );
+
+test( 'an obsolete empty response cannot reset a newer page selection', async () => {
+	const { render, requests, find, tick } = createHarness();
+	const dataView = () => find( render(), ( node ) => node.type === 'dataviews' );
+	const initial = dataView();
+	initial.props.onChangeView( { ...initial.props.view, page: 3 } );
+	const oldView = dataView();
+	oldView.props.onChangeView( { ...oldView.props.view, page: 2, search: 'new' } );
+	dataView();
+	assert.equal( requests[ 1 ].options.signal.aborted, true );
+	requests[ 2 ].resolve( { items: [ { name: 'new', label: 'New' } ], total: 40 } );
+	await tick();
+	requests[ 1 ].resolve( { items: [], total: 0 } );
+	await tick();
+	const loaded = dataView();
+	assert.equal( loaded.props.view.page, 2 );
+	assert.equal( loaded.props.view.search, 'new' );
+	assert.equal( loaded.props.data[ 0 ].name, 'new' );
+	assert.equal( requests.length, 3 );
 } );

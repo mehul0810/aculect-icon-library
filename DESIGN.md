@@ -54,6 +54,13 @@ consequence stated before confirmation. Keep these labels and behaviors distinct
   a failed request. Do not present an unavailable response as an empty catalog.
 - Confirm success from the completed request. Show actionable errors and offer
   Retry where supported; keep existing same-query results if a refresh fails.
+- Show one success notice per completed action. Consume its transient URL flag
+  in the enhanced screen so tab changes and browser history do not replay it;
+  keep server-rendered failure guidance available without JavaScript.
+- Reuse recently visited views and uploaded-icon results only in this open
+  screen, for at most 30 seconds. Bound cached entries and their size, discard
+  them when a mutation starts and finishes or the window loses focus, and never
+  cache failed responses. Cold visits and expired entries still require a request.
 - Navigation must ignore stale responses and tear down abandoned requests,
   dialogs, and document listeners. Do not leave an upload dialog on another tab.
 - Preserve keyboard focus through pagination and retry recovery. Dialogs need
@@ -86,6 +93,17 @@ Admin markup and actions are owned by `src/AdminPage.php` and
 `assets/admin.css`. Uploaded-icon DataViews are authored in
 `assets/src/custom-icons-dataviews.js`, then rebuilt into `assets/build/`.
 Bounded native picker behavior uses `assets/bounded-picker.js` and its stylesheet.
+
+Within `admin.js`, cache helpers own retention, the API middleware owns mutation
+invalidation, and navigation coordinates request ordering separately from fetch,
+render, module mounting, and notice cleanup. Both caches share one invalidation
+epoch: late responses cannot repopulate a cache across a mutation. Each cache
+retains at most six entries, each no larger than 262,144 serialized characters,
+with a 30-second lifetime. Store HTML strings and list data, never mounted DOM
+nodes or React roots. Suppress retention while mutations are pending and clear
+both caches on errors, blur, page hide, or hidden visibility. Load the Upload
+module only when its view mounts; do not prefetch private lists. Server checks
+still authorize every request, and cached reads never authorize a mutation.
 
 For UI changes, review the actual desktop and mobile render, keyboard/focus,
 loading, empty, error, and success states. Capture evidence against the tested

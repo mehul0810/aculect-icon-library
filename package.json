@@ -1,6 +1,6 @@
 {
   "name": "aculect-icon-library",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "engines": {
     "node": ">=20.19.0",

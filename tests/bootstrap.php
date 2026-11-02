@@ -63,8 +63,24 @@ function is_admin() {
 	return $GLOBALS['icon_library_test_is_admin'];
 }
 
-function wp_enqueue_style( $handle, $src, $deps = array(), $ver = false ) {
+function wp_enqueue_style( $handle, $src = '', $deps = array(), $ver = false ) {
+	if ( '' === $src && isset( $GLOBALS['icon_library_test_registered_styles'][ $handle ] ) ) {
+		list( $src, $deps, $ver ) = $GLOBALS['icon_library_test_registered_styles'][ $handle ];
+	}
 	$GLOBALS['icon_library_test_enqueued_styles'][ $handle ] = array( $src, $deps, $ver );
+}
+
+function wp_register_style( $handle, $src, $deps = array(), $ver = false ) {
+	if ( isset( $GLOBALS['icon_library_test_registered_styles'][ $handle ] ) ) {
+		return false;
+	}
+	$GLOBALS['icon_library_test_registered_styles'][ $handle ] = array( $src, $deps, $ver );
+	return true;
+}
+
+function wp_add_inline_style( $handle, $css ) {
+	$GLOBALS['icon_library_test_inline_styles'][ $handle ][] = $css;
+	return true;
 }
 
 class WP_REST_Request extends ArrayObject {
@@ -362,6 +378,7 @@ function wp_mkdir_p( $directory ) {
 }
 
 function wp_delete_file( $file ) {
+	$file = apply_filters( 'wp_delete_file', $file );
 	return file_exists( $file ) ? unlink( $file ) : true;
 }
 

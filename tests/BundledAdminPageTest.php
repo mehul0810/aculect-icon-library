@@ -313,6 +313,33 @@ class BundledAdminPageTest extends TestCase {
 		$this->assertStringNotContainsString( 'unsafe-message-from-url', $html );
 	}
 
+	/** Failed cleanup must disclose retained artwork rather than suggest another upload. */
+	public function test_failed_upload_cleanup_notice_requires_administrator_action() {
+		$_GET = array(
+			'tab'                       => 'custom',
+			'icon-library-upload-error' => 'icon_library_custom_cleanup_failed',
+		);
+		$html = $this->render( $this->page( array() ) );
+		$this->assertStringContainsString( 'its unpublished SVG could not be removed', $html );
+		$this->assertStringContainsString( 'Ask your site administrator to check the uploads directory before retrying.', $html );
+		$this->assertStringContainsString( 'role="alert"', $html );
+		$this->assertStringNotContainsString( 'then try again', $html );
+	}
+
+	/** A shared metadata failure code must not claim an uncertain commit was rolled back. */
+	public function test_metadata_failure_notice_requires_refresh_before_retry() {
+		$_GET = array(
+			'tab'                       => 'custom',
+			'icon-library-upload-error' => 'icon_library_custom_metadata_failed',
+		);
+		$html = $this->render( $this->page( array() ) );
+		$this->assertStringContainsString( 'The icon change could not be confirmed.', $html );
+		$this->assertStringContainsString( 'Refresh the icon list before retrying.', $html );
+		$this->assertStringContainsString( 'role="alert"', $html );
+		$this->assertStringNotContainsString( 'No icon was added', $html );
+		$this->assertStringNotContainsString( 'then try again', $html );
+	}
+
 	/** Administrators without the required capability see nothing. */
 	public function test_user_without_manage_options_cannot_render_page() {
 		$GLOBALS['icon_library_test_capabilities'] = array();
