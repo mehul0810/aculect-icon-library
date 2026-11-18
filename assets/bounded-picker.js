@@ -19,6 +19,7 @@
 		var problem = useState(''), error = problem[0], setError = problem[1];
 		var retry = useState(0), attempt = retry[0], setAttempt = retry[1];
 		var gate = useRef(null);
+		var initialCollection = useRef(null);
 		var selectedButton = useRef(null);
 		var paginationFocus = useRef('');
 		var previousButton = useRef(null);
@@ -27,28 +28,25 @@
 		var retryButton = useRef(null);
 		if (!gate.current) { gate.current = helpers.createGate(wp.apiFetch, root.AbortController); }
 		useEffect(function () {
-			if (collection !== null) { return; }
-			var active = true;
-			setLoading(true); setError('');
-			wp.apiFetch({ path: '/wp/v2/icon-collections' }).then(function (rows) {
-				if (!active) { return; }
-				setCollections(rows);
-				var selected = (props.value || '').split('/')[0];
-				setCollection(rows.some(function (row) { return row.slug === selected; }) ? selected : rows[0] ? rows[0].slug : '');
-			}).catch(function (failure) { if (active) { setError(failure.message || __('Icons could not be loaded.', 'aculect-icon-library')); setLoading(false); } });
-			return function () { active = false; gate.current.cancel(); };
-		}, [collection, attempt]);
-		useEffect(function () {
 			if (!inputSequence) { return; }
 			var timer = root.setTimeout(function () { setSearch(searchInput); setPage(0); setAttempt(function (value) { return value + 1; }); }, 250);
 			return function () { root.clearTimeout(timer); };
 		}, [searchInput, inputSequence]);
 		useEffect(function () {
-			if (collection === null) { return; }
+			var active = collection === null ? initialCollection.current : collection;
+			var bootstrap = active === null;
 			setLoading(true); setError('');
-			gate.current.run({ path: helpers.pagePath(config.path, collection, search, page, config.perPage, props.value || '') }).then(function (response) {
+			gate.current.run({ path: helpers.pagePath(config.path, active || '', search, page, config.perPage, props.value || '', bootstrap) }).then(function (response) {
 				if (response.stale) { return; }
-				setResult(response.data); setLoading(false);
+				var data = response.data;
+				if (bootstrap) {
+					if (!data || !Array.isArray(data.collections) || typeof data.collection !== 'string') {
+						throw new Error(__('Icon collections could not be loaded.', 'aculect-icon-library'));
+					}
+					initialCollection.current = data.collection;
+					setCollections(data.collections);
+				}
+				setResult(data); setLoading(false);
 			}).catch(function (failure) { setError(failure.message || __('Icons could not be loaded.', 'aculect-icon-library')); setLoading(false); });
 			return function () { gate.current.cancel(); };
 		}, [collection, search, page, attempt]);
@@ -61,7 +59,8 @@
 			paginationFocus.current = '';
 		}, [loading, error, result]);
 		var tabs = [{ slug: '', label: __('All') }].concat(collections || []);
-		function chooseTab(slug) { if (slug === collection) { return; } gate.current.cancel(); setLoading(true); setCollection(slug); setPage(0); }
+		var activeCollection = collection === null ? initialCollection.current : collection;
+		function chooseTab(slug) { if (!collections || slug === activeCollection) { return; } gate.current.cancel(); setLoading(true); setCollection(slug); setPage(0); }
 		function changePage(value, direction) { paginationFocus.current = direction; gate.current.cancel(); setLoading(true); setPage(value); }
 		function changeSearch(value) { gate.current.cancel(); setLoading(true); setSearchInput(value); setInputSequence(function (old) { return old + 1; }); }
 		function moveTab(event, index) {
@@ -77,9 +76,9 @@
 				h('aside', { className: 'wp-block-icon__inserter-sidebar' },
 					h(wp.components.SearchControl, { label: __('Search'), value: searchInput, onChange: changeSearch, __nextHasNoMarginBottom: true }),
 					h('div', { role: 'tablist', 'aria-label': __('Icon collections', 'aculect-icon-library'), 'aria-orientation': 'vertical' }, tabs.map(function (tab, index) {
-						return h(wp.components.Button, { key: tab.slug, role: 'tab', id: 'ail-tab-' + (tab.slug || 'all'), 'aria-selected': collection === tab.slug, tabIndex: collection === tab.slug ? 0 : -1, className: 'icon-library-picker-tab', variant: collection === tab.slug ? 'primary' : 'tertiary', onClick: function () { chooseTab(tab.slug); }, onKeyDown: function (event) { moveTab(event, index); } }, tab.label);
+							return h(wp.components.Button, { key: tab.slug, role: 'tab', id: 'ail-tab-' + (tab.slug || 'all'), disabled: !collections, 'aria-selected': activeCollection === tab.slug, tabIndex: activeCollection === tab.slug ? 0 : -1, className: 'icon-library-picker-tab', variant: activeCollection === tab.slug ? 'primary' : 'tertiary', onClick: function () { chooseTab(tab.slug); }, onKeyDown: function (event) { moveTab(event, index); } }, tab.label);
 					}))),
-				h('section', { role: 'tabpanel', 'aria-labelledby': 'ail-tab-' + (collection || 'all'), className: 'icon-library-picker-panel', 'aria-busy': loading },
+				h('section', { role: 'tabpanel', 'aria-labelledby': 'ail-tab-' + (activeCollection || 'all'), className: 'icon-library-picker-panel', 'aria-busy': loading },
 					error ? h('div', { role: 'alert' }, h('p', null, error), h(wp.components.Button, { ref: retryButton, variant: 'secondary', onClick: function () { setAttempt(function (value) { return value + 1; }); } }, __('Retry', 'aculect-icon-library'))) : null,
 					loading ? h('div', { role: 'status', 'aria-label': __('Loading…'), className: 'icon-library-picker-loading' }, h(wp.components.Spinner)) : null,
 					!loading && !error && !items.length ? h('p', null, __('No results found.')) : null,
@@ -119,8 +118,9 @@
 	}, 'IconLibraryBoundedPicker'));
 })(typeof window === 'object' ? window : globalThis, function () {
 	'use strict';
-	function pagePath(path, collection, search, page, size, selected) {
+	function pagePath(path, collection, search, page, size, selected, bootstrap) {
 		var query = new URLSearchParams({ collection: collection, search: search, page: String(page), per_page: String(size), selected: selected });
+		if (bootstrap) { query.set('bootstrap', 'true'); }
 		return path + '?' + query.toString();
 	}
 	function createGate(fetch, Abort) {

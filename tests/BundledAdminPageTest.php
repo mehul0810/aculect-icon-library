@@ -320,6 +320,9 @@ class BundledAdminPageTest extends TestCase {
 		);
 		$this->assertStringContainsString( 'name="action" value="icon_library_toggle_collection"', $html );
 		$this->assertStringContainsString( 'name="action" value="icon_library_toggle_variant"', $html );
+		$this->assertStringContainsString( 'data-variant-state="regular"', $html );
+		$this->assertStringContainsString( 'data-enable-label="Enable"', $html );
+		$this->assertStringContainsString( 'data-disable-label="Disable"', $html );
 		$this->assertStringNotContainsString( 'icon_library_uninstall_package', $html );
 	}
 

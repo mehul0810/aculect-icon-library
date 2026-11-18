@@ -8,9 +8,13 @@
 use IconLibrary\ManifestLoader;
 use PHPUnit\Framework\TestCase;
 
-/** Tests request-specific filtering over shared raw manifests. */
+/** Tests manifest loading and request-specific filtering over shared raw manifests. */
 class ManifestLoaderTest extends TestCase {
-	/** @var string */
+	/**
+	 * Temporary fixture directory.
+	 *
+	 * @var string
+	 */
 	private $directory;
 
 	/** Creates a temporary collection fixture. */
@@ -42,11 +46,36 @@ class ManifestLoaderTest extends TestCase {
 		$this->assertSame( 1012, $registry->get_collection( 'tabler-icons' )['iconCount'] );
 	}
 
+	/** Runtime manifest filters bypass generated metadata. */
 	public function test_manifest_filter_bypasses_generated_metadata() {
 		$GLOBALS['icon_library_test_filters']['icon_library_icon_manifest'] = array(
-			static function ( $manifest ) { $manifest['name'] = 'Filtered'; return $manifest; },
+			static function ( $manifest ) {
+				$manifest['name'] = 'Filtered';
+				return $manifest;
+			},
 		);
 		$this->assertSame( 'Filtered', ( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) )->get_metadata( 'heroicons' )['name'] );
+	}
+
+	/** Generated picker rows preserve order and are bypassed when filters can change them. */
+	public function test_generated_picker_index_is_ordered_compact_and_bypassed_for_filters() {
+		$loader = new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' );
+		$rows   = $loader->get_picker_rows( 'heroicons' );
+		$this->assertIsArray( $rows );
+		$this->assertSame( array( 'heroicons/academic-cap-outline', 'Academic Cap', 'outline', 'outline/academic-cap.svg' ), $rows[0] );
+		$this->assertLessThan( filesize( ICON_LIBRARY_DIR . 'assets/icons/heroicons/manifest.json' ), filesize( ICON_LIBRARY_DIR . 'assets/icons/heroicons/picker-index.json' ) );
+
+		$GLOBALS['icon_library_test_filters']['icon_library_icon_manifest'] = array(
+			static function ( $manifest ) {
+				$manifest['icons'] = array();
+				return $manifest;
+			},
+		);
+		try {
+			$this->assertNull( ( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) )->get_picker_rows( 'heroicons' ) );
+		} finally {
+			unset( $GLOBALS['icon_library_test_filters']['icon_library_icon_manifest'] );
+		}
 	}
 
 	/** Persistent cache stores raw data and filters each request independently. */

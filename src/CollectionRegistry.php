@@ -270,6 +270,20 @@ class CollectionRegistry {
 	}
 
 	/**
+	 * Reads ordered generated picker rows for a bundled family only.
+	 *
+	 * @param string $slug Library slug.
+	 * @return array|null
+	 */
+	public function get_bundled_picker_rows( $slug ) {
+		$providers = $this->get_provider_definitions( array( $slug ) );
+		if ( CustomIconRepository::COLLECTION_SLUG === $slug || isset( $providers[ $slug ] ) || ! $this->can_use_bundled( $slug ) ) {
+			return null;
+		}
+		return $this->manifest_loader->get_picker_rows( $slug );
+	}
+
+	/**
 	 * Resolves one collection SVG path.
 	 *
 	 * @param string $slug          Collection slug.
@@ -366,19 +380,20 @@ class CollectionRegistry {
 			return false;
 		}
 		try {
-			$selected = $this->get_installed_collection_slugs();
-			$enabled  = $this->read_state( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
-			$enabled  = is_array( $enabled ) ? $enabled : array();
+			$old_selected = $this->read_state( Plugin::OPTION_INSTALLED_COLLECTIONS, array() );
+			$old_enabled  = $this->read_state( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
+			$stored       = is_array( $old_selected ) ? $old_selected : array();
+			$enabled      = is_array( $old_enabled ) ? $old_enabled : array();
+			$effective    = $this->get_enabled_collection_slugs();
+			$selected     = array_values( array_intersect( $this->get_bundled_collection_slugs(), $this->normalize_keys( array_merge( $stored, $effective ) ) ) );
 			if ( $installed ) {
 				$selected[] = $slug;
 			} else {
 				$selected = array_diff( $selected, array( $slug ) );
 				$enabled  = array_diff( $enabled, array( $slug ) );
 			}
-			$selected     = $this->normalize_keys( $selected );
-			$old_selected = $this->read_state( Plugin::OPTION_INSTALLED_COLLECTIONS, array() );
-			$old_enabled  = $this->read_state( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
-			if ( ! $installed && ! in_array( $slug, is_array( $old_selected ) ? $this->normalize_keys( $old_selected ) : array(), true ) && ! in_array( $slug, is_array( $old_enabled ) ? $this->normalize_keys( $old_enabled ) : array(), true ) && in_array( $slug, $this->get_enabled_collection_slugs(), true ) ) {
+			$selected = $this->normalize_keys( $selected );
+			if ( ! $installed && ! in_array( $slug, $this->normalize_keys( $stored ), true ) && ! in_array( $slug, $this->normalize_keys( is_array( $old_enabled ) ? $old_enabled : array() ), true ) && in_array( $slug, $effective, true ) ) {
 				return false;
 			}
 			if ( ! $installed && $old_enabled !== $enabled && ! $this->persist_state( Plugin::OPTION_ENABLED_COLLECTIONS, $enabled ) ) {
@@ -412,7 +427,7 @@ class CollectionRegistry {
 	 * @return bool
 	 */
 	private function persist_state( $option, $value ) {
-		return $this->state_lock && $this->state_lock->write( $option, $value );
+		return $this->state_lock && $this->state_lock->write_from_snapshot( $option, $value );
 	}
 
 	/**
@@ -423,7 +438,7 @@ class CollectionRegistry {
 	 * @return mixed
 	 */
 	private function read_state( $option, $fallback = false ) {
-		return $this->state_lock ? $this->state_lock->read( $option, $fallback ) : get_option( $option, $fallback );
+		return $this->state_lock ? $this->state_lock->read_for_update( $option, $fallback ) : get_option( $option, $fallback );
 	}
 
 	/**
@@ -496,7 +511,7 @@ class CollectionRegistry {
 			$was_stored    = is_array( $old_selected ) && in_array( $slug, $this->normalize_keys( $old_selected ), true );
 			$needs_marker  = $is_bundled && ! $was_stored && ( $enabled || $is_enabled );
 			if ( $needs_marker ) {
-				$selected   = $this->get_installed_collection_slugs();
+				$selected   = array_values( array_intersect( $this->get_bundled_collection_slugs(), $this->normalize_keys( array_merge( is_array( $old_selected ) ? $old_selected : array(), $enabled_slugs ) ) ) );
 				$selected[] = $slug;
 				if ( ! $this->persist_state( Plugin::OPTION_INSTALLED_COLLECTIONS, $this->normalize_keys( $selected ) ) ) {
 					return false;

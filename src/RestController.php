@@ -74,36 +74,7 @@ class RestController {
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_picker' ),
 					'permission_callback' => array( $this, 'can_read_icons' ),
-					'args'                => array(
-						'collection' => array(
-							'type'      => 'string',
-							'default'   => '',
-							'maxLength' => 100,
-							'pattern'   => '^[a-z0-9_-]*$',
-						),
-						'search'     => array(
-							'type'      => 'string',
-							'default'   => '',
-							'maxLength' => 200,
-						),
-						'selected'   => array(
-							'type'      => 'string',
-							'default'   => '',
-							'maxLength' => 256,
-						),
-						'page'       => array(
-							'type'    => 'integer',
-							'default' => 0,
-							'minimum' => 0,
-							'maximum' => CollectionRegistry::MAX_PAGE,
-						),
-						'per_page'   => array(
-							'type'    => 'integer',
-							'default' => 48,
-							'minimum' => 1,
-							'maximum' => 48,
-						),
-					),
+					'args'                => CorePickerEndpoint::query_args(),
 				)
 			);
 		}
@@ -445,8 +416,7 @@ class RestController {
 	public function get_picker( WP_REST_Request $request ) {
 		if ( ! $this->core_registrar ) {
 			return new WP_Error( 'icon_library_picker_unavailable', __( 'The icon picker is unavailable.', 'aculect-icon-library' ), array( 'status' => 503 ) ); }
-		$data = $this->core_registrar->get_picker_page( (string) $request->get_param( 'collection' ), (string) $request->get_param( 'search' ), (int) $request->get_param( 'page' ), (int) ( $request->get_param( 'per_page' ) ?? 48 ), (string) $request->get_param( 'selected' ) );
-		return is_wp_error( $data ) ? $data : rest_ensure_response( $data );
+		return CorePickerEndpoint::read( $this->core_registrar, $request );
 	}
 
 	/**

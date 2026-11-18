@@ -69,6 +69,7 @@ class LeanPackageTest extends TestCase {
 			$this->assertContains( 'aculect-icon-library/assets/icons/' . $family . '/LICENSE', $names );
 			$this->assertContains( 'aculect-icon-library/assets/icons/' . $family . '/manifest.json', $names );
 			$this->assertContains( 'aculect-icon-library/assets/icons/' . $family . '/metadata.json', $names );
+			$this->assertContains( 'aculect-icon-library/assets/icons/' . $family . '/picker-index.json', $names );
 			if ( is_file( dirname( $manifest_path ) . '/exclusions.json' ) ) {
 				$this->assertContains( 'aculect-icon-library/assets/icons/' . $family . '/exclusions.json', $names );
 			}

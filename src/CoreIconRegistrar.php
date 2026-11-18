@@ -388,12 +388,22 @@ class CoreIconRegistrar {
 		foreach ( $this->collection_registry->get_enabled_collection_slugs() as $library ) {
 			if ( $collection && $collection !== $library && 0 !== strpos( $collection, $library . '-' ) ) {
 				continue; }
-			$manifest = $this->collection_registry->get_manifest( $library );
-			$variants = $this->collection_registry->get_enabled_variants( $library );
-			if ( ! $this->manifest_has_enabled_icons( $manifest, $variants ) ) {
+			$picker_rows = $this->collection_registry->get_bundled_picker_rows( $library );
+			$manifest    = null === $picker_rows ? $this->collection_registry->get_manifest( $library ) : $this->collection_registry->get_bundled_metadata( $library );
+			$variants    = $this->collection_registry->get_enabled_variants( $library );
+			if ( ! $this->manifest_has_enabled_icons( $manifest, $variants, null !== $picker_rows ) ) {
 				continue; }
 			$styles = $this->register_style_collections( $library, $manifest, $variants );
-			foreach ( $manifest['icons'] as $icon ) {
+			$icons  = null === $picker_rows ? ( $manifest['icons'] ?? array() ) : $picker_rows;
+			foreach ( $icons as $icon ) {
+				if ( null !== $picker_rows ) {
+					$icon = array(
+						'coreIconName' => $icon[0],
+						'label'        => $icon[1],
+						'variant'      => $icon[2],
+						'path'         => $icon[3],
+					);
+				}
 				if ( ! is_array( $icon ) || ! empty( $icon['archived'] ) || ! isset( $icon['coreIconName'], $icon['label'], $icon['path'] ) || ! is_string( $icon['coreIconName'] ) || ! is_string( $icon['label'] ) || ! is_string( $icon['path'] ) || '' === $icon['path'] || 1 !== preg_match( '/^' . preg_quote( $library, '/' ) . '\/[a-z0-9][a-z0-9_-]*$/', $icon['coreIconName'] ) ) {
 					continue; }
 				$variant = $icon['variant'] ?? '';

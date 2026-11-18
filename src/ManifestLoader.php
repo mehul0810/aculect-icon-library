@@ -37,6 +37,46 @@ class ManifestLoader {
 	private $metadata = array();
 
 	/**
+	 * Request-local compact Core picker rows.
+	 *
+	 * @var array<string,array|null>
+	 */
+	private $picker_rows = array();
+
+	/**
+	 * Reads the generated ordered picker index when runtime filters are absent.
+	 *
+	 * @param string $slug Collection slug.
+	 * @return array|null
+	 */
+	public function get_picker_rows( $slug ) {
+		if ( ! is_string( $slug ) || ! $this->is_valid_slug( $slug ) || ( function_exists( 'has_filter' ) && has_filter( 'icon_library_icon_manifest' ) ) ) {
+			return null;
+		}
+		if ( array_key_exists( $slug, $this->picker_rows ) ) {
+			return $this->picker_rows[ $slug ];
+		}
+		$path = $this->base_dir . $slug . '/picker-index.json';
+		if ( ! is_readable( $path ) ) {
+			$this->picker_rows[ $slug ] = null;
+			return null;
+		}
+		$rows = json_decode( file_get_contents( $path ), true );
+		if ( ! is_array( $rows ) ) {
+			$this->picker_rows[ $slug ] = null;
+			return null;
+		}
+		foreach ( $rows as $row ) {
+			if ( ! is_array( $row ) || 4 !== count( $row ) || ! is_string( $row[0] ?? null ) || ! is_string( $row[1] ?? null ) || ! is_string( $row[2] ?? null ) || ! is_string( $row[3] ?? null ) ) {
+				$this->picker_rows[ $slug ] = null;
+				return null;
+			}
+		}
+		$this->picker_rows[ $slug ] = $rows;
+		return $rows;
+	}
+
+	/**
 	 * Reads generated metadata unless runtime filters require the full manifest.
 	 *
 	 * @param string $slug Collection slug.
