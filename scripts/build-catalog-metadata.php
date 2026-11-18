@@ -5,13 +5,17 @@
  * @package IconLibrary
  */
 
+use IconLibrary\IconNameIndex;
+
 if ( 'cli' !== PHP_SAPI ) {
 	exit( 1 );
 }
 
+// Load the pure name builder without WordPress in this build-only process.
+if ( ! defined( 'ABSPATH' ) ) {
+	define( 'ABSPATH', dirname( __DIR__ ) . '/' );
+}
 require_once dirname( __DIR__ ) . '/src/IconNameIndex.php';
-
-use IconLibrary\IconNameIndex;
 
 $check  = in_array( '--check', $argv, true );
 $failed = false;
