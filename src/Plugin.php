@@ -40,7 +40,7 @@ class Plugin {
 		$rest_controller     = new RestController( $collection_registry, $custom_icons, $core_registrar );
 		$ability_registrar   = new AbilityRegistrar( $collection_registry );
 
-		add_filter( 'icon_library_collection_providers', array( $library_repository, 'register_providers' ) );
+		add_filter( 'icon_library_collection_providers', array( $library_repository, 'register_providers' ), 10, 2 );
 
 		// Core collections are registered only for icon REST requests or saved
 		// blocks that actually need them. This avoids catalog work on public pages.

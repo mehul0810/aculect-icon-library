@@ -43,6 +43,11 @@ class OptionMutationLock {
 	 * @var array
 	 */
 	private $changed = array();
+	/** Exact option snapshots available for one compare-and-swap write.
+	 *
+	 * @var array<string,string|null>
+	 */
+	private $snapshots = array();
 	/** Transaction that pins ownership.
 	 *
 	 * @var DatabaseTransaction|null
@@ -152,6 +157,21 @@ class OptionMutationLock {
 		return null === $raw ? $fallback : maybe_unserialize( $raw );
 	}
 
+	/** Reads an authoritative option value for a subsequent CAS write.
+	 *
+	 * @param string $name Option name.
+	 * @param mixed  $fallback Missing value.
+	 * @return mixed
+	 */
+	public function read_for_update( $name, $fallback = false ) {
+		$raw = $this->read_raw( $name );
+		if ( $this->failed ) {
+			return false;
+		}
+		$this->snapshots[ $name ] = $raw;
+		return null === $raw ? $fallback : maybe_unserialize( $raw );
+	}
+
 	/**
 	 * Conditionally stages one option in the current transaction.
 	 *
@@ -160,11 +180,38 @@ class OptionMutationLock {
 	 * @return bool
 	 */
 	public function write( $name, $value ) {
+		return $this->write_option( $name, $value, false );
+	}
+
+	/** Writes using the exact raw option row captured by read_for_update().
+	 *
+	 * @param string $name Option name.
+	 * @param mixed  $value Replacement value.
+	 * @return bool
+	 */
+	public function write_from_snapshot( $name, $value ) {
+		return $this->write_option( $name, $value, true );
+	}
+
+	/** Performs a conditional write, optionally consuming a captured raw row.
+	 *
+	 * @param string $name Option name.
+	 * @param mixed  $value Replacement value.
+	 * @param bool   $use_snapshot Whether to use a captured raw row.
+	 * @return bool
+	 */
+	private function write_option( $name, $value, $use_snapshot ) {
 		$wpdb = $this->database;
 		if ( ! $this->active || $this->failed ) {
 			return false;
 		}
-		$old = $this->read_raw( $name );
+		$from_snapshot = $use_snapshot && array_key_exists( $name, $this->snapshots );
+		if ( $from_snapshot ) {
+			$old = $this->snapshots[ $name ];
+			unset( $this->snapshots[ $name ] );
+		} else {
+			$old = $this->read_raw( $name );
+		}
 		if ( $this->failed ) {
 			return false;
 		}
@@ -182,7 +229,8 @@ class OptionMutationLock {
 		}
 		$new = maybe_serialize( $value );
 		if ( $old === $new ) {
-			return true;
+			// A no-op does not execute a CAS; confirm the snapshot is still current.
+			return ! $from_snapshot || $old === $this->read_raw( $name );
 		}
 		if ( null === $old ) {
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Preserve Core's pre-insert option notification.
@@ -197,6 +245,9 @@ class OptionMutationLock {
 		}
 		if ( 1 !== (int) $result ) {
 			return false;
+		}
+		if ( $use_snapshot ) {
+			$this->snapshots[ $name ] = $new;
 		}
 		if ( isset( $this->changed[ $name ] ) ) {
 			$this->changed[ $name ][1] = $value;
@@ -238,7 +289,8 @@ class OptionMutationLock {
 			}
 		}
 		$this->invalidate( $this->name );
-		$this->changed = array();
+		$this->changed   = array();
+		$this->snapshots = array();
 		return true;
 	}
 
@@ -253,7 +305,8 @@ class OptionMutationLock {
 			$this->invalidate( $name );
 		}
 		$this->invalidate( $this->name );
-		$this->changed = array();
+		$this->changed   = array();
+		$this->snapshots = array();
 	}
 
 	/**

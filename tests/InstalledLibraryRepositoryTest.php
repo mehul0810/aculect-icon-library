@@ -21,6 +21,63 @@ class InstalledLibraryRepositoryTest extends TestCase {
 		$this->remove_tree( $this->root );
 	}
 
+	public function test_retained_provider_uses_exact_lookup_without_enumerating_jobs() {
+		$jobs = $this->createMock( LibraryJobStore::class );
+		$jobs->expects( $this->never() )->method( 'all_library_ids' );
+		$jobs->expects( $this->once() )->method( 'read' )->with( 'fixture-retained' )->willReturn(
+			array( 'value' => array( 'styles' => array( 'solid' => array( 'uninstalled' => true ) ) ) )
+		);
+		$repository = new InstalledLibraryRepository( $jobs, $this->root . '/storage' );
+		$this->assertTrue( $repository->register_providers( array(), array( 'fixture-retained' ) )['fixture-retained']['retained'] );
+		$this->assertTrue( $repository->register_providers( array(), array( 'fixture-retained' ) )['fixture-retained']['retained'] );
+	}
+
+	public function test_scoped_provider_skips_database_reads_when_the_complete_cache_is_empty() {
+		$jobs = $this->createMock( LibraryJobStore::class );
+		$jobs->expects( $this->never() )->method( 'all_library_ids' );
+		$jobs->expects( $this->never() )->method( 'read' );
+		$jobs->method( 'cached_library_ids' )->willReturn( array() );
+		$repository = new InstalledLibraryRepository( $jobs, $this->root . '/storage' );
+		$this->assertSame( array(), $repository->register_providers( array(), array( 'fixture-absent' ) ) );
+	}
+
+	public function test_saved_lookup_keeps_complete_provider_map_for_other_filters() {
+		$core_dir = getenv( 'WP_CORE_DIR' ) ?: dirname( __DIR__, 4 );
+		require_once $core_dir . '/wp-includes/class-wp-hook.php';
+		global $wp_filter;
+		$name  = 'icon_library_collection_providers';
+		$prior = $wp_filter[ $name ] ?? null;
+		$old   = $GLOBALS['icon_library_test_filters'][ $name ] ?? array();
+		$hook  = new WP_Hook();
+		$jobs  = $this->createMock( LibraryJobStore::class );
+		$jobs->expects( $this->once() )->method( 'all_library_ids' )->willReturn( array( 'fixture-companion' ) );
+		$jobs->method( 'read' )->willReturnCallback( static function ( $slug ) {
+			return in_array( $slug, array( 'fixture-test', 'fixture-companion' ), true ) ? array( 'value' => array( 'styles' => array( 'solid' => array( 'uninstalled' => true ) ) ) ) : null;
+		} );
+		$repository = new InstalledLibraryRepository( $jobs, $this->root . '/storage' );
+		$built_in = array( $repository, 'register_providers' );
+		$hook->callbacks[10]['fixture'] = array( 'function' => $built_in, 'accepted_args' => 2 );
+		$wp_filter[ $name ] = $hook;
+		$GLOBALS['icon_library_test_filters'][ $name ] = array( $built_in );
+		$registry = new IconLibrary\CollectionRegistry( new IconLibrary\ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) );
+		try {
+			$this->assertSame( array( 'fixture-test' ), $registry->get_saved_collection_slugs( 'fixture-test' ) );
+			$extension = static function ( $map ) {
+				return isset( $map['fixture-companion'] ) ? array( 'fixture-test' => $map['fixture-companion'] ) : array();
+			};
+			$hook->callbacks[20]['extension'] = array( 'function' => $extension, 'accepted_args' => 1 );
+			$GLOBALS['icon_library_test_filters'][ $name ][] = $extension;
+			$this->assertSame( array( 'fixture-test' ), $registry->get_saved_collection_slugs( 'fixture-test' ) );
+		} finally {
+			$GLOBALS['icon_library_test_filters'][ $name ] = $old;
+			if ( null === $prior ) {
+				unset( $wp_filter[ $name ] );
+			} else {
+				$wp_filter[ $name ] = $prior;
+			}
+		}
+	}
+
 	public function test_published_svg_path_resolves_through_installed_provider() {
 		$jobs     = $this->getMockBuilder( LibraryJobStore::class )->disableOriginalConstructor()->getMock();
 		$hash     = str_repeat( 'a', 64 );

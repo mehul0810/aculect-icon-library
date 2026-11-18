@@ -82,6 +82,22 @@ class OptionMutationLockTest extends TestCase {
 		$this->assertFalse( get_option( 'lock' ) );
 	}
 
+	/** Reuses a captured raw value as CAS and rejects intervening writes. */
+	public function test_read_snapshot_is_used_as_cas_and_rejects_a_concurrent_change() {
+		$GLOBALS['icon_library_test_options']['state'] = array( 'original' );
+		$lock = new OptionMutationLock( 'lock' );
+		$this->assertTrue( $lock->acquire( 30 ) );
+		$this->assertSame( array( 'original' ), $lock->read_for_update( 'state' ) );
+		$GLOBALS['wpdb']->before_query = static function ( $sql, $args ) {
+			if ( 0 === strpos( $sql, 'UPDATE' ) && in_array( 'state', $args, true ) ) {
+				$GLOBALS['icon_library_test_options']['state'] = array( 'concurrent' );
+			}
+		};
+		$this->assertFalse( $lock->write_from_snapshot( 'state', array( 'replacement' ) ) );
+		$this->assertSame( array( 'concurrent' ), $GLOBALS['icon_library_test_options']['state'] );
+		$this->assertTrue( $lock->commit() );
+	}
+
 	public function test_existing_caller_transaction_is_not_implicitly_committed() {
 		$GLOBALS['wpdb']->active = true;
 		$transaction = new DatabaseTransaction();
@@ -89,6 +105,17 @@ class OptionMutationLockTest extends TestCase {
 		$this->assertTrue( $GLOBALS['wpdb']->active );
 		$this->assertSame( array( array( 'SET TRANSACTION ISOLATION LEVEL READ COMMITTED', array() ) ), $GLOBALS['wpdb']->queries );
 		$GLOBALS['wpdb']->active = false;
+	}
+
+	public function test_unchanged_snapshot_does_not_report_success_after_an_intervening_write() {
+		$GLOBALS['icon_library_test_options']['state'] = array( 'original' );
+		$lock = new OptionMutationLock( 'lock' );
+		$this->assertTrue( $lock->acquire( 30 ) );
+		$this->assertSame( array( 'original' ), $lock->read_for_update( 'state' ) );
+		$GLOBALS['icon_library_test_options']['state'] = array( 'concurrent' );
+		$this->assertFalse( $lock->write_from_snapshot( 'state', array( 'original' ) ) );
+		$lock->release();
+		$this->assertSame( array( 'concurrent' ), get_option( 'state' ) );
 	}
 
 	public function test_failed_commit_rolls_back_and_reports_failure() {

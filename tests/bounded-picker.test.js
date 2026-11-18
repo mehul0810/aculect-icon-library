@@ -5,7 +5,7 @@ const vm = require('node:vm');
 const { createGate, pagePath } = require('../assets/bounded-picker.js');
 const tick = () => new Promise(resolve => setImmediate(resolve));
 
-test('collection request recovers after Retry and then loads its first icon page', async () => {
+test('one bootstrap request returns collections and the first page, including after Retry', async () => {
 	const requests = [];
 	const listeners = {};
 	const focused = [];
@@ -84,8 +84,10 @@ test('collection request recovers after Retry and then loads its first icon page
 	const picker = runner(Picker);
 	const pickerProps = { value: '', onClose() {}, onSelect() {} };
 	let tree = picker.render(pickerProps);
+	await tick();
 	assert.equal(requests.length, 1);
-	assert.equal(requests[0].options.path, '/wp/v2/icon-collections');
+	assert.match(requests[0].options.path, /^\/picker\?.*&bootstrap=true$/);
+	assert.equal(find(tree, node => node.props.role === 'tab' && node.children[0] === 'All').props.disabled, true);
 	requests[0].reject(Error('offline'));
 	await tick();
 	// Render the failed state and activate the actual Retry button.
@@ -95,24 +97,24 @@ test('collection request recovers after Retry and then loads its first icon page
 	retry.props.onClick();
 	tree = picker.render(pickerProps);
 	tree = picker.render(pickerProps);
+	await tick();
 	assert.equal(requests.length, 2);
-	assert.equal(requests[1].options.path, '/wp/v2/icon-collections');
+	assert.match(requests[1].options.path, /^\/picker\?.*&bootstrap=true$/);
 	assert.equal(find(tree, node => node.props.role === 'alert'), null);
-	requests[1].resolve([{ slug: 'external', label: 'External' }]);
-	await tick();
-	picker.render(pickerProps);
-	await tick();
-	assert.equal(requests.length, 3);
-	assert.match(requests[2].options.path, /^\/picker\?collection=external&/);
-	requests[2].resolve({ items: [{ name: 'external/one', label: 'One', content: '<svg />' }], total: 3, page: 1, per_page: 1, total_pages: 3 });
+	requests[1].resolve({ collections: [{ slug: 'external', label: 'External' }], collection: 'external', items: [{ name: 'external/one', label: 'One', content: '<svg />' }], total: 3, page: 1, per_page: 1, total_pages: 3 });
 	await tick();
 	tree = picker.render(pickerProps);
+	await tick();
+	assert.equal(requests.length, 2, 'the successful open needs one request; the failed attempt adds one retry');
+	assert.equal(find(tree, node => node.props.role === 'tab' && node.children[0] === 'External').props['aria-selected'], true);
 	assert.ok(find(tree, node => node.type === 'button' && node.children[1] && node.children[1].children[0] === 'One'));
 	find(tree, node => node.type === 'button' && node.children[0] === 'Next').props.onClick();
 	picker.render(pickerProps);
 	await tick();
-	assert.equal(requests.length, 4);
-	requests[3].resolve({ items: [{ name: 'external/two', label: 'Two', content: '<svg />' }], total: 3, page: 2, per_page: 1, total_pages: 3 });
+	assert.equal(requests.length, 3);
+	assert.match(requests[2].options.path, /^\/picker\?collection=external&/);
+	assert.doesNotMatch(requests[2].options.path, /bootstrap/);
+	requests[2].resolve({ items: [{ name: 'external/two', label: 'Two', content: '<svg />' }], total: 3, page: 2, per_page: 1, total_pages: 3 });
 	await tick();
 	picker.render(pickerProps);
 	assert.equal(focused.at(-1), 'Next');

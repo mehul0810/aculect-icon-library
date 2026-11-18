@@ -3,10 +3,12 @@
 	var pendingFocusKey = 'iconLibraryPendingFocus';
 	var navigationId = 0;
 	var navigationController = null;
+	var navigationInFlight = false;
 	var viewCache = new Map();
 	var listCache = new Map();
 	var cacheEpoch = 0;
 	var pendingMutations = 0;
+	var activeToggle = null;
 	var cacheLifetime = 30000;
 	var cacheLimit = 6;
 
@@ -288,28 +290,166 @@
 		}
 
 		event.preventDefault();
+		if ( activeToggle ) {
+			return;
+		}
 
-		var button = form.querySelector( 'button[type="submit"]' );
 		var status = document.querySelector( '.icon-library-status' );
 		var state = form.dataset.state;
 		var collection = form.dataset.collection;
 		var variant = form.dataset.variant;
 
-		button.disabled = true;
+		activeToggle = {
+			form: form,
+			admin: form.closest( '.icon-library-admin' ),
+			focusTarget: form.contains( document.activeElement ) ? document.activeElement : null,
+			controls: [],
+		};
+		lockToggleControls( activeToggle.admin, activeToggle );
 		form.setAttribute( 'aria-busy', 'true' );
 		status.textContent = config.i18n.updating;
 
+		var requestedNavigation = navigationId;
 		apiFetch( {
 			path: config.restPath + encodeURIComponent( collection ) + ( variant ? '/variants/' + encodeURIComponent( variant ) : '' ) + '/' + state,
 			method: 'POST',
-		} ).then( function () {
-			reloadWithSuccess( '.icon-library-panel h2' );
+		} ).then( function ( collectionSummary ) {
+			if ( requestedNavigation !== navigationId ) {
+				activeToggle.refreshAfterNavigation = true;
+				if ( ! navigationInFlight ) {
+					navigateTo( window.location.href, false, '' );
+				}
+				return;
+			}
+			if ( ! form.isConnected ) {
+				finishToggle( activeToggle );
+				return;
+			}
+			if ( ! applyCollectionSummary( form, collectionSummary ) ) {
+				finishToggle( activeToggle );
+				reloadWithSuccess( '.icon-library-panel h2' );
+				return;
+			}
+			form.removeAttribute( 'aria-busy' );
+			status.textContent = config.i18n.updated;
+			finishToggle( activeToggle );
 		} ).catch( function ( error ) {
-			button.disabled = false;
+			if ( requestedNavigation !== navigationId || ! form.isConnected ) {
+				finishToggle( activeToggle );
+				return;
+			}
 			form.removeAttribute( 'aria-busy' );
 			status.textContent = error && error.message ? error.message : config.i18n.error;
+			finishToggle( activeToggle );
 		} );
 	} );
+
+	function lockToggleControls( admin, mutation ) {
+		if ( ! admin ) {
+			return;
+		}
+		admin.querySelectorAll( '.icon-library-toggle button[type="submit"]' ).forEach( function ( button ) {
+			if ( ! mutation.controls.some( function ( control ) { return control.button === button; } ) ) {
+				mutation.controls.push( { button: button, disabled: button.disabled } );
+			}
+			button.disabled = true;
+		} );
+	}
+
+	function finishToggle( mutation ) {
+		if ( ! mutation || activeToggle !== mutation ) {
+			return;
+		}
+		activeToggle = null;
+		mutation.controls.forEach( function ( control ) {
+			if ( control.button.isConnected ) {
+				control.button.disabled = control.disabled;
+			}
+		} );
+		if ( mutation.form.isConnected ) {
+			mutation.form.removeAttribute( 'aria-busy' );
+		}
+		if ( mutation.focusTarget && mutation.focusTarget.isConnected && ! mutation.focusTarget.disabled && ! mutation.focusTarget.closest( '[hidden]' ) ) {
+			mutation.focusTarget.focus( { preventScroll: true } );
+		}
+	}
+
+	function applyCollectionSummary( form, summary ) {
+		var admin = form.closest( '.icon-library-admin' );
+		var collection;
+		var variants;
+		if ( ! admin || ! summary || summary.slug !== form.dataset.collection || typeof summary.installed !== 'boolean' || typeof summary.enabled !== 'boolean' || ! Array.isArray( summary.variants ) ) {
+			return false;
+		}
+		variants = new Map();
+		for ( var i = 0; i < summary.variants.length; i++ ) {
+			var variant = summary.variants[ i ];
+			if ( ! variant || 'string' !== typeof variant.slug || 'boolean' !== typeof variant.enabled || variants.has( variant.slug ) ) {
+				return false;
+			}
+			variants.set( variant.slug, variant.enabled );
+		}
+		collection = form.closest( '.icon-library-collection-detail, .icon-library-install-detail' );
+		if ( ! collection ) {
+			return false;
+		}
+		var incomplete = false;
+		collection.querySelectorAll( '.icon-library-toggle' ).forEach( function ( toggle ) {
+			var submit = toggle.querySelector( 'button[type="submit"]' );
+			if ( ! toggle.querySelector( 'input[name="state"]' ) || ! submit || ( toggle.dataset.variant && ( ! variants.has( toggle.dataset.variant ) || ! submit.dataset.enableLabel || ! submit.dataset.disableLabel ) ) || ( 'install' === toggle.dataset.state || 'remove' === toggle.dataset.state ) && ( ! submit.dataset.installLabel || ! submit.dataset.removeLabel ) ) {
+				incomplete = true;
+			}
+		} );
+		collection.querySelectorAll( '[data-variant-state]' ).forEach( function ( state ) {
+			if ( ! variants.has( state.dataset.variantState ) || ! state.dataset.activeLabel || ! state.dataset.inactiveLabel ) {
+				incomplete = true;
+			}
+		} );
+		var intro = collection.querySelector( '.icon-library-package-intro' );
+		if ( intro && ( ! intro.dataset.installedText || ! intro.dataset.uninstalledText ) ) {
+			incomplete = true;
+		}
+		if ( incomplete || ! collection.querySelector( '.icon-library-toggle button[type="submit"]' ) ) {
+			return false;
+		}
+		collection.querySelectorAll( '.icon-library-toggle' ).forEach( function ( toggle ) {
+			var submit = toggle.querySelector( 'button[type="submit"]' );
+			var state = toggle.dataset.state;
+			var variantSlug = toggle.dataset.variant;
+			if ( ! submit ) {
+				return;
+			}
+			if ( 'install' === state || 'remove' === state ) {
+				toggle.dataset.state = summary.installed ? 'remove' : 'install';
+				toggle.querySelector( 'input[name="state"]' ).value = toggle.dataset.state;
+				submit.textContent = summary.installed ? submit.dataset.removeLabel : submit.dataset.installLabel;
+			} else if ( variantSlug ) {
+				var enabled = variants.get( variantSlug );
+				if ( 'boolean' !== typeof enabled ) {
+					return;
+				}
+				toggle.hidden = ! summary.enabled;
+				toggle.dataset.state = enabled ? 'deactivate' : 'activate';
+				toggle.querySelector( 'input[name="state"]' ).value = toggle.dataset.state;
+				submit.textContent = enabled ? submit.dataset.disableLabel : submit.dataset.enableLabel;
+			} else {
+				toggle.dataset.state = summary.enabled ? 'deactivate' : 'activate';
+				toggle.querySelector( 'input[name="state"]' ).value = toggle.dataset.state;
+				submit.textContent = summary.enabled ? submit.dataset.disableLabel : submit.dataset.enableLabel;
+			}
+		} );
+		collection.querySelectorAll( '[data-variant-state]' ).forEach( function ( state ) {
+			var enabled = variants.get( state.dataset.variantState );
+			if ( 'boolean' === typeof enabled ) {
+				state.textContent = summary.enabled && enabled ? state.dataset.activeLabel : state.dataset.inactiveLabel;
+			}
+		} );
+		if ( intro ) {
+			intro.textContent = summary.installed ? intro.dataset.installedText : intro.dataset.uninstalledText;
+		}
+		invalidateViews();
+		return true;
+	}
 
 	document.addEventListener( 'change', function ( event ) {
 		var input = event.target.closest( '.icon-library-upload-area input[type="file"]' );
@@ -442,10 +582,16 @@
 			storePendingFocus( focusSelector );
 		}
 
+		if ( config && '0' === config.dataViewsEnqueued && 'custom' === destination.searchParams.get( 'tab' ) ) {
+			window.location.assign( url );
+			return;
+		}
+
 		if ( ! admin ) {
 			return;
 		}
 
+		navigationInFlight = true;
 		admin.classList.add( 'is-navigating' );
 		admin.setAttribute( 'aria-busy', 'true' );
 
@@ -466,6 +612,7 @@
 			renderView( admin, view, url, addToHistory, requestId );
 		} ).catch( function ( error ) {
 			if ( requestId === navigationId && error.name !== 'AbortError' ) {
+				navigationInFlight = false;
 				invalidateViews();
 				window.location.assign( url );
 			}
@@ -493,9 +640,20 @@
 			window.iconLibraryUnmountCustomDataViews();
 		}
 		admin.innerHTML = view.html;
+		navigationInFlight = false;
+		if ( activeToggle ) {
+			lockToggleControls( admin, activeToggle );
+		}
 		document.title = view.title;
 		if ( addToHistory ) {
 			window.history.pushState( {}, '', viewUrl( url ) );
+		}
+		if ( activeToggle && activeToggle.refreshAfterNavigation ) {
+			var status = admin.querySelector( '.icon-library-status' );
+			if ( status ) {
+				status.textContent = config.i18n.updated;
+			}
+			finishToggle( activeToggle );
 		}
 		window.requestAnimationFrame( function () {
 			if ( requestId !== navigationId ) {
@@ -518,30 +676,9 @@
 	}
 
 	function ensureCustomDataViews() {
-		if ( ! config || ! config.dataViewsUrl || 'function' !== typeof document.getElementById || ! document.getElementById( 'icon-library-custom-dataviews' ) ) {
-			return;
-		}
-		if ( 'function' === typeof window.iconLibraryMountCustomDataViews ) {
+		if ( document.getElementById( 'icon-library-custom-dataviews' ) && 'function' === typeof window.iconLibraryMountCustomDataViews ) {
 			window.iconLibraryMountCustomDataViews();
-			return;
 		}
-		loadCustomDataViews();
-	}
-
-	function loadCustomDataViews() {
-		if ( ! config || ! config.dataViewsUrl || 'function' === typeof window.iconLibraryMountCustomDataViews ) {
-			return;
-		}
-		if ( config.dataViewsEnqueued ) {
-			return;
-		}
-		if ( document.querySelector( 'script[data-icon-library-dataviews]' ) ) {
-			return;
-		}
-		var script = document.createElement( 'script' );
-		script.src = config.dataViewsUrl;
-		script.dataset.iconLibraryDataviews = 'true';
-		document.body.appendChild( script );
 	}
 
 	function focusPendingTarget( admin ) {

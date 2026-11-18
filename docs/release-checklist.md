@@ -13,9 +13,9 @@
 - Confirm the package is one `bundled` profile and that `--bridge` fails with
   usage error rather than creating another artifact.
 - Inspect the ZIP: it must include the ten bundled families, each manifest-
-  referenced SVG, every applicable license and exclusion file, and Heroicons
-  legacy aliases. Verify the current manifest-derived SVG count rather than
-  relying on a stale hard-coded count.
+  referenced SVG, every applicable license and exclusion file, generated picker
+  and saved-name indexes, and Heroicons legacy aliases. Verify the current
+  manifest-derived SVG count rather than relying on a stale hard-coded count.
 - Confirm deterministic `data/package-profile.json` metadata identifies the
   `bundled` profile.
 - Confirm runtime migration/install/discovery/transport code, `assets/library-installer.js`,

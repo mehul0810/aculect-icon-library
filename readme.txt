@@ -4,7 +4,7 @@ Tags: icons, icon library, svg icons, icon block, custom icons
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,14 @@ Bundled libraries remain under their upstream terms:
 * Ionicons, compatible style subset: https://github.com/ionic-team/ionicons (MIT license; bundled license and exclusions; brand marks remain their owners' trademarks).
 
 == Changelog ==
+
+= 1.2.2 =
+
+* Load available collections and the first page of icons together when opening the Icon block picker. Make browsing and searching bundled icons faster.
+* Install or remove bundled libraries, and enable or disable their styles, without reloading the admin view or rebuilding the current preview.
+* Load custom SVG management scripts only on the Upload tab.
+* Skip unnecessary processing on pages without Icon blocks and reduce the work needed to resolve saved icons.
+* Keep library listings and icon queries consistent when integrations filter available collections.
 
 = 1.2.1 =
 

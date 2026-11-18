@@ -10,7 +10,14 @@ const tick = () => new Promise( ( resolve ) => setImmediate( resolve ) );
 function markup( tab, notice = '' ) {
 	return `<html><head><title>${ tab }</title></head><body><div class="icon-library-admin"><h1>Icons</h1>
 		<div class="icon-library-status" role="status"></div>${ notice }
-		<div class="icon-library-panel"><h2>${ tab }</h2></div></div></body></html>`;
+		<div class="icon-library-panel icon-library-collection-detail"><h2>${ tab }</h2><div class="icon-library-variant-list">
+		<span class="icon-library-variant-state" data-variant-state="regular" data-active-label="Active" data-inactive-label="Inactive">Active</span>
+		<form class="icon-library-toggle icon-library-variant-toggle" data-collection="rune" data-variant="regular" data-state="deactivate"><input name="state" value="deactivate"><button type="submit" data-enable-label="Enable" data-disable-label="Disable">Disable</button></form></div>
+		<form class="icon-library-toggle" data-collection="rune" data-state="deactivate"><input name="state" value="deactivate"><button type="submit" data-enable-label="Enable" data-disable-label="Disable">Disable</button></form>
+		<div class="preview">Rendered icon preview</div></div>
+		<section class="icon-library-install-detail"><p class="icon-library-package-intro" data-installed-text="Remove disabled family." data-uninstalled-text="Install adds disabled family.">Install adds disabled family.</p>
+		<form class="icon-library-toggle" data-collection="rune" data-state="install"><input name="state" value="install"><button type="submit" data-install-label="Install Library" data-remove-label="Remove from Library">Install Library</button></form></section>
+		</div></body></html>`;
 }
 
 function harness( supportsAbort = true, initialNotice = '', initialQuery = '' ) {
@@ -30,7 +37,7 @@ function harness( supportsAbort = true, initialNotice = '', initialQuery = '' ) 
 	apiFetch.createNonceMiddleware = () => ( options, next ) => next( options );
 	const window = {
 		wp: { apiFetch },
-		iconLibraryAdmin: { nonce: 'test', customPath: '/icon-library/v1/custom-icons', restPath: '/icon-library/v1/collections/', i18n: { updated: 'Icon library updated.' } },
+		iconLibraryAdmin: { nonce: 'test', customPath: '/icon-library/v1/custom-icons', restPath: '/icon-library/v1/collections/', i18n: { updating: 'Updating library...', updated: 'Icon library updated.' } },
 		iconLibraryUnmountCustomDataViews: () => { unmounts++; },
 		location: { href: initialUrl, origin, assign: ( url ) => redirects.push( url ) },
 		history: {
@@ -62,6 +69,114 @@ function harness( supportsAbort = true, initialNotice = '', initialQuery = '' ) 
 	return { document, requests, apiRequests, apiFetch, history, redirects, events, window, navigate, complete, cacheMaps,
 		advance: ( ms ) => { now += ms; }, get unmounts() { return unmounts; } };
 }
+
+const summary = ( enabled = false ) => ( { slug: 'rune', installed: true, enabled, variants: [ { slug: 'regular', enabled } ] } );
+
+test( 'confirmed toggle updates controls in place without fetching or replacing the preview', async () => {
+	const h = harness();
+	const preview = h.document.querySelector( '.preview' );
+	const form = h.document.querySelector( '.icon-library-toggle' );
+	form.dispatchEvent( new h.document.defaultView.Event( 'submit', { bubbles: true, cancelable: true } ) );
+	assert.equal( h.apiRequests.length, 1 );
+	assert.equal( h.requests.length, 0 );
+	h.apiRequests[ 0 ].resolve( summary( false ) );
+	await tick();
+	assert.equal( h.requests.length, 0 );
+	assert.equal( h.document.querySelector( '.preview' ), preview );
+	assert.equal( form.querySelector( 'button' ).textContent, 'Enable' );
+	assert.equal( form.querySelector( 'input[name="state"]').value, 'activate' );
+	assert.equal( h.document.querySelector( '.icon-library-status' ).textContent, 'Icon library updated.' );
+} );
+
+test( 'sibling toggles serialize and restore disabled state and keyboard focus', async () => {
+	const h = harness();
+	const variantForm = h.document.querySelector( '.icon-library-variant-toggle' );
+	const collectionForm = h.document.querySelector( '.icon-library-collection-detail > .icon-library-toggle' );
+	const installForm = h.document.querySelector( '.icon-library-install-detail .icon-library-toggle' );
+	const focusedButton = variantForm.querySelector( 'button' );
+	focusedButton.focus();
+	variantForm.dispatchEvent( new h.document.defaultView.Event( 'submit', { bubbles: true, cancelable: true } ) );
+	assert.equal( h.apiRequests.length, 1 );
+	assert.equal( [ focusedButton, collectionForm.querySelector( 'button' ), installForm.querySelector( 'button' ) ].every( button => button.disabled ), true );
+	collectionForm.dispatchEvent( new h.document.defaultView.Event( 'submit', { bubbles: true, cancelable: true } ) );
+	assert.equal( h.apiRequests.length, 1, 'a sibling submit cannot race the pending summary' );
+	h.apiRequests[ 0 ].resolve( summary( false ) );
+	await tick();
+	assert.equal( [ focusedButton, collectionForm.querySelector( 'button' ), installForm.querySelector( 'button' ) ].every( button => ! button.disabled ), true );
+	assert.equal( h.document.activeElement, focusedButton );
+	assert.equal( collectionForm.querySelector( 'button' ).textContent, 'Enable' );
+} );
+
+test( 'a confirmed stale-view toggle stays serialized until the replacement view is fresh', async () => {
+	const h = harness();
+	h.document.querySelector( '.icon-library-toggle' ).dispatchEvent( new h.document.defaultView.Event( 'submit', { bubbles: true, cancelable: true } ) );
+	h.navigate( 'install' );
+	await h.complete( 0, 'install' );
+	assert.equal( h.document.querySelector( '.icon-library-toggle button' ).disabled, true );
+	h.apiRequests[ 0 ].resolve( summary( false ) );
+	await tick();
+	assert.equal( h.requests.length, 2, 'the current view is refreshed after the stale mutation succeeds' );
+	assert.equal( h.document.querySelector( '.icon-library-toggle button' ).disabled, true );
+	await h.complete( 1, 'install fresh' );
+	assert.equal( h.document.querySelector( 'h2' ).textContent, 'install fresh' );
+	assert.equal( h.document.querySelector( '.icon-library-status' ).textContent, 'Icon library updated.' );
+	assert.equal( h.document.querySelector( '.icon-library-toggle button' ).disabled, false );
+} );
+
+test( 'mutation completion during pending navigation preserves its destination and refreshes by epoch', async () => {
+	const h = harness();
+	h.document.querySelector( '.icon-library-toggle' ).dispatchEvent( new h.document.defaultView.Event( 'submit', { bubbles: true, cancelable: true } ) );
+	h.navigate( 'install' );
+	assert.equal( h.requests.length, 1 );
+	h.apiRequests[ 0 ].resolve( summary( false ) );
+	await tick();
+	assert.equal( h.requests.length, 1, 'pending destination is not replaced with the previously committed URL' );
+	assert.match( h.requests[ 0 ].url, /tab=install/ );
+	await h.complete( 0, 'install stale' );
+	assert.equal( h.requests.length, 2, 'cache epoch forces the pending destination to refetch after mutation' );
+	assert.equal( h.document.querySelector( 'h2' ).textContent, 'library' );
+	await h.complete( 1, 'install fresh' );
+	assert.equal( h.document.querySelector( 'h2' ).textContent, 'install fresh' );
+	assert.equal( h.document.querySelector( '.icon-library-status' ).textContent, 'Icon library updated.' );
+	assert.equal( h.document.querySelector( '.icon-library-toggle button' ).disabled, false );
+} );
+
+test( 'confirmed install and removal update the detail action and copy without replacing preview nodes', async () => {
+	const h = harness();
+	const preview = h.document.querySelector( '.preview' );
+	const form = h.document.querySelector( '.icon-library-install-detail .icon-library-toggle' );
+	form.dispatchEvent( new h.document.defaultView.Event( 'submit', { bubbles: true, cancelable: true } ) );
+	h.apiRequests[ 0 ].resolve( { slug: 'rune', installed: true, enabled: false, variants: [ { slug: 'regular', enabled: false } ] } );
+	await tick();
+	assert.equal( form.dataset.state, 'remove' );
+	assert.equal( form.querySelector( 'button' ).textContent, 'Remove from Library' );
+	assert.equal( h.document.querySelector( '.icon-library-package-intro' ).textContent, 'Remove disabled family.' );
+	assert.equal( h.requests.length, 0 );
+	assert.equal( h.document.querySelector( '.preview' ), preview );
+} );
+
+test( 'incomplete mutation summary uses full-page fallback rather than claiming success', async () => {
+	const h = harness();
+	h.document.querySelector( '.icon-library-toggle' ).dispatchEvent( new h.document.defaultView.Event( 'submit', { bubbles: true, cancelable: true } ) );
+	h.apiRequests[ 0 ].resolve( { slug: 'rune', installed: true } );
+	await tick();
+	assert.equal( h.requests.length, 1 );
+	assert.match( h.requests[ 0 ].url, /icon-library-updated=1/ );
+	assert.equal( h.document.querySelector( '.icon-library-status' ).textContent, 'Updating library...' );
+} );
+
+test( 'a mutation response cannot update a view after navigation has moved on', async () => {
+	const h = harness();
+	h.document.querySelector( '.icon-library-toggle' ).dispatchEvent( new h.document.defaultView.Event( 'submit', { bubbles: true, cancelable: true } ) );
+	h.navigate( 'install' );
+	await h.complete( 0, 'install' );
+	h.apiRequests[ 0 ].resolve( summary( false ) );
+	await tick();
+	assert.equal( h.requests.length, 2, 'confirmed mutation refreshes the view without applying to stale DOM' );
+	await h.complete( 1, 'install fresh' );
+	assert.equal( h.document.querySelector( 'h2' ).textContent, 'install fresh' );
+	assert.equal( h.document.querySelector( '.icon-library-status' ).textContent, 'Icon library updated.' );
+} );
 
 for ( const supportsAbort of [ true, false ] ) {
 	test( `latest navigation wins, including late cache writes (AbortController: ${ supportsAbort })`, async () => {
@@ -198,20 +313,30 @@ test( 'a mutation clears only plugin success notices and retains failure and unr
 	h.apiRequests[ 0 ].reject( Error( 'Failed' ) ); await assert.rejects( mutation );
 } );
 
-test( 'module loading requires a mounted Upload view and never prefetches list data', async () => {
+test( 'first Upload visit uses its own document and does not prefetch list data', async () => {
 	const h = harness();
-	h.window.iconLibraryAdmin.dataViewsUrl = '/custom-icons.js';
+	h.window.iconLibraryAdmin.dataViewsEnqueued = '0';
 	h.navigate( 'install' );
 	assert.equal( h.document.querySelectorAll( 'script' ).length, 0 );
 	await h.complete( 0, 'install' );
 	h.navigate( 'custom' );
+	assert.equal( h.requests.length, 1 );
+	assert.equal( h.redirects.length, 1 );
+	assert.equal( new URL( h.redirects[0] ).searchParams.get( 'tab' ), 'custom' );
 	assert.equal( h.document.querySelectorAll( 'script' ).length, 0 );
-	await h.complete( 1, 'custom', '<div id="icon-library-custom-dataviews"></div>' );
-	assert.equal( h.document.querySelectorAll( 'script[data-icon-library-dataviews]' ).length, 1 );
 	assert.equal( h.apiRequests.length, 0 );
-	h.navigate( 'library' ); await tick();
-	h.navigate( 'custom' ); await tick();
-	assert.equal( h.document.querySelectorAll( 'script[data-icon-library-dataviews]' ).length, 1 );
+} );
+
+test( 'an already loaded Upload module mounts only on its own tab', async () => {
+	const h = harness();
+	let mounts = 0;
+	h.window.iconLibraryAdmin.dataViewsEnqueued = '1';
+	h.window.iconLibraryMountCustomDataViews = () => { mounts++; };
+	h.navigate( 'install' ); await h.complete( 0, 'install' );
+	assert.equal( mounts, 0 );
+	h.navigate( 'custom' ); await h.complete( 1, 'custom', '<div id="icon-library-custom-dataviews"></div>' );
+	assert.equal( mounts, 1 );
+	assert.equal( h.apiRequests.length, 0 );
 } );
 
 test( '100 distinct views and list queries retain bounded plain-data snapshots', async () => {

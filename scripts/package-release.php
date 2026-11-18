@@ -76,6 +76,8 @@ $files['.']       = array_merge(
 			'CoreDiscoveryFilter',
 			'CoreIconMetadataReader',
 			'CoreIconRegistrar',
+			'CorePickerEndpoint',
+			'CorePickerPage',
 			'CustomIconRepository',
 			'CustomIconListing',
 			'CustomSvgNormalizer',
@@ -84,6 +86,7 @@ $files['.']       = array_merge(
 			'IconNameIndex',
 			'InstalledLibraryRepository',
 			'LibraryJobStore',
+			'LibraryPackagePublisher',
 			'ManifestLoader',
 			'OptionMutationLock',
 			'Plugin',
@@ -113,6 +116,8 @@ foreach ( glob( $root . '/assets/icons/*/manifest.json' ) as $manifest_path ) {
 	}
 	$files['.'][]               = 'assets/icons/' . $collection . '/manifest.json';
 	$files['.'][]               = 'assets/icons/' . $collection . '/metadata.json';
+	$files['.'][]               = 'assets/icons/' . $collection . '/picker-index.json';
+	$files['.'][]               = 'assets/icons/' . $collection . '/saved-index.json';
 	$files['.'][]               = 'assets/icons/' . $collection . '/LICENSE';
 	$profile['icon_families'][] = $collection;
 	if ( is_file( $root . '/assets/icons/' . $collection . '/exclusions.json' ) ) {

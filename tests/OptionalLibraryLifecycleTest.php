@@ -30,6 +30,7 @@ class OptionalLibraryLifecycleTest extends TestCase {
 	public function test_disabled_style_hides_lazy_canonical_discovery_but_not_exact_reads() {
 		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
 		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'site-fixture' ) );
+		$registry->method( 'get_saved_collection_slugs' )->willReturn( array( 'site-fixture' ) );
 		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array( 'site-fixture' ) );
 		$registry->method( 'get_enabled_variants' )->willReturn( array() );
 		$registry->method( 'get_manifest' )->willReturn( $this->manifest() );
@@ -94,6 +95,7 @@ class OptionalLibraryLifecycleTest extends TestCase {
 		$loads = array();
 		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
 		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'cache-one', 'cache-two', 'cache-three' ) );
+		$registry->method( 'get_saved_collection_slugs' )->willReturn( array( 'cache-one', 'cache-two', 'cache-three' ) );
 		$registry->method( 'get_manifest' )->willReturnCallback( static function ( $library ) use ( &$loads ) {
 			$loads[ $library ] = ( $loads[ $library ] ?? 0 ) + 1;
 			return array( 'slug' => $library, 'name' => $library, 'variants' => array(), 'icons' => array( array( 'id' => 'one', 'coreIconName' => $library . '/one', 'label' => 'One', 'path' => 'one.svg' ), array( 'id' => 'two', 'coreIconName' => $library . '/two', 'label' => 'Two', 'path' => 'two.svg' ) ) );

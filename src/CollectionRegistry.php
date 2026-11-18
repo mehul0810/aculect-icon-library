@@ -153,7 +153,11 @@ class CollectionRegistry {
 	 * @return array|null
 	 */
 	public function get_collection( $slug ) {
-		$slug     = is_string( $slug ) ? sanitize_key( $slug ) : '';
+		$slug = is_string( $slug ) ? sanitize_key( $slug ) : '';
+		if ( has_filter( 'icon_library_collections' ) ) {
+			$collections = $this->get_collections();
+			return isset( $collections[ $slug ] ) && is_array( $collections[ $slug ] ) ? $collections[ $slug ] : null;
+		}
 		$manifest = $this->get_metadata( $slug );
 		if ( ! is_array( $manifest ) || $this->is_retained_collection( $slug, $manifest ) ) {
 			return null;
@@ -163,14 +167,7 @@ class CollectionRegistry {
 			$this->collection_summaries[ $slug ]              = $this->prepare_collection_summary( $manifest, in_array( $slug, $this->get_enabled_collection_slugs(), true ) );
 			$this->collection_summaries[ $slug ]['installed'] = in_array( $slug, $this->get_installed_collection_slugs(), true ) || ! in_array( $slug, $this->get_bundled_collection_slugs(), true );
 		}
-		$collections = apply_filters(
-			'icon_library_collections',
-			array(
-				$slug => $this->collection_summaries[ $slug ],
-			)
-		);
-
-		return is_array( $collections ) && isset( $collections[ $slug ] ) && is_array( $collections[ $slug ] ) ? $collections[ $slug ] : null;
+		return $this->collection_summaries[ $slug ];
 	}
 
 	/**
@@ -192,6 +189,28 @@ class CollectionRegistry {
 	}
 
 	/**
+	 * Resolves only the libraries that could own a saved namespace.
+	 *
+	 * @param string $core_namespace Namespace segment of a saved name.
+	 * @return string[]
+	 */
+	public function get_saved_collection_slugs( $core_namespace ) {
+		$candidates = array();
+		$prefix     = '';
+		foreach ( explode( '-', $core_namespace ) as $part ) {
+			$prefix       = '' === $prefix ? $part : $prefix . '-' . $part;
+			$candidates[] = $prefix;
+		}
+		$bundled = $this->bundled_slugs ?? $this->manifest_loader->get_collection_slugs();
+		$slugs   = array_intersect( $bundled, $candidates );
+		if ( in_array( CustomIconRepository::COLLECTION_SLUG, $candidates, true ) && $this->custom_icons && $this->custom_icons->get_manifest() ) {
+			$slugs[] = CustomIconRepository::COLLECTION_SLUG;
+		}
+		$providers = $this->get_provider_definitions( $candidates );
+		return array_values( array_unique( array_merge( $slugs, array_intersect( array_keys( $providers ), $candidates ) ) ) );
+	}
+
+	/**
 	 * Returns one collection manifest.
 	 *
 	 * @param string $slug Collection slug.
@@ -202,7 +221,7 @@ class CollectionRegistry {
 		if ( CustomIconRepository::COLLECTION_SLUG === $slug && $this->custom_icons ) {
 			return $this->custom_icons->get_manifest();
 		}
-		$providers = $this->get_provider_definitions();
+		$providers = $this->get_provider_definitions( array( $slug ) );
 		if ( isset( $providers[ $slug ] ) && is_array( $providers[ $slug ] ) && isset( $providers[ $slug ]['manifest'] ) ) {
 			if ( array_key_exists( $slug, $this->provider_manifests ) ) {
 				$cached = $this->provider_manifests[ $slug ];
@@ -233,11 +252,50 @@ class CollectionRegistry {
 	 * @return array|null
 	 */
 	private function get_metadata( $slug ) {
-		$providers = $this->get_provider_definitions();
-		if ( CustomIconRepository::COLLECTION_SLUG === $slug || isset( $providers[ $slug ] ) ) {
-			return $this->get_manifest( $slug );
+		return $this->get_bundled_metadata( $slug ) ?? $this->get_manifest( $slug );
+	}
+
+	/**
+	 * Reads the generated metadata for a bundled family, not a provider override.
+	 *
+	 * @param string $slug Library slug.
+	 * @return array|null
+	 */
+	public function get_bundled_metadata( $slug ) {
+		$providers = $this->get_provider_definitions( array( $slug ) );
+		if ( CustomIconRepository::COLLECTION_SLUG === $slug || isset( $providers[ $slug ] ) || ! $this->can_use_bundled( $slug ) ) {
+			return null;
 		}
-		return $this->can_use_bundled( $slug ) ? $this->manifest_loader->get_metadata( $slug ) : null;
+		return $this->manifest_loader->get_metadata( $slug );
+	}
+
+	/**
+	 * Reads ordered generated picker rows for a bundled family only.
+	 *
+	 * @param string $slug Library slug.
+	 * @return array|null
+	 */
+	public function get_bundled_picker_rows( $slug ) {
+		$providers = $this->get_provider_definitions( array( $slug ) );
+		if ( CustomIconRepository::COLLECTION_SLUG === $slug || isset( $providers[ $slug ] ) || ! $this->can_use_bundled( $slug ) ) {
+			return null;
+		}
+		return $this->manifest_loader->get_picker_rows( $slug );
+	}
+
+	/**
+	 * Resolves a bundled saved name without bypassing collection providers.
+	 *
+	 * @param string $slug Library slug.
+	 * @param string $name Saved Core name.
+	 * @return array|null Null requires the manifest fallback.
+	 */
+	public function get_bundled_saved_icon( $slug, $name ) {
+		$providers = $this->get_provider_definitions( array( $slug ) );
+		if ( CustomIconRepository::COLLECTION_SLUG === $slug || isset( $providers[ $slug ] ) || ! $this->can_use_bundled( $slug ) ) {
+			return null;
+		}
+		return $this->manifest_loader->get_saved_icon( $slug, $name );
 	}
 
 	/**
@@ -255,7 +313,7 @@ class CollectionRegistry {
 		if ( CustomIconRepository::COLLECTION_SLUG === $slug && $this->custom_icons ) {
 			return $this->custom_icons->get_file_path( $relative_path );
 		}
-		$providers = $this->get_provider_definitions();
+		$providers = $this->get_provider_definitions( array( $slug ) );
 		if ( isset( $providers[ $slug ]['svg_path'] ) && is_callable( $providers[ $slug ]['svg_path'] ) ) {
 			$path     = call_user_func( $providers[ $slug ]['svg_path'], $relative_path );
 			$resolved = is_string( $path ) ? realpath( $path ) : false;
@@ -279,7 +337,7 @@ class CollectionRegistry {
 		if ( CustomIconRepository::COLLECTION_SLUG === $slug && $this->custom_icons ) {
 			return $this->custom_icons->get_svg_content( $relative_path );
 		}
-		$providers = $this->get_provider_definitions();
+		$providers = $this->get_provider_definitions( array( $slug ) );
 		if ( isset( $providers[ $slug ]['svg_content'] ) && is_callable( $providers[ $slug ]['svg_content'] ) ) {
 			$content = call_user_func( $providers[ $slug ]['svg_content'], $relative_path );
 			return is_string( $content ) ? $content : null;
@@ -307,7 +365,7 @@ class CollectionRegistry {
 		if ( ! is_array( $manifest ) || 'retained' !== ( $manifest['version'] ?? '' ) ) {
 			return false;
 		}
-		$providers = $this->get_provider_definitions();
+		$providers = $this->get_provider_definitions( array( $slug ) );
 		return 'aculect-icon-library-installed' === ( $providers[ $slug ]['owner'] ?? '' );
 	}
 
@@ -337,19 +395,20 @@ class CollectionRegistry {
 			return false;
 		}
 		try {
-			$selected = $this->get_installed_collection_slugs();
-			$enabled  = $this->read_state( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
-			$enabled  = is_array( $enabled ) ? $enabled : array();
+			$old_selected = $this->read_state( Plugin::OPTION_INSTALLED_COLLECTIONS, array() );
+			$old_enabled  = $this->read_state( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
+			$stored       = is_array( $old_selected ) ? $old_selected : array();
+			$enabled      = is_array( $old_enabled ) ? $old_enabled : array();
+			$effective    = $this->get_enabled_collection_slugs();
+			$selected     = array_values( array_intersect( $this->get_bundled_collection_slugs(), $this->normalize_keys( array_merge( $stored, $effective ) ) ) );
 			if ( $installed ) {
 				$selected[] = $slug;
 			} else {
 				$selected = array_diff( $selected, array( $slug ) );
 				$enabled  = array_diff( $enabled, array( $slug ) );
 			}
-			$selected     = $this->normalize_keys( $selected );
-			$old_selected = $this->read_state( Plugin::OPTION_INSTALLED_COLLECTIONS, array() );
-			$old_enabled  = $this->read_state( Plugin::OPTION_ENABLED_COLLECTIONS, array() );
-			if ( ! $installed && ! in_array( $slug, is_array( $old_selected ) ? $this->normalize_keys( $old_selected ) : array(), true ) && ! in_array( $slug, is_array( $old_enabled ) ? $this->normalize_keys( $old_enabled ) : array(), true ) && in_array( $slug, $this->get_enabled_collection_slugs(), true ) ) {
+			$selected = $this->normalize_keys( $selected );
+			if ( ! $installed && ! in_array( $slug, $this->normalize_keys( $stored ), true ) && ! in_array( $slug, $this->normalize_keys( is_array( $old_enabled ) ? $old_enabled : array() ), true ) && in_array( $slug, $effective, true ) ) {
 				return false;
 			}
 			if ( ! $installed && $old_enabled !== $enabled && ! $this->persist_state( Plugin::OPTION_ENABLED_COLLECTIONS, $enabled ) ) {
@@ -383,7 +442,7 @@ class CollectionRegistry {
 	 * @return bool
 	 */
 	private function persist_state( $option, $value ) {
-		return $this->state_lock && $this->state_lock->write( $option, $value );
+		return $this->state_lock && $this->state_lock->write_from_snapshot( $option, $value );
 	}
 
 	/**
@@ -394,7 +453,7 @@ class CollectionRegistry {
 	 * @return mixed
 	 */
 	private function read_state( $option, $fallback = false ) {
-		return $this->state_lock ? $this->state_lock->read( $option, $fallback ) : get_option( $option, $fallback );
+		return $this->state_lock ? $this->state_lock->read_for_update( $option, $fallback ) : get_option( $option, $fallback );
 	}
 
 	/**
@@ -467,7 +526,7 @@ class CollectionRegistry {
 			$was_stored    = is_array( $old_selected ) && in_array( $slug, $this->normalize_keys( $old_selected ), true );
 			$needs_marker  = $is_bundled && ! $was_stored && ( $enabled || $is_enabled );
 			if ( $needs_marker ) {
-				$selected   = $this->get_installed_collection_slugs();
+				$selected   = array_values( array_intersect( $this->get_bundled_collection_slugs(), $this->normalize_keys( array_merge( is_array( $old_selected ) ? $old_selected : array(), $enabled_slugs ) ) ) );
 				$selected[] = $slug;
 				if ( ! $this->persist_state( Plugin::OPTION_INSTALLED_COLLECTIONS, $this->normalize_keys( $selected ) ) ) {
 					return false;
@@ -1036,11 +1095,27 @@ class CollectionRegistry {
 	 * return content or a readable path; all output still passes Core/plugin
 	 * sanitization at the registration boundary.
 	 *
+	 * @param string[]|null $slugs Optional lookup hint; null requests the complete map.
 	 * @return array<string,array>
 	 */
-	private function get_provider_definitions() {
-		$providers = apply_filters( 'icon_library_collection_providers', array() );
+	private function get_provider_definitions( $slugs = null ) {
+		$providers = null !== $slugs && $this->can_scope_provider_lookup()
+			? apply_filters( 'icon_library_collection_providers', array(), $slugs )
+			: apply_filters( 'icon_library_collection_providers', array() );
 		return is_array( $providers ) ? $providers : array();
+	}
+
+	/** Preserves the complete provider map whenever an extension participates. */
+	private function can_scope_provider_lookup() {
+		global $wp_filter;
+		$hook = $wp_filter['icon_library_collection_providers'] ?? null;
+		if ( ! $hook instanceof \WP_Hook || 1 !== count( $hook->callbacks ) || 1 !== count( $hook->callbacks[10] ?? array() ) ) {
+			return false;
+		}
+		$entries  = $hook->callbacks[10];
+		$entry    = reset( $entries );
+		$callback = $entry['function'] ?? null;
+		return is_array( $callback ) && ( $callback[0] ?? null ) instanceof InstalledLibraryRepository && 'register_providers' === ( $callback[1] ?? '' ) && 2 === ( $entry['accepted_args'] ?? 0 );
 	}
 
 	/**

@@ -109,11 +109,7 @@ class AdminPage {
 			$this->asset_version( 'assets/admin.js' ),
 			true
 		);
-		$dataviews_asset = require ICON_LIBRARY_DIR . 'assets/build/custom-icons-dataviews.asset.php';
-		foreach ( $dataviews_asset['dependencies'] as $dependency ) {
-			wp_enqueue_script( $dependency );
-		}
-		wp_enqueue_style( 'wp-components' );
+		$upload_tab = 'custom' === $this->get_active_tab();
 
 		wp_localize_script(
 			'icon-library-admin',
@@ -124,8 +120,7 @@ class AdminPage {
 				'previewNonce'      => wp_create_nonce( 'icon_library_preview' ),
 				'restPath'          => '/' . Plugin::REST_NAMESPACE . '/collections/',
 				'customPath'        => '/' . Plugin::REST_NAMESPACE . '/custom-icons',
-				'dataViewsUrl'      => ICON_LIBRARY_URL . 'assets/build/custom-icons-dataviews.js?ver=' . rawurlencode( $dataviews_asset['version'] ),
-				'dataViewsEnqueued' => 'custom' === $this->get_active_tab(),
+				'dataViewsEnqueued' => $upload_tab ? '1' : '0',
 				'i18n'              => array(
 					'updating'       => __( 'Updating library...', 'aculect-icon-library' ),
 					'error'          => __( 'The library could not be updated. Try again.', 'aculect-icon-library' ),
@@ -142,7 +137,9 @@ class AdminPage {
 			)
 		);
 
-		if ( 'custom' === $this->get_active_tab() ) {
+		if ( $upload_tab ) {
+			$dataviews_asset = require ICON_LIBRARY_DIR . 'assets/build/custom-icons-dataviews.asset.php';
+			wp_enqueue_style( 'wp-components' );
 			wp_enqueue_script(
 				'icon-library-custom-dataviews',
 				ICON_LIBRARY_URL . 'assets/build/custom-icons-dataviews.js',
@@ -455,7 +452,7 @@ class AdminPage {
 				<?php esc_html_e( 'Install Library', 'aculect-icon-library' ); ?>
 			</a>
 			<h2><?php echo esc_html( $collection['name'] ); ?></h2>
-			<p class="icon-library-package-intro">
+			<p class="icon-library-package-intro" data-installed-text="<?php echo esc_attr( __( 'Removing this library disables it and takes it out of Library. Existing saved icons remain available.', 'aculect-icon-library' ) ); ?>" data-uninstalled-text="<?php echo esc_attr( __( 'This library is included with the plugin. Installing adds it to Library but leaves it disabled until you enable it there.', 'aculect-icon-library' ) ); ?>">
 				<?php echo esc_html( $installed ? __( 'Removing this library disables it and takes it out of Library. Existing saved icons remain available.', 'aculect-icon-library' ) : __( 'This library is included with the plugin. Installing adds it to Library but leaves it disabled until you enable it there.', 'aculect-icon-library' ) ); ?>
 			</p>
 			<?php $this->render_filters( $filters, array( $collection['slug'] => $collection ), $query['variant_counts'] ); ?>
@@ -468,7 +465,7 @@ class AdminPage {
 						<input type="hidden" name="action" value="icon_library_select_collection" />
 						<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
 						<input type="hidden" name="state" value="<?php echo esc_attr( $installed ? 'remove' : 'install' ); ?>" />
-						<button type="submit" class="button button-primary"><?php echo esc_html( $installed ? __( 'Remove from Library', 'aculect-icon-library' ) : __( 'Install Library', 'aculect-icon-library' ) ); ?></button>
+						<button type="submit" class="button button-primary" data-install-label="<?php echo esc_attr( __( 'Install Library', 'aculect-icon-library' ) ); ?>" data-remove-label="<?php echo esc_attr( __( 'Remove from Library', 'aculect-icon-library' ) ); ?>"><?php echo esc_html( $installed ? __( 'Remove from Library', 'aculect-icon-library' ) : __( 'Install Library', 'aculect-icon-library' ) ); ?></button>
 					</form>
 				</div>
 			</div>
@@ -649,19 +646,17 @@ class AdminPage {
 								</small>
 							<?php endif; ?>
 						</span>
-						<span class="icon-library-variant-state">
+						<span class="icon-library-variant-state" data-variant-state="<?php echo esc_attr( $variant['slug'] ); ?>" data-active-label="<?php echo esc_attr( __( 'Active', 'aculect-icon-library' ) ); ?>" data-inactive-label="<?php echo esc_attr( __( 'Inactive', 'aculect-icon-library' ) ); ?>">
 							<?php echo esc_html( $enabled && ! empty( $variant['enabled'] ) ? __( 'Active', 'aculect-icon-library' ) : __( 'Inactive', 'aculect-icon-library' ) ); ?>
 						</span>
-						<?php if ( $enabled ) : ?>
-							<form class="icon-library-toggle icon-library-variant-toggle" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-collection="<?php echo esc_attr( $collection['slug'] ); ?>" data-variant="<?php echo esc_attr( $variant['slug'] ); ?>" data-state="<?php echo esc_attr( ! empty( $variant['enabled'] ) ? 'deactivate' : 'activate' ); ?>">
+						<form class="icon-library-toggle icon-library-variant-toggle"<?php echo $enabled ? '' : ' hidden="hidden"'; ?> method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-collection="<?php echo esc_attr( $collection['slug'] ); ?>" data-variant="<?php echo esc_attr( $variant['slug'] ); ?>" data-state="<?php echo esc_attr( ! empty( $variant['enabled'] ) ? 'deactivate' : 'activate' ); ?>">
 								<?php wp_nonce_field( 'icon_library_toggle_variant' ); ?>
 								<input type="hidden" name="action" value="icon_library_toggle_variant" />
 								<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
 								<input type="hidden" name="variant" value="<?php echo esc_attr( $variant['slug'] ); ?>" />
 								<input type="hidden" name="state" value="<?php echo esc_attr( ! empty( $variant['enabled'] ) ? 'deactivate' : 'activate' ); ?>" />
-								<button type="submit" class="button button-secondary"><?php echo esc_html( ! empty( $variant['enabled'] ) ? __( 'Disable', 'aculect-icon-library' ) : __( 'Enable', 'aculect-icon-library' ) ); ?></button>
-							</form>
-						<?php endif; ?>
+								<button type="submit" class="button button-secondary" data-enable-label="<?php echo esc_attr( __( 'Enable', 'aculect-icon-library' ) ); ?>" data-disable-label="<?php echo esc_attr( __( 'Disable', 'aculect-icon-library' ) ); ?>"><?php echo esc_html( ! empty( $variant['enabled'] ) ? __( 'Disable', 'aculect-icon-library' ) : __( 'Enable', 'aculect-icon-library' ) ); ?></button>
+						</form>
 					</div>
 				<?php endforeach; ?>
 			</div>
@@ -672,7 +667,7 @@ class AdminPage {
 						<input type="hidden" name="action" value="icon_library_toggle_collection" />
 						<input type="hidden" name="collection" value="<?php echo esc_attr( $collection['slug'] ); ?>" />
 						<input type="hidden" name="state" value="<?php echo esc_attr( $enabled ? 'deactivate' : 'activate' ); ?>" />
-								<button type="submit" class="button button-primary"><?php echo esc_html( $enabled ? __( 'Disable', 'aculect-icon-library' ) : __( 'Enable', 'aculect-icon-library' ) ); ?></button>
+								<button type="submit" class="button button-primary" data-enable-label="<?php echo esc_attr( __( 'Enable', 'aculect-icon-library' ) ); ?>" data-disable-label="<?php echo esc_attr( __( 'Disable', 'aculect-icon-library' ) ); ?>"><?php echo esc_html( $enabled ? __( 'Disable', 'aculect-icon-library' ) : __( 'Enable', 'aculect-icon-library' ) ); ?></button>
 					</form>
 				</div>
 			</div>
