@@ -202,7 +202,7 @@ class CoreIconRegistrarTest extends TestCase {
 			'collections' => array(),
 			'icons'       => array(),
 		);
-		$registry                                = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_saved_collection_slugs', 'get_enabled_collection_slugs', 'get_enabled_variants', 'get_manifest', 'get_svg_path' ) )->getMock();
+		$registry                                = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_saved_collection_slugs', 'get_enabled_collection_slugs', 'get_enabled_variants', 'get_manifest', 'get_svg_path', 'get_bundled_saved_icon' ) )->getMock();
 		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'test' ) );
 		$registry->method( 'get_saved_collection_slugs' )->willReturn( array( 'test' ) );
 		$registry->method( 'get_enabled_collection_slugs' )->willReturn( $enabled ? array( 'test' ) : array() );
@@ -474,7 +474,7 @@ class CoreIconRegistrarTest extends TestCase {
 			'collections' => array(),
 			'icons'       => array(),
 		);
-		$registry                                = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_saved_collection_slugs', 'get_manifest', 'get_svg_path' ) )->getMock();
+		$registry                                = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_saved_collection_slugs', 'get_manifest', 'get_svg_path', 'get_bundled_saved_icon' ) )->getMock();
 		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'radix' ) );
 		$registry->method( 'get_saved_collection_slugs' )->willReturn( array( 'radix' ) );
 		$registry->method( 'get_manifest' )->with( 'radix' )->willReturn(
@@ -592,7 +592,7 @@ class CoreIconRegistrarTest extends TestCase {
 			'collections' => array(),
 			'icons'       => array(),
 		);
-		$registry                                = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_saved_collection_slugs', 'get_enabled_collection_slugs', 'get_enabled_variants', 'get_manifest', 'get_svg_path' ) )->getMock();
+		$registry                                = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_saved_collection_slugs', 'get_enabled_collection_slugs', 'get_enabled_variants', 'get_manifest', 'get_svg_path', 'get_bundled_saved_icon' ) )->getMock();
 		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'heroicons' ) );
 		$registry->method( 'get_saved_collection_slugs' )->willReturn( array( 'heroicons' ) );
 		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array( 'heroicons' ) );
@@ -638,7 +638,7 @@ class CoreIconRegistrarTest extends TestCase {
 			'collections' => array(),
 			'icons'       => array(),
 		);
-		$registry                                = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_saved_collection_slugs', 'get_manifest', 'get_svg_path' ) )->getMock();
+		$registry                                = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->onlyMethods( array( 'get_available_collection_slugs', 'get_saved_collection_slugs', 'get_manifest', 'get_svg_path', 'get_bundled_saved_icon' ) )->getMock();
 		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'test', 'unrelated' ) );
 		$registry->method( 'get_saved_collection_slugs' )->willReturn( array( 'test', 'unrelated' ) );
 		$registry->expects( $this->once() )->method( 'get_manifest' )->with( 'test' )->willReturn(
@@ -664,5 +664,31 @@ class CoreIconRegistrarTest extends TestCase {
 		);
 
 		$this->assertArrayHasKey( 'test/one', $GLOBALS['icon_library_test_registered']['icons'] );
+	}
+
+	/** Saved variants and aliases retain their artwork without full manifest reads. */
+	public function test_bundled_saved_names_register_without_loading_full_manifests() {
+		$GLOBALS['icon_library_test_registered'] = array(
+			'collections' => array(),
+			'icons'       => array(),
+		);
+		$loader                                  = $this->getMockBuilder( ManifestLoader::class )->setConstructorArgs( array( ICON_LIBRARY_DIR . 'assets/icons' ) )->onlyMethods( array( 'get_manifest' ) )->getMock();
+		$loader->expects( $this->never() )->method( 'get_manifest' );
+		$registrar = new CoreIconRegistrar( new CollectionRegistry( $loader ) );
+		$names     = array(
+			'heroicons-outline/academic-cap-outline',
+			'radix-default/accessibility-default',
+			'heroicons/academic-cap-24-solid',
+		);
+		foreach ( $names as $name ) {
+			$registrar->register_icon_block(
+				array(
+					'blockName' => 'core/icon',
+					'attrs'     => array( 'icon' => $name ),
+				)
+			);
+		}
+		$this->assertSame( $names, array_keys( $GLOBALS['icon_library_test_registered']['icons'] ) );
+		$this->assertStringContainsString( 'icon-library-stroked', $GLOBALS['icon_library_test_registered']['icons'][ $names[0] ]['content'] );
 	}
 }

@@ -631,6 +631,13 @@ class CoreIconRegistrar {
 			if ( $namespace !== $library && 0 !== strpos( $namespace, $library . '-' ) ) {
 				continue;
 			}
+			$bundled = $this->collection_registry->get_bundled_saved_icon( $library, $requested_name );
+			if ( null !== $bundled ) {
+				if ( ! isset( $this->core_incompatible_variants[ $library ] ) ) {
+					$this->set_core_incompatible_variants( $library, $bundled['manifest'] );
+				}
+				return $bundled;
+			}
 			$index = $this->get_collection_index( $library );
 			if ( isset( $index[ $requested_name ] ) && is_array( $index[ $requested_name ] ) ) {
 				return $index[ $requested_name ];

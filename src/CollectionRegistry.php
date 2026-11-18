@@ -284,6 +284,21 @@ class CollectionRegistry {
 	}
 
 	/**
+	 * Resolves a bundled saved name without bypassing collection providers.
+	 *
+	 * @param string $slug Library slug.
+	 * @param string $name Saved Core name.
+	 * @return array|null Null requires the manifest fallback.
+	 */
+	public function get_bundled_saved_icon( $slug, $name ) {
+		$providers = $this->get_provider_definitions( array( $slug ) );
+		if ( CustomIconRepository::COLLECTION_SLUG === $slug || isset( $providers[ $slug ] ) || ! $this->can_use_bundled( $slug ) ) {
+			return null;
+		}
+		return $this->manifest_loader->get_saved_icon( $slug, $name );
+	}
+
+	/**
 	 * Resolves one collection SVG path.
 	 *
 	 * @param string $slug          Collection slug.

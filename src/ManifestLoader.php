@@ -44,6 +44,70 @@ class ManifestLoader {
 	private $picker_rows = array();
 
 	/**
+	 * Request-local bundled saved-name indexes.
+	 *
+	 * @var array<string,array|null>
+	 */
+	private $saved_indexes = array();
+
+	/**
+	 * Resolves a saved name from build-time data without hydrating the manifest.
+	 *
+	 * @param string $slug Collection slug.
+	 * @param string $name Saved Core icon name.
+	 * @return array|null Null requires the manifest fallback.
+	 */
+	public function get_saved_icon( $slug, $name ) {
+		if ( ! is_string( $slug ) || ! $this->is_valid_slug( $slug ) || ! is_string( $name ) || has_filter( 'icon_library_icon_manifest' ) || has_filter( 'sanitize_key' ) ) {
+			return null;
+		}
+
+		if ( ! array_key_exists( $slug, $this->saved_indexes ) ) {
+			$path                         = $this->base_dir . $slug . '/saved-index.json';
+			$data                         = is_readable( $path ) ? json_decode( file_get_contents( $path ), true ) : null;
+			$this->saved_indexes[ $slug ] = 1 === ( $data['version'] ?? null ) && is_array( $data['names'] ?? null ) && is_array( $data['icons'] ?? null ) ? $data : null;
+		}
+		$data      = $this->saved_indexes[ $slug ];
+		$reference = $data['names'][ $name ] ?? null;
+		if ( ! is_int( $reference ) || $reference < 0 || $reference >= count( $data['icons'] ) * IconNameIndex::MODE_COUNT ) {
+			return null;
+		}
+		$row = $data['icons'][ intdiv( $reference, IconNameIndex::MODE_COUNT ) ] ?? null;
+		if ( ! is_string( $row[0] ?? null ) || ! is_string( $row[1] ?? null ) || ! is_string( $row[2] ?? null ) || ! is_string( $row[3] ?? null ) || ! is_bool( $row[4] ?? null ) ) {
+			return null;
+		}
+		$mode    = $reference % IconNameIndex::MODE_COUNT;
+		$variant = sanitize_key( $row[2] );
+		$names   = IconNameIndex::names( $slug, $row[0], $variant, $row[3] );
+		if ( ( $names[ $name ] ?? null ) !== $mode ) {
+			return null;
+		}
+		$manifest = $this->get_metadata( $slug );
+		if ( null === $manifest ) {
+			return null;
+		}
+
+		$entry = array(
+			'library'  => $slug,
+			'manifest' => $manifest,
+			'icon'     => array(
+				'coreIconName' => $row[0],
+				'label'        => $row[1],
+				'variant'      => $row[2],
+				'path'         => $row[3],
+				'archived'     => $row[4],
+			),
+		);
+		if ( IconNameIndex::MODE_STYLED === $mode ) {
+			$entry['style']   = $slug . '-' . $variant;
+			$entry['variant'] = $variant;
+		} elseif ( IconNameIndex::MODE_LEGACY === $mode ) {
+			$entry['legacy'] = true;
+		}
+		return $entry;
+	}
+
+	/**
 	 * Reads the generated ordered picker index when runtime filters are absent.
 	 *
 	 * @param string $slug Collection slug.

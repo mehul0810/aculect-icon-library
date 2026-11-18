@@ -6,6 +6,7 @@
  */
 
 use IconLibrary\ManifestLoader;
+use IconLibrary\IconNameIndex;
 use PHPUnit\Framework\TestCase;
 
 /** Tests manifest loading and request-specific filtering over shared raw manifests. */
@@ -75,6 +76,68 @@ class ManifestLoaderTest extends TestCase {
 			$this->assertNull( ( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) )->get_picker_rows( 'heroicons' ) );
 		} finally {
 			unset( $GLOBALS['icon_library_test_filters']['icon_library_icon_manifest'] );
+		}
+	}
+
+	/** The generated path resolves every packaged name exactly as the runtime manifest index. */
+	public function test_generated_saved_index_preserves_all_bundled_names() {
+		$loader = $this->getMockBuilder( ManifestLoader::class )->setConstructorArgs( array( ICON_LIBRARY_DIR . 'assets/icons' ) )->onlyMethods( array( 'get_manifest' ) )->getMock();
+		$loader->expects( $this->never() )->method( 'get_manifest' );
+		foreach ( $loader->get_collection_slugs() as $slug ) {
+			$manifest = json_decode( file_get_contents( ICON_LIBRARY_DIR . 'assets/icons/' . $slug . '/manifest.json' ), true );
+			$expected = IconNameIndex::build( $slug, $manifest );
+			$packed   = json_decode( file_get_contents( ICON_LIBRARY_DIR . 'assets/icons/' . $slug . '/saved-index.json' ), true );
+			$this->assertSame( array_keys( $expected ), array_keys( $packed['names'] ) );
+			foreach ( $expected as $name => $entry ) {
+				$icon       = $entry['icon'];
+				$resolved   = $loader->get_saved_icon( $slug, $name );
+				$projection = array(
+					'library' => $slug,
+					'icon'    => array(
+						'coreIconName' => $icon['coreIconName'],
+						'label'        => $icon['label'],
+						'variant'      => $icon['variant'] ?? '',
+						'path'         => $icon['path'],
+						'archived'     => ! empty( $icon['archived'] ),
+					),
+				);
+				unset( $resolved['manifest'] );
+				$this->assertSame( $projection + array_intersect_key( $entry, array_flip( array( 'style', 'variant', 'legacy' ) ) ), $resolved, $name );
+			}
+		}
+		$this->assertNull( $loader->get_saved_icon( 'heroicons', 'heroicons/not-an-icon' ) );
+	}
+
+	/** A plausible row for a different name must not replace saved artwork. */
+	public function test_saved_index_rejects_invalid_references() {
+		$path = $this->directory . '/test/saved-index.json';
+		file_put_contents( $path, '{"version":1,"names":{"test/wrong-name":0,"test/one":1,"test/missing-row":99},"icons":[["test/one","One","solid","one.svg",false]]}' );
+		try {
+			$loader = new ManifestLoader( $this->directory );
+			foreach ( array( 'test/wrong-name', 'test/one', 'test/missing-row' ) as $name ) {
+				$this->assertNull( $loader->get_saved_icon( 'test', $name ) );
+			}
+		} finally {
+			unlink( $path );
+		}
+	}
+
+	/** Missing indexes and runtime hooks preserve manifest-based lookup. */
+	public function test_saved_index_defers_to_runtime_manifest_when_needed() {
+		$this->assertNull( ( new ManifestLoader( $this->directory ) )->get_saved_icon( 'test', 'test/anything' ) );
+		$loader = new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' );
+		$this->assertNotEmpty( $loader->get_saved_icon( 'heroicons', 'heroicons/academic-cap-24-solid' ) );
+		foreach ( array( 'icon_library_icon_manifest', 'sanitize_key' ) as $filter ) {
+			$GLOBALS['icon_library_test_filters'][ $filter ] = array(
+				static function ( $value ) {
+								return $value;
+				},
+			);
+			try {
+				$this->assertNull( $loader->get_saved_icon( 'heroicons', 'heroicons/academic-cap-24-solid' ) );
+			} finally {
+				unset( $GLOBALS['icon_library_test_filters'][ $filter ] );
+			}
 		}
 	}
 
