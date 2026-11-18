@@ -11,6 +11,22 @@ use IconLibrary\Plugin;
 use PHPUnit\Framework\TestCase;
 
 class CollectionRegistryTest extends TestCase {
+	public function test_scoped_collection_uses_the_same_complete_filter_map_as_catalog() {
+		$registry = new CollectionRegistry( new ManifestLoader( ICON_LIBRARY_DIR . 'assets/icons' ) );
+		$GLOBALS['icon_library_test_filters']['icon_library_collections'][] = static function ( $collections ) {
+			if ( isset( $collections['radix'], $collections['heroicons'] ) ) {
+				unset( $collections['radix'] );
+			}
+			return $collections;
+		};
+		try {
+			$this->assertArrayNotHasKey( 'radix', $registry->get_collections() );
+			$this->assertNull( $registry->get_collection( 'radix' ) );
+			$this->assertSame( 0, $registry->count_icons( array( 'collection' => 'radix' ) ) );
+		} finally {
+			array_pop( $GLOBALS['icon_library_test_filters']['icon_library_collections'] );
+		}
+	}
 	/**
 	 * Creates a registry with a two-variant fixture.
 	 *

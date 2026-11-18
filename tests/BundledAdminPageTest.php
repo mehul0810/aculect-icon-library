@@ -121,7 +121,42 @@ if ( ! function_exists( 'submit_button' ) ) {
 }
 
 /** Verifies the bundled release admin surface. */
+function wp_enqueue_script( $handle, $src = '', $deps = array(), $ver = false, $footer = false ) {
+	$GLOBALS['icon_library_test_enqueued_scripts'][ $handle ] = $deps;
+}
+
+function wp_localize_script( $handle, $object, $data ) {
+	$GLOBALS['icon_library_test_localized'][ $object ] = $data;
+}
+
+function wp_create_nonce( $action ) {
+	return $action . '-test';
+}
+
 class BundledAdminPageTest extends TestCase {
+	public function test_only_upload_enqueues_dataviews_and_component_styles() {
+		$page     = new AdminPage( $this->createMock( CollectionRegistry::class ), new SvgSanitizer() );
+		$previous = $_GET;
+		try {
+			foreach ( array( 'library', 'install', 'custom' ) as $tab ) {
+				$_GET['tab'] = $tab;
+				$GLOBALS['icon_library_test_enqueued_scripts'] = array();
+				$GLOBALS['icon_library_test_enqueued_styles'] = array();
+				$page->enqueue_assets( 'appearance_page_icon-library' );
+				$this->assertSame( 'custom' === $tab ? '1' : '0', $GLOBALS['icon_library_test_localized']['iconLibraryAdmin']['dataViewsEnqueued'] );
+				$this->assertSame( 'custom' === $tab, isset( $GLOBALS['icon_library_test_enqueued_styles']['wp-components'] ) );
+				$scripts = $GLOBALS['icon_library_test_enqueued_scripts'];
+				if ( 'custom' === $tab ) {
+					$this->assertContains( 'wp-components', $scripts['icon-library-custom-dataviews'] );
+				} else {
+					$this->assertSame( array( 'icon-library-admin' => array( 'wp-api-fetch' ) ), $scripts );
+				}
+			}
+		} finally {
+			$_GET = $previous;
+			unset( $GLOBALS['icon_library_test_enqueued_scripts'], $GLOBALS['icon_library_test_localized'] );
+		}
+	}
 	/** Set admin permissions and clear request state. */
 	protected function setUp(): void {
 		$GLOBALS['icon_library_test_capabilities'] = array( 'manage_options' => true );

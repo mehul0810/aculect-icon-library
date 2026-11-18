@@ -36,11 +36,17 @@ class LibraryJobStore {
 		) : null;
 	}
 
+	/** Returns the complete ID list if a previous discovery already cached it. */
+	public function cached_library_ids() {
+		$ids = wp_cache_get( 'installed_library_ids', 'icon_library' );
+		return is_array( $ids ) ? $ids : null;
+	}
+
 	/** Returns libraries with authoritative installer state without autoloading it. */
 	public function all_library_ids() {
 		global $wpdb;
-		$cached = wp_cache_get( 'installed_library_ids', 'icon_library' );
-		if ( false !== $cached && is_array( $cached ) ) {
+		$cached = $this->cached_library_ids();
+		if ( null !== $cached ) {
 			return $cached; }
 		if ( ! isset( $wpdb->options ) ) {
 			return array(); }

@@ -59,6 +59,18 @@ function get_bloginfo( $show = '' ) {
 	return 'version' === $show ? $GLOBALS['icon_library_test_wp_version'] : '';
 }
 
+class WP_Post {
+	public $post_content;
+
+	public function __construct( $content ) {
+		$this->post_content = $content;
+	}
+}
+
+function get_queried_object() {
+	return $GLOBALS['icon_library_test_queried_object'] ?? null;
+}
+
 function is_admin() {
 	return $GLOBALS['icon_library_test_is_admin'];
 }

@@ -442,6 +442,11 @@
 			storePendingFocus( focusSelector );
 		}
 
+		if ( config && '0' === config.dataViewsEnqueued && 'custom' === destination.searchParams.get( 'tab' ) ) {
+			window.location.assign( url );
+			return;
+		}
+
 		if ( ! admin ) {
 			return;
 		}
@@ -518,30 +523,9 @@
 	}
 
 	function ensureCustomDataViews() {
-		if ( ! config || ! config.dataViewsUrl || 'function' !== typeof document.getElementById || ! document.getElementById( 'icon-library-custom-dataviews' ) ) {
-			return;
-		}
-		if ( 'function' === typeof window.iconLibraryMountCustomDataViews ) {
+		if ( document.getElementById( 'icon-library-custom-dataviews' ) && 'function' === typeof window.iconLibraryMountCustomDataViews ) {
 			window.iconLibraryMountCustomDataViews();
-			return;
 		}
-		loadCustomDataViews();
-	}
-
-	function loadCustomDataViews() {
-		if ( ! config || ! config.dataViewsUrl || 'function' === typeof window.iconLibraryMountCustomDataViews ) {
-			return;
-		}
-		if ( config.dataViewsEnqueued ) {
-			return;
-		}
-		if ( document.querySelector( 'script[data-icon-library-dataviews]' ) ) {
-			return;
-		}
-		var script = document.createElement( 'script' );
-		script.src = config.dataViewsUrl;
-		script.dataset.iconLibraryDataviews = 'true';
-		document.body.appendChild( script );
 	}
 
 	function focusPendingTarget( admin ) {

@@ -207,20 +207,20 @@ class CoreIconRegistrar {
 			if ( $requested_namespace && $requested_namespace !== $collection_slug && 0 !== strpos( $requested_namespace, $collection_slug . '-' ) ) {
 				continue;
 			}
-			$manifest         = $this->collection_registry->get_manifest( $collection_slug );
+			$metadata         = $metadata_only && ! has_filter( 'icon_library_icon_manifest' ) ? $this->collection_registry->get_bundled_metadata( $collection_slug ) : null;
+			$manifest         = $metadata ?? $this->collection_registry->get_manifest( $collection_slug );
 			$enabled_variants = $this->collection_registry->get_enabled_variants( $collection_slug );
 			if ( ! is_array( $enabled_variants ) ) {
 				$enabled_variants = array();
 			}
 
-			if ( ! $this->manifest_has_enabled_icons( $manifest, $enabled_variants ) ) {
+			if ( ! $this->manifest_has_enabled_icons( $manifest, $enabled_variants, null !== $metadata ) ) {
 				continue;
 			}
 
 			if ( ! $this->register_collection( $collection_slug, $manifest ) ) {
 				continue;
 			}
-
 			$this->set_core_incompatible_variants( $collection_slug, $manifest );
 
 			$styles = $this->register_style_collections( $collection_slug, $manifest, $enabled_variants );
@@ -341,46 +341,9 @@ class CoreIconRegistrar {
 		if ( is_wp_error( $existing ) ) {
 			return $existing;
 		}
-		$page        = min( CollectionRegistry::MAX_PAGE, max( 0, (int) $page ) );
-		$per_page    = min( 48, max( 1, (int) $per_page ) );
-		$search      = trim( $search );
-		$pattern     = '' === $search ? '' : '/' . preg_quote( function_exists( 'remove_accents' ) ? remove_accents( $search ) : $search, '/' ) . '/iu';
-		$total       = 0;
-		$first       = array();
-		$chunk       = array();
-		$chosen      = array();
-		$chosen_page = 0;
-		$last_page   = 0;
-		foreach ( $this->picker_rows( $collection, $existing ) as $row ) {
-			$name     = $row['name'];
-			$label    = $row['label'];
-			$haystack = $name . "\n" . $label;
-			if ( $pattern && ! preg_match( $pattern, function_exists( 'remove_accents' ) ? remove_accents( $haystack ) : $haystack ) ) {
-				continue;
-			}
-			$current = (int) floor( $total / $per_page ) + 1;
-			if ( $page ) {
-				if ( $current === $page ) {
-					$chosen[] = $row; }
-			} else {
-				if ( $current !== $last_page ) {
-					$chunk     = array();
-					$last_page = $current; }
-				$chunk[] = $row;
-				if ( 1 === $current ) {
-					$first[] = $row; }
-				if ( $name === $selected ) {
-					$chosen_page = $current; }
-				if ( $current === $chosen_page ) {
-					$chosen = $chunk; }
-			}
-			++$total;
-		}
-		if ( ! $page ) {
-			$page   = $chosen_page ? $chosen_page : 1;
-			$chosen = $chosen_page ? $chosen : $first; }
-		$items = array();
-		foreach ( $chosen as $row ) {
+		$result = CorePickerPage::select( $this->picker_rows( $collection, $existing ), $search, $page, $per_page, $selected );
+		$items  = array();
+		foreach ( $result['items'] as $row ) {
 			if ( isset( $row['library'] ) ) {
 				$this->register_icon( $row['library'], $row['icon'], $row['collection'] ); }
 			$icon = \WP_Icons_Registry::get_instance()->get_registered_icon( $row['name'] );
@@ -389,18 +352,13 @@ class CoreIconRegistrar {
 			}
 			$items[] = array(
 				'name'       => $row['name'],
-				'label'      => $row['label'],
+				'label'      => CorePickerPage::label( $row ),
 				'collection' => $row['collection'],
 				'content'    => $icon['content'],
 			);
 		}
-		return array(
-			'items'       => $items,
-			'total'       => $total,
-			'page'        => $page,
-			'per_page'    => $per_page,
-			'total_pages' => (int) ceil( $total / $per_page ),
-		);
+		$result['items'] = $items;
+		return $result;
 	}
 
 	/**
@@ -447,7 +405,7 @@ class CoreIconRegistrar {
 					continue; }
 				yield array(
 					'name'       => $name,
-					'label'      => sanitize_text_field( $icon['label'] ),
+					'label'      => $icon['label'],
 					'collection' => $namespace,
 					'library'    => $library,
 					'icon'       => $icon,
@@ -462,6 +420,10 @@ class CoreIconRegistrar {
 	public function register_queried_post_icons() {
 		$post = get_queried_object();
 		if ( ! $post instanceof \WP_Post || ! is_string( $post->post_content ) || '' === $post->post_content ) {
+			return;
+		}
+		// Accept the parser's flexible whitespace; false positives only cost a parse.
+		if ( ! has_filter( 'block_parser_class' ) && false === strpos( $post->post_content, 'wp:icon' ) && false === strpos( $post->post_content, 'wp:core/icon' ) ) {
 			return;
 		}
 
@@ -652,7 +614,7 @@ class CoreIconRegistrar {
 		}
 
 		$namespace = substr( $requested_name, 0, $separator );
-		foreach ( $this->collection_registry->get_available_collection_slugs() as $library ) {
+		foreach ( $this->collection_registry->get_saved_collection_slugs( $namespace ) as $library ) {
 			if ( ! is_string( $library ) || '' === $library ) {
 				continue;
 			}
@@ -710,11 +672,26 @@ class CoreIconRegistrar {
 	 *
 	 * @param array|null $manifest         Collection manifest.
 	 * @param string[]   $enabled_variants Enabled variants.
+	 * @param bool       $allow_counts     Whether this is generated bundled metadata.
 	 * @return bool
 	 */
-	private function manifest_has_enabled_icons( $manifest, $enabled_variants ) {
-		if ( ! is_array( $manifest ) || ! is_array( $enabled_variants ) || empty( $manifest['icons'] ) || ! is_array( $manifest['icons'] ) ) {
+	private function manifest_has_enabled_icons( $manifest, $enabled_variants, $allow_counts = false ) {
+		if ( ! is_array( $manifest ) || ! is_array( $enabled_variants ) ) {
 			return false;
+		}
+		if ( ! is_array( $manifest['icons'] ?? null ) ) {
+			if ( ! $allow_counts ) {
+				return false;
+			}
+			$total = (int) ( $manifest['iconCount'] ?? 0 );
+			foreach ( (array) ( $manifest['variants'] ?? array() ) as $row ) {
+				$count = (int) ( $row['iconCount'] ?? 0 );
+				if ( $count > 0 && in_array( $row['slug'] ?? '', $enabled_variants, true ) ) {
+					return true;
+				}
+				$total -= $count;
+			}
+			return $total > 0;
 		}
 		foreach ( $manifest['icons'] as $icon ) {
 			if ( ! is_array( $icon ) ) {
@@ -777,7 +754,7 @@ class CoreIconRegistrar {
 	 */
 	private function register_style_collections( $library, $manifest, $enabled_variants = array() ) {
 		$styles = array();
-		if ( ! is_string( $library ) || '' === $library || ! is_array( $manifest ) || ! isset( $manifest['name'] ) || ! is_string( $manifest['name'] ) || '' === trim( $manifest['name'] ) || ! is_array( $enabled_variants ) || empty( $manifest['variants'] ) || ! is_array( $manifest['variants'] ) || empty( $manifest['icons'] ) || ! is_array( $manifest['icons'] ) ) {
+		if ( ! is_string( $library ) || '' === $library || ! is_array( $manifest ) || ! isset( $manifest['name'] ) || ! is_string( $manifest['name'] ) || '' === trim( $manifest['name'] ) || ! is_array( $enabled_variants ) || empty( $manifest['variants'] ) || ! is_array( $manifest['variants'] ) ) {
 			return $styles;
 		}
 		if ( CustomIconRepository::COLLECTION_SLUG === $library ) {
@@ -790,16 +767,20 @@ class CoreIconRegistrar {
 
 		if ( ! array_key_exists( $library, $this->style_used_variants ) ) {
 			$used = array();
-			foreach ( $manifest['icons'] as $icon ) {
-				if ( ! is_array( $icon ) || ! empty( $icon['archived'] ) ) {
-					continue;
+			if ( isset( $manifest['icons'] ) ) {
+				foreach ( (array) $manifest['icons'] as $icon ) {
+					if ( is_array( $icon ) && empty( $icon['archived'] ) && ! empty( $icon['variant'] ) && is_string( $icon['variant'] ) ) {
+						$used[] = sanitize_key( $icon['variant'] );
+					}
 				}
-				$variant = isset( $icon['variant'] ) && is_string( $icon['variant'] ) ? sanitize_key( $icon['variant'] ) : '';
-				if ( $variant ) {
-					$used[] = $variant;
+			} else {
+				foreach ( $manifest['variants'] as $row ) {
+					if ( is_array( $row ) && ! empty( $row['iconCount'] ) && is_string( $row['slug'] ?? null ) ) {
+						$used[] = sanitize_key( $row['slug'] );
+					}
 				}
 			}
-			$this->style_used_variants[ $library ] = array_values( array_unique( $used ) );
+			$this->style_used_variants[ $library ] = array_values( array_unique( array_filter( $used ) ) );
 		}
 		$used = $this->style_used_variants[ $library ];
 		foreach ( $manifest['variants'] as $variant ) {
@@ -934,7 +915,7 @@ class CoreIconRegistrar {
 	 * @return bool
 	 */
 	private function register_collection( $collection_slug, $manifest ) {
-		if ( ! is_string( $collection_slug ) || '' === $collection_slug || ! is_array( $manifest ) || ! isset( $manifest['name'] ) || ! is_string( $manifest['name'] ) || '' === trim( $manifest['name'] ) || empty( $manifest['icons'] ) || ! is_array( $manifest['icons'] ) ) {
+		if ( ! is_string( $collection_slug ) || '' === $collection_slug || ! is_array( $manifest ) || ! is_string( $manifest['name'] ?? null ) || '' === trim( $manifest['name'] ) || ( isset( $manifest['icons'] ) ? empty( $manifest['icons'] ) || ! is_array( $manifest['icons'] ) : empty( $manifest['iconCount'] ) ) ) {
 			return false;
 		}
 

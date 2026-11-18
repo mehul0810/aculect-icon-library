@@ -26,6 +26,7 @@ class BulkIconResponseTest extends TestCase {
 		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
 		$registry->method( 'get_enabled_collection_slugs' )->willReturn( array( 'bulk-fixture' ) );
 		$registry->method( 'get_available_collection_slugs' )->willReturn( array( 'bulk-fixture' ) );
+		$registry->method( 'get_saved_collection_slugs' )->willReturn( array( 'bulk-fixture' ) );
 		$registry->method( 'get_enabled_variants' )->willReturn( array( 'outline' ) );
 		$registry->method( 'get_manifest' )->willReturn( $manifest );
 		$registry->method( 'get_svg_content' )->willReturn( $this->svg );

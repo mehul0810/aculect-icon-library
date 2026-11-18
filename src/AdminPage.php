@@ -109,11 +109,7 @@ class AdminPage {
 			$this->asset_version( 'assets/admin.js' ),
 			true
 		);
-		$dataviews_asset = require ICON_LIBRARY_DIR . 'assets/build/custom-icons-dataviews.asset.php';
-		foreach ( $dataviews_asset['dependencies'] as $dependency ) {
-			wp_enqueue_script( $dependency );
-		}
-		wp_enqueue_style( 'wp-components' );
+		$upload_tab = 'custom' === $this->get_active_tab();
 
 		wp_localize_script(
 			'icon-library-admin',
@@ -124,8 +120,7 @@ class AdminPage {
 				'previewNonce'      => wp_create_nonce( 'icon_library_preview' ),
 				'restPath'          => '/' . Plugin::REST_NAMESPACE . '/collections/',
 				'customPath'        => '/' . Plugin::REST_NAMESPACE . '/custom-icons',
-				'dataViewsUrl'      => ICON_LIBRARY_URL . 'assets/build/custom-icons-dataviews.js?ver=' . rawurlencode( $dataviews_asset['version'] ),
-				'dataViewsEnqueued' => 'custom' === $this->get_active_tab(),
+				'dataViewsEnqueued' => $upload_tab ? '1' : '0',
 				'i18n'              => array(
 					'updating'       => __( 'Updating library...', 'aculect-icon-library' ),
 					'error'          => __( 'The library could not be updated. Try again.', 'aculect-icon-library' ),
@@ -142,7 +137,9 @@ class AdminPage {
 			)
 		);
 
-		if ( 'custom' === $this->get_active_tab() ) {
+		if ( $upload_tab ) {
+			$dataviews_asset = require ICON_LIBRARY_DIR . 'assets/build/custom-icons-dataviews.asset.php';
+			wp_enqueue_style( 'wp-components' );
 			wp_enqueue_script(
 				'icon-library-custom-dataviews',
 				ICON_LIBRARY_URL . 'assets/build/custom-icons-dataviews.js',

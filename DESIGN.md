@@ -60,7 +60,9 @@ consequence stated before confirmation. Keep these labels and behaviors distinct
 - Reuse recently visited views and uploaded-icon results only in this open
   screen, for at most 30 seconds. Bound cached entries and their size, discard
   them when a mutation starts and finishes or the window loses focus, and never
-  cache failed responses. Cold visits and expired entries still require a request.
+cache failed responses. Cold visits and expired entries still require a request.
+The first visit to Upload uses normal page navigation so WordPress can load its
+DataViews dependencies there only. Already loaded Upload views can be remounted.
 - Navigation must ignore stale responses and tear down abandoned requests,
   dialogs, and document listeners. Do not leave an upload dialog on another tab.
 - Preserve keyboard focus through pagination and retry recovery. Dialogs need

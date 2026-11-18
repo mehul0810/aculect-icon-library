@@ -198,20 +198,30 @@ test( 'a mutation clears only plugin success notices and retains failure and unr
 	h.apiRequests[ 0 ].reject( Error( 'Failed' ) ); await assert.rejects( mutation );
 } );
 
-test( 'module loading requires a mounted Upload view and never prefetches list data', async () => {
+test( 'first Upload visit uses its own document and does not prefetch list data', async () => {
 	const h = harness();
-	h.window.iconLibraryAdmin.dataViewsUrl = '/custom-icons.js';
+	h.window.iconLibraryAdmin.dataViewsEnqueued = '0';
 	h.navigate( 'install' );
 	assert.equal( h.document.querySelectorAll( 'script' ).length, 0 );
 	await h.complete( 0, 'install' );
 	h.navigate( 'custom' );
+	assert.equal( h.requests.length, 1 );
+	assert.equal( h.redirects.length, 1 );
+	assert.equal( new URL( h.redirects[0] ).searchParams.get( 'tab' ), 'custom' );
 	assert.equal( h.document.querySelectorAll( 'script' ).length, 0 );
-	await h.complete( 1, 'custom', '<div id="icon-library-custom-dataviews"></div>' );
-	assert.equal( h.document.querySelectorAll( 'script[data-icon-library-dataviews]' ).length, 1 );
 	assert.equal( h.apiRequests.length, 0 );
-	h.navigate( 'library' ); await tick();
-	h.navigate( 'custom' ); await tick();
-	assert.equal( h.document.querySelectorAll( 'script[data-icon-library-dataviews]' ).length, 1 );
+} );
+
+test( 'an already loaded Upload module mounts only on its own tab', async () => {
+	const h = harness();
+	let mounts = 0;
+	h.window.iconLibraryAdmin.dataViewsEnqueued = '1';
+	h.window.iconLibraryMountCustomDataViews = () => { mounts++; };
+	h.navigate( 'install' ); await h.complete( 0, 'install' );
+	assert.equal( mounts, 0 );
+	h.navigate( 'custom' ); await h.complete( 1, 'custom', '<div id="icon-library-custom-dataviews"></div>' );
+	assert.equal( mounts, 1 );
+	assert.equal( h.apiRequests.length, 0 );
 } );
 
 test( '100 distinct views and list queries retain bounded plain-data snapshots', async () => {
