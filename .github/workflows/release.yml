@@ -143,12 +143,12 @@ jobs:
           "$wp_env" run cli sh -c 'wp plugin check "$1" --format=strict-json --no-color --exclude-files=.wp-env.json --require=./wp-content/plugins/plugin-check/cli.php > /var/www/html/wp-content/plugin-check-output/report.txt' sh "$plugin_slug"
           php scripts/validate-plugin-check.php build/plugin-check-output/report.txt
 
-      - name: Verify stable 1.2.1 profile
+      - name: Verify stable 1.2.2 profile
         shell: bash
         run: |
           set -euo pipefail
-          if [[ "${RELEASE_TAG#v}" != "1.2.1" ]]; then
-            echo "Stable publication gate permits only version 1.2.1." >&2
+          if [[ "${RELEASE_TAG#v}" != "1.2.2" ]]; then
+            echo "Stable publication gate permits only version 1.2.2." >&2
             exit 1
           fi
 
@@ -183,7 +183,7 @@ jobs:
               fwrite( STDERR, "Stable publication blocked: package profile does not match the approved bundled family profile.\n" );
               exit( 1 );
             }
-            fwrite( STDOUT, "Stable 1.2.1 bundled profile verified.\n" );
+            fwrite( STDOUT, "Stable 1.2.2 bundled profile verified.\n" );
           ' <<< "$profile_json"
 
       - name: Upload verified release artifact
