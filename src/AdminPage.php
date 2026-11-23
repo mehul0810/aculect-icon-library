@@ -125,10 +125,16 @@ class AdminPage {
 					'updating'       => __( 'Updating library...', 'aculect-icon-library' ),
 					'error'          => __( 'The library could not be updated. Try again.', 'aculect-icon-library' ),
 					'uploading'      => __( 'Validating and storing icon...', 'aculect-icon-library' ),
+					'uploaded'       => __( 'Icon uploaded.', 'aculect-icon-library' ),
+					'uploadFailed'   => __( 'The icon could not be uploaded. Try again.', 'aculect-icon-library' ),
 					'updated'        => __( 'Icon library updated.', 'aculect-icon-library' ),
 					'deleteConfirm'  => __( 'Permanently delete this icon and its SVG file? Existing blocks using it will no longer render.', 'aculect-icon-library' ),
 					'purgeConfirm'   => __( 'Permanently delete this archived icon and its SVG file? Existing blocks will no longer render it.', 'aculect-icon-library' ),
 					'fileTooLarge'   => __( 'SVG files must be 64 KB or smaller.', 'aculect-icon-library' ),
+					'chooseSvg'      => __( 'Choose a single .svg file.', 'aculect-icon-library' ),
+					'previewFailed'  => __( 'Preview unavailable. You can still submit the file for validation.', 'aculect-icon-library' ),
+					/* translators: %s: selected SVG file size in kilobytes. */
+					'svgSize'        => __( '%s KB · SVG', 'aculect-icon-library' ),
 					'loadingMore'    => __( 'Loading more icons...', 'aculect-icon-library' ),
 					'loadMoreError'  => __( 'More icons could not be loaded. Try again.', 'aculect-icon-library' ),
 					/* translators: 1: number of icons loaded, 2: total matching icons. */
@@ -245,7 +251,7 @@ class AdminPage {
 		$updated = absint( $_GET['icon-library-updated'] );
 		$class   = $updated ? 'notice-success' : 'notice-error';
 		$message = $updated
-			? __( 'Library settings updated.', 'aculect-icon-library' )
+			? ( 'custom' === $this->get_active_tab() ? __( 'Icon uploaded.', 'aculect-icon-library' ) : __( 'Library settings updated.', 'aculect-icon-library' ) )
 			: __( 'Library settings could not be updated.', 'aculect-icon-library' );
 		?>
 		<div class="notice icon-library-notice <?php echo esc_attr( $class ); ?> is-dismissible" role="<?php echo $updated ? 'status' : 'alert'; ?>">
@@ -296,26 +302,40 @@ class AdminPage {
 				<?php wp_nonce_field( 'icon_library_upload_custom_icon' ); ?>
 				<input type="hidden" name="action" value="icon_library_upload_custom_icon" />
 				<h2 class="icon-library-custom-title"><?php esc_html_e( 'Upload custom icon', 'aculect-icon-library' ); ?></h2>
-				<p class="icon-library-custom-description"><?php esc_html_e( 'Upload an SVG icon from your computer. Give it a name and label so you can easily find and use it in the Icon block.', 'aculect-icon-library' ); ?></p>
-				<label class="icon-library-upload-area" for="icon-library-svg-upload">
-					<span class="dashicons dashicons-upload" aria-hidden="true"></span>
-					<span class="icon-library-upload-prompt"><?php esc_html_e( 'Drop an SVG here or browse', 'aculect-icon-library' ); ?></span>
-					<span class="icon-library-upload-file-name" aria-live="polite"><?php esc_html_e( 'SVG files up to 64 KB', 'aculect-icon-library' ); ?></span>
-					<input id="icon-library-svg-upload" class="screen-reader-text" name="svg" type="file" accept=".svg,image/svg+xml" aria-describedby="icon-library-upload-help" required />
-				</label>
-				<p id="icon-library-upload-help" class="screen-reader-text"><?php esc_html_e( 'Select an SVG file up to 64 KB.', 'aculect-icon-library' ); ?></p>
-				<div class="icon-library-upload-details">
-					<label><span><?php esc_html_e( 'Name', 'aculect-icon-library' ); ?></span><input name="name" type="text" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required placeholder="<?php esc_attr_e( 'my-icon', 'aculect-icon-library' ); ?>" /></label>
-					<label><span><?php esc_html_e( 'Label', 'aculect-icon-library' ); ?></span><input name="label" type="text" required /></label>
-				</div>
-				<div class="icon-library-footer">
-					<div class="icon-library-footer-actions">
-						<div class="icon-library-upload-submit"><?php submit_button( __( 'Upload icon', 'aculect-icon-library' ), 'primary', 'submit', false ); ?></div>
+				<p class="icon-library-custom-description"><?php esc_html_e( 'Choose an SVG and give it a display label for the Icon block.', 'aculect-icon-library' ); ?></p>
+				<fieldset class="icon-library-upload-workspace">
+					<legend class="screen-reader-text"><?php esc_html_e( 'Custom icon details', 'aculect-icon-library' ); ?></legend>
+					<label class="icon-library-upload-area" for="icon-library-svg-upload">
+						<span class="dashicons dashicons-upload icon-library-file-symbol" aria-hidden="true"></span>
+						<canvas class="icon-library-upload-preview" width="128" height="128" aria-hidden="true" hidden></canvas>
+						<strong class="icon-library-upload-file-name" aria-live="polite"></strong>
+						<span class="icon-library-upload-file-size"></span>
+						<span class="button icon-library-choose-file" aria-hidden="true">
+							<span class="icon-library-choose"><?php esc_html_e( 'Choose SVG', 'aculect-icon-library' ); ?></span>
+							<span class="icon-library-change"><?php esc_html_e( 'Change file', 'aculect-icon-library' ); ?></span>
+						</span>
+						<input id="icon-library-svg-upload" name="svg" type="file" accept=".svg,image/svg+xml" aria-label="<?php esc_attr_e( 'Choose SVG file', 'aculect-icon-library' ); ?>" aria-describedby="icon-library-upload-help" required />
+						<span id="icon-library-upload-help"><span class="icon-library-drop-hint"><?php esc_html_e( 'Or drop a file here.', 'aculect-icon-library' ); ?></span> <?php esc_html_e( 'SVG up to 64 KB.', 'aculect-icon-library' ); ?></span>
+					</label>
+					<div class="icon-library-upload-details">
+						<label for="icon-library-upload-label"><?php esc_html_e( 'Display label', 'aculect-icon-library' ); ?></label>
+						<input id="icon-library-upload-label" name="label" type="text" required placeholder="<?php esc_attr_e( 'Project folder', 'aculect-icon-library' ); ?>" />
+						<label for="icon-library-upload-name"><?php esc_html_e( 'Icon name', 'aculect-icon-library' ); ?></label>
+						<div class="icon-library-upload-id" dir="ltr">
+							<span id="icon-library-upload-prefix">custom-icons/</span>
+							<input id="icon-library-upload-name" name="name" type="text" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required placeholder="project-folder" spellcheck="false" autocapitalize="none" aria-describedby="icon-library-upload-prefix icon-library-name-help" />
+						</div>
+						<span id="icon-library-name-help" class="screen-reader-text"><?php esc_html_e( 'Use lowercase letters, numbers and single hyphens.', 'aculect-icon-library' ); ?></span>
+						<button type="submit" class="button button-primary icon-library-upload-submit"><span class="dashicons dashicons-upload" aria-hidden="true"></span><?php esc_html_e( 'Upload icon', 'aculect-icon-library' ); ?></button>
 					</div>
-				</div>
+				</fieldset>
+				<p class="icon-library-upload-status" role="status"></p>
 			</form>
 
-			<h2 class="icon-library-custom-heading"><?php esc_html_e( 'Uploaded icons', 'aculect-icon-library' ); ?></h2>
+			<div class="icon-library-custom-list-header">
+				<h2 class="icon-library-custom-heading"><?php esc_html_e( 'Uploaded icons', 'aculect-icon-library' ); ?> <span id="icon-library-result-count"></span></h2>
+				<div id="icon-library-list-controls"></div>
+			</div>
 			<div id="icon-library-custom-dataviews"><p><?php esc_html_e( 'Uploaded icons cannot be listed or managed until this page’s JavaScript loads. The upload form remains available.', 'aculect-icon-library' ); ?></p></div>
 		</section>
 		<?php

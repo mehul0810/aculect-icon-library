@@ -73,6 +73,13 @@ consequence stated before confirmation. Keep these labels and behaviors distinct
 - Retain ordinary URLs and server-rendered forms where available. When
   enhancement scripts fail, keep notices and the upload form available and
   identify which enhanced listing controls cannot operate.
+- On Upload, keep the local file preview, display label, stable icon name,
+  and submit button together above the saved-icon list. Stack them on narrow
+  screens. Choosing a file must not send it to the site or add it to the list.
+  Preview pixels only; server validation still decides what can be stored.
+  File changes may refresh suggestions but must preserve manually edited values.
+- Group the saved thumbnail and display label. Keep the registered name and
+  the Rename and Delete menu accessible at narrow widths.
 - Keep previews and discovery paginated. Avoid loading every custom SVG or
   inserting an entire catalog into the DOM to support one page of results.
 

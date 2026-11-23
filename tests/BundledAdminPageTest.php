@@ -332,7 +332,22 @@ class BundledAdminPageTest extends TestCase {
 		$html        = $this->render( $this->page( array() ) );
 		$this->assertStringContainsString( 'Uploaded icons cannot be listed or managed until this page', $html );
 		$this->assertStringContainsString( 'name="action" value="icon_library_upload_custom_icon"', $html );
+		$this->assertStringContainsString( 'name="svg" type="file"', $html );
+		$this->assertStringContainsString( 'enctype="multipart/form-data"', $html );
+		$this->assertStringContainsString( 'Display label', $html );
+		$this->assertStringNotContainsString( 'class="icon-library-footer"', $html );
 		$this->assertStringNotContainsString( 'Loading uploaded icons', $html );
+	}
+
+	/** The native upload returns a file-specific success notice. */
+	public function test_upload_success_names_the_completed_action() {
+		$_GET = array(
+			'tab'                 => 'custom',
+			'icon-library-updated' => '1',
+		);
+		$html = $this->render( $this->page( array() ) );
+		$this->assertStringContainsString( 'Icon uploaded.', $html );
+		$this->assertStringNotContainsString( 'Library settings updated.', $html );
 	}
 
 	/** Upload failures use a bounded message, never URL-supplied text or settings feedback. */
