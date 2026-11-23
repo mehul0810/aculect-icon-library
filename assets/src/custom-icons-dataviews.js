@@ -1,7 +1,7 @@
 import { Button, TextControl } from '@wordpress/components';
 import { DataViews } from '@wordpress/dataviews/wp';
-import { useCallback, useEffect, useMemo, useRef, useState } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { createPortal, useCallback, useEffect, useMemo, useRef, useState } from '@wordpress/element';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 
 const config = window.iconLibraryAdmin;
@@ -95,12 +95,11 @@ function CustomIconsDataView() {
 		perPage: 20,
 		search: '',
 		filters: [],
-		fields: [ 'preview', 'label', 'iconName' ],
+		fields: [ 'label', 'iconName' ],
 		sort: { field: 'label', direction: 'asc' },
 		layout: {
 			styles: {
-				preview: { width: '96px', minWidth: '96px', maxWidth: '96px' },
-				iconName: { width: '42%', minWidth: '220px' },
+				iconName: { width: '42%' },
 			},
 		},
 	} );
@@ -112,20 +111,19 @@ function CustomIconsDataView() {
 	const [ hideData, setHideData ] = useState( false );
 	const [ refresh, setRefresh ] = useState( 0 );
 	const lastSuccessfulQuery = useRef( '' );
+	const queryKey = new URLSearchParams( {
+		page: String( view.page || 1 ),
+		per_page: String( view.perPage || 20 ),
+		search: view.search || '',
+		orderby: view.sort?.field === 'name' ? 'name' : 'label',
+		order: view.sort?.direction || 'asc',
+	} ).toString();
 
 	useEffect( () => {
 		let active = true;
 		const controller = new AbortController();
 		setIsLoading( true );
 		setListError( '' );
-		const query = new URLSearchParams( {
-			page: String( view.page || 1 ),
-			per_page: String( view.perPage || 20 ),
-			search: view.search || '',
-			orderby: view.sort?.field === 'name' ? 'name' : 'label',
-			order: view.sort?.direction || 'asc',
-		} );
-		const queryKey = query.toString();
 		apiFetch( { path: `${ config.customPath }?${ queryKey }`, signal: controller.signal } )
 			.then( ( response ) => {
 				if ( active ) {
@@ -152,28 +150,46 @@ function CustomIconsDataView() {
 			} )
 			.finally( () => active && setIsLoading( false ) );
 		return () => { active = false; controller.abort(); };
-	}, [ view.page, view.perPage, view.search, view.sort?.field, view.sort?.direction, refresh ] );
+	}, [ queryKey, refresh ] );
 
 	const fields = useMemo( () => [
 		{
-			id: 'preview',
-			label: __( 'Preview', 'aculect-icon-library' ),
+			id: 'label',
+			label: __( 'Icon', 'aculect-icon-library' ),
+			enableGlobalSearch: true,
+			enableSorting: true,
 			// The REST response contains only SVG markup accepted by the server-side SvgSanitizer.
-			render: ( { item } ) => <span className="icon-library-dataviews-preview" aria-hidden="true" dangerouslySetInnerHTML={ { __html: item.svg } } />,
+			render: ( { item } ) => (
+				<span className="icon-library-dataviews-icon">
+					<span className="icon-library-dataviews-preview" aria-hidden="true" dangerouslySetInnerHTML={ { __html: item.svg } } />
+					<span className="icon-library-dataviews-label">
+						<span>{ item.label }</span>
+						{ view.fields.includes( 'iconName' ) && <code className="icon-library-dataviews-mobile-name">{ item.iconName }</code> }
+					</span>
+				</span>
+			),
 		},
-		{ id: 'label', label: __( 'Label', 'aculect-icon-library' ), enableGlobalSearch: true, enableSorting: true },
 		{
 			id: 'iconName',
 			label: __( 'Icon name', 'aculect-icon-library' ),
+			header: <span className="icon-library-name-header">{ __( 'Icon name', 'aculect-icon-library' ) }</span>,
 			enableGlobalSearch: true,
 			render: ( { item } ) => <code className="icon-library-dataviews-name" title={ item.iconName }>{ item.iconName }</code>,
 		},
-	], [] );
+	], [ view.fields ] );
+	const countTarget = document.getElementById( 'icon-library-result-count' );
+	const toolbar = document.getElementById( 'icon-library-list-controls' );
+	const count = ! isLoading && ! listError && lastSuccessfulQuery.current === queryKey
+		? sprintf( view.search ? _n( '%s match', '%s matches', total, 'aculect-icon-library' ) : _n( '%s icon', '%s icons', total, 'aculect-icon-library' ), total ) : '';
 
 	const changed = useCallback( () => {
 		setActionWarning( '' );
 		setRefresh( ( value ) => value + 1 );
 	}, [] );
+	useEffect( () => {
+		document.addEventListener( 'icon-library:custom-icon-created', changed );
+		return () => document.removeEventListener( 'icon-library:custom-icon-created', changed );
+	}, [ changed ] );
 	const retryList = () => {
 		const heading = document.querySelector( '.icon-library-custom-heading' );
 		if ( heading ) {
@@ -187,7 +203,6 @@ function CustomIconsDataView() {
 			id: 'rename',
 			label: __( 'Rename', 'aculect-icon-library' ),
 			modalHeader: __( 'Rename icon', 'aculect-icon-library' ),
-			isPrimary: true,
 			supportsBulk: false,
 			RenderModal: ( props ) => <RenameModal { ...props } onDone={ changed } />,
 		},
@@ -195,7 +210,6 @@ function CustomIconsDataView() {
 			id: 'delete',
 			label: __( 'Delete', 'aculect-icon-library' ),
 			modalHeader: __( 'Delete icon', 'aculect-icon-library' ),
-			isPrimary: true,
 			isDestructive: true,
 			supportsBulk: false,
 			RenderModal: ( props ) => <DeleteModal { ...props } onDone={ changed } onPartialDelete={ setActionWarning } />,
@@ -204,6 +218,7 @@ function CustomIconsDataView() {
 
 	return (
 		<>
+			{ countTarget && createPortal( count, countTarget ) }
 			{ actionWarning && <p className="icon-library-dataviews-list-error" role="alert">{ actionWarning }</p> }
 			{ listError && <div className="icon-library-dataviews-list-error" role="alert">
 				<p>{ listError }</p>
@@ -217,10 +232,15 @@ function CustomIconsDataView() {
 			actions={ actions }
 			isLoading={ isLoading }
 			paginationInfo={ { totalItems: total, totalPages: Math.max( 1, Math.ceil( total / ( view.perPage || 20 ) ) ) } }
-			search
-			searchLabel={ __( 'Search icons', 'aculect-icon-library' ) }
 			defaultLayouts={ { table: {} } }
-			/> }
+			>
+				{ toolbar && createPortal( <>
+					<DataViews.Search label={ __( 'Search icons', 'aculect-icon-library' ) } />
+					<DataViews.ViewConfig />
+				</>, toolbar ) }
+				<DataViews.Layout />
+				<DataViews.Footer />
+			</DataViews> }
 		</>
 	);
 }

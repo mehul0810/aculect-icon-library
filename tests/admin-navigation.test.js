@@ -20,7 +20,7 @@ function markup( tab, notice = '' ) {
 		</div></body></html>`;
 }
 
-function harness( supportsAbort = true, initialNotice = '', initialQuery = '' ) {
+function harness( supportsAbort = true, initialNotice = '', initialQuery = '', globals = {} ) {
 	const origin = 'https://wp.test';
 	const initialUrl = origin + '/wp-admin/themes.php?page=icon-library&tab=library' + initialQuery;
 	const dom = new JSDOM( markup( 'library', initialNotice ), { url: initialUrl } );
@@ -52,7 +52,7 @@ function harness( supportsAbort = true, initialNotice = '', initialQuery = '' ) 
 		DOMParser: dom.window.DOMParser,
 	};
 	vm.runInNewContext( fs.readFileSync( path.join( __dirname, '../assets/admin.js' ), 'utf8' ), {
-		window, document, URL, Map: ObservedMap, Date: { now: () => now },
+		window, document, URL, Map: ObservedMap, Date: { now: () => now }, Event: dom.window.Event, ...globals,
 	} );
 	function navigate( tab, query = '' ) {
 		const link = document.createElement( 'a' );
@@ -71,6 +71,80 @@ function harness( supportsAbort = true, initialNotice = '', initialQuery = '' ) 
 }
 
 const summary = ( enabled = false ) => ( { slug: 'rune', installed: true, enabled, variants: [ { slug: 'regular', enabled } ] } );
+
+function uploadHarness() {
+	const readers = [], images = [];
+	const h = harness( true, `<form class="icon-library-custom-upload"><fieldset>
+		<label class="icon-library-upload-area"><input type="file" name="svg"><canvas hidden></canvas>
+		<strong class="icon-library-upload-file-name"></strong><span class="icon-library-upload-file-size"></span></label>
+		<input name="label"><input name="name"><button type="submit">Upload icon</button>
+		</fieldset><p class="icon-library-upload-status"></p></form><h2 class="icon-library-custom-heading">Uploaded icons</h2>`, '', {
+		FileReader: class { readAsDataURL( blob ) { assert.equal( blob.type, 'image/svg+xml' ); readers.push( this ); } },
+		Image: class { constructor() { images.push( this ); } },
+	} );
+	Object.assign( h.window.iconLibraryAdmin.i18n, { svgSize: '%s KB · SVG', fileTooLarge: 'Too large', chooseSvg: 'Choose one SVG', uploaded: 'Icon uploaded.' } );
+	const form = h.document.querySelector( '.icon-library-custom-upload' );
+	const input = form.elements.svg;
+	function choose( ...files ) {
+		Object.defineProperty( input, 'files', { configurable: true, value: files } );
+		input.dispatchEvent( new h.document.defaultView.Event( 'change', { bubbles: true } ) );
+	}
+	function file( name, bytes = 20 ) {
+		const f = new h.document.defaultView.File( [ 'x'.repeat( bytes ) ], name );
+		f.text = async () => '<svg/>';
+		return f;
+	}
+	return { ...h, form, input, choose, file, readers, images };
+}
+
+test( 'local preview ignores a stale read, and replacing the file preserves edited metadata', () => {
+	const h = uploadHarness();
+	h.choose( h.file( 'project-folder.svg' ) );
+	assert.equal( h.form.elements.label.value, 'Project Folder' );
+	h.form.elements.label.value = 'My label';
+	h.choose( h.file( 'new-file.SVG' ) );
+	assert.equal( h.form.elements.label.value, 'My label' );
+	assert.equal( h.form.elements.name.value, 'new-file' );
+	h.readers[ 0 ].onload();
+	assert.equal( h.images[ 0 ].src, undefined );
+	h.readers[ 1 ].result = 'data:image/svg+xml;base64,example';
+	h.readers[ 1 ].onload();
+	assert.equal( h.images[ 1 ].src, h.readers[ 1 ].result );
+	assert.equal( h.apiRequests.length + h.requests.length, 0 );
+} );
+
+test( 'invalid and cleared selections reset the preview and do not read the file', () => {
+	const h = uploadHarness();
+	h.choose( h.file( 'big.svg', 65537 ) );
+	assert.equal( h.input.validationMessage, 'Too large' );
+	h.choose( h.file( 'photo.png' ) );
+	assert.equal( h.input.validationMessage, 'Choose one SVG' );
+	h.choose( h.file( 'a.svg' ), h.file( 'b.svg' ) );
+	assert.equal( h.input.validationMessage, 'Choose one SVG' );
+	h.choose();
+	assert.equal( h.form.querySelector( '.icon-library-upload-file-name' ).textContent, '' );
+	assert.equal( h.form.querySelector( 'canvas' ).hidden, true );
+	assert.equal( h.readers.length + h.apiRequests.length, 0 );
+} );
+
+test( 'a late upload notifies the current listing without redirecting or resetting its form', async () => {
+	const h = uploadHarness();
+	let changes = 0;
+	h.document.addEventListener( 'icon-library:custom-icon-created', () => changes++ );
+	h.choose( h.file( 'project-folder.svg' ) );
+	h.form.dispatchEvent( new h.document.defaultView.Event( 'submit', { bubbles: true, cancelable: true } ) );
+	await tick();
+	assert.equal( h.apiRequests.length, 1 );
+	assert.equal( h.form.querySelector( 'fieldset' ).disabled, true );
+	const replacement = h.form.cloneNode( true );
+	h.form.replaceWith( replacement );
+	replacement.elements.label.value = 'Another icon';
+	h.apiRequests[ 0 ].resolve( {} );
+	await tick();
+	assert.equal( changes, 1 );
+	assert.equal( replacement.elements.label.value, 'Another icon' );
+	assert.equal( h.requests.length, 0 );
+} );
 
 test( 'confirmed toggle updates controls in place without fetching or replacing the preview', async () => {
 	const h = harness();

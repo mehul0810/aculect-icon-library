@@ -14,6 +14,7 @@ function createHarness() {
 		focus() { this.focused = true; },
 	};
 	const mount = { dataset: {} };
+	const listeners = {};
 	let component;
 	let current;
 	const element = {
@@ -22,6 +23,7 @@ function createHarness() {
 		useMemo: ( factory ) => factory(),
 		useCallback: ( callback ) => callback,
 		useRef: ( initial ) => current.useRef( initial ),
+		createPortal: ( child ) => child,
 	};
 	const apiFetch = ( options ) => new Promise( ( resolve, reject ) => requests.push( { options, resolve, reject } ) );
 	const source = fs.readFileSync( path.join( __dirname, '../assets/src/custom-icons-dataviews.js' ), 'utf8' );
@@ -42,6 +44,8 @@ function createHarness() {
 		document: {
 			getElementById: () => mount,
 			querySelector: ( selector ) => selector === '.icon-library-custom-heading' ? heading : null,
+			addEventListener: ( name, handler ) => { listeners[ name ] = handler; },
+			removeEventListener: ( name ) => { delete listeners[ name ]; },
 		},
 		wp: { element: { createRoot: () => ( { render: ( tree ) => { component = tree.type; }, unmount() {} } ) } },
 		exports: {},
@@ -49,7 +53,7 @@ function createHarness() {
 			'@wordpress/components': { Button: 'button', TextControl: 'text-control' },
 			'@wordpress/dataviews/wp': { DataViews: 'dataviews' },
 			'@wordpress/element': element,
-			'@wordpress/i18n': { __: ( text ) => text },
+			'@wordpress/i18n': { __: ( text ) => text, _n: ( one, many, count ) => count === 1 ? one : many, sprintf: ( format, value ) => format.replace( '%s', value ) },
 			'@wordpress/api-fetch': { __esModule: true, default: apiFetch },
 		} )[ name ],
 	};
@@ -63,7 +67,7 @@ function createHarness() {
 		const effects = [];
 		function useState( initial ) {
 			const index = cursor++;
-			if ( ! slots[ index ] ) slots[ index ] = { value: initial };
+			if ( ! slots[ index ] ) slots[ index ] = { value: typeof initial === 'function' ? initial() : initial };
 			return [ slots[ index ].value, ( next ) => { slots[ index ].value = typeof next === 'function' ? next( slots[ index ].value ) : next; } ];
 		}
 		function useRef( initial ) {
@@ -96,8 +100,42 @@ function createHarness() {
 		return find( node.children, predicate );
 	}
 	const tick = () => new Promise( ( resolve ) => setImmediate( resolve ) );
-	return { render, requests, find, heading, tick };
+	return { render, requests, find, heading, tick, listeners };
 }
+
+test( 'new icon notification refreshes the current query', () => {
+	const { render, requests, listeners } = createHarness();
+	render();
+	assert.equal( requests.length, 1 );
+	listeners[ 'icon-library:custom-icon-created' ]();
+	render();
+	assert.equal( requests.length, 2 );
+} );
+
+test( 'the icon column combines artwork and label and keeps actions in the menu', () => {
+	const { render, find } = createHarness();
+	const view = find( render(), ( node ) => node.type === 'dataviews' );
+	assert.deepEqual( Array.from( view.props.view.fields ), [ 'label', 'iconName' ] );
+	const field = view.props.fields.find( ( entry ) => entry.id === 'label' );
+	const rendered = field.render( { item: { label: 'Example', svg: '<svg></svg>' } } );
+	assert.equal( field.enableSorting, true );
+	assert.equal( rendered.children[ 1 ].children[ 0 ].children[ 0 ], 'Example' );
+	assert.equal( rendered.children[ 0 ].props.dangerouslySetInnerHTML.__html, '<svg></svg>' );
+	assert.ok( view.props.actions.every( ( action ) => ! action.isPrimary ) );
+} );
+
+test( 'the inline identifier follows the same column visibility as View options', () => {
+	const { render, find } = createHarness();
+	const table = () => find( render(), ( node ) => node.type === 'dataviews' );
+	const item = { label: 'Folder', iconName: 'custom-icons/folder', svg: '<svg/>' };
+	for ( const fields of [ [ 'label', 'iconName' ], [ 'iconName', 'label' ], [ 'label' ] ] ) {
+		table().props.onChangeView( { ...table().props.view, fields } );
+		const current = table();
+		assert.deepEqual( Array.from( current.props.view.fields ), fields );
+		const icon = current.props.fields.find( ( field ) => field.id === 'label' ).render( { item } );
+		assert.equal( !! find( icon, ( node ) => node.type === 'code' ), fields.includes( 'iconName' ) );
+	}
+} );
 
 test( 'a successful Upload list Retry keeps keyboard focus on the stable heading', async () => {
 	const { render, requests, find, heading, tick } = createHarness();
