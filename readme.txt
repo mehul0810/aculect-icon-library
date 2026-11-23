@@ -4,7 +4,7 @@ Tags: icons, icon library, svg icons, icon block, custom icons
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,10 @@ Bundled libraries remain under their upstream terms:
 * Ionicons, compatible style subset: https://github.com/ionic-team/ionicons (MIT license; bundled license and exclusions; brand marks remain their owners' trademarks).
 
 == Changelog ==
+
+= 1.2.3 =
+
+* Fix case-insensitive search for uploaded icon labels with non-ASCII letters when PHP mbstring is available. Without it, non-ASCII letters still require matching case.
 
 = 1.2.2 =
 
