@@ -21,7 +21,11 @@ Read permission matches Core (edit-post capabilities, including REST post
 types). Cookie/nonce checks stay in WordPress REST handling. Page size is at most
 48, query length 200, collection length 100 and selected-name length 256. SVG
 content passes normal Core registration/sanitization; response data includes no
-filesystem paths. Missing artwork returns an explicit retryable error. No remote
+filesystem paths. Missing artwork returns an explicit retryable error. On an
+initial-page artwork failure, the error retains successfully authorized collection
+metadata; tabs remain usable to choose a healthy collection, and Retry targets
+the failed collection without repeating bootstrap discovery. Permission and
+unsupported-registry failures retain their original error contracts. No remote
 transport, network-policy exception, memory-limit increase or executable download
 is introduced.
 

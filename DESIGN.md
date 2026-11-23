@@ -98,8 +98,11 @@ Admin markup and actions are owned by `src/AdminPage.php` and
 `assets/src/custom-icons-dataviews.js`, then rebuilt into `assets/build/`.
 Bounded native picker behavior uses `assets/bounded-picker.js` and its stylesheet.
 The initial request returns Core collection tabs and the first bounded icon
-page together. Subsequent requests return just the selected page. Generated
-bundled indexes retain manifest order; dynamic providers and filtered
+page together. Subsequent requests return just the selected page.
+If initial artwork cannot load, retain the authorized collection tabs alongside
+the visible error so editors can switch to a healthy collection or retry. Do not
+turn permission, collection-discovery, or unsupported-registry errors into success.
+Generated bundled indexes retain manifest order; dynamic providers and filtered
 manifests keep using their live rows. Only the returned page hydrates SVG files.
 
 Within `admin.js`, cache helpers own retention, the API middleware owns mutation

@@ -86,6 +86,14 @@ final class CorePickerEndpoint {
 			$selected
 		);
 		if ( is_wp_error( $page ) ) {
+			// Keep healthy collections reachable when only the initial artwork fails.
+			// Preserve the error/status; permission and registry failures stay unchanged.
+			if ( null !== $collections && 'icon_library_picker_asset_missing' === $page->get_error_code() ) {
+				$data                = (array) $page->get_error_data();
+				$data['collections'] = $collections;
+				$data['collection']  = $collection;
+				$page->add_data( $data );
+			}
 			return $page;
 		}
 		if ( null !== $collections ) {

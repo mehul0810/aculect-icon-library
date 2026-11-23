@@ -69,4 +69,42 @@ class CorePickerEndpointTest extends TestCase {
 		$this->assertSame( CollectionRegistry::MAX_PAGE, $args['page']['maximum'] );
 		$this->assertFalse( $args['bootstrap']['default'] );
 	}
+
+	public function test_missing_bootstrap_artwork_retains_collections_without_hiding_the_error() {
+		$collections = array( array( 'slug' => 'broken' ), array( 'slug' => 'healthy' ) );
+		$GLOBALS['icon_library_test_picker_dispatch'] = static function () use ( $collections ) {
+			return new class( $collections ) extends WP_REST_Response {
+				public function is_error() {
+					return false;
+				}
+			};
+		};
+		$adapter = $this->createMock( CoreIconRegistrar::class );
+		$error   = new WP_Error( 'icon_library_picker_asset_missing', 'Artwork unavailable.', array( 'status' => 503 ) );
+		$adapter->method( 'get_picker_page' )->willReturn( $error );
+		$result = CorePickerEndpoint::read( $adapter, new WP_REST_Request( 'GET', '/icon-library/v1/picker', array( 'bootstrap' => true ) ) );
+		$this->assertSame( $error, $result );
+		$this->assertSame( array( 'status' => 503, 'collections' => $collections, 'collection' => 'broken' ), $result->get_error_data() );
+	}
+
+	public function test_non_bootstrap_and_unrelated_errors_do_not_gain_collection_metadata() {
+		$adapter = $this->createMock( CoreIconRegistrar::class );
+		$error   = new WP_Error( 'icon_library_picker_asset_missing', 'Artwork unavailable.', array( 'status' => 503 ) );
+		$adapter->method( 'get_picker_page' )->willReturn( $error );
+		CorePickerEndpoint::read( $adapter, new WP_REST_Request( 'GET', '/icon-library/v1/picker' ) );
+		$this->assertSame( array( 'status' => 503 ), $error->get_error_data() );
+
+		$GLOBALS['icon_library_test_picker_dispatch'] = static function () {
+			return new class( array( array( 'slug' => 'core' ) ) ) extends WP_REST_Response {
+				public function is_error() {
+					return false;
+				}
+			};
+		};
+		$forbidden = new WP_Error( 'rest_forbidden', 'Not permitted.', array( 'status' => 403 ) );
+		$adapter   = $this->createMock( CoreIconRegistrar::class );
+		$adapter->method( 'get_picker_page' )->willReturn( $forbidden );
+		$this->assertSame( $forbidden, CorePickerEndpoint::read( $adapter, new WP_REST_Request( 'GET', '/icon-library/v1/picker', array( 'bootstrap' => true ) ) ) );
+		$this->assertSame( array( 'status' => 403 ), $forbidden->get_error_data() );
+	}
 }

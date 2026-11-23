@@ -9,7 +9,12 @@ Files: `banner-772x250.png`, `banner-1544x500.png`, `icon-128x128.png`,
 original Aculect icon, including its border. Banner exports preserve the approved
 layout and replace only its generated mark with the original SVG.
 
-The approved raster is `source/approved-banner.png`. Regenerate with Node.js
+The 1.2.3 source is `source/banner-1.2.3-blue.png`, with a pale-blue background
+and darker tagline. The prior approved raster remains preserved at
+`source/approved-banner.png`. The export pipeline masks the generated mark and
+composites the unchanged original `icon.svg`, including its border. Both output
+sizes have been visually reviewed locally; publication remains separately authorized.
+Regenerate with Node.js
 and the `sharp` package available locally or on `NODE_PATH`:
 
 ```sh

@@ -47,7 +47,15 @@
 					setCollections(data.collections);
 				}
 				setResult(data); setLoading(false);
-			}).catch(function (failure) { setError(failure.message || __('Icons could not be loaded.', 'aculect-icon-library')); setLoading(false); });
+			}).catch(function (failure) {
+				// A failed first page can still carry successfully authorized collections.
+				var metadata = failure && failure.data;
+				if (bootstrap && failure.code === 'icon_library_picker_asset_missing' && metadata && Array.isArray(metadata.collections) && typeof metadata.collection === 'string') {
+					initialCollection.current = metadata.collection;
+					setCollections(metadata.collections);
+				}
+				setError(failure.message || __('Icons could not be loaded.', 'aculect-icon-library')); setLoading(false);
+			});
 			return function () { gate.current.cancel(); };
 		}, [collection, search, page, attempt]);
 		useEffect(function () { if (!loading && selectedButton.current) { selectedButton.current.scrollIntoView({ block: 'nearest' }); } }, [loading, result]);

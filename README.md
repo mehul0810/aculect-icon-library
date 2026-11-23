@@ -18,7 +18,7 @@ collections, using the same WordPress editing workflow.
 - **Connect compatible tools.** WordPress Abilities let authorized automation
   clients discover icons and edit Icon blocks.
 
-This branch prepares **1.2.2**. For published packages, see
+This branch prepares **1.2.3**. For published packages, see
 [GitHub Releases](https://github.com/mehul0810/aculect-icon-library/releases).
 
 [Get started](#requirements-and-quick-start) | [Included libraries](#bundled-libraries) |
@@ -232,6 +232,10 @@ Administrators can add SVG files up to 64 KB through **Appearance > Icons > Uplo
 The plugin validates the file against the WordPress 7.1 icon geometry contract
 before storing the sanitized SVG locally under the uploads directory. This does
 not enable SVG uploads in the Media Library and makes no remote requests.
+
+Custom-icon search supports case-insensitive international labels when PHP
+mbstring is available. Servers without that optional extension use ASCII
+case-insensitive matching instead.
 
 If saving metadata definitely fails, the plugin removes only that attempt's
 unpublished SVG. An uncertain commit retains the artwork and asks you to refresh
