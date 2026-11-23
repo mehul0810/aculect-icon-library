@@ -8,23 +8,25 @@ Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Easily add support for popular icon libraries and custom SVG icons to the native WordPress Icon block
+Add 10 icon libraries and custom SVG icons to the native WordPress Icon block. No extra block or icon fonts.
 
 == Description ==
 
-Aculect Icon Library is a WordPress plugin that adds Heroicons, Bootstrap Icons,
-Font Awesome Free, Tabler Icons, Radix Icons, Rune Icons, Google Material Icons,
-a compatible Iconoir Solid subset, Phosphor Icons, Ionicons, and custom SVG icons to the native WordPress
-Icon block. Choose bundled libraries from Appearance > Icons > Install Library, enable the styles you need in Library,
-and select icons in the WordPress block editor.
+Add **10 bundled icon libraries** and **your own SVG icons** to the native
+WordPress Icon block. Use Heroicons, Bootstrap Icons, Font Awesome Free, and
+more with the block's built-in sizing and styling controls. There's no extra
+block to learn and no icon font to load.
 
-Choose bundled libraries from Appearance > Icons > Install Library and enable them in Library. The package includes all ten supported icon families and their
-license and exclusion notices. Existing sites retain their bundled libraries,
-preferences and saved icon names through an ordinary plugin update. No bridge
-package or separate preservation stage is required. Remote discovery, preview,
-and downloaded-library installation are not part of this release.
+= Get started =
+
+1. Go to **Appearance → Icons → Install Library** and choose a bundled library.
+2. In **Library**, enable the styles you want to use.
+3. Add an **Icon** block in the WordPress editor and choose an icon from the picker.
 
 = Bundled icon libraries =
+
+The plugin includes selected styles from each upstream library. It does not
+include every icon or style.
 
 * Heroicons: Outline and Solid.
 * Bootstrap Icons: Default and Filled.
@@ -37,44 +39,34 @@ and downloaded-library installation are not part of this release.
 * Ionicons: compatible Filled, Sharp, Outline, and Brands subset (679 icons).
 * Rune Icons: Pixelated (215 icons).
 
-Preview bundled icons by library, variant, and category before choosing a library. Search and filter selected bundled icons where
-available, and load more results as you browse. Enable or disable individual
-variants as needed.
+Preview bundled icons by library, variant, and category before choosing a
+library. Search and filter where available, and enable only the variants you
+need. Bundled libraries include their license and exclusion notices.
 
 = Upload and manage custom SVG icons =
 
-Upload custom SVG files through the Upload tab, give them recognizable labels,
-and use them alongside library icons in the native Icon block. Rename labels
-or delete custom icons from the uploaded icons list.
+Open **Appearance → Icons → Upload** to add a supported SVG and give it a
+recognizable label. It then appears in the same Icon block picker as bundled
+icons. You can rename the label or remove the icon from the Upload tab.
 
-SVG uploads are validated before storage and are limited to supported SVG
-elements and attributes. Custom icons are managed by the plugin and do not
-enable SVG uploads in the WordPress Media Library.
+Bundled and uploaded SVGs are stored on your site. You don't need an external
+service to browse or use them. Custom SVG uploads are validated separately
+from the WordPress Media Library.
 
-= Use icons in the WordPress block editor =
+= Automate icon workflows =
 
-Enabled icons appear in the existing Icon block picker, where you can use the
-block's own sizing and styling controls. Aculect Icon Library extends this
-workflow without adding a separate icon block or using icon fonts.
-
-Included libraries and uploaded icons are stored locally. No external service
-connection is required to browse or use them.
-
-= Icon automation with the WordPress Abilities API =
-
-The WordPress Abilities API integration lets compatible AI agents and tools
-search enabled icons and insert, replace, or remove Icon blocks. Actions respect
-WordPress permissions, including permission to edit the target post.
-
-Requires WordPress 7.1 or later and PHP 7.4 or later.
+Compatible tools can use the WordPress Abilities API to search enabled icons
+and list, insert, replace, or remove native Icon blocks. WordPress permissions
+still apply, including permission to edit the target post.
 
 == Installation ==
 
-1. Upload the plugin to the `wp-content/plugins/aculect-icon-library` directory.
-2. Activate Aculect Icon Library in WordPress.
-3. Open Appearance > Icons > Install Library and choose a bundled library. Then enable it in Library.
-4. Open a post or page in the block editor, insert the Icon block, and select
-   an icon from the enabled library. Adjust its sizing and styling, then save.
+1. In WordPress, go to **Plugins → Add New Plugin**, search for **Aculect Icon
+   Library**, then install and activate it. For a manual install, upload the
+   plugin to `wp-content/plugins/aculect-icon-library` and activate it.
+2. Open **Appearance → Icons → Install Library** to choose a bundled library,
+   then enable the styles you want in **Library**.
+3. Add an **Icon** block to a post or page, select an icon, and save.
 
 == Frequently Asked Questions ==
 
@@ -113,6 +105,13 @@ are not supported. Use flattened paths with explicit fills for complex exports.
 No. Custom SVG icons are validated and stored separately by Aculect Icon Library.
 The plugin does not enable general SVG uploads in the WordPress Media Library.
 
+= How does custom-icon search handle international labels? =
+
+Search is case-insensitive for international labels when your server's PHP
+mbstring extension is available. Without mbstring, search falls back to
+ASCII case-insensitive matching. The extension is optional, not a requirement
+for uploading or using custom icons.
+
 = Are icons hosted locally? =
 
 Yes. Included library SVGs and uploaded custom icons are stored on your site.
@@ -150,6 +149,19 @@ icons and list, insert, replace, or remove native Icon blocks. The plugin does
 not include an AI assistant. Read actions require editor-style access; post
 actions require permission to edit the target post. Ability inputs do not accept
 raw SVG, filesystem paths, arbitrary block markup, or post content.
+
+= Do I need an AI plugin? =
+
+No. You can use the Icon block and manage libraries without an AI plugin.
+For a separate project focused on connecting compatible AI tools to WordPress,
+see [Aculect AI Companion](https://wordpress.org/plugins/aculect-ai-companion/).
+It is not required by Aculect Icon Library.
+
+= Will a normal plugin update keep my icons? =
+
+Yes. An ordinary plugin update retains your bundled libraries, preferences,
+and saved icon names. The included libraries are bundled with the plugin;
+it does not fetch and install libraries from an external catalog.
 
 = What are the requirements? =
 
@@ -191,7 +203,9 @@ Bundled libraries remain under their upstream terms:
 
 = 1.2.3 =
 
-* Fix case-insensitive search for uploaded icon labels with non-ASCII letters when PHP mbstring is available. Without it, non-ASCII letters still require matching case.
+* Recover the Icon block picker after an initial loading failure so collections can be retried instead of remaining unavailable.
+* Support case-insensitive custom-icon searches for international labels when PHP mbstring is available, with an ASCII fallback otherwise.
+* Clarify setup steps, supported library styles, and custom-icon behavior in the plugin documentation.
 
 = 1.2.2 =
 

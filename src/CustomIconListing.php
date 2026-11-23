@@ -83,14 +83,15 @@ class CustomIconListing {
 	}
 
 	/**
-	 * Uses the collection search's UTF-8 policy without requiring mbstring.
+	 * Matches collection search's UTF-8 policy without requiring mbstring.
 	 *
-	 * The fallback is case-insensitive for ASCII only. Stored text is unchanged.
+	 * Without mbstring, ASCII remains case-insensitive and non-ASCII letters
+	 * require matching case. Stored labels and icon identifiers are unchanged.
 	 *
 	 * @param string $value Text value.
 	 * @return string
 	 */
 	private function lowercase( $value ) {
-		return function_exists( 'mb_strtolower' ) ? mb_strtolower( $value, 'UTF-8' ) : strtolower( $value );
+		return function_exists( 'mb_strtolower' ) ? mb_strtolower( (string) $value, 'UTF-8' ) : strtolower( (string) $value );
 	}
 }

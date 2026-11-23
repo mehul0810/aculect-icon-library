@@ -233,6 +233,10 @@ The plugin validates the file against the WordPress 7.1 icon geometry contract
 before storing the sanitized SVG locally under the uploads directory. This does
 not enable SVG uploads in the Media Library and makes no remote requests.
 
+Custom-icon search supports case-insensitive international labels when PHP
+mbstring is available. Servers without that optional extension use ASCII
+case-insensitive matching instead.
+
 If saving metadata definitely fails, the plugin removes only that attempt's
 unpublished SVG. An uncertain commit retains the artwork and asks you to refresh
 the icon list. If cleanup also fails, the error reports retained bytes and asks

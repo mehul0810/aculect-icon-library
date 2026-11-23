@@ -1,9 +1,5 @@
 <?php
-/**
- * Custom icon search and page hydration tests.
- *
- * @package IconLibrary
- */
+/** @package IconLibrary */
 
 use IconLibrary\CollectionRegistry;
 use IconLibrary\CustomIconListing;
@@ -11,15 +7,7 @@ use IconLibrary\CustomIconRepository;
 use IconLibrary\RestController;
 use PHPUnit\Framework\TestCase;
 
-/** Covers the custom icon listing through its REST and direct entry points. */
 class CustomIconListingTest extends TestCase {
-	/**
-	 * Supplies icon metadata and asserts the number of artwork reads.
-	 *
-	 * @param array $icons Icon metadata by name.
-	 * @param int   $reads Expected preview reads.
-	 * @return CustomIconRepository
-	 */
 	private function repository( $icons, $reads ) {
 		$repository = $this->getMockBuilder( CustomIconRepository::class )->disableOriginalConstructor()->onlyMethods( array( 'get_icons', 'get_svg_content' ) )->getMock();
 		$repository->method( 'get_icons' )->willReturn( $icons );
@@ -27,73 +15,55 @@ class CustomIconListingTest extends TestCase {
 		return $repository;
 	}
 
-	/** Supplies case changes in either direction for Latin and Cyrillic. */
 	public function unicode_pairs() {
 		return array(
-			array( "\u{00C9}toile", "\u{00E9}toile" ),
-			array( "\u{00E9}toile", "\u{00C9}TOILE" ),
-			array( "\u{0414}\u{043E}\u{043C}", "\u{0434}\u{043E}\u{043C}" ),
-			array( "\u{0434}\u{043E}\u{043C}", "\u{0414}\u{041E}\u{041C}" ),
+			array( 'Étoile', 'étoile' ),
+			array( 'étoile', 'ÉTOILE' ),
+			array( 'Дом', 'дом' ),
+			array( 'дом', 'ДОМ' ),
 		);
 	}
 
-	/**
-	 * Exercises case-insensitive REST searches without changing stored labels.
-	 *
-	 * @param string $label Stored display label.
-	 * @param string $query Search query.
-	 * @dataProvider unicode_pairs
-	 */
-	public function test_rest_search_matches_unicode_in_both_directions( $label, $query ) {
+	/** @dataProvider unicode_pairs */
+	public function test_rest_search_matches_unicode_in_both_case_directions( $label, $query ) {
 		if ( ! function_exists( 'mb_strtolower' ) ) {
 			$this->markTestSkipped( 'Unicode case conversion requires optional mbstring.' );
 		}
 		$repository = $this->repository( array( 'shape-mark' => array( 'label' => $label ) ), 1 );
-		$registry   = $this->createMock( CollectionRegistry::class );
-		$data       = ( new RestController( $registry, $repository ) )->get_custom_icons(
-			new WP_REST_Request(
-				'GET',
-				'',
-				array(
-					'search'   => $query,
-					'page'     => 1,
-					'per_page' => 20,
-				)
-			)
+		$registry = $this->getMockBuilder( CollectionRegistry::class )->disableOriginalConstructor()->getMock();
+		$response = ( new RestController( $registry, $repository ) )->get_custom_icons(
+			new WP_REST_Request( 'GET', '', array( 'search' => $query, 'page' => 1, 'per_page' => 20 ) )
 		)->get_data();
-		$this->assertSame( 1, $data['total'] );
-		$this->assertSame( 'shape-mark', $data['items'][0]['name'] );
-		$this->assertSame( $label, $data['items'][0]['label'] );
+		$this->assertSame( 1, $response['total'] );
+		$this->assertSame( 'shape-mark', $response['items'][0]['name'] );
+		$this->assertSame( $label, $response['items'][0]['label'] );
 	}
 
-	/** Filtering excludes archives and reads artwork only for the current page. */
-	public function test_unicode_filter_preserves_counts_and_page_bounded_reads() {
+	public function test_unicode_filter_keeps_page_totals_archive_exclusion_and_bounded_reads() {
 		if ( ! function_exists( 'mb_strtolower' ) ) {
 			$this->markTestSkipped( 'Unicode case conversion requires optional mbstring.' );
 		}
-		$icons   = array(
-			'first'   => array( 'label' => "\u{00C9}toile 1" ),
-			'second'  => array( 'label' => "\u{00E9}toile 2" ),
-			'third'   => array( 'label' => "\u{00C9}TOILE 3" ),
-			'other'   => array( 'label' => 'Other' ),
-			'archive' => array(
-				'label'    => "\u{00E9}toile archived",
-				'archived' => true,
-			),
-		);
-		$listing = new CustomIconListing( $this->repository( $icons, 1 ) );
-		$page    = $listing->get_page( "\u{00E9}TOILE", 1, 'name', 2, 2 );
-		$this->assertSame( 3, $page['total'] );
-		$this->assertSame( 2, $page['total_pages'] );
-		$this->assertSame( array( 'third' ), array_column( $page['items'], 'name' ) );
-		$this->assertSame( array(), $listing->get_page( "\u{00C9}TOILE", 1, 'name', 3, 2 )['items'] );
+		$icons = array();
+		for ( $i = 0; $i < 500; $i++ ) {
+			$icons[ sprintf( 'mark-%03d', $i ) ] = array( 'label' => 'Étoile ' . $i );
+		}
+		$icons['hidden'] = array( 'label' => 'étoile hidden', 'archived' => true );
+		$icons['other'] = array( 'label' => 'Other' );
+		$listing = new CustomIconListing( $this->repository( $icons, 20 ) );
+		$page = $listing->get_page( 'éTOILE', -1, 'name', 2, 20 );
+		$this->assertSame( 500, $page['total'] );
+		$this->assertSame( 25, $page['total_pages'] );
+		$this->assertCount( 20, $page['items'] );
+		$this->assertSame( 'mark-479', $page['items'][0]['name'] );
+		$this->assertSame( 'mark-460', $page['items'][19]['name'] );
+		$this->assertSame( array(), $listing->get_page( 'ÉTOILE', 1, 'name', 26, 20 )['items'] );
 	}
 
-	/** ASCII name/label, unfiltered lists, and no-match behavior are unchanged. */
-	public function test_ascii_empty_and_no_match_queries_are_unchanged() {
-		$icons   = array(
+	public function test_ascii_labels_names_empty_and_no_matches_remain_unchanged() {
+		$icons = array(
 			'brand-mark' => array( 'label' => 'Company' ),
-			'other'      => array( 'label' => 'Apple' ),
+			'other' => array( 'label' => 'Apple' ),
+			'archived' => array( 'label' => 'Company', 'archived' => true ),
 		);
 		$listing = new CustomIconListing( $this->repository( $icons, 4 ) );
 		$this->assertSame( 'brand-mark', $listing->get_page( 'COMPANY', 1, 'label', 1, 20 )['items'][0]['name'] );
@@ -102,19 +72,11 @@ class CustomIconListingTest extends TestCase {
 		$this->assertSame( 0, $listing->get_page( 'missing', 1, 'name', 1, 20 )['total'] );
 	}
 
-	/** The optional-extension fallback is safe and preserves ASCII matching. */
-	public function test_without_mbstring() {
-		$process = proc_open(
-			array( PHP_BINARY, __DIR__ . '/fixtures/custom-listing-without-mbstring.php' ),
-			array(
-				1 => array( 'pipe', 'w' ),
-				2 => array( 'pipe', 'w' ),
-			),
-			$pipes
-		);
+	public function test_no_mbstring_fallback_is_safe_and_documents_case_limitation() {
+		$process = proc_open( array( PHP_BINARY, __DIR__ . '/fixtures/custom-listing-without-mbstring.php' ), array( 1 => array( 'pipe', 'w' ), 2 => array( 'pipe', 'w' ) ), $pipes );
 		$this->assertIsResource( $process );
 		$output = stream_get_contents( $pipes[1] );
-		$error  = stream_get_contents( $pipes[2] );
+		$error = stream_get_contents( $pipes[2] );
 		fclose( $pipes[1] );
 		fclose( $pipes[2] );
 		$this->assertSame( 0, proc_close( $process ), $error . $output );
