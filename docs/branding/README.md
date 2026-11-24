@@ -6,16 +6,15 @@ Companion's repository layout. They are separate from the installed plugin's
 
 Files: `banner-772x250.png`, `banner-1544x500.png`, `icon-128x128.png`,
 `icon-256x256.png`, and `icon.svg`. The SVG is an unchanged copy of the owner's
-original Aculect icon, including its border. Banner exports preserve the approved
-layout and replace only its generated mark with the original SVG.
+original Aculect icon, including its border.
 
-The 1.2.3 source is `source/banner-1.2.3-blue.png`, with a pale-blue background
-and darker tagline. The prior approved raster remains preserved at
-`source/approved-banner.png`. The export pipeline masks the generated mark and
-composites the unchanged original `icon.svg`, including its border. Both output
-sizes have been visually reviewed locally; publication remains separately authorized.
-Regenerate with Node.js
-and the `sharp` package available locally or on `NODE_PATH`:
+The approved 1.2.3 banners are the two PNGs in `source/1.2.3/`. They use the
+ivory blueprint design, the original Aculect logo tile, and the headline
+"Icon Library". The build copies each approved size byte for byte and renders
+the standalone PNG icons from `icon.svg`. The earlier banner sources remain
+in `source/` for reference and are not used by the build.
+
+Rebuild with Node.js and `sharp` installed locally or available on `NODE_PATH`:
 
 ```sh
 node scripts/build-directory-assets.cjs
