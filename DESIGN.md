@@ -99,6 +99,24 @@ Test keyboard interaction, long content, narrow viewports, and error states
 when their behavior changes. Screen-reader checks are excluded by owner
 direction; do not substitute another screen reader or claim those checks passed.
 
+## WordPress.org Banner
+
+The directory banner is separate from the admin UI. On ivory drafting paper,
+use the original Aculect logo tile without a wordmark above the semibold
+**Icon Library** heading. Use near-black for the finished icon outlines and
+Aculect blue (`#2563FF`) for construction lines. Center the four hollow blue
+sparkles on intersections of the faint paper grid, not on the ruler ends.
+Keep the grid visible through each sparkle.
+
+Use regular-weight type for the approved description, without a library count:
+
+> Pick the icon that fits your design.\
+> Use your own SVGs alongside library icons\
+> in the WordPress Icon block.
+
+Inspect both banner sizes at their intended display size. The
+[branding guide](docs/branding/README.md) identifies the approved source PNGs.
+
 ## Implementation And Review
 
 Admin markup and actions are owned by `src/AdminPage.php` and

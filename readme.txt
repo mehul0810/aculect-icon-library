@@ -1,6 +1,6 @@
 === Aculect Icon Library ===
 Contributors: mehul0810, alkesh7
-Tags: icons, icon library, svg icons, icon block, custom icons
+Tags: icons, svg icons, icon block, custom icons, block editor
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -8,167 +8,95 @@ Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Add 10 icon libraries and custom SVG icons to the native WordPress Icon block. No extra block or icon fonts.
+Use custom SVG icons alongside Heroicons, Bootstrap Icons, and Font Awesome Free in the native WordPress Icon block. No icon font or CDN needed.
 
 == Description ==
 
-Add **10 bundled icon libraries** and **your own SVG icons** to the native
-WordPress Icon block. Use Heroicons, Bootstrap Icons, Font Awesome Free, and
-more with the block's built-in sizing and styling controls. There's no extra
-block to learn and no icon font to load.
+Pick the icon that fits your design. Use an envelope from Bootstrap Icons on your contact page or upload your own brand mark. Enabled library icons and uploaded SVGs share the same picker. Choose an icon and adjust its size right in the WordPress Icon block.
 
-= Get started =
+Select **Live Preview** on WordPress.org to try the library before installing it on your site.
 
-1. Go to **Appearance → Icons → Install Library** and choose a bundled library.
-2. In **Library**, enable the styles you want to use.
-3. Add an **Icon** block in the WordPress editor and choose an icon from the picker.
+= Choose icons from bundled libraries =
 
-= Bundled icon libraries =
+In **Appearance → Icons**, preview a library before adding it. Enable just the styles you want editors to see, such as Heroicons Outline for navigation or Font Awesome Free Brands for social links. The SVG files are included with the plugin and served from your site. You don't need an icon service account, an API key, or a CDN.
 
-The plugin includes selected styles from each upstream library. It does not
-include every icon or style.
+Available libraries and styles:
 
-* Heroicons: Outline and Solid.
-* Bootstrap Icons: Default and Filled.
-* Font Awesome Free: Solid, Regular, and Brands.
-* Tabler Icons: Filled.
-* Radix Icons: Default.
-* Google Material Icons: Filled 24px, Core-compatible subset (1,038 icons).
-* Iconoir: Solid, compatible filled-path subset (210 icons).
-* Phosphor Icons: Regular and Fill (2,487 icons).
-* Ionicons: compatible Filled, Sharp, Outline, and Brands subset (679 icons).
-* Rune Icons: Pixelated (215 icons).
+* **Heroicons:** Outline and Solid.
+* **Bootstrap Icons:** Default and Filled.
+* **Font Awesome Free:** Solid, Regular, and Brands. Pro icons are not included.
+* **Tabler Icons:** Filled, excluding the Brands category and selected trademark or character icons.
+* **Radix Icons:** Default, excluding logos.
+* **Google Material Icons:** Selected Filled icons from the 24px set.
+* **Iconoir:** Selected Solid icons with filled paths.
+* **Phosphor Icons:** Regular and Fill.
+* **Ionicons:** Selected Filled, Sharp, Outline, and Brands icons.
+* **Rune Icons:** Pixelated.
 
-Preview bundled icons by library, variant, and category before choosing a
-library. Search and filter where available, and enable only the variants you
-need. Bundled libraries include their license and exclusion notices.
+= Use your own SVG icons =
 
-= Upload and manage custom SVG icons =
+As an administrator, open **Appearance → Icons → Upload** and choose an SVG up to 64 KB. Give it a display label your editors will recognize, check the icon name, and select **Upload icon**. Editors can then find it by label in the Icon block picker. You can rename the label later without changing the icon used in existing posts.
 
-Open **Appearance → Icons → Upload** and choose a supported SVG. Check its
-display label and icon name, then select **Upload icon** to add it to the Icon
-block picker. Use the saved icon's actions menu to rename its label or delete it.
-New icon names can contain up to 100 characters; display labels can contain up to 200.
+= Use icon tools through MCP =
 
-Bundled and uploaded SVGs are stored on your site. You don't need an external
-service to browse or use them. Custom SVG uploads are validated separately
-from the WordPress Media Library.
+Aculect Icon Library registers actions with the WordPress Abilities API. It does not include a Model Context Protocol (MCP) server or connector. To use these actions from an AI assistant, choose any MCP connector that exposes the plugin's WordPress abilities. For example, you can ask your assistant to find an enabled icon and replace the icon in a draft post.
 
-= Automate icon workflows =
+We recommend [Aculect AI Companion](https://wordpress.org/plugins/aculect-ai-companion/), the MCP connector we build alongside Icon Library. It makes the icon abilities available to your connected assistant and lets you control what the assistant can do. You don't need a connector to use icons in the block editor.
 
-Compatible tools can use the WordPress Abilities API to search enabled icons
-and list, insert, replace, or remove native Icon blocks. WordPress permissions
-still apply, including permission to edit the target post.
+= From Mehul Gohil =
+
+* [PreviewShare](https://wordpress.org/plugins/previewshare/): Share a draft with a reviewer without publishing it or creating a WordPress account for them.
+* [CleanLinks](https://wordpress.org/plugins/cleanlinks/): Create short links on your own domain and track clicks.
+* [OneCaptcha](https://onecaptchawp.com/): Protect WordPress forms from spam with your choice of CAPTCHA provider.
+* [ThemeRouter](https://themerouter.com/): Try a new theme on selected pages while the rest of your site keeps its current theme.
+* [WP Distraction Free View](https://wordpress.org/plugins/wp-distraction-free-view/): Give visitors a reader mode without sidebars or navigation.
+* [Aculect AI Companion](https://wordpress.org/plugins/aculect-ai-companion/): Connect an AI assistant to WordPress through MCP and choose which actions it can use.
+* [Perform](https://wordpress.org/plugins/perform/): Manage page caching and choose where scripts and styles load.
 
 == Installation ==
 
-1. In WordPress, go to **Plugins → Add New Plugin**, search for **Aculect Icon
-   Library**, then install and activate it. For a manual install, upload the
-   plugin to `wp-content/plugins/aculect-icon-library` and activate it.
-2. Open **Appearance → Icons → Install Library** to choose a bundled library,
-   then enable the styles you want in **Library**.
-3. Add an **Icon** block to a post or page, select an icon, and save.
+1. In **Plugins → Add New Plugin**, search for **Aculect Icon Library**, then install and activate it. For a manual installation, upload the plugin folder to `wp-content/plugins/aculect-icon-library` and activate it.
+2. Open **Appearance → Icons → Install Library**. Choose a library and select **Install Library**. This selects files already included with the plugin; nothing is downloaded.
+3. Switch to **Library**, open the library you selected, and choose **Enable** for the styles you want in the picker.
+4. Edit a post or page, insert the WordPress **Icon** block, and choose an icon. Use the block's own controls to adjust its size and styling.
 
 == Frequently Asked Questions ==
 
-= Which icon libraries are included? =
+= Does this work with my page builder? =
 
-Heroicons includes Outline and Solid. Bootstrap Icons includes Default and
-Filled. Font Awesome Free includes Solid, Regular, and Brands; Pro-only styles
-are not included. Tabler Icons includes 1,012 Filled icons after excluding its
-Brand category and selected trademark or character references. Radix Icons
-includes its non-logo 15-pixel icon collection. Google Material Icons includes
-a Core-compatible Filled 24px subset. Iconoir includes 210 compatible Solid
-icons; Regular and mixed-stroke icons are deferred. Rune Icons includes 215
-pixelated icons. Phosphor Icons includes Regular and Fill. Ionicons includes
-compatible Filled, Sharp, Outline, and Brands icons; unsupported assets are
-recorded in the bundled exclusion report. Libraries are disabled by default.
+Aculect Icon Library extends the native Icon block in WordPress 7.1 or later. It does not add a separate block or change a page builder's icon widget. Your site also needs PHP 7.4 or later.
 
-= How do I add an icon to a WordPress post or page? =
+= Why isn't the library I installed showing up in the Icon block? =
 
-Enable a bundled library or variant from Appearance > Icons, then insert the
-native Icon block in the block editor. Choose an icon from an enabled library
-and use the block's sizing and styling controls.
+Installing a library and enabling it are separate steps. New libraries start disabled. Go to **Appearance → Icons → Library**, open the library, and enable at least one style. Its icons will then appear in the block picker.
 
-= Does this add a custom icon block? =
+= Can I use my own SVGs without enabling a library? =
 
-No. Aculect Icon Library integrates with the native WordPress `core/icon` block.
+Yes. Upload a supported SVG in **Appearance → Icons → Upload**. Custom icons work on their own or alongside library icons. Uploads are validated and stored separately; this does not enable SVG uploads in the WordPress Media Library.
 
-= Can administrators add custom SVG icons? =
+= Why was my SVG rejected? =
 
-Yes. Administrators can add SVG files through Appearance > Icons > Upload.
-SVG files must be no larger than 64 KB and use supported SVG geometry.
-Unsupported features can cause an upload to be rejected; arbitrary SVG files
-are not supported. Use flattened paths with explicit fills for complex exports.
+Check that the file is an SVG no larger than 64 KB. Not every SVG feature is supported. For complex artwork, export a version with flattened paths and explicit fills. New icon names can be up to 100 characters and display labels up to 200.
 
-= Does this enable SVG uploads in the Media Library? =
+= Can I search uploaded icons using a non-English label? =
 
-No. Custom SVG icons are validated and stored separately by Aculect Icon Library.
-The plugin does not enable general SVG uploads in the WordPress Media Library.
+Yes. When you search the uploaded icons list, matching ignores case for international labels if your server has the PHP `mbstring` extension. Without it, case-insensitive matching is limited to ASCII. The extension is not required to upload or use icons.
 
-= How does custom-icon search handle international labels? =
+= Will existing posts keep their icons if I disable a style or remove a library? =
 
-Search is case-insensitive for international labels when your server's PHP
-mbstring extension is available. Without mbstring, search falls back to
-ASCII case-insensitive matching. The extension is optional, not a requirement
-for uploading or using custom icons.
+Yes, for bundled icons. Disabling a style or removing a library from your selection hides those icons from new selections. Saved Icon blocks still show their artwork as long as the plugin is active and the bundled SVG files are available.
 
-= Are icons hosted locally? =
+= What happens if I delete an uploaded icon? =
 
-Yes. Included library SVGs and uploaded custom icons are stored on your site.
-No external service connection is required to browse or use them.
+Replace the icon in any posts that use it **before** deleting it. Deletion permanently removes the custom SVG and its metadata, so existing blocks can no longer display it. To change only the text editors see in the picker, rename its display label instead.
 
-= Can I enable or disable individual icon styles? =
+= What happens to my icons when I update, deactivate, or uninstall? =
 
-Yes. Open a library's detail screen to enable or disable its variants, such as
-Solid or Outline. Disabled variants stop appearing for new selections.
+A normal update keeps your library selections, settings, and saved icon names. Deactivation leaves post content in place, but the Icon block saves an icon name, not a copy of the SVG. It cannot display plugin-provided artwork while the plugin is inactive. Uninstalling also deletes plugin settings and uploaded custom icons. Back up your custom SVGs before uninstalling.
 
-= What happens when I disable a bundled library or variant? =
+= What can a connected AI assistant do with icons? =
 
-Its icons stop appearing for new selections. Existing saved Icon blocks can
-still resolve those icons while Aculect Icon Library remains active and its
-bundled SVG files remain available. This also applies to disabled variants.
-
-= What happens when I delete a custom icon? =
-
-Deleting a custom icon permanently removes its stored SVG and metadata.
-Existing blocks that reference it can no longer resolve that icon. Replace
-those icons in your content before deleting them. Renaming a display label
-does not change the icon's registered name.
-
-= What happens when I deactivate or uninstall the plugin? =
-
-The Icon block stores the registered icon name rather than an SVG copy. Existing
-post content remains, but plugin-provided icons cannot resolve while the plugin
-is inactive. Uninstalling also removes plugin settings, custom icon files, and
-custom icon metadata. Back up custom icons before uninstalling.
-
-= Can AI agents manage icons? =
-
-Compatible agents and tools can use the WordPress Abilities API to search enabled
-icons and list, insert, replace, or remove native Icon blocks. The plugin does
-not include an AI assistant. Read actions require editor-style access; post
-actions require permission to edit the target post. Ability inputs do not accept
-raw SVG, filesystem paths, arbitrary block markup, or post content.
-
-= Do I need an AI plugin? =
-
-No. You can use the Icon block and manage libraries without an AI plugin.
-For a separate project focused on connecting compatible AI tools to WordPress,
-see [Aculect AI Companion](https://wordpress.org/plugins/aculect-ai-companion/).
-It is not required by Aculect Icon Library.
-
-= Will a normal plugin update keep my icons? =
-
-Yes. An ordinary plugin update retains your bundled libraries, preferences,
-and saved icon names. The included libraries are bundled with the plugin;
-it does not fetch and install libraries from an external catalog.
-
-= What are the requirements? =
-
-Aculect Icon Library requires WordPress 7.1 or later and PHP 7.4 or later.
-It integrates with the native WordPress Icon block, not a page-builder-specific
-icon widget.
+When your MCP connector allows it, an assistant can search enabled icons, look up an icon by name, and list, insert, replace, or remove native Icon blocks. Searching the catalog requires permission to edit posts. To list or change the Icon blocks in a particular post, the connected user must be able to edit that post. The abilities work with icon names, not raw SVG or arbitrary block markup.
 
 == Screenshots ==
 
