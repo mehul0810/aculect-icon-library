@@ -453,22 +453,85 @@
 
 	document.addEventListener( 'change', function ( event ) {
 		var input = event.target.closest( '.icon-library-upload-area input[type="file"]' );
-
-		if ( ! input || ! input.files.length ) {
-			return;
+		if ( input ) {
+			updateSelection( input );
 		}
+	} );
 
+	function updateSelection( input ) {
 		var form = input.closest( 'form' );
-		var fileName = input.files[ 0 ].name.replace( /\.svg$/i, '' );
-		var slug = fileName.toLowerCase().replace( /[^a-z0-9]+/g, '-' ).replace( /(^-|-$)/g, '' );
+		var area = input.closest( '.icon-library-upload-area' );
+		var file = input.files[ 0 ];
+		var status = form.querySelector( '.icon-library-upload-status' );
+		var preview = area.querySelector( 'canvas' );
+		var error = file && ( input.files.length !== 1 || ! /\.svg$/i.test( file.name ) ) ? config.i18n.chooseSvg : '';
+		if ( file && file.size > 65536 ) {
+			error = config.i18n.fileTooLarge;
+		}
+		input.setCustomValidity( error );
+		status.textContent = error;
+		area.classList.toggle( 'has-file', !! file );
+		area.classList.remove( 'has-preview' );
+		preview.hidden = true;
+		area.querySelector( '.icon-library-upload-file-name' ).textContent = file ? file.name : '';
+		area.querySelector( '.icon-library-upload-file-size' ).textContent = file && ! error ? config.i18n.svgSize.replace( '%s', Math.ceil( file.size / 1024 ) ) : '';
+
+		var fileName = file && ! error ? file.name.replace( /\.svg$/i, '' ) : '';
+		var name = fileName.toLowerCase().replace( /[^a-z0-9]+/g, '-' ).replace( /(^-|-$)/g, '' );
+		if ( form.elements.name.maxLength > 0 ) {
+			name = name.slice( 0, form.elements.name.maxLength ).replace( /-$/, '' );
+		}
+		suggestValue( form.elements.name, name );
 		var label = fileName.replace( /[-_]+/g, ' ' ).replace( /\b\w/g, function ( character ) {
 			return character.toUpperCase();
 		} );
+		suggestValue( form.elements.label, Array.from( label ).slice( 0, config.maxLabelLength ).join( '' ).trim() );
+		if ( ! file || error ) {
+			return;
+		}
 
-		form.querySelector( 'input[name="name"]' ).value = slug;
-		form.querySelector( 'input[name="label"]' ).value = label;
-		form.querySelector( '.icon-library-upload-file-name' ).textContent = input.files[ 0 ].name;
-	} );
+		// Decode only as an image. The admin DOM gets pixels, never live SVG markup.
+		var reader = new FileReader();
+		var image = new Image();
+		function current() {
+			return input.isConnected && input.files[ 0 ] === file;
+		}
+		reader.onerror = image.onerror = function () {
+			if ( current() && ! form.hasAttribute( 'aria-busy' ) ) {
+				status.textContent = config.i18n.previewFailed;
+			}
+		};
+		reader.onload = function () {
+			if ( current() ) {
+				image.src = reader.result;
+			}
+		};
+		image.onload = function () {
+			if ( ! current() ) {
+				return;
+			}
+			var context = preview.getContext( '2d' );
+			if ( ! context || ! image.naturalWidth || ! image.naturalHeight ) {
+				image.onerror();
+				return;
+			}
+			var scale = Math.min( preview.width / image.naturalWidth, preview.height / image.naturalHeight );
+			var w = image.naturalWidth * scale;
+			var h = image.naturalHeight * scale;
+			context.clearRect( 0, 0, preview.width, preview.height );
+			context.drawImage( image, ( preview.width - w ) / 2, ( preview.height - h ) / 2, w, h );
+			preview.hidden = false;
+			area.classList.add( 'has-preview' );
+		};
+		reader.readAsDataURL( file.slice( 0, file.size, 'image/svg+xml' ) );
+	}
+
+	function suggestValue( field, value ) {
+		if ( ! field.value || field.value === field.dataset.suggestion ) {
+			field.value = value;
+		}
+		field.dataset.suggestion = value;
+	}
 
 	document.addEventListener( 'dragover', function ( event ) {
 		var area = event.target.closest( '.icon-library-upload-area' );
@@ -495,24 +558,30 @@
 		event.preventDefault();
 		area.classList.remove( 'is-dragging' );
 		input = area.querySelector( 'input[type="file"]' );
-		if ( ! input || ! event.dataTransfer || ! event.dataTransfer.files.length ) {
+		if ( ! input || input.matches( ':disabled' ) || ! event.dataTransfer || ! event.dataTransfer.files.length ) {
 			return;
 		}
 		try {
 			input.files = event.dataTransfer.files;
 			input.dispatchEvent( new Event( 'change', { bubbles: true } ) );
 		} catch ( error ) {
-			document.querySelector( '.icon-library-status' ).textContent = config.i18n.error;
+			input.closest( 'form' ).querySelector( '.icon-library-upload-status' ).textContent = config.i18n.chooseSvg;
 		}
 	} );
 
 	function uploadCustomIcon( form ) {
 		var fileInput = form.querySelector( 'input[name="svg"]' );
 		var file = fileInput.files[ 0 ];
-		var button = form.querySelector( 'button[type="submit"], input[type="submit"]' );
-		var status = document.querySelector( '.icon-library-status' );
+		var fields = form.querySelector( 'fieldset' );
+		var status = form.querySelector( '.icon-library-upload-status' );
 
-		if ( ! file ) {
+		if ( ! file || fields.disabled || ! form.reportValidity() ) {
+			return;
+		}
+		var label = form.elements.label.value;
+		if ( Array.from( label ).length > config.maxLabelLength ) {
+			status.textContent = config.i18n.labelTooLong;
+			form.elements.label.focus();
 			return;
 		}
 		if ( 65536 < file.size ) {
@@ -522,7 +591,7 @@
 		}
 
 		form.setAttribute( 'aria-busy', 'true' );
-		button.disabled = true;
+		fields.disabled = true;
 		status.textContent = config.i18n.uploading;
 
 		readFile( file ).then( function ( svg ) {
@@ -531,16 +600,32 @@
 				method: 'POST',
 				data: {
 					name: form.querySelector( 'input[name="name"]' ).value,
-					label: form.querySelector( 'input[name="label"]' ).value,
+					label: label,
 					svg: svg,
 				},
 			} );
 		} ).then( function () {
-			reloadWithSuccess( '.icon-library-custom-heading' );
+			// Refresh whichever listing is mounted now, even after an away/back navigation.
+			document.dispatchEvent( new Event( 'icon-library:custom-icon-created' ) );
+			if ( form.isConnected ) {
+				fields.disabled = false;
+				form.removeAttribute( 'aria-busy' );
+				form.reset();
+				updateSelection( fileInput );
+				status.textContent = config.i18n.uploaded;
+				if ( ! navigationInFlight ) {
+					var heading = document.querySelector( '.icon-library-custom-heading' );
+					heading.setAttribute( 'tabindex', '-1' );
+					heading.focus();
+				}
+			}
 		} ).catch( function ( error ) {
 			form.removeAttribute( 'aria-busy' );
-			button.disabled = false;
-			status.textContent = error && error.message ? error.message : config.i18n.error;
+			fields.disabled = false;
+			status.textContent = error && error.message ? error.message : config.i18n.uploadFailed;
+			if ( form.isConnected && ! navigationInFlight ) {
+				form.querySelector( '[type="submit"]' ).focus();
+			}
 		} );
 	}
 
@@ -676,6 +761,10 @@
 	}
 
 	function ensureCustomDataViews() {
+		var upload = document.querySelector( '.icon-library-custom-upload' );
+		if ( upload ) {
+			upload.classList.add( 'is-enhanced' );
+		}
 		if ( document.getElementById( 'icon-library-custom-dataviews' ) && 'function' === typeof window.iconLibraryMountCustomDataViews ) {
 			window.iconLibraryMountCustomDataViews();
 		}

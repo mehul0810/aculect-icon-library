@@ -5,7 +5,8 @@ const vm = require('node:vm');
 const { createGate, pagePath } = require('../assets/bounded-picker.js');
 const tick = () => new Promise(resolve => setImmediate(resolve));
 
-test('one bootstrap request returns collections and the first page, including after Retry', async () => {
+for (const recovery of ['offline-retry', 'asset-retry', 'asset-switch']) {
+test('bootstrap recovery keeps the appropriate collection controls: ' + recovery, async () => {
 	const requests = [];
 	const listeners = {};
 	const focused = [];
@@ -88,31 +89,40 @@ test('one bootstrap request returns collections and the first page, including af
 	assert.equal(requests.length, 1);
 	assert.match(requests[0].options.path, /^\/picker\?.*&bootstrap=true$/);
 	assert.equal(find(tree, node => node.props.role === 'tab' && node.children[0] === 'All').props.disabled, true);
-	requests[0].reject(Error('offline'));
+	const missing = recovery !== 'offline-retry';
+	requests[0].reject(missing ? { code: 'icon_library_picker_asset_missing', message: 'Artwork unavailable.', data: { status: 503, collection: 'broken', collections: [{ slug: 'broken', label: 'Broken' }, { slug: 'external', label: 'External' }] } } : Error('offline'));
 	await tick();
 	// Render the failed state and activate the actual Retry button.
-	const retry = find(picker.render(pickerProps), node => node.type === 'button' && node.children[0] === 'Retry');
+	tree = picker.render(pickerProps);
+	const retry = find(tree, node => node.type === 'button' && node.children[0] === 'Retry');
 	assert.ok(retry);
-	assert.equal(find(tree, node => node.props.role === 'alert'), null);
-	retry.props.onClick();
+	assert.ok(find(tree, node => node.props.role === 'alert'));
+	assert.equal(find(tree, node => node.props.role === 'tab' && node.children[0] === 'All').props.disabled, !missing);
+	const targetCollection = recovery === 'asset-retry' ? 'broken' : 'external';
+	if (recovery === 'asset-switch') {
+		find(tree, node => node.props.role === 'tab' && node.children[0] === 'External').props.onClick();
+	} else { retry.props.onClick(); }
 	tree = picker.render(pickerProps);
 	tree = picker.render(pickerProps);
 	await tick();
 	assert.equal(requests.length, 2);
-	assert.match(requests[1].options.path, /^\/picker\?.*&bootstrap=true$/);
+	if (missing) {
+		assert.doesNotMatch(requests[1].options.path, /bootstrap/);
+		assert.equal(new URL(requests[1].options.path, 'https://example.test').searchParams.get('collection'), targetCollection);
+	} else { assert.match(requests[1].options.path, /^\/picker\?.*&bootstrap=true$/); }
 	assert.equal(find(tree, node => node.props.role === 'alert'), null);
 	requests[1].resolve({ collections: [{ slug: 'external', label: 'External' }], collection: 'external', items: [{ name: 'external/one', label: 'One', content: '<svg />' }], total: 3, page: 1, per_page: 1, total_pages: 3 });
 	await tick();
 	tree = picker.render(pickerProps);
 	await tick();
 	assert.equal(requests.length, 2, 'the successful open needs one request; the failed attempt adds one retry');
-	assert.equal(find(tree, node => node.props.role === 'tab' && node.children[0] === 'External').props['aria-selected'], true);
+	assert.equal(find(tree, node => node.props.role === 'tab' && node.props.id === 'ail-tab-' + targetCollection).props['aria-selected'], true);
 	assert.ok(find(tree, node => node.type === 'button' && node.children[1] && node.children[1].children[0] === 'One'));
 	find(tree, node => node.type === 'button' && node.children[0] === 'Next').props.onClick();
 	picker.render(pickerProps);
 	await tick();
 	assert.equal(requests.length, 3);
-	assert.match(requests[2].options.path, /^\/picker\?collection=external&/);
+	assert.equal(new URL(requests[2].options.path, 'https://example.test').searchParams.get('collection'), targetCollection);
 	assert.doesNotMatch(requests[2].options.path, /bootstrap/);
 	requests[2].resolve({ items: [{ name: 'external/two', label: 'Two', content: '<svg />' }], total: 3, page: 2, per_page: 1, total_pages: 3 });
 	await tick();
@@ -120,6 +130,7 @@ test('one bootstrap request returns collections and the first page, including af
 	assert.equal(focused.at(-1), 'Next');
 	picker.unmount(); edit.unmount();
 });
+}
 
 for (const withAbort of [true, false]) {
 	test('latest search wins even when old transport completes late: ' + withAbort, async () => {

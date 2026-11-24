@@ -16,6 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Keeps picker transport separate from catalog selection and Core registration. */
 final class CorePickerEndpoint {
+	// A legacy filename could contain 251 name bytes plus ".svg"; "custom-icons/" adds 13.
+	const MAX_SELECTED_NAME_LENGTH = 264;
+
 	/** Returns the existing page query and optional first-load metadata argument. */
 	public static function query_args() {
 		return array(
@@ -33,7 +36,7 @@ final class CorePickerEndpoint {
 			'selected'   => array(
 				'type'      => 'string',
 				'default'   => '',
-				'maxLength' => 256,
+				'maxLength' => self::MAX_SELECTED_NAME_LENGTH,
 			),
 			'page'       => array(
 				'type'    => 'integer',
@@ -86,6 +89,14 @@ final class CorePickerEndpoint {
 			$selected
 		);
 		if ( is_wp_error( $page ) ) {
+			// Keep healthy collections reachable when only the initial artwork fails.
+			// Preserve the error/status; permission and registry failures stay unchanged.
+			if ( null !== $collections && 'icon_library_picker_asset_missing' === $page->get_error_code() ) {
+				$data                = (array) $page->get_error_data();
+				$data['collections'] = $collections;
+				$data['collection']  = $collection;
+				$page->add_data( $data );
+			}
 			return $page;
 		}
 		if ( null !== $collections ) {

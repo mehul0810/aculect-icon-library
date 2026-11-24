@@ -18,7 +18,7 @@ collections, using the same WordPress editing workflow.
 - **Connect compatible tools.** WordPress Abilities let authorized automation
   clients discover icons and edit Icon blocks.
 
-This branch prepares **1.2.2**. For published packages, see
+This branch prepares **1.2.3**. For published packages, see
 [GitHub Releases](https://github.com/mehul0810/aculect-icon-library/releases).
 
 [Get started](#requirements-and-quick-start) | [Included libraries](#bundled-libraries) |
@@ -71,8 +71,9 @@ Requires **WordPress 7.1+** and **PHP 7.4+**.
 4. Edit a post or page, insert the native **Icon** block, and select an icon.
 5. Adjust the block's sizing and styling, then save your content.
 
-To use your own SVG, open **Appearance > Icons > Upload**. Upload a supported
-file up to 64 KB, give it a name and label, and select it in the Icon block.
+To use your own SVG, open **Appearance > Icons > Upload**. Choose a supported
+file up to 64 KB, check the display label and icon name, then select **Upload icon**.
+After it is saved, you can find it by its display label in the Icon block.
 This does not enable SVG uploads in the Media Library. See [Custom Icons](#custom-icons)
 for supported exports and [Icon Lifecycle](#icon-lifecycle) before deleting icons.
 
@@ -229,9 +230,19 @@ https://github.com/WordPress/gutenberg/issues/80668.
 ## Custom Icons
 
 Administrators can add SVG files up to 64 KB through **Appearance > Icons > Upload**.
+With JavaScript enabled, choosing a file previews it locally and suggests a label
+and name. It is not uploaded until you select **Upload icon**. Use an uploaded
+icon's actions menu to rename its display label or permanently delete it.
+New icon names are limited to 100 characters and display labels to 200,
+with or without JavaScript. A missing or changed SVG is marked as unavailable
+in the list; the saved icon name is not removed.
 The plugin validates the file against the WordPress 7.1 icon geometry contract
 before storing the sanitized SVG locally under the uploads directory. This does
 not enable SVG uploads in the Media Library and makes no remote requests.
+
+Custom-icon search supports case-insensitive international labels when PHP
+mbstring is available. Servers without that optional extension use ASCII
+case-insensitive matching instead.
 
 If saving metadata definitely fails, the plugin removes only that attempt's
 unpublished SVG. An uncertain commit retains the artwork and asks you to refresh

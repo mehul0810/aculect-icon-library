@@ -32,7 +32,7 @@ class CustomIconListing {
 	/**
 	 * Returns a filtered page with previews hydrated only for returned rows.
 	 *
-	 * @param string $search Lowercase search term.
+	 * @param string $search Search term.
 	 * @param int    $order Sort direction (1 ascending, -1 descending).
 	 * @param string $orderby Metadata field to sort by.
 	 * @param int    $page One-based page number.
@@ -40,14 +40,16 @@ class CustomIconListing {
 	 * @return array
 	 */
 	public function get_page( $search, $order, $orderby, $page, $per_page ) {
-		$items = array();
-		foreach ( $this->custom_icons->get_icons() as $name => $icon ) {
+		$search = $this->lowercase( $search );
+		$items  = array();
+		$icons  = $this->custom_icons->get_icons();
+		foreach ( $icons as $name => $icon ) {
 			if ( ! is_array( $icon ) || ! empty( $icon['archived'] ) ) {
 				continue;
 			}
 			$label     = (string) ( $icon['label'] ?? $name );
 			$icon_name = CustomIconRepository::COLLECTION_SLUG . '/' . $name;
-			if ( '' !== $search && false === strpos( strtolower( $label ), $search ) && false === strpos( strtolower( $icon_name ), $search ) ) {
+			if ( '' !== $search && false === strpos( $this->lowercase( $label ), $search ) && false === strpos( $this->lowercase( $icon_name ), $search ) ) {
 				continue;
 			}
 			$items[] = array(
@@ -55,7 +57,6 @@ class CustomIconListing {
 				'name'     => $name,
 				'label'    => $label,
 				'iconName' => $icon_name,
-				'path'     => $icon['path'] ?? '',
 			);
 		}
 
@@ -68,9 +69,8 @@ class CustomIconListing {
 		$total = count( $items );
 		$items = array_slice( $items, ( $page - 1 ) * $per_page, $per_page );
 		foreach ( $items as &$item ) {
-			$svg         = $this->custom_icons->get_svg_content( $item['path'] );
+			$svg         = $this->custom_icons->get_svg_content_for_icon( $icons[ $item['name'] ] );
 			$item['svg'] = is_string( $svg ) ? $svg : '';
-			unset( $item['path'] );
 		}
 		unset( $item );
 
@@ -79,5 +79,18 @@ class CustomIconListing {
 			'total'       => $total,
 			'total_pages' => (int) ceil( $total / $per_page ),
 		);
+	}
+
+	/**
+	 * Matches collection search's UTF-8 policy without requiring mbstring.
+	 *
+	 * Without mbstring, ASCII remains case-insensitive and non-ASCII letters
+	 * require matching case. Stored labels and icon identifiers are unchanged.
+	 *
+	 * @param string $value Text value.
+	 * @return string
+	 */
+	private function lowercase( $value ) {
+		return function_exists( 'mb_strtolower' ) ? mb_strtolower( (string) $value, 'UTF-8' ) : strtolower( (string) $value );
 	}
 }

@@ -194,12 +194,12 @@ class RestController {
 						'name'  => array(
 							'type'      => 'string',
 							'required'  => true,
-							'maxLength' => 100,
+							'maxLength' => CustomIconRepository::MAX_NAME_LENGTH,
 						),
 						'label' => array(
 							'type'      => 'string',
 							'required'  => true,
-							'maxLength' => 200,
+							'maxLength' => CustomIconRepository::MAX_LABEL_LENGTH,
 						),
 						'svg'   => array(
 							'type'      => 'string',
@@ -223,7 +223,7 @@ class RestController {
 						'label' => array(
 							'type'      => 'string',
 							'required'  => true,
-							'maxLength' => 200,
+							'maxLength' => CustomIconRepository::MAX_LABEL_LENGTH,
 						),
 					),
 				),
@@ -255,7 +255,7 @@ class RestController {
 	 * @return WP_REST_Response
 	 */
 	public function get_custom_icons( WP_REST_Request $request ) {
-		$search   = strtolower( (string) $request->get_param( 'search' ) );
+		$search   = (string) $request->get_param( 'search' );
 		$order    = 'desc' === $request->get_param( 'order' ) ? -1 : 1;
 		$orderby  = 'name' === $request->get_param( 'orderby' ) ? 'name' : 'label';
 		$page     = max( 1, absint( $request->get_param( 'page' ) ) );

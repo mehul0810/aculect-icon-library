@@ -73,6 +73,15 @@ consequence stated before confirmation. Keep these labels and behaviors distinct
 - Retain ordinary URLs and server-rendered forms where available. When
   enhancement scripts fail, keep notices and the upload form available and
   identify which enhanced listing controls cannot operate.
+- On Upload, keep the local file preview, display label, stable icon name,
+  and submit button together above the saved-icon list. Stack them on narrow
+  screens. Choosing a file must not send it to the site or add it to the list.
+  Preview pixels only; server validation still decides what can be stored.
+  File changes may refresh suggestions but must preserve manually edited values.
+- Group the saved thumbnail and display label. Keep the registered name and
+  the Rename and Delete menu accessible at narrow widths.
+- If the stored artwork cannot be verified, keep the row and show an unavailable
+  preview in the same space. Sorting by Icon name orders by identifier, not label.
 - Keep previews and discovery paginated. Avoid loading every custom SVG or
   inserting an entire catalog into the DOM to support one page of results.
 
@@ -90,6 +99,24 @@ Test keyboard interaction, long content, narrow viewports, and error states
 when their behavior changes. Screen-reader checks are excluded by owner
 direction; do not substitute another screen reader or claim those checks passed.
 
+## WordPress.org Banner
+
+The directory banner is separate from the admin UI. On ivory drafting paper,
+use the original Aculect logo tile without a wordmark above the semibold
+**Icon Library** heading. Use near-black for the finished icon outlines and
+Aculect blue (`#2563FF`) for construction lines. Center the four hollow blue
+sparkles on intersections of the faint paper grid, not on the ruler ends.
+Keep the grid visible through each sparkle.
+
+Use regular-weight type for the approved description, without a library count:
+
+> Pick the icon that fits your design.\
+> Use your own SVGs alongside library icons\
+> in the WordPress Icon block.
+
+Inspect both banner sizes at their intended display size. The
+[branding guide](docs/branding/README.md) identifies the approved source PNGs.
+
 ## Implementation And Review
 
 Admin markup and actions are owned by `src/AdminPage.php` and
@@ -98,8 +125,11 @@ Admin markup and actions are owned by `src/AdminPage.php` and
 `assets/src/custom-icons-dataviews.js`, then rebuilt into `assets/build/`.
 Bounded native picker behavior uses `assets/bounded-picker.js` and its stylesheet.
 The initial request returns Core collection tabs and the first bounded icon
-page together. Subsequent requests return just the selected page. Generated
-bundled indexes retain manifest order; dynamic providers and filtered
+page together. Subsequent requests return just the selected page.
+If initial artwork cannot load, retain the authorized collection tabs alongside
+the visible error so editors can switch to a healthy collection or retry. Do not
+turn permission, collection-discovery, or unsupported-registry errors into success.
+Generated bundled indexes retain manifest order; dynamic providers and filtered
 manifests keep using their live rows. Only the returned page hydrates SVG files.
 
 Within `admin.js`, cache helpers own retention, the API middleware owns mutation

@@ -14,6 +14,7 @@ function createHarness() {
 		focus() { this.focused = true; },
 	};
 	const mount = { dataset: {} };
+	const listeners = {};
 	let component;
 	let current;
 	const element = {
@@ -22,6 +23,7 @@ function createHarness() {
 		useMemo: ( factory ) => factory(),
 		useCallback: ( callback ) => callback,
 		useRef: ( initial ) => current.useRef( initial ),
+		createPortal: ( child ) => child,
 	};
 	const apiFetch = ( options ) => new Promise( ( resolve, reject ) => requests.push( { options, resolve, reject } ) );
 	const source = fs.readFileSync( path.join( __dirname, '../assets/src/custom-icons-dataviews.js' ), 'utf8' );
@@ -38,10 +40,12 @@ function createHarness() {
 		URLSearchParams,
 		Fragment: 'fragment',
 		h: ( type, props, ...children ) => ( { type, props: props || {}, children } ),
-		window: { iconLibraryAdmin: { customPath: '/custom-icons' } },
+		window: { iconLibraryAdmin: { customPath: '/custom-icons', maxLabelLength: 200, i18n: { labelTooLong: 'Label too long' } } },
 		document: {
 			getElementById: () => mount,
 			querySelector: ( selector ) => selector === '.icon-library-custom-heading' ? heading : null,
+			addEventListener: ( name, handler ) => { listeners[ name ] = handler; },
+			removeEventListener: ( name ) => { delete listeners[ name ]; },
 		},
 		wp: { element: { createRoot: () => ( { render: ( tree ) => { component = tree.type; }, unmount() {} } ) } },
 		exports: {},
@@ -49,7 +53,7 @@ function createHarness() {
 			'@wordpress/components': { Button: 'button', TextControl: 'text-control' },
 			'@wordpress/dataviews/wp': { DataViews: 'dataviews' },
 			'@wordpress/element': element,
-			'@wordpress/i18n': { __: ( text ) => text },
+			'@wordpress/i18n': { __: ( text ) => text, _n: ( one, many, count ) => count === 1 ? one : many, sprintf: ( format, value ) => format.replace( '%s', value ) },
 			'@wordpress/api-fetch': { __esModule: true, default: apiFetch },
 		} )[ name ],
 	};
@@ -63,7 +67,7 @@ function createHarness() {
 		const effects = [];
 		function useState( initial ) {
 			const index = cursor++;
-			if ( ! slots[ index ] ) slots[ index ] = { value: initial };
+			if ( ! slots[ index ] ) slots[ index ] = { value: typeof initial === 'function' ? initial() : initial };
 			return [ slots[ index ].value, ( next ) => { slots[ index ].value = typeof next === 'function' ? next( slots[ index ].value ) : next; } ];
 		}
 		function useRef( initial ) {
@@ -96,8 +100,92 @@ function createHarness() {
 		return find( node.children, predicate );
 	}
 	const tick = () => new Promise( ( resolve ) => setImmediate( resolve ) );
-	return { render, requests, find, heading, tick };
+	function mountComponent( node ) {
+		slots.length = 0;
+		component = () => node.type( node.props );
+	}
+	return { render, mountComponent, requests, find, heading, tick, listeners };
 }
+
+test( 'new icon notification refreshes the current query', () => {
+	const { render, requests, listeners } = createHarness();
+	render();
+	assert.equal( requests.length, 1 );
+	listeners[ 'icon-library:custom-icon-created' ]();
+	render();
+	assert.equal( requests.length, 2 );
+} );
+
+test( 'the icon column combines artwork and label and keeps actions in the menu', () => {
+	const { render, find } = createHarness();
+	const view = find( render(), ( node ) => node.type === 'dataviews' );
+	assert.deepEqual( Array.from( view.props.view.fields ), [ 'label', 'iconName' ] );
+	const field = view.props.fields.find( ( entry ) => entry.id === 'label' );
+	const rendered = field.render( { item: { label: 'Example', svg: '<svg></svg>' } } );
+	assert.equal( field.enableSorting, true );
+	assert.equal( rendered.children[ 1 ].children[ 0 ].children[ 0 ], 'Example' );
+	assert.equal( rendered.children[ 0 ].props.dangerouslySetInnerHTML.__html, '<svg></svg>' );
+	assert.ok( view.props.actions.every( ( action ) => ! action.isPrimary ) );
+} );
+
+test( 'the inline identifier follows the same column visibility as View options', () => {
+	const { render, find } = createHarness();
+	const table = () => find( render(), ( node ) => node.type === 'dataviews' );
+	const item = { label: 'Folder', iconName: 'custom-icons/folder', svg: '<svg/>' };
+	for ( const fields of [ [ 'label', 'iconName' ], [ 'iconName', 'label' ], [ 'label' ] ] ) {
+		table().props.onChangeView( { ...table().props.view, fields } );
+		const current = table();
+		assert.deepEqual( Array.from( current.props.view.fields ), fields );
+		const icon = current.props.fields.find( ( field ) => field.id === 'label' ).render( { item } );
+		assert.equal( !! find( icon, ( node ) => node.type === 'code' ), fields.includes( 'iconName' ) );
+	}
+} );
+
+test( 'identifier sorting requests name order in both directions and displays the returned order', async () => {
+	const { render, find, requests, tick } = createHarness();
+	const table = () => find( render(), ( node ) => node.type === 'dataviews' );
+	const alpha = { name: 'alpha', label: 'Zebra' }, zulu = { name: 'zulu', label: 'Apple' };
+	for ( const [ index, direction, sorted ] of [ [ 1, 'asc', [ alpha, zulu ] ], [ 2, 'desc', [ zulu, alpha ] ] ] ) {
+		const current = table();
+		current.props.onChangeView( { ...current.props.view, sort: { field: 'iconName', direction } } );
+		table();
+		assert.equal( requests.length, index + 1 );
+		const query = new URLSearchParams( requests[ index ].options.path.split( '?' )[ 1 ] );
+		assert.equal( query.get( 'orderby' ), 'name' );
+		assert.equal( query.get( 'order' ), direction );
+		requests[ index ].resolve( { items: sorted, total: 2 } );
+		await tick();
+		assert.deepEqual( table().props.data, sorted );
+	}
+} );
+
+test( 'an unavailable preview keeps its row label without inserting markup', () => {
+	const { render, find } = createHarness();
+	const table = find( render(), ( node ) => node.type === 'dataviews' );
+	const row = table.props.fields[ 0 ].render( { item: { label: 'Saved icon', svg: '' } } );
+	assert.ok( find( row, ( node ) => node.props[ 'aria-label' ] === 'Preview unavailable' ) );
+	assert.equal( find( row, ( node ) => node.props.dangerouslySetInnerHTML ), null );
+	assert.equal( row.children[ 1 ].children[ 0 ].children[ 0 ], 'Saved icon' );
+} );
+
+test( 'rename validates the same untrimmed Unicode label that REST receives', async () => {
+	const { render, mountComponent, find, requests } = createHarness();
+	const table = find( render(), ( node ) => node.type === 'dataviews' );
+	const modal = table.props.actions.find( ( action ) => action.id === 'rename' ).RenderModal( { items: [ { name: 'a', label: 'A' } ] } );
+	// The modal has its own React hook state, independent of the list.
+	mountComponent( modal );
+	const originalRequests = requests.length;
+	const letter = String.fromCodePoint( 0x10400 );
+	const change = ( value ) => find( render(), ( node ) => node.type === 'text-control' ).props.onChange( value );
+	const save = () => find( render(), ( node ) => node.type === 'button' && node.children[ 0 ] === 'Save' ).props.onClick();
+	change( ' ' + letter.repeat( 200 ) );
+	await save();
+	assert.ok( find( render(), ( node ) => node.props.role === 'alert' && node.children[ 0 ] === 'Label too long' ) );
+	assert.equal( requests.length, originalRequests );
+	change( letter.repeat( 200 ) );
+	save();
+	assert.equal( requests[ originalRequests ].options.data.label, letter.repeat( 200 ) );
+} );
 
 test( 'a successful Upload list Retry keeps keyboard focus on the stable heading', async () => {
 	const { render, requests, find, heading, tick } = createHarness();

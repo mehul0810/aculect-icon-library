@@ -18,6 +18,18 @@ final class CollectionBuild {
 	const SCHEMA_VERSION = 2;
 
 	/**
+	 * Checks a ZIP entry against the bundled artwork allowlist.
+	 *
+	 * @param string $name Archive member name.
+	 * @param array  $allowed_files Relative file paths as keys.
+	 * @return bool Whether the member is unexpected.
+	 */
+	public static function is_unexpected_bundled_path( $name, $allowed_files ) {
+		$prefix = 'aculect-icon-library/';
+		return 0 === strpos( $name, $prefix . 'assets/icons/' ) && ! isset( $allowed_files[ substr( $name, strlen( $prefix ) ) ] );
+	}
+
+	/**
 	 * Removes an unfinished generated collection when an importer terminates.
 	 *
 	 * @param bool     $finalized Whether the generated directory became final.

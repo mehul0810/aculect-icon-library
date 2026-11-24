@@ -128,6 +128,11 @@ Screen-reader checks are excluded by owner direction. Preserve keyboard/focus,
 labels, contrast, semantics, and responsive checks where applicable; do not
 report excluded checks as passed.
 
+For WordPress.org banner changes, follow the [branding guide](docs/branding/README.md).
+Compare each PNG banner in `.wordpress-org/` byte for byte with its approved
+source of the same size, then run `php scripts/validate-directory-assets.php`.
+Do not derive one size from the other or treat a branch update as publication.
+
 ## Pull Request Handoff
 
 - Complete `.github/pull_request_template.md` with an issue or private tracking
