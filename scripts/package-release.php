@@ -263,12 +263,13 @@ if ( ! is_array( $verified_profile ) || 1 !== $profile_schema || 'bundled' !== $
 	fwrite( STDERR, "Package profile verification failed.\n" );
 	exit( 1 );
 }
+$allowed_files = array_fill_keys( $files, true );
 for ( $index = 0; $index < $entry_count; ++$index ) {
 	$name = $verification->getNameIndex( $index );
 	if ( ! is_string( $name ) ) {
 		continue;
 	}
-	if ( 0 === strpos( $name, 'aculect-icon-library/assets/icons/' ) && ! in_array( substr( $name, strlen( 'aculect-icon-library/' ) ), $files, true ) ) {
+	if ( CollectionBuild::is_unexpected_bundled_path( $name, $allowed_files ) ) {
 		$verification->close();
 		fwrite( STDERR, "Package contains an unexpected bundled-library path.\n" );
 		exit( 1 );

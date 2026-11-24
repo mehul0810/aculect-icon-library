@@ -7,6 +7,15 @@ use PHPUnit\Framework\TestCase;
 require_once dirname( __DIR__ ) . '/scripts/lib/CollectionBuild.php';
 
 class CollectionBuildTest extends TestCase {
+	public function test_bundled_zip_allowlist_rejects_unknown_members() {
+		$allowed = array_fill_keys( array( 'assets/icons/example/manifest.json', 'assets/icons/example/default/one.svg' ), true );
+		$this->assertFalse( CollectionBuild::is_unexpected_bundled_path( 'aculect-icon-library/assets/icons/example/manifest.json', $allowed ) );
+		$this->assertFalse( CollectionBuild::is_unexpected_bundled_path( 'aculect-icon-library/assets/icons/example/default/one.svg', $allowed ) );
+		$this->assertTrue( CollectionBuild::is_unexpected_bundled_path( 'aculect-icon-library/assets/icons/example/default/other.svg', $allowed ) );
+		$this->assertTrue( CollectionBuild::is_unexpected_bundled_path( 'aculect-icon-library/assets/icons/example/default/ONE.svg', $allowed ) );
+		$this->assertFalse( CollectionBuild::is_unexpected_bundled_path( 'aculect-icon-library/readme.txt', $allowed ) );
+	}
+
 	public function test_shutdown_cleanup_removes_an_unfinished_build_directory() {
 		$directory = sys_get_temp_dir() . '/icon-library-cleanup-' . getmypid();
 		$fixture   = sys_get_temp_dir() . '/icon-library-cleanup-fixture-' . getmypid() . '.php';

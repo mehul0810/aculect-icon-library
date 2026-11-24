@@ -101,8 +101,8 @@ class AdminActions {
 		// File metadata is validated below with is_uploaded_file(), an extension allowlist, a size limit, and SVG sanitization.
 		$file = isset( $_FILES['svg'] ) && is_array( $_FILES['svg'] ) ? $_FILES['svg'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- File upload metadata is validated before use.
 
-		$name      = isset( $_POST['name'] ) && is_string( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
-		$label     = isset( $_POST['label'] ) && is_string( $_POST['label'] ) ? sanitize_text_field( wp_unslash( $_POST['label'] ) ) : '';
+		$name      = isset( $_POST['name'] ) && is_string( $_POST['name'] ) ? wp_unslash( $_POST['name'] ) : '';
+		$label     = isset( $_POST['label'] ) && is_string( $_POST['label'] ) ? wp_unslash( $_POST['label'] ) : '';
 		$error     = isset( $file['error'] ) ? absint( $file['error'] ) : UPLOAD_ERR_NO_FILE;
 		$tmp_name  = isset( $file['tmp_name'] ) && is_string( $file['tmp_name'] ) ? $file['tmp_name'] : '';
 		$file_name = isset( $file['name'] ) && is_string( $file['name'] ) ? $file['name'] : '';

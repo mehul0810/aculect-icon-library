@@ -19,6 +19,10 @@ function RenameModal( { items, closeModal, onDone } ) {
 			setError( __( 'An icon label is required.', 'aculect-icon-library' ) );
 			return;
 		}
+		if ( Array.from( label ).length > config.maxLabelLength ) {
+			setError( config.i18n.labelTooLong );
+			return;
+		}
 		setIsSaving( true );
 		setError( '' );
 		request.current = new AbortController();
@@ -26,7 +30,7 @@ function RenameModal( { items, closeModal, onDone } ) {
 			await apiFetch( {
 				path: `${ config.customPath }/${ encodeURIComponent( item.name ) }`,
 				method: 'PATCH',
-				data: { label: label.trim() },
+				data: { label },
 				signal: request.current.signal,
 			} );
 			onDone();
@@ -115,7 +119,7 @@ function CustomIconsDataView() {
 		page: String( view.page || 1 ),
 		per_page: String( view.perPage || 20 ),
 		search: view.search || '',
-		orderby: view.sort?.field === 'name' ? 'name' : 'label',
+		orderby: view.sort?.field === 'iconName' ? 'name' : 'label',
 		order: view.sort?.direction || 'asc',
 	} ).toString();
 
@@ -158,10 +162,15 @@ function CustomIconsDataView() {
 			label: __( 'Icon', 'aculect-icon-library' ),
 			enableGlobalSearch: true,
 			enableSorting: true,
-			// The REST response contains only SVG markup accepted by the server-side SvgSanitizer.
 			render: ( { item } ) => (
 				<span className="icon-library-dataviews-icon">
-					<span className="icon-library-dataviews-preview" aria-hidden="true" dangerouslySetInnerHTML={ { __html: item.svg } } />
+					{ item.svg ? (
+						<span className="icon-library-dataviews-preview" aria-hidden="true" dangerouslySetInnerHTML={ { __html: item.svg } } />
+					) : (
+						<span className="icon-library-dataviews-preview" role="img" aria-label={ __( 'Preview unavailable', 'aculect-icon-library' ) } title={ __( 'Preview unavailable', 'aculect-icon-library' ) }>
+							<span className="dashicons dashicons-hidden" aria-hidden="true" />
+						</span>
+					) }
 					<span className="icon-library-dataviews-label">
 						<span>{ item.label }</span>
 						{ view.fields.includes( 'iconName' ) && <code className="icon-library-dataviews-mobile-name">{ item.iconName }</code> }

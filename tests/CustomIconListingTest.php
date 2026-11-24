@@ -9,9 +9,9 @@ use PHPUnit\Framework\TestCase;
 
 class CustomIconListingTest extends TestCase {
 	private function repository( $icons, $reads ) {
-		$repository = $this->getMockBuilder( CustomIconRepository::class )->disableOriginalConstructor()->onlyMethods( array( 'get_icons', 'get_svg_content' ) )->getMock();
+		$repository = $this->getMockBuilder( CustomIconRepository::class )->disableOriginalConstructor()->onlyMethods( array( 'get_icons', 'get_svg_content_for_icon' ) )->getMock();
 		$repository->method( 'get_icons' )->willReturn( $icons );
-		$repository->expects( $this->exactly( $reads ) )->method( 'get_svg_content' )->willReturn( '<svg />' );
+		$repository->expects( $this->exactly( $reads ) )->method( 'get_svg_content_for_icon' )->willReturn( '<svg />' );
 		return $repository;
 	}
 
@@ -57,6 +57,20 @@ class CustomIconListingTest extends TestCase {
 		$this->assertSame( 'mark-479', $page['items'][0]['name'] );
 		$this->assertSame( 'mark-460', $page['items'][19]['name'] );
 		$this->assertSame( array(), $listing->get_page( 'ÉTOILE', 1, 'name', 26, 20 )['items'] );
+	}
+
+	public function test_page_uses_one_metadata_snapshot_for_preview_reads() {
+		$icons = array();
+		for ( $i = 0; $i < 500; ++$i ) {
+			$icons[ sprintf( 'mark-%03d', $i ) ] = array( 'label' => sprintf( 'Mark %03d', $i ) );
+		}
+		$repository = $this->getMockBuilder( CustomIconRepository::class )->disableOriginalConstructor()->onlyMethods( array( 'get_icons', 'get_svg_content_for_icon' ) )->getMock();
+		$repository->expects( $this->once() )->method( 'get_icons' )->willReturn( $icons );
+		$repository->expects( $this->exactly( 20 ) )->method( 'get_svg_content_for_icon' )->willReturn( '<svg />' );
+		$page = ( new CustomIconListing( $repository ) )->get_page( 'Mark', 1, 'name', 2, 20 );
+		$this->assertSame( 500, $page['total'] );
+		$this->assertCount( 20, $page['items'] );
+		$this->assertSame( 'mark-020', $page['items'][0]['name'] );
 	}
 
 	public function test_ascii_labels_names_empty_and_no_matches_remain_unchanged() {

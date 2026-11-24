@@ -72,7 +72,7 @@ class CollectionRegistryTest extends TestCase {
 					'label'        => 'One',
 					'variant'      => 'solid',
 					'categories'   => array( 'accessibility' ),
-					'keywords'     => array(),
+					'keywords'     => array( 'zero0' ),
 					'path'         => 'solid/one.svg',
 					'sha256'       => str_repeat( 'a', 64 ),
 				),
@@ -115,6 +115,18 @@ class CollectionRegistryTest extends TestCase {
 		$this->assertSame( 3, $registry->query_icons()['total'] );
 		$this->assertNull( $registry->get_icon_by_core_name( 'test-outline/three-outline' ) );
 		$this->assertSame( 'test-solid/one-solid', $registry->get_icon_by_core_name( 'test-solid/one-solid' )['coreIconName'] );
+	}
+
+	/** A numeric zero is a search term rather than an empty filter. */
+	public function test_literal_zero_search_filters_items_totals_and_facets() {
+		$registry = $this->registry();
+		$this->assertSame( 3, $registry->query_icons( array( 'search' => '' ) )['total'] );
+		$first = $registry->query_icons( array( 'search' => '0', 'per_page' => 1 ) );
+		$this->assertSame( 1, $first['total'] );
+		$this->assertSame( 'test/solid/one', $first['items'][0]['id'] );
+		$this->assertSame( array( 'solid' => 1 ), $first['variant_counts'] );
+		$this->assertSame( array(), $registry->query_icons( array( 'search' => '0', 'per_page' => 1, 'page' => 2 ) )['items'] );
+		$this->assertSame( 0, $registry->query_icons( array( 'search' => 'missing' ) )['total'] );
 	}
 
 	public function test_page_cache_retains_only_small_pages_and_is_bounded() {
