@@ -1,6 +1,6 @@
 === Aculect Icon Library ===
 Contributors: mehul0810, alkesh7
-Tags: icons, svg icons, icon block, custom icons, block editor
+Tags: block, icon, icon-block, SVG, SVG block
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -8,11 +8,11 @@ Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Use custom SVG icons alongside Heroicons, Bootstrap Icons, and Font Awesome Free in the native WordPress Icon block. No icon font or CDN needed.
+Use custom SVG icons alongside popular icon libraries like Heroicons, Bootstrap Icons, and Font Awesome Free in the native WordPress Icon block.
 
 == Description ==
 
-Pick the icon that fits your design. Use an envelope from Bootstrap Icons on your contact page or upload your own brand mark. Enabled library icons and uploaded SVGs share the same picker. Choose an icon and adjust its size right in the WordPress Icon block.
+Pick the icon that fits your design. Use an envelope from Bootstrap Icons on your contact page or upload your own brand mark. Enabled library icons and uploaded SVGs share the same picker. Choose an icon and adjust its size right in the WordPress Icon block. No icon font or CDN needed.
 
 Select **Live Preview** on WordPress.org to try the library before installing it on your site.
 
