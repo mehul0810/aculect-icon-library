@@ -617,9 +617,10 @@ body.appearance_page_icon-library #wpfooter {
 	padding: 0 14px;
 }
 
-.icon-library-upload-submit .dashicons {
+.icon-library-upload-details .icon-library-upload-submit .dashicons {
 	font-size: 16px;
 	height: 16px;
+	line-height: 1;
 	width: 16px;
 }
 
@@ -719,6 +720,7 @@ body.appearance_page_icon-library #wpfooter {
 }
 
 #icon-library-custom-dataviews .dataviews-view-table {
+	border-spacing: 0;
 	table-layout: fixed;
 	width: 100%;
 }
@@ -736,6 +738,8 @@ body.appearance_page_icon-library #wpfooter {
 }
 
 #icon-library-custom-dataviews .dataviews-view-table-header-button {
+	color: inherit;
+	font-weight: inherit;
 	justify-content: flex-start;
 	padding-left: 0;
 	padding-right: 0;
@@ -743,6 +747,10 @@ body.appearance_page_icon-library #wpfooter {
 }
 
 #icon-library-custom-dataviews .dataviews-view-table thead th {
+	background-color: #fff;
+	border-bottom: 1px solid #dcdcde;
+	color: #101517;
+	font-weight: 600;
 	padding-left: var(--wpds-dimension-padding-md);
 	padding-right: var(--wpds-dimension-padding-md);
 }
@@ -785,6 +793,10 @@ body.appearance_page_icon-library #wpfooter {
 	padding-bottom: 8px;
 	padding-top: 8px;
 	vertical-align: middle;
+}
+
+#icon-library-custom-dataviews .dataviews-view-table tbody tr + tr > :is(th, td) {
+	border-top: 1px solid #dcdcde;
 }
 
 #icon-library-custom-dataviews .dataviews-view-table__primary-column-content,
