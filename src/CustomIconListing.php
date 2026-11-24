@@ -42,7 +42,8 @@ class CustomIconListing {
 	public function get_page( $search, $order, $orderby, $page, $per_page ) {
 		$search = $this->lowercase( $search );
 		$items  = array();
-		foreach ( $this->custom_icons->get_icons() as $name => $icon ) {
+		$icons  = $this->custom_icons->get_icons();
+		foreach ( $icons as $name => $icon ) {
 			if ( ! is_array( $icon ) || ! empty( $icon['archived'] ) ) {
 				continue;
 			}
@@ -56,7 +57,6 @@ class CustomIconListing {
 				'name'     => $name,
 				'label'    => $label,
 				'iconName' => $icon_name,
-				'path'     => $icon['path'] ?? '',
 			);
 		}
 
@@ -69,9 +69,8 @@ class CustomIconListing {
 		$total = count( $items );
 		$items = array_slice( $items, ( $page - 1 ) * $per_page, $per_page );
 		foreach ( $items as &$item ) {
-			$svg         = $this->custom_icons->get_svg_content( $item['path'] );
+			$svg         = $this->custom_icons->get_svg_content_for_icon( $icons[ $item['name'] ] );
 			$item['svg'] = is_string( $svg ) ? $svg : '';
-			unset( $item['path'] );
 		}
 		unset( $item );
 

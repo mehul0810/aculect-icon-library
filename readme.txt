@@ -48,6 +48,7 @@ need. Bundled libraries include their license and exclusion notices.
 Open **Appearance → Icons → Upload** and choose a supported SVG. Check its
 display label and icon name, then select **Upload icon** to add it to the Icon
 block picker. Use the saved icon's actions menu to rename its label or delete it.
+New icon names can contain up to 100 characters; display labels can contain up to 200.
 
 Bundled and uploaded SVGs are stored on your site. You don't need an external
 service to browse or use them. Custom SVG uploads are validated separately
@@ -204,6 +205,9 @@ Bundled libraries remain under their upstream terms:
 = 1.2.3 =
 
 * Preview a custom SVG before uploading it, edit its display label and icon name together, and manage saved icons from their row menus.
+* Load uploaded-icon previews without rereading the whole list for each row, and sort by the displayed icon name.
+* Show when stored artwork is unavailable and report storage failures separately from missing icons.
+* Match the digit 0 when searching the bundled catalog.
 * Recover the Icon block picker after an initial loading failure so collections can be retried instead of remaining unavailable.
 * Support case-insensitive custom-icon searches for international labels when PHP mbstring is available, with an ASCII fallback otherwise.
 * Clarify setup steps, supported library styles, and custom-icon behavior in the plugin documentation.

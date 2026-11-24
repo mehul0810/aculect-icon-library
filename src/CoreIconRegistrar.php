@@ -577,7 +577,9 @@ class CoreIconRegistrar {
 			return;
 		}
 		$requested_name = sanitize_text_field( $requested_name );
-		if ( '' === $requested_name || self::MAX_ICON_NAME_LENGTH < strlen( $requested_name ) || 1 !== preg_match( '/^[a-z0-9-]+\/[a-z0-9][a-z0-9_-]*$/', $requested_name ) || array_key_exists( $requested_name, $this->resolved_icon_names ) ) {
+		// Older form uploads could create longer names; keep their exact stored IDs usable.
+		$legacy_custom = 0 === strpos( $requested_name, CustomIconRepository::COLLECTION_SLUG . '/' ) && strlen( $requested_name ) <= CorePickerEndpoint::MAX_SELECTED_NAME_LENGTH;
+		if ( '' === $requested_name || ( self::MAX_ICON_NAME_LENGTH < strlen( $requested_name ) && ! $legacy_custom ) || 1 !== preg_match( '/^[a-z0-9-]+\/[a-z0-9][a-z0-9_-]*$/', $requested_name ) || array_key_exists( $requested_name, $this->resolved_icon_names ) ) {
 			return;
 		}
 		$this->resolved_icon_names[ $requested_name ] = false;

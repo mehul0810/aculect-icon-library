@@ -17,12 +17,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Stores sanitized custom icons outside the Media Library.
  */
 class CustomIconRepository {
-	const MAX_ICONS       = 500;
-	const MAX_BYTES       = 33554432;
-	const LOCK_TTL        = 60;
-	const OPTION_LOCK     = 'icon_library_custom_icons_lock';
-	const COLLECTION_SLUG = 'custom-icons';
-	const OPTION_ICONS    = 'icon_library_custom_icons';
+	const MAX_ICONS        = 500;
+	const MAX_BYTES        = 33554432;
+	const MAX_NAME_LENGTH  = 100;
+	const MAX_LABEL_LENGTH = 200;
+	const LOCK_TTL         = 60;
+	const OPTION_LOCK      = 'icon_library_custom_icons_lock';
+	const COLLECTION_SLUG  = 'custom-icons';
+	const OPTION_ICONS     = 'icon_library_custom_icons';
 
 	/**
 	 * SVG sanitizer.
@@ -126,6 +128,12 @@ class CustomIconRepository {
 	 * @return array|WP_Error
 	 */
 	public function create( $name, $label, $svg ) {
+		if ( is_string( $name ) && strlen( $name ) > self::MAX_NAME_LENGTH ) {
+			return new WP_Error( 'icon_library_custom_name_too_long', __( 'Icon names must be 100 characters or fewer.', 'aculect-icon-library' ), array( 'status' => 400 ) );
+		}
+		if ( is_string( $label ) && ! $this->label_length_valid( $label ) ) {
+			return new WP_Error( 'icon_library_custom_label_too_long', __( 'Icon labels must be 200 characters or fewer.', 'aculect-icon-library' ), array( 'status' => 400 ) );
+		}
 		$raw_name = is_string( $name ) ? trim( $name ) : '';
 		$name     = $this->normalize_name( $raw_name );
 		$label    = is_string( $label ) ? sanitize_text_field( $label ) : '';
@@ -242,7 +250,19 @@ class CustomIconRepository {
 			return null;
 		}
 		$icons = $this->get_icons();
-		$icon  = null;
+		$icon  = $this->find_icon_for_path( $icons, $relative_path );
+		return $this->get_stored_file_path( $icon );
+	}
+
+	/**
+	 * Finds a stored icon by path, including legacy name-based lookups.
+	 *
+	 * @param array  $icons Metadata snapshot.
+	 * @param string $relative_path Requested SVG path.
+	 * @return array|null
+	 */
+	private function find_icon_for_path( $icons, $relative_path ) {
+		$icon = null;
 		foreach ( $icons as $candidate ) {
 			if ( is_array( $candidate ) && ( $candidate['path'] ?? '' ) === $relative_path ) {
 				$icon = $candidate;
@@ -252,6 +272,16 @@ class CustomIconRepository {
 		if ( ! is_array( $icon ) ) {
 			$icon = $icons[ basename( $relative_path, '.svg' ) ] ?? null;
 		}
+		return is_array( $icon ) ? $icon : null;
+	}
+
+	/**
+	 * Resolves a metadata record without trusting its pathname.
+	 *
+	 * @param array|null $icon Stored metadata.
+	 * @return string|null
+	 */
+	private function get_stored_file_path( $icon ) {
 		$stored_path = is_array( $icon ) ? ( $icon['path'] ?? '' ) : '';
 		if ( ! is_string( $stored_path ) || '' === $stored_path || basename( $stored_path ) !== $stored_path || '.svg' !== substr( $stored_path, -4 ) ) {
 			return null;
@@ -271,9 +301,48 @@ class CustomIconRepository {
 	 * @return string|null
 	 */
 	public function get_svg_content( $relative_path ) {
-		$path    = $this->get_file_path( $relative_path );
-		$content = $path ? file_get_contents( $path ) : false;
-		return is_string( $content ) ? $content : null;
+		if ( ! is_string( $relative_path ) || basename( $relative_path ) !== $relative_path || '.svg' !== substr( $relative_path, -4 ) ) {
+			return null;
+		}
+		return $this->get_svg_content_for_icon( $this->find_icon_for_path( $this->get_icons(), $relative_path ) );
+	}
+
+	/**
+	 * Reads bounded verified artwork from a trusted metadata snapshot.
+	 *
+	 * @param array|null $icon Metadata previously read from the repository.
+	 * @return string|null
+	 */
+	public function get_svg_content_for_icon( $icon ) {
+		$path = $this->get_stored_file_path( $icon );
+		if ( ! $path || is_link( $path ) || ! is_file( $path ) ) {
+			return null;
+		}
+		// Bound the bytes read even if an uploaded file is later replaced or grows.
+		$handle = @fopen( $path, 'rb' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
+		if ( ! $handle ) {
+			return null;
+		}
+		try {
+			$before = lstat( $path );
+			$opened = fstat( $handle );
+			if ( ! is_array( $before ) || ! is_array( $opened ) || 0100000 !== ( $before['mode'] & 0170000 ) || $before['ino'] !== $opened['ino'] || $before['dev'] !== $opened['dev'] ) {
+				return null;
+			}
+			$content = stream_get_contents( $handle, SvgSanitizer::MAX_FILE_SIZE + 1 );
+		} finally {
+			fclose( $handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+		}
+		if ( ! is_string( $content ) || SvgSanitizer::MAX_FILE_SIZE < strlen( $content ) ) {
+			return null;
+		}
+		if ( array_key_exists( 'sha256', $icon ) ) {
+			$digest = $icon['sha256'];
+			return is_string( $digest ) && 1 === preg_match( '/^[a-f0-9]{64}$/', $digest ) && hash_equals( $digest, hash( 'sha256', $content ) ) ? $content : null;
+		}
+		// Old metadata has no digest; validate its artwork with the current policy.
+		$sanitized = $this->sanitizer->sanitize_custom( $content );
+		return is_string( $sanitized ) ? $sanitized : null;
 	}
 
 	/**
@@ -284,6 +353,9 @@ class CustomIconRepository {
 	 * @return array|WP_Error
 	 */
 	public function update_label( $name, $label ) {
+		if ( is_string( $label ) && ! $this->label_length_valid( $label ) ) {
+			return new WP_Error( 'icon_library_custom_label_too_long', __( 'Icon labels must be 200 characters or fewer.', 'aculect-icon-library' ), array( 'status' => 400 ) );
+		}
 		$name  = $this->normalize_name( $name );
 		$label = is_string( $label ) ? sanitize_text_field( $label ) : '';
 		if ( ! $this->acquire_lock() ) {
@@ -291,6 +363,9 @@ class CustomIconRepository {
 		}
 		try {
 			$icons = $this->get_icons();
+			if ( $this->lock->has_failed() ) {
+				return $this->metadata_read_error();
+			}
 			if ( ! isset( $icons[ $name ] ) ) {
 				return new WP_Error( 'icon_library_custom_not_found', __( 'Custom icon not found.', 'aculect-icon-library' ), array( 'status' => 404 ) );
 			}
@@ -333,11 +408,14 @@ class CustomIconRepository {
 		}
 		try {
 			$icons = $this->get_icons();
+			if ( $this->lock->has_failed() ) {
+				return $this->metadata_read_error();
+			}
 			if ( ! isset( $icons[ $name ] ) ) {
 				return new WP_Error( 'icon_library_custom_not_found', __( 'Custom icon not found.', 'aculect-icon-library' ), array( 'status' => 404 ) );
 			}
 			if ( empty( $icons[ $name ]['archived'] ) ) {
-				return $this->lock->commit();
+				return $this->lock->commit() ? true : new WP_Error( 'icon_library_custom_metadata_failed', __( 'The icon change could not be confirmed. Refresh the icon list before retrying.', 'aculect-icon-library' ), array( 'status' => 500 ) );
 			}
 			unset( $icons[ $name ]['archived'] );
 			if ( ! $this->lock->write( self::OPTION_ICONS, $icons ) || ! $this->lock->commit() ) {
@@ -375,6 +453,9 @@ class CustomIconRepository {
 		}
 		try {
 			$icons = $this->get_icons();
+			if ( $this->lock->has_failed() ) {
+				return $this->metadata_read_error();
+			}
 			if ( ! isset( $icons[ $name ] ) ) {
 				return new WP_Error( 'icon_library_custom_not_found', __( 'Custom icon not found.', 'aculect-icon-library' ), array( 'status' => 404 ) );
 			}
@@ -382,6 +463,9 @@ class CustomIconRepository {
 				return new WP_Error( 'icon_library_custom_not_archived', __( 'Archive the icon before permanently deleting it.', 'aculect-icon-library' ), array( 'status' => 409 ) );
 			}
 			$path = $this->get_file_path( $icons[ $name ]['path'] ?? '' );
+			if ( $this->lock->has_failed() ) {
+				return $this->metadata_read_error();
+			}
 			unset( $icons[ $name ] );
 			if ( ! $this->lock->write( self::OPTION_ICONS, $icons ) || ! $this->lock->commit() ) {
 				return new WP_Error( 'icon_library_custom_metadata_failed', __( 'The icon metadata could not be updated.', 'aculect-icon-library' ), array( 'status' => 500 ) );
@@ -480,6 +564,27 @@ class CustomIconRepository {
 	 */
 	private function normalize_name( $name ) {
 		return is_string( $name ) ? sanitize_key( $name ) : '';
+	}
+
+	/** Counts Unicode code points as the REST string schema does, even without mbstring.
+	 *
+	 * @param string $label Unsanitized display label.
+	 * @return bool
+	 */
+	private function label_length_valid( $label ) {
+		if ( strlen( $label ) > self::MAX_LABEL_LENGTH * 4 ) {
+			return false;
+		}
+		$count = preg_match_all( '/./us', $label );
+		return false !== $count && $count <= self::MAX_LABEL_LENGTH;
+	}
+
+	/** Reports an authoritative metadata read failure.
+	 *
+	 * @return WP_Error
+	 */
+	private function metadata_read_error() {
+		return new WP_Error( 'icon_library_custom_metadata_failed', __( 'The icon metadata could not be read. Refresh the icon list before retrying.', 'aculect-icon-library' ), array( 'status' => 500 ) );
 	}
 
 	/**

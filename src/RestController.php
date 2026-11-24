@@ -194,12 +194,12 @@ class RestController {
 						'name'  => array(
 							'type'      => 'string',
 							'required'  => true,
-							'maxLength' => 100,
+							'maxLength' => CustomIconRepository::MAX_NAME_LENGTH,
 						),
 						'label' => array(
 							'type'      => 'string',
 							'required'  => true,
-							'maxLength' => 200,
+							'maxLength' => CustomIconRepository::MAX_LABEL_LENGTH,
 						),
 						'svg'   => array(
 							'type'      => 'string',
@@ -223,7 +223,7 @@ class RestController {
 						'label' => array(
 							'type'      => 'string',
 							'required'  => true,
-							'maxLength' => 200,
+							'maxLength' => CustomIconRepository::MAX_LABEL_LENGTH,
 						),
 					),
 				),

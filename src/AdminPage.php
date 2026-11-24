@@ -120,6 +120,7 @@ class AdminPage {
 				'previewNonce'      => wp_create_nonce( 'icon_library_preview' ),
 				'restPath'          => '/' . Plugin::REST_NAMESPACE . '/collections/',
 				'customPath'        => '/' . Plugin::REST_NAMESPACE . '/custom-icons',
+				'maxLabelLength'    => CustomIconRepository::MAX_LABEL_LENGTH,
 				'dataViewsEnqueued' => $upload_tab ? '1' : '0',
 				'i18n'              => array(
 					'updating'       => __( 'Updating library...', 'aculect-icon-library' ),
@@ -132,6 +133,7 @@ class AdminPage {
 					'purgeConfirm'   => __( 'Permanently delete this archived icon and its SVG file? Existing blocks will no longer render it.', 'aculect-icon-library' ),
 					'fileTooLarge'   => __( 'SVG files must be 64 KB or smaller.', 'aculect-icon-library' ),
 					'chooseSvg'      => __( 'Choose a single .svg file.', 'aculect-icon-library' ),
+					'labelTooLong'   => __( 'Icon labels must be 200 characters or fewer.', 'aculect-icon-library' ),
 					'previewFailed'  => __( 'Preview unavailable. You can still submit the file for validation.', 'aculect-icon-library' ),
 					/* translators: %s: selected SVG file size in kilobytes. */
 					'svgSize'        => __( '%s KB · SVG', 'aculect-icon-library' ),
@@ -230,6 +232,8 @@ class AdminPage {
 			'icon_library_svg_geometry'           => __( 'The SVG has no supported visible artwork. Add a visible shape and try again.', 'aculect-icon-library' ),
 			'icon_library_custom_name_invalid'    => __( 'Use a lowercase icon name containing letters, numbers, and hyphens.', 'aculect-icon-library' ),
 			'icon_library_custom_label_invalid'   => __( 'Enter an icon label.', 'aculect-icon-library' ),
+			'icon_library_custom_name_too_long'   => __( 'Icon names must be 100 characters or fewer.', 'aculect-icon-library' ),
+			'icon_library_custom_label_too_long'  => __( 'Icon labels must be 200 characters or fewer.', 'aculect-icon-library' ),
 			'icon_library_custom_duplicate'       => __( 'An icon with that name already exists. Choose a different name.', 'aculect-icon-library' ),
 			'icon_library_custom_limit'           => __( 'The custom icon limit has been reached. Remove an icon before uploading another.', 'aculect-icon-library' ),
 			'icon_library_custom_busy'            => __( 'Another icon change is in progress. Try again.', 'aculect-icon-library' ),
@@ -319,11 +323,12 @@ class AdminPage {
 					</label>
 					<div class="icon-library-upload-details">
 						<label for="icon-library-upload-label"><?php esc_html_e( 'Display label', 'aculect-icon-library' ); ?></label>
-						<input id="icon-library-upload-label" name="label" type="text" required placeholder="<?php esc_attr_e( 'Project folder', 'aculect-icon-library' ); ?>" />
+						<input id="icon-library-upload-label" name="label" type="text" required placeholder="<?php esc_attr_e( 'Project folder', 'aculect-icon-library' ); ?>" aria-describedby="icon-library-label-help" />
+						<span id="icon-library-label-help" class="screen-reader-text"><?php esc_html_e( 'Use at most 200 characters.', 'aculect-icon-library' ); ?></span>
 						<label for="icon-library-upload-name"><?php esc_html_e( 'Icon name', 'aculect-icon-library' ); ?></label>
 						<div class="icon-library-upload-id" dir="ltr">
 							<span id="icon-library-upload-prefix">custom-icons/</span>
-							<input id="icon-library-upload-name" name="name" type="text" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required placeholder="project-folder" spellcheck="false" autocapitalize="none" aria-describedby="icon-library-upload-prefix icon-library-name-help" />
+							<input id="icon-library-upload-name" name="name" type="text" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" maxlength="<?php echo esc_attr( CustomIconRepository::MAX_NAME_LENGTH ); ?>" required placeholder="project-folder" spellcheck="false" autocapitalize="none" aria-describedby="icon-library-upload-prefix icon-library-name-help" />
 						</div>
 						<span id="icon-library-name-help" class="screen-reader-text"><?php esc_html_e( 'Use lowercase letters, numbers and single hyphens.', 'aculect-icon-library' ); ?></span>
 						<button type="submit" class="button button-primary icon-library-upload-submit"><span class="dashicons dashicons-upload" aria-hidden="true"></span><?php esc_html_e( 'Upload icon', 'aculect-icon-library' ); ?></button>

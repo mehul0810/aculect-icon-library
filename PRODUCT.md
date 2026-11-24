@@ -52,6 +52,8 @@ selection. Do not change these meanings through copy alone.
   SVG uploads.
 - An existing active or legacy archived name cannot be reused to replace its
   artwork. Require a new name. The current UI has no archive/restore workflow.
+- Limit new custom names to 100 characters and display labels to 200 Unicode
+  code points. A failed artwork check must not delete or rename a saved icon.
 - Deleting a custom icon permanently removes its metadata and SVG, and breaks
   references to it. Explain that consequence before the action.
 - Deactivation stops the plugin from providing icons. Uninstall removes

@@ -477,10 +477,15 @@
 		area.querySelector( '.icon-library-upload-file-size' ).textContent = file && ! error ? config.i18n.svgSize.replace( '%s', Math.ceil( file.size / 1024 ) ) : '';
 
 		var fileName = file && ! error ? file.name.replace( /\.svg$/i, '' ) : '';
-		suggestValue( form.elements.name, fileName.toLowerCase().replace( /[^a-z0-9]+/g, '-' ).replace( /(^-|-$)/g, '' ) );
-		suggestValue( form.elements.label, fileName.replace( /[-_]+/g, ' ' ).replace( /\b\w/g, function ( character ) {
+		var name = fileName.toLowerCase().replace( /[^a-z0-9]+/g, '-' ).replace( /(^-|-$)/g, '' );
+		if ( form.elements.name.maxLength > 0 ) {
+			name = name.slice( 0, form.elements.name.maxLength ).replace( /-$/, '' );
+		}
+		suggestValue( form.elements.name, name );
+		var label = fileName.replace( /[-_]+/g, ' ' ).replace( /\b\w/g, function ( character ) {
 			return character.toUpperCase();
-		} ) );
+		} );
+		suggestValue( form.elements.label, Array.from( label ).slice( 0, config.maxLabelLength ).join( '' ).trim() );
 		if ( ! file || error ) {
 			return;
 		}
@@ -573,6 +578,12 @@
 		if ( ! file || fields.disabled || ! form.reportValidity() ) {
 			return;
 		}
+		var label = form.elements.label.value;
+		if ( Array.from( label ).length > config.maxLabelLength ) {
+			status.textContent = config.i18n.labelTooLong;
+			form.elements.label.focus();
+			return;
+		}
 		if ( 65536 < file.size ) {
 			status.textContent = config.i18n.fileTooLarge;
 			fileInput.focus();
@@ -589,7 +600,7 @@
 				method: 'POST',
 				data: {
 					name: form.querySelector( 'input[name="name"]' ).value,
-					label: form.querySelector( 'input[name="label"]' ).value,
+					label: label,
 					svg: svg,
 				},
 			} );

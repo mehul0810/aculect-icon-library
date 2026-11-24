@@ -311,7 +311,8 @@ class CollectionRegistry {
 			return null;
 		}
 		if ( CustomIconRepository::COLLECTION_SLUG === $slug && $this->custom_icons ) {
-			return $this->custom_icons->get_file_path( $relative_path );
+			// Custom artwork must be read and verified before passing it to Core.
+			return null;
 		}
 		$providers = $this->get_provider_definitions( array( $slug ) );
 		if ( isset( $providers[ $slug ]['svg_path'] ) && is_callable( $providers[ $slug ]['svg_path'] ) ) {
@@ -894,7 +895,7 @@ class CollectionRegistry {
 					continue;
 				}
 
-				if ( $search && ! $this->icon_matches_search( $icon, $search ) ) {
+				if ( '' !== $search && ! $this->icon_matches_search( $icon, $search ) ) {
 					continue;
 				}
 

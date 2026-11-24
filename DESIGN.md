@@ -80,6 +80,8 @@ consequence stated before confirmation. Keep these labels and behaviors distinct
   File changes may refresh suggestions but must preserve manually edited values.
 - Group the saved thumbnail and display label. Keep the registered name and
   the Rename and Delete menu accessible at narrow widths.
+- If the stored artwork cannot be verified, keep the row and show an unavailable
+  preview in the same space. Sorting by Icon name orders by identifier, not label.
 - Keep previews and discovery paginated. Avoid loading every custom SVG or
   inserting an entire catalog into the DOM to support one page of results.
 

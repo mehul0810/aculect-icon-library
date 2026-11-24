@@ -19,7 +19,7 @@ $repository = new class() extends CustomIconRepository {
 	public function get_icons() {
 		return array( 'shape' => array( 'label' => 'Étoile Company' ) );
 	}
-	public function get_svg_content( $path ) {
+	public function get_svg_content_for_icon( $icon ) {
 		return '<svg />';
 	}
 };

@@ -77,12 +77,13 @@ function uploadHarness() {
 	const h = harness( true, `<form class="icon-library-custom-upload"><fieldset>
 		<label class="icon-library-upload-area"><input type="file" name="svg"><canvas hidden></canvas>
 		<strong class="icon-library-upload-file-name"></strong><span class="icon-library-upload-file-size"></span></label>
-		<input name="label"><input name="name"><button type="submit">Upload icon</button>
+		<input name="label"><input name="name" maxlength="100"><button type="submit">Upload icon</button>
 		</fieldset><p class="icon-library-upload-status"></p></form><h2 class="icon-library-custom-heading">Uploaded icons</h2>`, '', {
 		FileReader: class { readAsDataURL( blob ) { assert.equal( blob.type, 'image/svg+xml' ); readers.push( this ); } },
 		Image: class { constructor() { images.push( this ); } },
 	} );
-	Object.assign( h.window.iconLibraryAdmin.i18n, { svgSize: '%s KB · SVG', fileTooLarge: 'Too large', chooseSvg: 'Choose one SVG', uploaded: 'Icon uploaded.' } );
+	h.window.iconLibraryAdmin.maxLabelLength = 200;
+	Object.assign( h.window.iconLibraryAdmin.i18n, { svgSize: '%s KB · SVG', fileTooLarge: 'Too large', chooseSvg: 'Choose one SVG', uploaded: 'Icon uploaded.', labelTooLong: 'Label too long' } );
 	const form = h.document.querySelector( '.icon-library-custom-upload' );
 	const input = form.elements.svg;
 	function choose( ...files ) {
@@ -125,6 +126,23 @@ test( 'invalid and cleared selections reset the preview and do not read the file
 	assert.equal( h.form.querySelector( '.icon-library-upload-file-name' ).textContent, '' );
 	assert.equal( h.form.querySelector( 'canvas' ).hidden, true );
 	assert.equal( h.readers.length + h.apiRequests.length, 0 );
+} );
+
+test( 'upload suggestions fit the name limit and label validation counts Unicode code points', async () => {
+	const h = uploadHarness();
+	h.choose( h.file( 'a'.repeat( 99 ) + '-more.svg' ) );
+	assert.equal( h.form.elements.name.value, 'a'.repeat( 99 ) );
+	const letter = String.fromCodePoint( 0x10400 );
+	h.form.elements.label.value = ' ' + letter.repeat( 200 );
+	const submit = () => h.form.dispatchEvent( new h.document.defaultView.Event( 'submit', { bubbles: true, cancelable: true } ) );
+	submit();
+	assert.equal( h.apiRequests.length, 0 );
+	assert.equal( h.form.querySelector( '.icon-library-upload-status' ).textContent, 'Label too long' );
+	assert.equal( h.document.activeElement, h.form.elements.label );
+	h.form.elements.label.value = letter.repeat( 200 );
+	submit();
+	await tick();
+	assert.equal( h.apiRequests[ 0 ].options.data.label, letter.repeat( 200 ) );
 } );
 
 test( 'a late upload notifies the current listing without redirecting or resetting its form', async () => {
