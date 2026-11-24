@@ -725,6 +725,10 @@ body.appearance_page_icon-library #wpfooter {
 	width: 100%;
 }
 
+#icon-library-custom-dataviews .dataviews-view-table :is(th, td) {
+	padding-inline: var(--wpds-dimension-padding-md, 12px);
+}
+
 #icon-library-custom-dataviews .dataviews-view-table__col-label {
 	width: 45%;
 }
@@ -751,23 +755,18 @@ body.appearance_page_icon-library #wpfooter {
 	border-bottom: 1px solid #dcdcde;
 	color: #101517;
 	font-weight: 600;
-	padding-left: var(--wpds-dimension-padding-md);
-	padding-right: var(--wpds-dimension-padding-md);
-}
-
-#icon-library-custom-dataviews .dataviews-view-table thead th:first-child {
-	padding-left: var(--wpds-dimension-padding-2xl);
-}
-
-#icon-library-custom-dataviews .dataviews-view-table thead th:last-child {
-	padding-right: var(--wpds-dimension-padding-2xl);
 }
 
 #icon-library-custom-dataviews .dataviews-view-table-header {
 	padding-left: 0;
 }
 
+#icon-library-custom-dataviews .dataviews-view-table__actions-column {
+	text-align: center;
+}
+
 #icon-library-custom-dataviews .dataviews-item-actions {
+	display: inline-flex;
 	gap: 8px;
 }
 
@@ -890,11 +889,6 @@ body.appearance_page_icon-library #wpfooter {
 
 	#icon-library-custom-dataviews .dataviews-view-table__col-actions {
 		width: 84px !important;
-	}
-
-	#icon-library-custom-dataviews .dataviews-view-table thead th:last-child {
-		padding-left: 4px;
-		padding-right: 8px;
 	}
 
 	#icon-library-custom-dataviews .dataviews-view-table td {
