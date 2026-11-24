@@ -617,9 +617,10 @@ body.appearance_page_icon-library #wpfooter {
 	padding: 0 14px;
 }
 
-.icon-library-upload-submit .dashicons {
+.icon-library-upload-details .icon-library-upload-submit .dashicons {
 	font-size: 16px;
 	height: 16px;
+	line-height: 1;
 	width: 16px;
 }
 
@@ -719,8 +720,13 @@ body.appearance_page_icon-library #wpfooter {
 }
 
 #icon-library-custom-dataviews .dataviews-view-table {
+	border-spacing: 0;
 	table-layout: fixed;
 	width: 100%;
+}
+
+#icon-library-custom-dataviews .dataviews-view-table :is(th, td) {
+	padding-inline: var(--wpds-dimension-padding-md, 12px);
 }
 
 #icon-library-custom-dataviews .dataviews-view-table__col-label {
@@ -736,6 +742,8 @@ body.appearance_page_icon-library #wpfooter {
 }
 
 #icon-library-custom-dataviews .dataviews-view-table-header-button {
+	color: inherit;
+	font-weight: inherit;
 	justify-content: flex-start;
 	padding-left: 0;
 	padding-right: 0;
@@ -743,23 +751,22 @@ body.appearance_page_icon-library #wpfooter {
 }
 
 #icon-library-custom-dataviews .dataviews-view-table thead th {
-	padding-left: var(--wpds-dimension-padding-md);
-	padding-right: var(--wpds-dimension-padding-md);
-}
-
-#icon-library-custom-dataviews .dataviews-view-table thead th:first-child {
-	padding-left: var(--wpds-dimension-padding-2xl);
-}
-
-#icon-library-custom-dataviews .dataviews-view-table thead th:last-child {
-	padding-right: var(--wpds-dimension-padding-2xl);
+	background-color: #fff;
+	border-bottom: 1px solid #dcdcde;
+	color: #101517;
+	font-weight: 600;
 }
 
 #icon-library-custom-dataviews .dataviews-view-table-header {
 	padding-left: 0;
 }
 
+#icon-library-custom-dataviews .dataviews-view-table__actions-column {
+	text-align: center;
+}
+
 #icon-library-custom-dataviews .dataviews-item-actions {
+	display: inline-flex;
 	gap: 8px;
 }
 
@@ -785,6 +792,10 @@ body.appearance_page_icon-library #wpfooter {
 	padding-bottom: 8px;
 	padding-top: 8px;
 	vertical-align: middle;
+}
+
+#icon-library-custom-dataviews .dataviews-view-table tbody tr + tr > :is(th, td) {
+	border-top: 1px solid #dcdcde;
 }
 
 #icon-library-custom-dataviews .dataviews-view-table__primary-column-content,
@@ -878,11 +889,6 @@ body.appearance_page_icon-library #wpfooter {
 
 	#icon-library-custom-dataviews .dataviews-view-table__col-actions {
 		width: 84px !important;
-	}
-
-	#icon-library-custom-dataviews .dataviews-view-table thead th:last-child {
-		padding-left: 4px;
-		padding-right: 8px;
 	}
 
 	#icon-library-custom-dataviews .dataviews-view-table td {
