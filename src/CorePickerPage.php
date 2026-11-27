@@ -40,6 +40,9 @@ final class CorePickerPage {
 		foreach ( $rows as $row ) {
 			if ( $pattern ) {
 				$haystack = $row['name'] . "\n" . self::label( $row );
+				if ( ! empty( $row['keywords'] ) && is_array( $row['keywords'] ) ) {
+					$haystack .= "\n" . implode( "\n", array_filter( $row['keywords'], 'is_string' ) );
+				}
 				if ( ! preg_match( $pattern, $accents ? remove_accents( $haystack ) : $haystack ) ) {
 					continue;
 				}

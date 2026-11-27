@@ -69,6 +69,23 @@ class BoundedPickerTest extends TestCase {
 		$this->assertSame( 'external-picker/one', $data['items'][0]['name'] );
 	}
 
+	public function test_registered_keywords_match_before_paging_without_changing_returned_artwork() {
+		wp_register_icon_collection( 'mail', array( 'label' => 'Mail' ) );
+		wp_register_icon( 'mail/one', array( 'label' => 'Envelope', 'keywords' => array( 'letter', "\u{03A9}mega" ) ) );
+		wp_register_icon( 'mail/two', array( 'label' => 'Stamp', 'keywords' => array( 'letter' ) ) );
+		wp_register_icon( 'mail/three', array( 'label' => 'Other' ) );
+		$core = $this->fixture( 0, false );
+
+		$data = $core->get_picker_page( 'mail', 'LETTER', 2, 1 );
+		$this->assertSame( 2, $data['total'] );
+		$this->assertSame( 2, $data['total_pages'] );
+		$this->assertSame( array( 'mail/two' ), array_column( $data['items'], 'name' ) );
+		$this->assertArrayNotHasKey( 'keywords', $data['items'][0] );
+
+		$data = $core->get_picker_page( '', "\u{03C9}mega", 1, 48 );
+		$this->assertSame( array( 'mail/one' ), array_column( $data['items'], 'name' ) );
+	}
+
 	public function test_wordpress_72_picker_only_includes_public_registered_collections() {
 		$GLOBALS['icon_library_test_wp_version'] = '7.2-RC3';
 		wp_register_icon_collection( 'public-picker', array( 'label' => 'Public' ) );
