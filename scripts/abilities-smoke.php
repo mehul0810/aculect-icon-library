@@ -34,15 +34,21 @@ function icon_library_abilities_assert( $condition, $message ) {
 }
 
 /**
- * Dispatch a read-only ability through the real WordPress REST controller.
+ * Dispatch an ability through the real WordPress REST controller.
  *
  * @param string $name  Registered ability name.
  * @param array  $input Request input.
+ * @param string $method REST method.
  * @return WP_REST_Response
  */
-function icon_library_abilities_request( $name, $input ) {
-	$request = new WP_REST_Request( 'GET', '/wp-abilities/v1/abilities/icon-library/' . $name . '/run' );
-	$request->set_param( 'input', $input );
+function icon_library_abilities_request( $name, $input, $method = 'GET' ) {
+	$request = new WP_REST_Request( $method, '/wp-abilities/v1/abilities/icon-library/' . $name . '/run' );
+	if ( 'GET' === $method ) {
+		$request->set_param( 'input', $input );
+	} else {
+		$request->set_header( 'Content-Type', 'application/json' );
+		$request->set_body( wp_json_encode( array( 'input' => $input ) ) );
+	}
 	return rest_do_request( $request );
 }
 
@@ -97,6 +103,90 @@ try {
 	$denied = icon_library_abilities_request( 'list-icon-blocks', array( 'post_id' => (string) $posts[1] ) );
 	icon_library_abilities_assert( 403 === $denied->get_status(), 'An author could list another author\'s draft.' );
 	icon_library_abilities_assert( '<!-- wp:icon {"icon":"test/icon"} /-->' === get_post( $posts[1] )->post_content, 'A denied request changed another author\'s content.' );
+
+	$schema = wp_get_ability( 'icon-library/list-icon-blocks' )->get_output_schema();
+	icon_library_abilities_assert( in_array( 'content_hash', $schema['required'], true ), 'The list output schema must require the content hash.' );
+	$original_content = get_post( $posts[0] )->post_content;
+	icon_library_abilities_assert( hash( 'sha256', $original_content ) === $data->content_hash, 'The initial content hash did not match the saved post.' );
+
+	$insert   = icon_library_abilities_request(
+		'insert-icon-block',
+		array(
+			'post_id'               => $posts[0],
+			'icon'                  => 'core/envelope',
+			'expected_content_hash' => $data->content_hash,
+		),
+		'POST'
+	);
+	$inserted = json_decode( wp_json_encode( $insert->get_data() ) );
+	icon_library_abilities_assert( 200 === $insert->get_status() && ! empty( $inserted->changed ) && array( 1 ) === $inserted->path && 'core/envelope' === $inserted->icon, 'The author could not insert the Core icon at the expected path.' );
+	clean_post_cache( $posts[0] );
+	$inserted_content = get_post( $posts[0] )->post_content;
+	icon_library_abilities_assert( $original_content !== $inserted_content, 'Insert did not change the persisted post.' );
+	$listed       = icon_library_abilities_request( 'list-icon-blocks', array( 'post_id' => $posts[0] ) );
+	$after_insert = json_decode( wp_json_encode( $listed->get_data() ) );
+	icon_library_abilities_assert( 200 === $listed->get_status() && 2 === $after_insert->count && 'core/envelope' === $after_insert->items[1]->icon && hash( 'sha256', $inserted_content ) === $after_insert->content_hash, 'The inserted icon or content hash did not persist.' );
+
+	$replace  = icon_library_abilities_request(
+		'replace-icon-block',
+		array(
+			'post_id'               => $posts[0],
+			'path'                  => $inserted->path,
+			'icon'                  => 'core/info',
+			'expected_content_hash' => $after_insert->content_hash,
+		),
+		'POST'
+	);
+	$replaced = json_decode( wp_json_encode( $replace->get_data() ) );
+	icon_library_abilities_assert( 200 === $replace->get_status() && ! empty( $replaced->changed ) && $inserted->path === $replaced->path && 'core/info' === $replaced->icon, 'The author could not replace the inserted Core icon.' );
+	clean_post_cache( $posts[0] );
+	$replaced_content = get_post( $posts[0] )->post_content;
+	icon_library_abilities_assert( $inserted_content !== $replaced_content, 'Replace did not change the persisted post.' );
+	$listed        = icon_library_abilities_request( 'list-icon-blocks', array( 'post_id' => $posts[0] ) );
+	$after_replace = json_decode( wp_json_encode( $listed->get_data() ) );
+	icon_library_abilities_assert( 200 === $listed->get_status() && 2 === $after_replace->count && 'core/info' === $after_replace->items[1]->icon && hash( 'sha256', $replaced_content ) === $after_replace->content_hash, 'The replacement icon or content hash did not persist.' );
+
+	$stale = icon_library_abilities_request(
+		'remove-icon-block',
+		array(
+			'post_id'               => $posts[0],
+			'path'                  => $inserted->path,
+			'expected_content_hash' => $after_insert->content_hash,
+		),
+		'POST'
+	);
+	clean_post_cache( $posts[0] );
+	icon_library_abilities_assert( 409 === $stale->get_status() && get_post( $posts[0] )->post_content === $replaced_content, 'A stale removal was not rejected without changing the post.' );
+
+	$other_content = get_post( $posts[1] )->post_content;
+	$denied_edit   = icon_library_abilities_request(
+		'remove-icon-block',
+		array(
+			'post_id'               => $posts[1],
+			'path'                  => array( 0 ),
+			'expected_content_hash' => hash( 'sha256', $other_content ),
+		),
+		'POST'
+	);
+	clean_post_cache( $posts[1] );
+	icon_library_abilities_assert( 403 === $denied_edit->get_status() && get_post( $posts[1] )->post_content === $other_content, 'A cross-author edit was not denied without changing the post.' );
+
+	$remove  = icon_library_abilities_request(
+		'remove-icon-block',
+		array(
+			'post_id'               => $posts[0],
+			'path'                  => $inserted->path,
+			'expected_content_hash' => $after_replace->content_hash,
+		),
+		'POST'
+	);
+	$removed = json_decode( wp_json_encode( $remove->get_data() ) );
+	icon_library_abilities_assert( 200 === $remove->get_status() && ! empty( $removed->changed ) && 'core/info' === $removed->icon, 'The author could not remove the replacement icon.' );
+	clean_post_cache( $posts[0] );
+	$final_content = get_post( $posts[0] )->post_content;
+	$listed        = icon_library_abilities_request( 'list-icon-blocks', array( 'post_id' => $posts[0] ) );
+	$after_remove  = json_decode( wp_json_encode( $listed->get_data() ) );
+	icon_library_abilities_assert( 200 === $listed->get_status() && 1 === $after_remove->count && 'test/icon' === $after_remove->items[0]->icon && hash( 'sha256', $final_content ) === $after_remove->content_hash, 'The removal or final content hash did not persist.' );
 
 	$search = icon_library_abilities_request(
 		'search-icons',
