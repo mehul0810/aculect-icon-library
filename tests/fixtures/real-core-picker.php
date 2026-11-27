@@ -1,8 +1,11 @@
 <?php
 /** Real Core registry subprocess fixture for bounded picker hydration. */
 
-define( 'ABSPATH', __DIR__ . '/' );
-define( 'WPINC', 'wp-includes' );
+$core_dir = getenv( 'WP_CORE_DIR' );
+if ( ! $core_dir ) { throw new RuntimeException( 'WP_CORE_DIR is required.' ); }
+if ( ! is_file( $core_dir . '/wp-includes/compat.php' ) ) { throw new RuntimeException( 'WP_CORE_DIR must contain wp-includes/compat.php.' ); }
+define( 'ABSPATH', rtrim( $core_dir, '/\\' ) . '/' );
+if ( ! defined( 'WPINC' ) ) { define( 'WPINC', 'wp-includes' ); }
 define( 'ICON_LIBRARY_DIR', dirname( __DIR__, 2 ) . '/' );
 
 function __( $text ) { return $text; }
@@ -31,9 +34,6 @@ class WP_REST_Response {
 	public function set_data( $data ) { $this->data = $data; }
 }
 
-$core_dir = getenv( 'WP_CORE_DIR' );
-if ( ! $core_dir ) { throw new RuntimeException( 'WP_CORE_DIR is required.' ); }
-if ( ! is_file( $core_dir . '/wp-includes/compat.php' ) ) { throw new RuntimeException( 'WP_CORE_DIR must contain wp-includes/compat.php.' ); }
 require_once $core_dir . '/wp-includes/compat.php';
 require_once $core_dir . '/wp-includes/class-wp-icon-collections-registry.php';
 require_once $core_dir . '/wp-includes/class-wp-icons-registry.php';
