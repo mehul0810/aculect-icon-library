@@ -4,6 +4,7 @@
 use IconLibrary\AbilityRegistrar;
 use IconLibrary\CollectionRegistry;
 use IconLibrary\IconBlockService;
+use IconLibrary\IconLabel;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/support/PostDatabase.php';
@@ -79,6 +80,10 @@ class AbilityRegistrarTest extends TestCase {
 		$this->assertCount( 6, $GLOBALS['icon_library_test_abilities'] );
 		$this->assertTrue( $GLOBALS['icon_library_test_abilities']['icon-library/insert-icon-block']['meta']['show_in_rest'] );
 		$this->assertTrue( $GLOBALS['icon_library_test_abilities']['icon-library/remove-icon-block']['meta']['annotations']['destructive'] );
+		foreach ( array( 'insert', 'replace' ) as $operation ) {
+			$schema = $GLOBALS['icon_library_test_abilities'][ 'icon-library/' . $operation . '-icon-block' ]['input_schema'];
+			$this->assertSame( IconLabel::MAX_LENGTH, $schema['properties']['attributes']['properties']['ariaLabel']['maxLength'] );
+		}
 	}
 
 	public function test_search_returns_catalog_metadata_without_source_paths() {

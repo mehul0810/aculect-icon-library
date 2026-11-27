@@ -289,7 +289,7 @@ class AbilityRegistrar {
 			'properties'           => array(
 				'ariaLabel'      => array(
 					'type'      => 'string',
-					'maxLength' => 200,
+					'maxLength' => IconLabel::MAX_LENGTH,
 				),
 				'rotation'       => array(
 					'type'    => 'integer',
