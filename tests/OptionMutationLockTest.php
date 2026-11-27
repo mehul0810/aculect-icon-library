@@ -107,6 +107,37 @@ class OptionMutationLockTest extends TestCase {
 		$GLOBALS['wpdb']->active = false;
 	}
 
+	public function test_transaction_ownership_tracks_each_connection_until_commit_or_rollback() {
+		$first = $GLOBALS['wpdb'];
+		$second = new IconLibrary_Test_Option_Database();
+		$one = new DatabaseTransaction();
+		$two = new DatabaseTransaction();
+		$next = new DatabaseTransaction();
+		$tables = array( 'wp_options' );
+		try {
+			$this->assertTrue( $one->begin( $tables ) );
+			$queries = $first->queries;
+			$this->assertFalse( $next->begin( $tables ) );
+			$this->assertSame( $queries, $first->queries );
+
+			$GLOBALS['wpdb'] = $second;
+			$this->assertTrue( $two->begin( $tables ) );
+			$this->assertTrue( $one->commit() );
+			$this->assertTrue( $second->active );
+			$this->assertFalse( $next->begin( $tables ) );
+			$two->rollback();
+			$this->assertTrue( $next->begin( $tables ) );
+			$next->rollback();
+			$GLOBALS['wpdb'] = $first;
+			$this->assertTrue( $next->begin( $tables ) );
+		} finally {
+			$one->rollback();
+			$two->rollback();
+			$next->rollback();
+			$GLOBALS['wpdb'] = $first;
+		}
+	}
+
 	public function test_unchanged_snapshot_does_not_report_success_after_an_intervening_write() {
 		$GLOBALS['icon_library_test_options']['state'] = array( 'original' );
 		$lock = new OptionMutationLock( 'lock' );
