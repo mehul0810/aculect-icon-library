@@ -227,6 +227,10 @@ function __( $text ) {
 	return $text;
 }
 
+function _x( $text, $context ) {
+	return $text;
+}
+
 
 function apply_filters( $hook, $value, ...$args ) {
 	foreach ( $GLOBALS['icon_library_test_filters'][ $hook ] ?? array() as $callback ) {

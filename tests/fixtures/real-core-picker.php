@@ -9,6 +9,7 @@ if ( ! defined( 'WPINC' ) ) { define( 'WPINC', 'wp-includes' ); }
 define( 'ICON_LIBRARY_DIR', dirname( __DIR__, 2 ) . '/' );
 
 function __( $text ) { return $text; }
+function _x( $text ) { return $text; }
 function get_bloginfo( $name ) { return 'version' === $name ? $GLOBALS['wp_version'] : ''; }
 function add_action() {}
 function wp_kses( $content ) { return $content; }
@@ -106,7 +107,7 @@ if ( version_compare( get_bloginfo( 'version' ), '7.2-alpha', '>=' ) ) {
 	check( 0 === $private['total'] && 0 === hydrated_count( 'private-fixture/' ), 'private collection was selected or hydrated' );
 }
 check( wp_register_icon_collection( 'core', array( 'label' => 'Core' ) ), 'Core collection registration failed' );
-$core_properties = array( 'label' => 'Envelope', 'file_path' => $svg );
+$core_properties = array( 'label' => 'Envelope', 'file_path' => ABSPATH . WPINC . '/images/icon-library/envelope.svg' );
 if ( version_compare( get_bloginfo( 'version' ), '7.2-alpha', '>=' ) ) {
 	$core_properties['keywords'] = array( 'letter' );
 }

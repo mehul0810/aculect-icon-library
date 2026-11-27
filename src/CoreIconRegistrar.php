@@ -372,16 +372,60 @@ class CoreIconRegistrar {
 		if ( ! self::is_collection_visible( 'core' ) ) {
 			return array();
 		}
+		$paths = self::get_builtin_core_paths();
+		if ( ! $paths || ( '' !== $name && ! isset( $paths[ $name ] ) ) ) {
+			return array();
+		}
 		$metadata = CoreIconMetadataReader::get_registered_metadata( $name );
 		if ( is_wp_error( $metadata ) ) {
 			return $metadata;
 		}
 		return array_filter(
 			$metadata,
-			static function ( $icon ) {
-				return 'core' === $icon['collection'] && 0 === strpos( $icon['name'], 'core/' );
+			static function ( $icon ) use ( $paths ) {
+				return 'core' === $icon['collection'] && isset( $paths[ $icon['name'] ], $icon['file_path'] ) && $paths[ $icon['name'] ] === $icon['file_path'];
 			}
 		);
+	}
+
+	/**
+	 * Reads static Core provenance once per request, without loading artwork.
+	 *
+	 * @return array<string,string> Built-in icon names and expected file paths.
+	 */
+	private static function get_builtin_core_paths() {
+		static $cache = array();
+		if ( ! defined( 'WPINC' ) ) {
+			return array();
+		}
+		$has_collections = version_compare( get_bloginfo( 'version' ), '7.2-alpha', '>=' );
+		$manifest_path   = ABSPATH . WPINC . '/assets/icon-library-manifest.php';
+		$cache_key       = $manifest_path . ':' . ( $has_collections ? 'collections' : 'legacy' );
+		if ( isset( $cache[ $cache_key ] ) ) {
+			return $cache[ $cache_key ];
+		}
+		$cache[ $cache_key ] = array();
+		if ( ! is_readable( $manifest_path ) ) {
+			return $cache[ $cache_key ];
+		}
+		try {
+			$manifest = include $manifest_path;
+		} catch ( \Throwable $error ) {
+			return $cache[ $cache_key ];
+		}
+		if ( ! is_array( $manifest ) ) {
+			return $cache[ $cache_key ];
+		}
+		foreach ( $manifest as $name => $entry ) {
+			if ( ! is_string( $name ) || 1 !== preg_match( '/^[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?$/', $name ) || ! is_array( $entry ) || ! isset( $entry['filePath'] ) || ! is_string( $entry['filePath'] ) || 1 !== preg_match( '/^[a-z0-9][a-z0-9_-]*\.svg$/', $entry['filePath'] ) ) {
+				continue;
+			}
+			if ( $has_collections && ( ! isset( $entry['collections'] ) || ! is_array( $entry['collections'] ) || ! in_array( 'core', $entry['collections'], true ) ) ) {
+				continue;
+			}
+			$cache[ $cache_key ][ 'core/' . $name ] = ABSPATH . WPINC . '/images/icon-library/' . $entry['filePath'];
+		}
+		return $cache[ $cache_key ];
 	}
 
 	/** Checks the Core registry layout before autoloading its metadata subclass. */
