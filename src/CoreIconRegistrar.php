@@ -369,14 +369,30 @@ class CoreIconRegistrar {
 	 * @return \Generator Metadata rows with request-local resolution hints.
 	 */
 	private function picker_rows( $collection, $existing ) {
-		$visible = $this->filter_core_discovery_response( new WP_REST_Response( $existing ), null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) )->get_data();
-		$seen    = array();
+		$visible               = $this->filter_core_discovery_response( new WP_REST_Response( $existing ), null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) )->get_data();
+		$seen                  = array();
+		$collection_visibility = array();
+		$check_visibility      = version_compare( get_bloginfo( 'version' ), '7.2-alpha', '>=' );
+		$is_visible            = static function ( $slug ) use ( $check_visibility, &$collection_visibility ) {
+			if ( ! $check_visibility ) {
+				return true;
+			}
+			if ( ! is_string( $slug ) || '' === $slug || ! class_exists( '\\WP_Icon_Collections_Registry' ) ) {
+				return false;
+			}
+			if ( ! array_key_exists( $slug, $collection_visibility ) ) {
+				$registry                       = \WP_Icon_Collections_Registry::get_instance();
+				$properties                     = $registry->get_registered( $slug );
+				$collection_visibility[ $slug ] = is_array( $properties ) && ! empty( $properties['public'] );
+			}
+			return $collection_visibility[ $slug ];
+		};
 		foreach ( $visible as $icon ) {
 			if ( ! is_array( $icon ) || empty( $icon['name'] ) || $this->owns_registered_icon( $icon['name'], $icon ) ) {
 				continue; }
 			$namespace             = $icon['collection'] ?? strstr( $icon['name'], '/', true );
 			$seen[ $icon['name'] ] = true;
-			if ( ! $collection || $collection === $namespace ) {
+			if ( ( ! $collection || $collection === $namespace ) && $is_visible( $namespace ) ) {
 				yield array(
 					'name'       => $icon['name'],
 					'label'      => $icon['label'] ?? $icon['name'],
@@ -411,7 +427,7 @@ class CoreIconRegistrar {
 					continue; }
 				$namespace = $styles[ $variant ] ?? $library;
 				$name      = $namespace . substr( $icon['coreIconName'], strlen( $library ) );
-				if ( isset( $seen[ $name ] ) || ( $collection && $collection !== $namespace ) ) {
+				if ( isset( $seen[ $name ] ) || ( $collection && $collection !== $namespace ) || ! $is_visible( $namespace ) ) {
 					continue; }
 				yield array(
 					'name'       => $name,

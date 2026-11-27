@@ -212,6 +212,10 @@ class WP_Icon_Collections_Registry {
 	public function get_registered( $slug ) {
 		return $GLOBALS['icon_library_test_registered']['collections'][ $slug ] ?? null;
 	}
+
+	public function is_registered( $slug ) {
+		return null !== $this->get_registered( $slug );
+	}
 }
 
 function __( $text ) {
@@ -461,6 +465,9 @@ function rest_authorization_required_code() {
 }
 
 function wp_register_icon_collection( $slug, $args ) {
+	if ( version_compare( get_bloginfo( 'version' ), '7.2-alpha', '>=' ) ) {
+		$args += array( 'public' => true );
+	}
 	$GLOBALS['icon_library_test_registered']['collections'][ $slug ] = $args;
 	return true;
 }
