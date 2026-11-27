@@ -1,11 +1,15 @@
 <?php
 /** Real Core registry subprocess fixture for bounded picker hydration. */
 
-define( 'ABSPATH', __DIR__ . '/' );
-define( 'WPINC', 'wp-includes' );
+$core_dir = getenv( 'WP_CORE_DIR' );
+if ( ! $core_dir ) { throw new RuntimeException( 'WP_CORE_DIR is required.' ); }
+if ( ! is_file( $core_dir . '/wp-includes/compat.php' ) ) { throw new RuntimeException( 'WP_CORE_DIR must contain wp-includes/compat.php.' ); }
+define( 'ABSPATH', rtrim( $core_dir, '/\\' ) . '/' );
+if ( ! defined( 'WPINC' ) ) { define( 'WPINC', 'wp-includes' ); }
 define( 'ICON_LIBRARY_DIR', dirname( __DIR__, 2 ) . '/' );
 
 function __( $text ) { return $text; }
+function get_bloginfo( $name ) { return 'version' === $name ? $GLOBALS['wp_version'] : ''; }
 function add_action() {}
 function wp_kses( $content ) { return $content; }
 function sanitize_text_field( $text ) { return $text; }
@@ -31,9 +35,7 @@ class WP_REST_Response {
 	public function set_data( $data ) { $this->data = $data; }
 }
 
-$core_dir = getenv( 'WP_CORE_DIR' );
-if ( ! $core_dir ) { throw new RuntimeException( 'WP_CORE_DIR is required.' ); }
-if ( ! is_file( $core_dir . '/wp-includes/compat.php' ) ) { throw new RuntimeException( 'WP_CORE_DIR must contain wp-includes/compat.php.' ); }
+require $core_dir . '/wp-includes/version.php';
 require_once $core_dir . '/wp-includes/compat.php';
 require_once $core_dir . '/wp-includes/class-wp-icon-collections-registry.php';
 require_once $core_dir . '/wp-includes/class-wp-icons-registry.php';
@@ -92,4 +94,12 @@ check( 1 === $search['total'] && 'external-lazy/item-1500' === $search['items'][
 check( 81 === hydrated_count( 'external-lazy/' ), 'search hydrated unrelated artwork' );
 check( $identity === spl_object_id( WP_Icons_Registry::get_instance() ), 'Core registry singleton changed' );
 check( 2001 === count( IconLibrary\CoreIconMetadataReader::get_registered_metadata() ), 'Core registrations changed' );
+if ( version_compare( get_bloginfo( 'version' ), '7.2-alpha', '>=' ) ) {
+	check( wp_register_icon_collection( 'private-fixture', array( 'label' => 'Private fixture', 'public' => false ) ), 'private collection registration failed' );
+	check( wp_register_icon( 'private-fixture/one', array( 'label' => 'Private fixture icon', 'file_path' => $svg ) ), 'private icon registration failed' );
+	$all = $picker->get_picker_page( '', '', 1, 48 );
+	check( 2001 === $all['total'], 'private collection affected picker total' );
+	$private = $picker->get_picker_page( 'private-fixture' );
+	check( 0 === $private['total'] && 0 === hydrated_count( 'private-fixture/' ), 'private collection was selected or hydrated' );
+}
 echo "Real Core picker metadata remains lazy and bounded.\n";
