@@ -133,6 +133,8 @@ jobs:
           wp --path="$WP_CORE_DIR" option update icon_library_enabled_variants '{"heroicons":["solid","outline"]}' --format=json
       - name: Verify save, reload, and rendered icons
         run: ICON_LIBRARY_WP_LOAD="$WP_CORE_DIR/wp-load.php" composer smoke
+      - name: Verify Abilities REST contract
+        run: ICON_LIBRARY_ALLOW_TEST_DATA=1 ICON_LIBRARY_WP_LOAD="$WP_CORE_DIR/wp-load.php" composer smoke:abilities
 
   plugin-check:
     name: Plugin Check
