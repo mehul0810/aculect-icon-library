@@ -381,6 +381,7 @@ class CoreIconRegistrar {
 					'name'       => $icon['name'],
 					'label'      => $icon['label'] ?? $icon['name'],
 					'collection' => $namespace,
+					'keywords'   => $icon['keywords'] ?? array(),
 				);
 			}
 		}
