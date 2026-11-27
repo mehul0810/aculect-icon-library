@@ -13,6 +13,7 @@ function get_bloginfo( $name ) { return 'version' === $name ? $GLOBALS['wp_versi
 function add_action() {}
 function wp_kses( $content ) { return $content; }
 function sanitize_text_field( $text ) { return $text; }
+function sanitize_key( $text ) { return preg_replace( '/[^a-z0-9_\-]/', '', strtolower( $text ) ); }
 function remove_accents( $text ) { return $text; }
 function is_wp_error( $value ) { return $value instanceof WP_Error; }
 function wp_trigger_error( $function_name, $message ) { throw new RuntimeException( $function_name . ': ' . $message ); }
@@ -52,6 +53,8 @@ class EmptyCollectionRegistry extends IconLibrary\CollectionRegistry {
 	public function __construct() {}
 	public function get_enabled_collection_slugs() { return array(); }
 	public function get_available_collection_slugs() { return array(); }
+	public function query_icons( $args = array() ) { return array( 'items' => array(), 'total' => 0, 'variant_counts' => array() ); }
+	public function get_icon_by_core_name( $name, $enabled_only = true ) { return null; }
 }
 
 function check( $truth, $message ) {
@@ -102,4 +105,16 @@ if ( version_compare( get_bloginfo( 'version' ), '7.2-alpha', '>=' ) ) {
 	$private = $picker->get_picker_page( 'private-fixture' );
 	check( 0 === $private['total'] && 0 === hydrated_count( 'private-fixture/' ), 'private collection was selected or hydrated' );
 }
+check( wp_register_icon_collection( 'core', array( 'label' => 'Core' ) ), 'Core collection registration failed' );
+$core_properties = array( 'label' => 'Envelope', 'file_path' => $svg );
+if ( version_compare( get_bloginfo( 'version' ), '7.2-alpha', '>=' ) ) {
+	$core_properties['keywords'] = array( 'letter' );
+}
+check( wp_register_icon( 'core/envelope', $core_properties ), 'Core icon registration failed' );
+$ability = new IconLibrary\IconBlockService( new EmptyCollectionRegistry() );
+$result  = $ability->search_icons( array( 'search' => isset( $core_properties['keywords'] ) ? 'letter' : 'envelope' ) );
+check( 1 === $result['total'] && 'core/envelope' === $result['items'][0]['name'], 'ability keyword search failed' );
+check( 'Envelope' === $result['items'][0]['label'] && ( $core_properties['keywords'] ?? array() ) === $result['items'][0]['keywords'], 'ability metadata differs from Core registration' );
+check( $result['items'][0] === $ability->get_icon( array( 'icon' => 'core/envelope' ) ), 'ability exact lookup differs from search' );
+check( 0 === hydrated_count( 'core/' ), 'ability discovery hydrated Core artwork' );
 echo "Real Core picker metadata remains lazy and bounded.\n";

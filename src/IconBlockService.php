@@ -45,13 +45,17 @@ class IconBlockService {
 	 * @return array|WP_Error
 	 */
 	public function search_icons( $input = array() ) {
-		$input = is_array( $input ) ? $input : array();
-		$query = $this->collection_registry->query_icons(
+		$input      = is_array( $input ) ? $input : array();
+		$collection = isset( $input['collection'] ) && is_string( $input['collection'] ) ? sanitize_key( $input['collection'] ) : '';
+		$variant    = isset( $input['variant'] ) && is_string( $input['variant'] ) ? sanitize_key( $input['variant'] ) : '';
+		$category   = isset( $input['category'] ) && is_string( $input['category'] ) ? sanitize_key( $input['category'] ) : '';
+		$search     = isset( $input['search'] ) && is_string( $input['search'] ) ? sanitize_text_field( $input['search'] ) : '';
+		$query      = $this->collection_registry->query_icons(
 			array(
-				'collection' => isset( $input['collection'] ) && is_string( $input['collection'] ) ? $input['collection'] : '',
-				'variant'    => isset( $input['variant'] ) && is_string( $input['variant'] ) ? $input['variant'] : '',
-				'category'   => isset( $input['category'] ) && is_string( $input['category'] ) ? $input['category'] : '',
-				'search'     => isset( $input['search'] ) && is_string( $input['search'] ) ? $input['search'] : '',
+				'collection' => $collection,
+				'variant'    => $variant,
+				'category'   => $category,
+				'search'     => $search,
 				'enabled'    => true,
 				'page'       => isset( $input['page'] ) ? $input['page'] : 1,
 				'per_page'   => isset( $input['per_page'] ) ? $input['per_page'] : 50,
@@ -73,6 +77,24 @@ class IconBlockService {
 				if ( '' !== $prepared['name'] ) {
 					$items[] = $prepared;
 				}
+			}
+		}
+
+		if ( ( '' === $collection || 'core' === $collection ) && '' === $variant && '' === $category ) {
+			$core_icons = CoreIconRegistrar::get_public_core_metadata();
+			if ( is_wp_error( $core_icons ) ) {
+				return $core_icons;
+			}
+			$matches = CorePickerPage::matcher( $search );
+			$offset  = ( $page - 1 ) * $per_page;
+			foreach ( $core_icons as $icon ) {
+				if ( ! $matches( $icon ) ) {
+					continue;
+				}
+				if ( $total >= $offset && $total < $offset + $per_page ) {
+					$items[] = $this->prepare_icon( $icon );
+				}
+				++$total;
 			}
 		}
 
@@ -436,18 +458,13 @@ class IconBlockService {
 			return $icon;
 		}
 
-		if ( 0 === strpos( $name, 'core/' ) && class_exists( 'WP_Icons_Registry' ) && method_exists( 'WP_Icons_Registry', 'get_instance' ) ) {
-			$registry = \WP_Icons_Registry::get_instance();
-			if ( method_exists( $registry, 'get_registered_icon' ) && is_array( $registry->get_registered_icon( $name ) ) ) {
-				return array(
-					'id'         => $name,
-					'name'       => $name,
-					'label'      => $name,
-					'collection' => 'core',
-					'variant'    => '',
-					'categories' => array(),
-					'keywords'   => array(),
-				);
+		if ( 0 === strpos( $name, 'core/' ) ) {
+			$core_icons = CoreIconRegistrar::get_public_core_metadata( $name );
+			if ( is_wp_error( $core_icons ) ) {
+				return $core_icons;
+			}
+			if ( isset( $core_icons[ $name ] ) ) {
+				return $core_icons[ $name ];
 			}
 		}
 
