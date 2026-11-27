@@ -328,12 +328,7 @@ class CoreIconRegistrar {
 	 * @return array|\WP_Error Page response or a missing-asset error.
 	 */
 	public function get_picker_page( $collection = '', $search = '', $page = 0, $per_page = 48, $selected = '' ) {
-		if ( ! class_exists( '\\WP_Icons_Registry' ) ) {
-			return new \WP_Error( 'icon_library_picker_registry_unsupported', __( 'Icon browsing is unavailable with this WordPress Icon API version.', 'aculect-icon-library' ), array( 'status' => 503 ) );
-		}
-		// Inspect class capabilities before autoloading the metadata-only subclass.
-		$core_registry = new \ReflectionClass( '\\WP_Icons_Registry' );
-		if ( $core_registry->isFinal() || ! $core_registry->hasMethod( 'get_instance' ) || ! $core_registry->getMethod( 'get_instance' )->isPublic() || ! $core_registry->getMethod( 'get_instance' )->isStatic() || ! $core_registry->hasProperty( 'registered_icons' ) || ! $core_registry->getProperty( 'registered_icons' )->isProtected() ) {
+		if ( ! self::supports_metadata_registry() ) {
 			return new \WP_Error( 'icon_library_picker_registry_unsupported', __( 'Icon browsing is unavailable with this WordPress Icon API version.', 'aculect-icon-library' ), array( 'status' => 503 ) );
 		}
 		$this->register_icons( $collection, true );
@@ -362,6 +357,64 @@ class CoreIconRegistrar {
 	}
 
 	/**
+	 * Returns only public built-in Core metadata without hydrating artwork.
+	 *
+	 * @param string $name Optional exact registered name.
+	 * @return array|\WP_Error
+	 */
+	public static function get_public_core_metadata( $name = '' ) {
+		if ( ! class_exists( '\\WP_Icons_Registry' ) ) {
+			return array();
+		}
+		if ( ! self::supports_metadata_registry() ) {
+			return new \WP_Error( 'icon_library_picker_registry_unsupported', __( 'Icon browsing is unavailable with this WordPress Icon API version.', 'aculect-icon-library' ), array( 'status' => 503 ) );
+		}
+		if ( ! self::is_collection_visible( 'core' ) ) {
+			return array();
+		}
+		$metadata = CoreIconMetadataReader::get_registered_metadata( $name );
+		if ( is_wp_error( $metadata ) ) {
+			return $metadata;
+		}
+		return array_filter(
+			$metadata,
+			static function ( $icon ) {
+				return 'core' === $icon['collection'] && 0 === strpos( $icon['name'], 'core/' );
+			}
+		);
+	}
+
+	/** Checks the Core registry layout before autoloading its metadata subclass. */
+	private static function supports_metadata_registry() {
+		if ( ! class_exists( '\\WP_Icons_Registry' ) ) {
+			return false;
+		}
+		$registry = new \ReflectionClass( '\\WP_Icons_Registry' );
+		return ! $registry->isFinal() && $registry->hasMethod( 'get_instance' ) && $registry->getMethod( 'get_instance' )->isPublic() && $registry->getMethod( 'get_instance' )->isStatic() && $registry->hasProperty( 'registered_icons' ) && $registry->getProperty( 'registered_icons' )->isProtected();
+	}
+
+	/**
+	 * Applies Core's collection visibility rule on supported releases.
+	 *
+	 * @param string $slug Collection namespace.
+	 * @return bool
+	 */
+	private static function is_collection_visible( $slug ) {
+		if ( version_compare( get_bloginfo( 'version' ), '7.2-alpha', '<' ) ) {
+			return true;
+		}
+		if ( ! is_string( $slug ) || '' === $slug || ! is_callable( array( '\\WP_Icon_Collections_Registry', 'get_instance' ) ) ) {
+			return false;
+		}
+		$registry = \WP_Icon_Collections_Registry::get_instance();
+		if ( ! is_object( $registry ) || ! is_callable( array( $registry, 'get_registered' ) ) ) {
+			return false;
+		}
+		$collection = $registry->get_registered( $slug );
+		return is_array( $collection ) && ! empty( $collection['public'] );
+	}
+
+	/**
 	 * Enumerates enabled metadata without reading plugin SVG files.
 	 *
 	 * @param string $collection Optional Core namespace.
@@ -372,18 +425,12 @@ class CoreIconRegistrar {
 		$visible               = $this->filter_core_discovery_response( new WP_REST_Response( $existing ), null, new WP_REST_Request( 'GET', '/wp/v2/icons' ) )->get_data();
 		$seen                  = array();
 		$collection_visibility = array();
-		$check_visibility      = version_compare( get_bloginfo( 'version' ), '7.2-alpha', '>=' );
-		$is_visible            = static function ( $slug ) use ( $check_visibility, &$collection_visibility ) {
-			if ( ! $check_visibility ) {
-				return true;
-			}
-			if ( ! is_string( $slug ) || '' === $slug || ! class_exists( '\\WP_Icon_Collections_Registry' ) ) {
-				return false;
+		$is_visible            = static function ( $slug ) use ( &$collection_visibility ) {
+			if ( ! is_string( $slug ) || '' === $slug ) {
+				return self::is_collection_visible( $slug );
 			}
 			if ( ! array_key_exists( $slug, $collection_visibility ) ) {
-				$registry                       = \WP_Icon_Collections_Registry::get_instance();
-				$properties                     = $registry->get_registered( $slug );
-				$collection_visibility[ $slug ] = is_array( $properties ) && ! empty( $properties['public'] );
+				$collection_visibility[ $slug ] = self::is_collection_visible( $slug );
 			}
 			return $collection_visibility[ $slug ];
 		};

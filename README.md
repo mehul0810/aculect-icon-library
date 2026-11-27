@@ -175,7 +175,7 @@ the native WordPress `wp/v2/icons` endpoints.
 ## Abilities API
 
 The plugin provides integration actions, not a standalone AI assistant.
-Compatible agents can discover enabled icons and edit native Icon blocks while
+Compatible agents can discover icons from enabled libraries and public Core icons, and edit native Icon blocks while
 respecting WordPress permissions.
 
 On WordPress 7.1 and newer, Aculect Icon Library registers public WordPress Abilities
@@ -183,8 +183,8 @@ for AI agents and other automation clients. The abilities are discoverable
 through the core Abilities API and can also be used with `wp ability list` and
 `wp ability run`:
 
-- `icon-library/search-icons`: search enabled libraries and return safe icon metadata.
-- `icon-library/get-icon`: validate one enabled icon name and return its metadata.
+- `icon-library/search-icons`: search enabled libraries and public Core icons and return safe icon metadata.
+- `icon-library/get-icon`: validate an enabled library icon or public Core icon name and return its metadata.
 - `icon-library/list-icon-blocks`: list editable post `core/icon` blocks with stable block-tree paths, `modified_gmt`, and a SHA-256 `content_hash` token.
 - `icon-library/insert-icon-block`: insert a `core/icon` block at the root or inside a container.
 - `icon-library/replace-icon-block`: assign a different icon and selected accessible presentation attributes to an existing block.
