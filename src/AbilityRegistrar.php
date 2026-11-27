@@ -426,7 +426,7 @@ class AbilityRegistrar {
 					'minimum' => 0,
 				),
 			),
-			'required'   => array( 'post_id', 'modified_gmt', 'items', 'count' ),
+			'required'   => array( 'post_id', 'modified_gmt', 'content_hash', 'items', 'count' ),
 		);
 	}
 

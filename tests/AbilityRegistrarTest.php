@@ -79,6 +79,9 @@ class AbilityRegistrarTest extends TestCase {
 		$this->assertCount( 6, $GLOBALS['icon_library_test_abilities'] );
 		$this->assertTrue( $GLOBALS['icon_library_test_abilities']['icon-library/insert-icon-block']['meta']['show_in_rest'] );
 		$this->assertTrue( $GLOBALS['icon_library_test_abilities']['icon-library/remove-icon-block']['meta']['annotations']['destructive'] );
+		$list_schema = $GLOBALS['icon_library_test_abilities']['icon-library/list-icon-blocks']['output_schema'];
+		$this->assertContains( 'content_hash', $list_schema['required'] );
+		$this->assertArrayHasKey( 'content_hash', $list_schema['properties'] );
 	}
 
 	public function test_search_returns_catalog_metadata_without_source_paths() {
