@@ -20,7 +20,7 @@ class CustomIconRepository {
 	const MAX_ICONS        = 500;
 	const MAX_BYTES        = 33554432;
 	const MAX_NAME_LENGTH  = 100;
-	const MAX_LABEL_LENGTH = 200;
+	const MAX_LABEL_LENGTH = IconLabel::MAX_LENGTH;
 	const LOCK_TTL         = 60;
 	const OPTION_LOCK      = 'icon_library_custom_icons_lock';
 	const COLLECTION_SLUG  = 'custom-icons';
@@ -131,7 +131,7 @@ class CustomIconRepository {
 		if ( is_string( $name ) && strlen( $name ) > self::MAX_NAME_LENGTH ) {
 			return new WP_Error( 'icon_library_custom_name_too_long', __( 'Icon names must be 100 characters or fewer.', 'aculect-icon-library' ), array( 'status' => 400 ) );
 		}
-		if ( is_string( $label ) && ! $this->label_length_valid( $label ) ) {
+		if ( is_string( $label ) && ! IconLabel::is_valid_length( $label ) ) {
 			return new WP_Error( 'icon_library_custom_label_too_long', __( 'Icon labels must be 200 characters or fewer.', 'aculect-icon-library' ), array( 'status' => 400 ) );
 		}
 		$raw_name = is_string( $name ) ? trim( $name ) : '';
@@ -353,7 +353,7 @@ class CustomIconRepository {
 	 * @return array|WP_Error
 	 */
 	public function update_label( $name, $label ) {
-		if ( is_string( $label ) && ! $this->label_length_valid( $label ) ) {
+		if ( is_string( $label ) && ! IconLabel::is_valid_length( $label ) ) {
 			return new WP_Error( 'icon_library_custom_label_too_long', __( 'Icon labels must be 200 characters or fewer.', 'aculect-icon-library' ), array( 'status' => 400 ) );
 		}
 		$name  = $this->normalize_name( $name );
@@ -564,19 +564,6 @@ class CustomIconRepository {
 	 */
 	private function normalize_name( $name ) {
 		return is_string( $name ) ? sanitize_key( $name ) : '';
-	}
-
-	/** Counts Unicode code points as the REST string schema does, even without mbstring.
-	 *
-	 * @param string $label Unsanitized display label.
-	 * @return bool
-	 */
-	private function label_length_valid( $label ) {
-		if ( strlen( $label ) > self::MAX_LABEL_LENGTH * 4 ) {
-			return false;
-		}
-		$count = preg_match_all( '/./us', $label );
-		return false !== $count && $count <= self::MAX_LABEL_LENGTH;
 	}
 
 	/** Reports an authoritative metadata read failure.

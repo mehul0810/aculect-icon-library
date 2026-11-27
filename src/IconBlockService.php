@@ -657,7 +657,7 @@ class IconBlockService {
 				return $this->error( 'icon_library_ability_invalid_attributes', __( 'Only accessible label, rotation, and flip attributes may be changed.', 'aculect-icon-library' ), 400 );
 			}
 			if ( 'ariaLabel' === $key ) {
-				if ( ! is_string( $value ) || 200 < strlen( $value ) ) {
+				if ( ! IconLabel::is_valid_length( $value ) ) {
 					return $this->error( 'icon_library_ability_invalid_attributes', __( 'The accessible label must be a short string.', 'aculect-icon-library' ), 400 );
 				}
 				$normalized[ $key ] = sanitize_text_field( $value );
@@ -683,7 +683,7 @@ class IconBlockService {
 	 */
 	private function prepare_block_attributes( $attributes ) {
 		$output = array();
-		if ( isset( $attributes['ariaLabel'] ) && is_string( $attributes['ariaLabel'] ) && 200 >= strlen( $attributes['ariaLabel'] ) ) {
+		if ( isset( $attributes['ariaLabel'] ) && IconLabel::is_valid_length( $attributes['ariaLabel'] ) ) {
 			$output['ariaLabel'] = sanitize_text_field( $attributes['ariaLabel'] );
 		}
 		if ( isset( $attributes['rotation'] ) && is_int( $attributes['rotation'] ) && -360 <= $attributes['rotation'] && 360 >= $attributes['rotation'] ) {
