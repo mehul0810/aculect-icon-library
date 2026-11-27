@@ -66,6 +66,14 @@ opening a pull request. Runtime smoke testing requires a WordPress installation:
 ICON_LIBRARY_WP_LOAD=/path/to/wp-load.php composer smoke
 ```
 
+The Abilities REST smoke also requires a disposable site. It creates temporary
+authors and drafts and attempts to delete them after the checks, including on
+failure:
+
+```bash
+ICON_LIBRARY_ALLOW_TEST_DATA=1 ICON_LIBRARY_WP_LOAD=/path/to/wp-load.php composer smoke:abilities
+```
+
 The production ZIP is written under `build/`. Do not commit generated packages,
 dependencies, credentials, local configuration, or unrelated working-tree
 changes.
