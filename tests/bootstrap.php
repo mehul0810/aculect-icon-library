@@ -6,6 +6,7 @@
  */
 
 define( 'ABSPATH', __DIR__ . '/wordpress/' );
+define( 'WPINC', 'wp-includes' );
 define( 'ICON_LIBRARY_DIR', dirname( __DIR__ ) . '/' );
 define( 'ICON_LIBRARY_URL', 'https://example.test/wp-content/plugins/aculect-icon-library/' );
 define( 'ICON_LIBRARY_VERSION', '1.2.0' );
@@ -427,6 +428,7 @@ if ( ! is_file( $core_dir . '/wp-includes/blocks.php' ) ) {
 // Core's block helpers rely on its PHP compatibility functions on PHP 7.4.
 require_once $core_dir . '/wp-includes/compat.php';
 require_once $core_dir . '/wp-includes/class-wp-block-parser.php';
+require_once $core_dir . '/wp-includes/class-wp-block-processor.php';
 require_once $core_dir . '/wp-includes/blocks.php';
 function wp_allowed_protocols() { return array( 'http', 'https', 'mailto', 'tel' ); }
 require_once $core_dir . '/wp-includes/class-wp-token-map.php';

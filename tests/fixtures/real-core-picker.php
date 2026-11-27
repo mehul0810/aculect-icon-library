@@ -2,6 +2,7 @@
 /** Real Core registry subprocess fixture for bounded picker hydration. */
 
 define( 'ABSPATH', __DIR__ . '/' );
+define( 'WPINC', 'wp-includes' );
 define( 'ICON_LIBRARY_DIR', dirname( __DIR__, 2 ) . '/' );
 
 function __( $text ) { return $text; }

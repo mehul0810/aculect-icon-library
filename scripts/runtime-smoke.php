@@ -50,17 +50,25 @@ if ( is_wp_error( $post_id ) ) {
 
 $failure = '';
 try {
-	$stored      = get_post( $post_id );
-	$rendered    = $stored ? do_blocks( $stored->post_content ) : '';
-	$svg         = wp_get_icon( $icon_name );
-	$legacy_svg  = wp_get_icon( $legacy_icon_name );
-	$outline_svg = wp_get_icon( $outline_name );
+	$stored          = get_post( $post_id );
+	$rendered        = $stored ? do_blocks( $stored->post_content ) : '';
+	$svg             = wp_get_icon( $icon_name );
+	$legacy_svg      = wp_get_icon( $legacy_icon_name );
+	$outline_svg     = wp_get_icon( $outline_name );
+	$styles          = wp_styles();
+	$rules           = implode( "\n", $styles->registered['icon-library-icons']->extra['after'] ?? array() );
+	$native_stroke   = is_string( $outline_svg ) && preg_match( '/\bstroke\s*=\s*["\x27]currentColor["\x27]/i', $outline_svg );
+	$fallback_stroke = is_string( $outline_svg ) &&
+		false !== strpos( $outline_svg, 'icon-library-stroked' ) &&
+		wp_style_is( 'icon-library-icons', 'enqueued' ) &&
+		false !== strpos( $rules, 'stroke: currentColor' );
 	if (
 		! $stored || $content !== $stored->post_content ||
 		! is_string( $svg ) || false === strpos( $svg, '<svg' ) ||
 		! is_string( $legacy_svg ) || false === strpos( $legacy_svg, '<svg' ) ||
-		! is_string( $outline_svg ) || false === strpos( $outline_svg, 'icon-library-stroked' ) ||
-		false !== strpos( $outline_svg, 'stroke=' ) ||
+		! is_string( $outline_svg ) || false === strpos( $outline_svg, '<svg' ) ||
+		false === strpos( $outline_svg, '<path' ) ||
+		! ( $native_stroke || $fallback_stroke ) ||
 		3 > substr_count( $rendered, '<svg' )
 	) {
 		$failure = 'Icon block save, reload, or frontend rendering failed.';
@@ -74,4 +82,4 @@ if ( $failure ) {
 	exit( 1 );
 }
 
-echo "WordPress 7.1 icon save, reload, and frontend render smoke passed.\n";
+echo "WordPress icon save, reload, and frontend render smoke passed.\n";
