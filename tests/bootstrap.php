@@ -6,6 +6,7 @@
  */
 
 define( 'ABSPATH', __DIR__ . '/wordpress/' );
+define( 'WPINC', 'wp-includes' );
 define( 'ICON_LIBRARY_DIR', dirname( __DIR__ ) . '/' );
 define( 'ICON_LIBRARY_URL', 'https://example.test/wp-content/plugins/aculect-icon-library/' );
 define( 'ICON_LIBRARY_VERSION', '1.2.0' );

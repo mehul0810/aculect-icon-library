@@ -15,8 +15,11 @@ class AbilityCoreDiscoveryTest extends TestCase {
 		wp_register_icon_collection( 'core', array( 'label' => 'Core', 'public' => true ) );
 		wp_register_icon_collection( 'private-fixture', array( 'label' => 'Private', 'public' => false ) );
 		wp_register_icon_collection( 'third-party', array( 'label' => 'Third party', 'public' => true ) );
-		wp_register_icon( 'core/envelope', array( 'label' => 'Envelope', 'keywords' => array( 'letter', 'mail' ), 'file_path' => '/not/exposed.svg' ) );
-		wp_register_icon( 'core/info', array( 'label' => 'Information', 'keywords' => array( 'help' ), 'file_path' => '/not/exposed.svg' ) );
+		wp_register_icon( 'core/envelope', array( 'label' => 'Envelope', 'keywords' => array( 'letter', 'mail' ), 'file_path' => ABSPATH . WPINC . '/images/icon-library/envelope.svg' ) );
+		wp_register_icon( 'core/info', array( 'label' => 'Information', 'keywords' => array( 'help' ), 'file_path' => ABSPATH . WPINC . '/images/icon-library/info.svg' ) );
+		wp_register_icon( 'core/third-party-fixture', array( 'label' => 'Intruder letter', 'file_path' => ABSPATH . WPINC . '/images/icon-library/info.svg' ) );
+		wp_register_icon( 'core/backup', array( 'label' => 'Backup letter', 'file_path' => ABSPATH . WPINC . '/images/icon-library/backup.svg' ) );
+		wp_register_icon( 'core/missing', array( 'label' => 'Missing letter', 'file_path' => ABSPATH . WPINC . '/images/icon-library/missing.svg' ) );
 		wp_register_icon( 'private-fixture/secret', array( 'label' => 'Secret', 'keywords' => array( 'letter' ) ) );
 		wp_register_icon( 'third-party/letter', array( 'label' => 'Letter' ) );
 		$registry = $this->getMockBuilder( CollectionRegistry::class )
@@ -39,7 +42,7 @@ class AbilityCoreDiscoveryTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		foreach ( array( 'core/envelope', 'core/info', 'private-fixture/secret', 'third-party/letter' ) as $name ) {
+		foreach ( array( 'core/envelope', 'core/info', 'core/third-party-fixture', 'core/backup', 'core/missing', 'private-fixture/secret', 'third-party/letter' ) as $name ) {
 			wp_unregister_icon( $name );
 		}
 		foreach ( array( 'core', 'private-fixture', 'third-party' ) as $name ) {
@@ -84,10 +87,32 @@ class AbilityCoreDiscoveryTest extends TestCase {
 		$this->assertSame( 'icon_library_ability_icon_not_available', $this->service->get_icon( array( 'icon' => 'core/envelope' ) )->get_error_code() );
 	}
 
+	public function test_core_namespace_and_manifest_membership_do_not_alone_establish_provenance() {
+		foreach ( array( 'core/third-party-fixture', 'core/backup', 'core/missing' ) as $name ) {
+			$this->assertSame( 'icon_library_ability_icon_not_available', $this->service->get_icon( array( 'icon' => $name ) )->get_error_code() );
+		}
+		wp_register_icon( 'core/envelope', array( 'label' => 'Forged', 'keywords' => array( 'letter' ), 'file_path' => '/not-core/envelope.svg' ) );
+		$this->assertSame( 0, $this->service->search_icons( array( 'search' => 'letter' ) )['total'] );
+		$this->assertSame( 'icon_library_ability_icon_not_available', $this->service->get_icon( array( 'icon' => 'core/envelope' ) )->get_error_code() );
+	}
+
+	public function test_provenance_cache_does_not_cache_live_labels() {
+		$this->assertSame( 'Envelope', $this->service->get_icon( array( 'icon' => 'core/envelope' ) )['label'] );
+		wp_register_icon( 'core/envelope', array( 'label' => 'Localized envelope', 'file_path' => ABSPATH . WPINC . '/images/icon-library/envelope.svg' ) );
+		$this->assertSame( 'Localized envelope', $this->service->get_icon( array( 'icon' => 'core/envelope' ) )['label'] );
+	}
+
+	public function test_missing_manifest_cannot_expand_discovery() {
+		$lines = array();
+		$exit  = 1;
+		exec( escapeshellarg( PHP_BINARY ) . ' ' . escapeshellarg( __DIR__ . '/fixtures/ability-missing-core-manifest.php' ), $lines, $exit );
+		$this->assertSame( 0, $exit, implode( "\n", $lines ) );
+	}
+
 	public function test_wordpress_71_does_not_require_public_collection_property() {
 		$GLOBALS['icon_library_test_wp_version'] = '7.1.2';
 		unset( $GLOBALS['icon_library_test_registered']['collections']['core']['public'] );
 		$this->assertSame( 'Envelope', $this->service->get_icon( array( 'icon' => 'core/envelope' ) )['label'] );
-		$this->assertSame( 1, $this->service->search_icons( array( 'search' => 'letter' ) )['total'] );
+		$this->assertSame( 1, $this->service->search_icons( array( 'search' => 'mail' ) )['total'] );
 	}
 }
