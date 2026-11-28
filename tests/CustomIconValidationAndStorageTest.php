@@ -37,6 +37,7 @@ class CustomIconValidationAndStorageTest extends TestCase {
 		$this->assertSame( $valid_label, $result['label'] );
 		$this->assertSame( 'icon_library_custom_name_too_long', $this->repository->create( str_repeat( 'b', 101 ), 'Label', $svg )->get_error_code() );
 		$this->assertSame( 'icon_library_custom_label_too_long', $this->repository->create( 'valid', str_repeat( 'é', 201 ), $svg )->get_error_code() );
+		$this->assertSame( 'icon_library_custom_label_too_long', $this->repository->create( 'valid', "\xC3\x28", $svg )->get_error_code() );
 		$this->assertSame( 'icon_library_custom_label_too_long', $this->repository->update_label( $valid_name, str_repeat( '😀', 201 ) )->get_error_code() );
 		$this->assertSame( $valid_label, $this->repository->get_icons()[ $valid_name ]['label'] );
 

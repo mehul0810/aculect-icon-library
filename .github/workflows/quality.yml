@@ -78,6 +78,64 @@ jobs:
           path: build/aculect-icon-library.${{ steps.version.outputs.value }}.zip
           if-no-files-found: error
 
+  wordpress-72:
+    name: WordPress 7.2 RC3 / PHP 8.6
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: wordpress
+          MYSQL_ROOT_PASSWORD: wordpress
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -pwordpress"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: shivammathur/setup-php@b604ade2a87db23f8871b7182e69ec5e75effb45 # v2
+        with:
+          php-version: '8.6'
+          extensions: dom, libxml, mysqli, zip
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist
+      - name: Install pinned WordPress release candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location https://wordpress.org/wordpress-7.2-RC3.zip -o /tmp/wordpress-72.zip
+          echo "59262c84d871e2cfbad5efd637a09ee5fdf8731e9764324f5df70d26a607fb40  /tmp/wordpress-72.zip" | sha256sum -c -
+          unzip -q /tmp/wordpress-72.zip -d /tmp
+          echo "WP_CORE_DIR=/tmp/wordpress" >> "$GITHUB_ENV"
+      - run: composer check
+      - name: Install pinned WP-CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/wp-cli-bin"
+          curl --fail --silent --show-error --location https://github.com/wp-cli/wp-cli/releases/download/v2.12.0/wp-cli-2.12.0.phar -o "$RUNNER_TEMP/wp-cli-bin/wp"
+          echo "ce34ddd838f7351d6759068d09793f26755463b4a4610a5a5c0a97b68220d85c  $RUNNER_TEMP/wp-cli-bin/wp" | sha256sum -c -
+          chmod +x "$RUNNER_TEMP/wp-cli-bin/wp"
+          echo "$RUNNER_TEMP/wp-cli-bin" >> "$GITHUB_PATH"
+      - name: Set up an isolated WordPress site
+        shell: bash
+        run: |
+          set -euo pipefail
+          wp --path="$WP_CORE_DIR" config create --dbname=wordpress --dbuser=root --dbpass=wordpress --dbhost=127.0.0.1:3306 --skip-check
+          wp --path="$WP_CORE_DIR" core install --url=http://example.test --title='Compatibility smoke' --admin_user=smoke --admin_password=local-test-password --admin_email=smoke@example.test --skip-email
+          ln -s "$GITHUB_WORKSPACE" "$WP_CORE_DIR/wp-content/plugins/aculect-icon-library"
+          wp --path="$WP_CORE_DIR" plugin activate aculect-icon-library
+          wp --path="$WP_CORE_DIR" option update icon_library_installed_collections '["heroicons"]' --format=json
+          wp --path="$WP_CORE_DIR" option update icon_library_enabled_collections '["heroicons"]' --format=json
+          wp --path="$WP_CORE_DIR" option update icon_library_enabled_variants '{"heroicons":["solid","outline"]}' --format=json
+      - name: Verify save, reload, and rendered icons
+        run: ICON_LIBRARY_WP_LOAD="$WP_CORE_DIR/wp-load.php" composer smoke
+      - name: Verify Abilities REST contract
+        run: ICON_LIBRARY_ALLOW_TEST_DATA=1 ICON_LIBRARY_WP_LOAD="$WP_CORE_DIR/wp-load.php" composer smoke:abilities
+
   plugin-check:
     name: Plugin Check
     runs-on: ubuntu-latest

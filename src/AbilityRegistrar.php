@@ -97,7 +97,7 @@ class AbilityRegistrar {
 		return array(
 			'icon-library/search-icons'       => array(
 				'label'               => __( 'Search Icons', 'aculect-icon-library' ),
-				'description'         => __( 'Search enabled icon libraries and return safe icon names, labels, variants, categories, and keywords. Use the returned name when assigning an icon to a core/icon block.', 'aculect-icon-library' ),
+				'description'         => __( 'Search enabled icon libraries and public Core icons and return safe icon names, labels, variants, categories, and keywords. Use the returned name when assigning an icon to a core/icon block.', 'aculect-icon-library' ),
 				'category'            => self::CATEGORY,
 				'input_schema'        => $this->get_search_input_schema(),
 				'output_schema'       => $this->get_search_output_schema(),
@@ -107,7 +107,7 @@ class AbilityRegistrar {
 			),
 			'icon-library/get-icon'           => array(
 				'label'               => __( 'Get Icon', 'aculect-icon-library' ),
-				'description'         => __( 'Validate and retrieve metadata for one enabled icon by its collection/icon-name registry name. SVG markup and filesystem paths are never returned.', 'aculect-icon-library' ),
+				'description'         => __( 'Validate and retrieve metadata for one enabled library icon or public Core icon by its collection/icon-name registry name. SVG markup and filesystem paths are never returned.', 'aculect-icon-library' ),
 				'category'            => self::CATEGORY,
 				'input_schema'        => array(
 					'type'                 => 'object',
@@ -289,7 +289,7 @@ class AbilityRegistrar {
 			'properties'           => array(
 				'ariaLabel'      => array(
 					'type'      => 'string',
-					'maxLength' => 200,
+					'maxLength' => IconLabel::MAX_LENGTH,
 				),
 				'rotation'       => array(
 					'type'    => 'integer',
@@ -426,7 +426,7 @@ class AbilityRegistrar {
 					'minimum' => 0,
 				),
 			),
-			'required'   => array( 'post_id', 'modified_gmt', 'items', 'count' ),
+			'required'   => array( 'post_id', 'modified_gmt', 'content_hash', 'items', 'count' ),
 		);
 	}
 

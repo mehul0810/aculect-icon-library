@@ -7,15 +7,21 @@ use PHPUnit\Framework\TestCase;
 
 class BoundedPickerTest extends TestCase {
 	private $before;
+	private $collections;
+	private $version;
 
 	protected function setUp(): void {
 		$this->before = WP_Icons_Registry::get_instance()->get_registered_icons();
+		$this->collections = $GLOBALS['icon_library_test_registered']['collections'];
+		$this->version = $GLOBALS['icon_library_test_wp_version'];
 		foreach ( $this->before as $icon ) { wp_unregister_icon( $icon['name'] ); }
 	}
 
 	protected function tearDown(): void {
 		foreach ( WP_Icons_Registry::get_instance()->get_registered_icons() as $icon ) { wp_unregister_icon( $icon['name'] ); }
 		foreach ( $this->before as $icon ) { WP_Icons_Registry::get_instance()->set_registered_icon( $icon['name'], $icon ); }
+		$GLOBALS['icon_library_test_registered']['collections'] = $this->collections;
+		$GLOBALS['icon_library_test_wp_version'] = $this->version;
 	}
 
 	private function fixture( $reads, $enabled = true, $icons = null ) {
@@ -61,6 +67,59 @@ class BoundedPickerTest extends TestCase {
 		$data = $this->fixture( 0, false )->get_picker_page();
 		$this->assertSame( 1, $data['total'] );
 		$this->assertSame( 'external-picker/one', $data['items'][0]['name'] );
+	}
+
+	public function test_registered_keywords_match_before_paging_without_changing_returned_artwork() {
+		wp_register_icon_collection( 'mail', array( 'label' => 'Mail' ) );
+		wp_register_icon( 'mail/one', array( 'label' => 'Envelope', 'keywords' => array( 'letter', "\u{03A9}mega" ) ) );
+		wp_register_icon( 'mail/two', array( 'label' => 'Stamp', 'keywords' => array( 'letter' ) ) );
+		wp_register_icon( 'mail/three', array( 'label' => 'Other' ) );
+		$core = $this->fixture( 0, false );
+
+		$data = $core->get_picker_page( 'mail', 'LETTER', 2, 1 );
+		$this->assertSame( 2, $data['total'] );
+		$this->assertSame( 2, $data['total_pages'] );
+		$this->assertSame( array( 'mail/two' ), array_column( $data['items'], 'name' ) );
+		$this->assertArrayNotHasKey( 'keywords', $data['items'][0] );
+
+		$data = $core->get_picker_page( '', "\u{03C9}mega", 1, 48 );
+		$this->assertSame( array( 'mail/one' ), array_column( $data['items'], 'name' ) );
+	}
+
+	public function test_wordpress_72_picker_only_includes_public_registered_collections() {
+		$GLOBALS['icon_library_test_wp_version'] = '7.2-RC3';
+		wp_register_icon_collection( 'public-picker', array( 'label' => 'Public' ) );
+		wp_register_icon_collection( 'private-picker', array( 'label' => 'Private', 'public' => false ) );
+		foreach ( array( 'public-picker/one', 'public-picker/two', 'private-picker/one', 'missing-picker/one' ) as $name ) {
+			wp_register_icon( $name, array( 'label' => $name, 'content' => '<svg><path d="M0 0"/></svg>' ) );
+		}
+
+		$core = $this->fixture( 0, false );
+		$all = $core->get_picker_page( '', '', 1, 1 );
+		$this->assertSame( 2, $all['total'] );
+		$this->assertSame( 2, $all['total_pages'] );
+		$this->assertSame( 'public-picker/one', $all['items'][0]['name'] );
+		$selected = $core->get_picker_page( '', '', 0, 1, 'public-picker/two' );
+		$this->assertSame( 2, $selected['page'] );
+		$this->assertSame( 'public-picker/two', $selected['items'][0]['name'] );
+		$this->assertSame( 0, $core->get_picker_page( 'private-picker', '', 1, 48 )['total'] );
+		$this->assertSame( 0, $core->get_picker_page( '', 'private-picker', 1, 48 )['total'] );
+	}
+
+	public function test_private_collection_collision_hides_bundled_picker_rows_without_loading_artwork() {
+		$GLOBALS['icon_library_test_wp_version'] = '7.2-RC3';
+		wp_register_icon_collection( 'bounded-solid', array( 'label' => 'Private collision', 'public' => false ) );
+		$core = $this->fixture( 0 );
+		$this->assertSame( 0, $core->get_picker_page( '', '', 1, 48 )['total'] );
+		$this->assertSame( 0, $core->get_picker_page( 'bounded-solid', '', 1, 48 )['total'] );
+	}
+
+	public function test_wordpress_71_preserves_existing_unregistered_collection_discovery() {
+		$GLOBALS['icon_library_test_wp_version'] = '7.1.2';
+		wp_register_icon( 'missing-picker/one', array( 'label' => 'One', 'content' => '<svg><path d="M0 0"/></svg>' ) );
+		$data = $this->fixture( 0, false )->get_picker_page();
+		$this->assertSame( 1, $data['total'] );
+		$this->assertSame( 'missing-picker/one', $data['items'][0]['name'] );
 	}
 
 	public function test_retained_and_disabled_style_metadata_cannot_be_selected() {

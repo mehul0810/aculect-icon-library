@@ -79,6 +79,7 @@ $files['.']       = array_merge(
 			'CorePickerEndpoint',
 			'CorePickerPage',
 			'CustomIconRepository',
+			'IconLabel',
 			'CustomIconListing',
 			'CustomSvgNormalizer',
 			'DatabaseTransaction',

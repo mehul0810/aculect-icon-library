@@ -4,6 +4,7 @@
 use IconLibrary\AbilityRegistrar;
 use IconLibrary\CollectionRegistry;
 use IconLibrary\IconBlockService;
+use IconLibrary\IconLabel;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/support/PostDatabase.php';
@@ -79,6 +80,13 @@ class AbilityRegistrarTest extends TestCase {
 		$this->assertCount( 6, $GLOBALS['icon_library_test_abilities'] );
 		$this->assertTrue( $GLOBALS['icon_library_test_abilities']['icon-library/insert-icon-block']['meta']['show_in_rest'] );
 		$this->assertTrue( $GLOBALS['icon_library_test_abilities']['icon-library/remove-icon-block']['meta']['annotations']['destructive'] );
+		$list_schema = $GLOBALS['icon_library_test_abilities']['icon-library/list-icon-blocks']['output_schema'];
+		$this->assertContains( 'content_hash', $list_schema['required'] );
+		$this->assertArrayHasKey( 'content_hash', $list_schema['properties'] );
+		foreach ( array( 'insert', 'replace' ) as $operation ) {
+			$schema = $GLOBALS['icon_library_test_abilities'][ 'icon-library/' . $operation . '-icon-block' ]['input_schema'];
+			$this->assertSame( IconLabel::MAX_LENGTH, $schema['properties']['attributes']['properties']['ariaLabel']['maxLength'] );
+		}
 	}
 
 	public function test_search_returns_catalog_metadata_without_source_paths() {
@@ -193,6 +201,67 @@ class AbilityRegistrarTest extends TestCase {
 		$blocks = parse_blocks( get_post( 7 )->post_content );
 		$this->assertSame( 'test/new', $blocks[0]['innerBlocks'][0]['attrs']['icon'] );
 		$this->assertSame( 'Navigate', $blocks[0]['innerBlocks'][0]['attrs']['ariaLabel'] );
+	}
+
+	/** @dataProvider valid_accessible_labels */
+	public function test_unicode_accessible_label_is_retained_on_insert_replace_and_list( $label ) {
+		$this->set_post( array() );
+		$inserted = $this->service->insert_icon_block(
+			array( 'post_id' => 7, 'icon' => 'test/arrow', 'attributes' => array( 'ariaLabel' => $label ) )
+		);
+		$this->assertTrue( $inserted['changed'] );
+		$listed = $this->service->list_icon_blocks( array( 'post_id' => 7 ) );
+		$this->assertSame( $label, $listed['items'][0]['attributes']['ariaLabel'] );
+
+		$replaced = $this->service->replace_icon_block(
+			array( 'post_id' => 7, 'path' => array( 0 ), 'icon' => 'test/new', 'attributes' => array( 'ariaLabel' => $label ) )
+		);
+		$this->assertTrue( $replaced['changed'] );
+		$listed = $this->service->list_icon_blocks( array( 'post_id' => 7 ) );
+		$this->assertSame( $label, $listed['items'][0]['attributes']['ariaLabel'] );
+	}
+
+	public function valid_accessible_labels() {
+		return array(
+			'empty' => array( '' ),
+			'ascii limit' => array( str_repeat( 'a', 200 ) ),
+			'multibyte limit' => array( str_repeat( "\u{754C}", 200 ) ),
+			'emoji limit' => array( str_repeat( "\u{1F600}", 200 ) ),
+		);
+	}
+
+	/** @dataProvider invalid_accessible_labels */
+	public function test_invalid_accessible_labels_do_not_change_content( $label ) {
+		$this->set_post( array( $this->icon_block( 'test/arrow' ) ) );
+		$original = get_post( 7 )->post_content;
+		$inserted = $this->service->insert_icon_block(
+			array( 'post_id' => 7, 'icon' => 'test/arrow', 'attributes' => array( 'ariaLabel' => $label ) )
+		);
+		$this->assertSame( 'icon_library_ability_invalid_attributes', $inserted->get_error_code() );
+		$this->assertSame( $original, get_post( 7 )->post_content );
+		$replaced = $this->service->replace_icon_block(
+			array( 'post_id' => 7, 'path' => array( 0 ), 'icon' => 'test/new', 'attributes' => array( 'ariaLabel' => $label ) )
+		);
+		$this->assertSame( 'icon_library_ability_invalid_attributes', $replaced->get_error_code() );
+		$this->assertSame( $original, get_post( 7 )->post_content );
+	}
+
+	public function invalid_accessible_labels() {
+		return array(
+			'ascii over limit' => array( str_repeat( 'a', 201 ) ),
+			'multibyte over limit' => array( str_repeat( "\u{754C}", 201 ) ),
+			'emoji over limit' => array( str_repeat( "\u{1F600}", 201 ) ),
+			'invalid UTF-8' => array( "\xC3\x28" ),
+			'not a string' => array( array() ),
+		);
+	}
+
+	public function test_listing_omits_overlong_unicode_accessible_label() {
+		$block = $this->icon_block( 'test/arrow' );
+		$block['attrs']['ariaLabel'] = str_repeat( "\u{754C}", 201 );
+		$this->set_post( array( $block ) );
+		$listed = $this->service->list_icon_blocks( array( 'post_id' => 7 ) );
+		$this->assertArrayNotHasKey( 'ariaLabel', $listed['items'][0]['attributes'] );
 	}
 
 	public function test_does_not_insert_an_icon_inside_an_icon_block() {

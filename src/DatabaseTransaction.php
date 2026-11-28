@@ -37,7 +37,7 @@ class DatabaseTransaction {
 	 */
 	public function begin( $tables ) {
 		global $wpdb;
-		if ( $this->active || ! is_object( $wpdb ) || isset( self::$connections[ spl_object_hash( $wpdb ) ] ) ) {
+		if ( $this->active || ! is_object( $wpdb ) || isset( self::$connections[ spl_object_id( $wpdb ) ] ) ) {
 			return false;
 		}
 		if ( method_exists( $wpdb, 'get_driver' ) ) {
@@ -80,9 +80,9 @@ class DatabaseTransaction {
 		if ( false === $wpdb->query( 'START TRANSACTION' ) ) {
 			return false;
 		}
-		$this->database                                = $wpdb;
-		$this->active                                  = true;
-		self::$connections[ spl_object_hash( $wpdb ) ] = true;
+		$this->database                              = $wpdb;
+		$this->active                                = true;
+		self::$connections[ spl_object_id( $wpdb ) ] = true;
 		return true;
 	}
 
@@ -101,7 +101,7 @@ class DatabaseTransaction {
 			return false;
 		}
 		$this->active = false;
-		unset( self::$connections[ spl_object_hash( $wpdb ) ] );
+		unset( self::$connections[ spl_object_id( $wpdb ) ] );
 		return true;
 	}
 
@@ -112,7 +112,7 @@ class DatabaseTransaction {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->query( 'ROLLBACK' );
 			$this->active = false;
-			unset( self::$connections[ spl_object_hash( $wpdb ) ] );
+			unset( self::$connections[ spl_object_id( $wpdb ) ] );
 		}
 	}
 }

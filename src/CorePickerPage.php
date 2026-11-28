@@ -27,8 +27,7 @@ final class CorePickerPage {
 		$page        = min( CollectionRegistry::MAX_PAGE, max( 0, (int) $page ) );
 		$per_page    = min( 48, max( 1, (int) $per_page ) );
 		$search      = trim( $search );
-		$accents     = function_exists( 'remove_accents' );
-		$pattern     = '' === $search ? '' : '/' . preg_quote( $accents ? remove_accents( $search ) : $search, '/' ) . '/iu';
+		$matches     = self::matcher( $search );
 		$locate      = 0 === $page && '' !== $selected;
 		$page        = max( 1, $page );
 		$chosen_page = 0;
@@ -38,11 +37,8 @@ final class CorePickerPage {
 		$chunk       = array();
 		$chosen      = array();
 		foreach ( $rows as $row ) {
-			if ( $pattern ) {
-				$haystack = $row['name'] . "\n" . self::label( $row );
-				if ( ! preg_match( $pattern, $accents ? remove_accents( $haystack ) : $haystack ) ) {
-					continue;
-				}
+			if ( ! $matches( $row ) ) {
+				continue;
 			}
 			$position = $total++;
 			if ( ! $locate ) {
@@ -74,6 +70,30 @@ final class CorePickerPage {
 			'per_page'    => $per_page,
 			'total_pages' => (int) ceil( $total / $per_page ),
 		);
+	}
+
+	/**
+	 * Builds one matcher for the picker and ability catalog.
+	 *
+	 * @param string $search Search text.
+	 * @return callable
+	 */
+	public static function matcher( $search ) {
+		$search = trim( $search );
+		if ( '' === $search ) {
+			return static function () {
+				return true;
+			};
+		}
+		$accents = function_exists( 'remove_accents' );
+		$pattern = '/' . preg_quote( $accents ? remove_accents( $search ) : $search, '/' ) . '/iu';
+		return static function ( $row ) use ( $accents, $pattern ) {
+			$haystack = $row['name'] . "\n" . self::label( $row );
+			if ( ! empty( $row['keywords'] ) && is_array( $row['keywords'] ) ) {
+				$haystack .= "\n" . implode( "\n", array_filter( $row['keywords'], 'is_string' ) );
+			}
+			return 1 === preg_match( $pattern, $accents ? remove_accents( $haystack ) : $haystack );
+		};
 	}
 
 	/**

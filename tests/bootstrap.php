@@ -5,7 +5,12 @@
  * @package IconLibrary
  */
 
-define( 'ABSPATH', __DIR__ . '/wordpress/' );
+$core_dir = getenv( 'WP_CORE_DIR' ) ?: dirname( __DIR__, 4 );
+if ( ! is_file( $core_dir . '/wp-includes/blocks.php' ) ) {
+	throw new RuntimeException( 'Set WP_CORE_DIR to a WordPress checkout to run real block serialization tests.' );
+}
+define( 'ABSPATH', rtrim( $core_dir, '/\\' ) . '/' );
+define( 'WPINC', 'wp-includes' );
 define( 'ICON_LIBRARY_DIR', dirname( __DIR__ ) . '/' );
 define( 'ICON_LIBRARY_URL', 'https://example.test/wp-content/plugins/aculect-icon-library/' );
 define( 'ICON_LIBRARY_VERSION', '1.2.0' );
@@ -212,9 +217,17 @@ class WP_Icon_Collections_Registry {
 	public function get_registered( $slug ) {
 		return $GLOBALS['icon_library_test_registered']['collections'][ $slug ] ?? null;
 	}
+
+	public function is_registered( $slug ) {
+		return null !== $this->get_registered( $slug );
+	}
 }
 
 function __( $text ) {
+	return $text;
+}
+
+function _x( $text, $context ) {
 	return $text;
 }
 
@@ -420,13 +433,10 @@ function wp_update_post( $postarr, $wp_error = false ) {
 	return $post_id;
 }
 
-$core_dir = getenv( 'WP_CORE_DIR' ) ?: dirname( __DIR__, 4 );
-if ( ! is_file( $core_dir . '/wp-includes/blocks.php' ) ) {
-	throw new RuntimeException( 'Set WP_CORE_DIR to a WordPress checkout to run real block serialization tests.' );
-}
 // Core's block helpers rely on its PHP compatibility functions on PHP 7.4.
 require_once $core_dir . '/wp-includes/compat.php';
 require_once $core_dir . '/wp-includes/class-wp-block-parser.php';
+require_once $core_dir . '/wp-includes/class-wp-block-processor.php';
 require_once $core_dir . '/wp-includes/blocks.php';
 function wp_allowed_protocols() { return array( 'http', 'https', 'mailto', 'tel' ); }
 require_once $core_dir . '/wp-includes/class-wp-token-map.php';
@@ -461,6 +471,9 @@ function rest_authorization_required_code() {
 }
 
 function wp_register_icon_collection( $slug, $args ) {
+	if ( version_compare( get_bloginfo( 'version' ), '7.2-alpha', '>=' ) ) {
+		$args += array( 'public' => true );
+	}
 	$GLOBALS['icon_library_test_registered']['collections'][ $slug ] = $args;
 	return true;
 }
